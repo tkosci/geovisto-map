@@ -12,5 +12,8 @@
   "env": {
     "browser": true
   },
-  "rules": { }
+  "rules": {
+    "semi": 1,
+    "@typescript-eslint/explicit-member-accessibility": "error"
+  }
 }

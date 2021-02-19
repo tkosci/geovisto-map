@@ -46,5 +46,14 @@ export default {
         }),
         json({ compact: true }),
     ],
-    external: id => id.includes('@babel/runtime')
+    external: id => id.includes('@babel/runtime'),
+    onwarn: function (warning, warn) {
+        if(warning.code === 'CIRCULAR_DEPENDENCY') {
+            if(warning.importer.startsWith("node_modules/d3-transition")) return;
+            if(warning.importer.startsWith("node_modules/d3-selection")) return;
+            if(warning.importer.startsWith("node_modules/d3-interpolate")) return;
+        }
+        console.log(warning);
+        warn(warning);
+    }
 };

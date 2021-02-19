@@ -10,7 +10,6 @@
       "enabled": true,
       "tabs": [
         {
-          "tool": "geovisto-tool-settings",
           "enabled": true,
           "name": "General settings",
           "icon": "<i class=\"fa fa-gear\"></i>",
