@@ -44,9 +44,7 @@ class TimelineToolTabControl extends AbstractLayerToolTabControl {
             [model.stepTimeLength.name]: parseInt(this.stepTimeLengthInput.getValue()),
             [model.storyEnabled.name]: this.storyEnabledCheckbox.getValue(),
             [model.transitionDuration.name]: parseInt(this.transitionDurationInput.getValue()),
-            [model.story.name]: this.getTool()
-                .getState()
-                .getStoryByName(this.storySelect.getValue()),
+            [model.story.name]: this.storySelect.getValue(),
             [model.realTimeEnabled.name]: this.realTimeCheckbox.getValue(),
             [model.granularity.name]: this.granularityInput.getValue(),
             [model.chartEnabled.name]: this.chartEnabledCheckbox.getValue(),
@@ -250,6 +248,8 @@ class TimelineToolTabControl extends AbstractLayerToolTabControl {
             !transitionDuration || transitionDuration < 0 ||
             (chartEnabled && (!chartValuePath || !chartAggregationFn)) ||
             (realTimeEnabled && !granularity);
+
+        this.getTool().updateDataMapping(this.getInputValues());
     }
 
     setTabContentChecked(checked) {

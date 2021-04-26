@@ -67,7 +67,6 @@ class TimelineToolState extends AbstractLayerToolState {
     serialize(defaults) {
         const config = {
             ...super.serialize(defaults),
-            // TODO serialize form data
             stories: this.stories.map(story => ({
                 ...story,
                 config: story.config.map(storyConfig => ({
@@ -91,7 +90,7 @@ class TimelineToolState extends AbstractLayerToolState {
         this.setStories([
             ...this.getStories().filter(({ name }) => name !== story.name),
             story
-        ])
+        ]);
     }
 
     getStoryByName(name) {

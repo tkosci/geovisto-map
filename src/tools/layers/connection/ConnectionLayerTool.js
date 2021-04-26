@@ -115,7 +115,7 @@ class ConnectionLayerTool extends AbstractLayerTool {
     /**
      * It prepares data for connections.
      */
-    prepareMapData(data) {
+    prepareMapData() {
         let workData = {
             nodes: [],
             connections: []
@@ -130,6 +130,7 @@ class ConnectionLayerTool extends AbstractLayerTool {
          let toDataDomain = mapData.getDataDomain(this.getState().getDataMapping()[this.getDefaults().getDataMappingModel().to.name]);
          let geoFrom, geoTo, actFrom, actTo, actConnection;
          let foundFrom, foundTo;
+         let data = this.getMap().getState().getCurrentData();
          let dataLen = data.length;
          let clone = new rfdc();
          let centroids = this.getState().getCentroids();
@@ -201,72 +202,8 @@ class ConnectionLayerTool extends AbstractLayerTool {
 
             // get <svg> element (expect L.svg() layer)
             this.layerSvg = overlayPane.select("svg");
-                // uncoment this in case of non-smooth zoom animation
-                //.attr("class", "leaflet-zoom-hide")
 
-            // create d3 force layout simulator
-            let workData = this.getState().getWorkData();
-            var d3ForceSimulator = new D3PathForceSimulator({
-                nodes: workData.nodes,
-                connections: workData.connections
-            });
-
-            // get projection path function
-            // geographic locations [lat, lng] of nodes needs to be projected to leaflet map
-            // we use the zoom preferred for the force layout simulation
-            var map = this.getMap().getState().getLeafletMap();
-            var projectionPathFunction = ProjectionUtil.getPathProjectionFunction(map, this.getDefaults().getProjectionZoom());
-
-            // const pathData = Object.values(d3ForceSimulator.getPaths())
-            // const pathsData = Object.values(d3ForceSimulator.getPaths())
-            //     .reduce((paths, connectionPaths) => ([...paths, ...connectionPaths]), []);
-            const connectionsIds = [
-                ...Object.keys(this.connectionsPaths),
-                ...Object.keys(d3ForceSimulator.getPaths())
-            ];
-            const pathsData = connectionsIds.reduce((acc, connectionId) => ({
-                ...acc,
-                [connectionId]: d3ForceSimulator.getPaths()[connectionId] || [],
-            }), {});
-            // draw paths
-            const animateDirection = this.tabControl.getInputValues()[this.getDefaults()
-                .getDataMappingModel().animateDirection.name]
-            Object.entries(pathsData).forEach(([id, paths]) => {
-                this.connectionsPaths[id] = this.layerSvg.selectAll(`path.leaflet-layer-connection.${id}`)
-                    .data(paths)
-                    .enter()
-                    .append("path")
-                    .attr("d", projectionPathFunction)
-                    .attr("class", `leaflet-layer-connection ${id}`)
-                    .classed("leaflet-layer-connection-dashed", animateDirection)
-                    .style("stroke-opacity", 0)
-                    .transition()
-                    .duration(300)
-                    .style("stroke-opacity", 0.4);
-            })
-
-            // update paths with respect to actual map state (zoom, move)
-            let updatePaths = () => this.layerSvg.selectAll("path").attr("d", projectionPathFunction);
-
-            // highlight connections with respect to the selection of the selection tool if available
-            if(this.getSelectionTool()) {
-                this.onSelectionUpdate(this.getSelectionTool().getState().getSelection());
-            }
-
-            // map move/zoom listener
-            map.on("moveend", updatePaths);
-            // initial update
-            updatePaths();
-
-            // run force layout algorithm
-            d3ForceSimulator.run(
-                updatePaths,
-                () => {
-                    if (animateDirection) {
-                        this.animateDirection(true);
-                    }
-                },
-            );
+            this.createConnections()
         }
     }
 
@@ -280,11 +217,81 @@ class ConnectionLayerTool extends AbstractLayerTool {
             this.deleteLayerItems();
 
             // prepare data
-            const data = this.getMap().getState().getCurrentData();
-            this.prepareMapData(data);
+            this.prepareMapData();
 
             // update map
             this.postCreateLayerItems();
+        }
+    }
+
+    createConnections(transitionDuration = 0, transitionDelay = 0) {
+        // create d3 force layout simulator
+        let workData = this.getState().getWorkData();
+        var d3ForceSimulator = new D3PathForceSimulator({
+            nodes: workData.nodes,
+            connections: workData.connections
+        });
+
+        // get projection path function
+        // geographic locations [lat, lng] of nodes needs to be projected to leaflet map
+        // we use the zoom preferred for the force layout simulation
+        var map = this.getMap().getState().getLeafletMap();
+        var projectionPathFunction = ProjectionUtil.getPathProjectionFunction(map, this.getDefaults().getProjectionZoom());
+
+        const connectionsIds = [
+            ...Object.keys(this.connectionsPaths),
+            ...Object.keys(d3ForceSimulator.getPaths())
+        ];
+        const pathsData = connectionsIds.reduce((acc, connectionId) => ({
+            ...acc,
+            [connectionId]: d3ForceSimulator.getPaths()[connectionId] || [],
+        }), {});
+        // draw paths
+        const animateDirection = this.tabControl.getInputValues()[this.getDefaults()
+            .getDataMappingModel().animateDirection.name]
+
+        Object.entries(pathsData).forEach(([id, paths]) => {
+            this.connectionsPaths[id] = this.layerSvg.selectAll(`path.leaflet-layer-connection.${id}`)
+                .data(paths);
+            this.connectionsPaths[id].enter()
+                .append("path")
+                .attr("d", projectionPathFunction)
+                .attr("class", `leaflet-layer-connection ${id}`)
+                .style("stroke-opacity", 0)
+                .transition()
+                .delay(transitionDelay)
+                .duration(transitionDuration)
+                .style("stroke-opacity", 0.4)
+            this.connectionsPaths[id].exit()
+                .transition()
+                .delay(transitionDelay)
+                .duration(transitionDuration)
+                .style("stroke-opacity", 0)
+                .remove()
+        })
+
+        // update paths with respect to actual map state (zoom, move)
+        let updatePaths = () => this.layerSvg.selectAll("path").attr("d", projectionPathFunction);
+
+        // highlight connections with respect to the selection of the selection tool if available
+        if(this.getSelectionTool()) {
+            this.onSelectionUpdate(this.getSelectionTool().getState().getSelection());
+        }
+
+        // map move/zoom listener
+        map.on("moveend", updatePaths);
+        // initial update
+        updatePaths();
+
+        // run force layout algorithm
+        if (animateDirection) {
+            this.animateDirection(true);
+        }
+        // run force layout algorithm
+        if (transitionDelay > 0) {
+            setTimeout(() => d3ForceSimulator.run(updatePaths, undefined), transitionDelay);
+        } else {
+            d3ForceSimulator.run(updatePaths, undefined);
         }
     }
 
@@ -295,13 +302,15 @@ class ConnectionLayerTool extends AbstractLayerTool {
      */
     handleEvent(event) {
         if(event.getType() == DataChangeEvent.TYPE()) {
-            const { data, options } = event.getObject()
-            if (options.redraw) {
-                this.redraw();
-            } else {
-                const { transitionDuration, transitionDelay } = options;
-                this.prepareMapData(data);
-                this.handleTimeChange(transitionDuration, transitionDelay);
+            if (this.getState().getLayer()) {
+                const { options } = event.getObject()
+                if (options.redraw) {
+                    this.redraw();
+                } else {
+                    const { transitionDuration, transitionDelay } = options;
+                    this.prepareMapData();
+                    this.createConnections(transitionDuration, transitionDelay);
+                }
             }
         } else if(event.getType() == SelectionToolEvent.TYPE()) {
             // selection change
@@ -329,77 +338,6 @@ class ConnectionLayerTool extends AbstractLayerTool {
             clearInterval(this.animationInterval);
             this.animationInterval = null;
             connections.style("stroke-dasharray", "none")
-        }
-    }
-
-    handleTimeChange(transitionDuration, transitionDelay) {
-        let workData = this.getState().getWorkData();
-        var d3ForceSimulator = new D3PathForceSimulator({
-            nodes: workData.nodes,
-            connections: workData.connections
-        });
-
-        // get projection path function
-        // geographic locations [lat, lng] of nodes needs to be projected to leaflet map
-        // we use the zoom preferred for the force layout simulation
-        const map = this.getMap().getState().getLeafletMap();
-        const projectionPathFunction = ProjectionUtil.getPathProjectionFunction(map, this.getDefaults().getProjectionZoom());
-        const connectionsIds = [...new Set([
-            ...Object.keys(this.connectionsPaths),
-            ...Object.keys(d3ForceSimulator.getPaths())
-        ])];
-        const pathsData = connectionsIds.reduce((acc, connectionId) => ({
-            ...acc,
-            [connectionId]: d3ForceSimulator.getPaths()[connectionId] || [],
-        }), {});
-        // draw paths
-        const animateDirection = this.tabControl.getInputValues()[this.getDefaults()
-            .getDataMappingModel().animateDirection.name]
-
-        Object.entries(pathsData).forEach(([id, paths]) => {
-            this.connectionsPaths[id] = this.layerSvg.selectAll(`path.leaflet-layer-connection.${id}`)
-                .data(paths);
-            this.connectionsPaths[id].enter()
-                .append("path")
-                .attr("d", projectionPathFunction)
-                .attr("class", `leaflet-layer-connection ${id}`)
-                .classed("leaflet-layer-connection-dashed", animateDirection)
-                .style("stroke-opacity", 0)
-                .transition()
-                .delay(transitionDelay)
-                .duration(transitionDuration)
-                .style("stroke-opacity", 0.4)
-            this.connectionsPaths[id].exit()
-                .transition()
-                .delay(transitionDelay)
-                .duration(transitionDuration)
-                .style("stroke-opacity", 0)
-                .remove()
-        })
-
-        // update paths with respect to actual map state (zoom, move)
-        let updatePaths = () => this.layerSvg.selectAll("path").attr("d", projectionPathFunction);
-
-
-        // highlight connections with respect to the selection of the selection tool if available
-        if(this.getSelectionTool()) {
-            this.onSelectionUpdate(this.getSelectionTool().getState().getSelection());
-        }
-
-        // map move/zoom listener
-        map.on("moveend", updatePaths);
-        // initial update
-        updatePaths();
-
-        if (animateDirection) {
-            this.animateDirection(true);
-        }
-
-        // run force layout algorithm
-        if (transitionDelay > 0) {
-            setTimeout(() => d3ForceSimulator.run(updatePaths, undefined), transitionDelay);
-        } else {
-            d3ForceSimulator.run(updatePaths, undefined);
         }
     }
 

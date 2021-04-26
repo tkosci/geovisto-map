@@ -121,6 +121,7 @@ export class TimelineTool extends AbstractLayerTool {
         this.getMap().updateData(
             this.data.values.get(this.times[currentTimeIndex]),
             {
+                redraw: false,
                 transitionDuration: story && story.transitionDuration ?
                     story.transitionDuration :
                     this.formState.transitionDuration,
@@ -160,9 +161,9 @@ export class TimelineTool extends AbstractLayerTool {
         };
     }
 
-    onStoryChange(storyConfig) {
+    handleStoryChange(storyConfig) {
         this.getState().saveStory({
-            name: this.formState.story.name,
+            name: this.formState.story,
             config: [...storyConfig.keys()].map(key => ({
                 time: new Date(key).toISOString(),
                 ...storyConfig.get(key),
@@ -199,14 +200,15 @@ export class TimelineTool extends AbstractLayerTool {
                 .addTo(this.getMap().getState().getLeafletMap());
         }
         if (this.formState.storyEnabled) {
+            const story = this.getState().getStoryByName(this.formState.story);
             this.timelineService.setStory(
-                new Map(this.formState.story.config.map(({
+                new Map(story.config.map(({
                     time,
                     ...config
                 }) => [new Date(time).getTime(), config]))
             );
         }
-        this.timelineService.onStoryChanged.subscribe(this.onStoryChange.bind(this));
+        this.timelineService.onStoryChanged.subscribe(this.handleStoryChange.bind(this));
 
         this.timelineService.initialize();
     }

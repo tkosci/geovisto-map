@@ -68,6 +68,8 @@ export const Timeline: FC<TimelineProps> = ({
                             onRecordDeleteClick={onRecordDeleteClick}
                         />}
                         <RangeSlider
+                            start={startTimeIndex}
+                            end={endTimeIndex}
                             times={times}
                             onChange={onRangeTimesIndexChange}
                             tickFormat={tickFormat}

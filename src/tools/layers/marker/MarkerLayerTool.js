@@ -430,6 +430,9 @@ class MarkerLayerTool extends AbstractLayerTool {
     }
 
     updateMarkers({ data, transitionDuration = 0, transitionDelay = 0}) {
+        if (!this.getState().getLayer()) {
+            return;
+        }
         const markersData = this.prepareMapData(data);
 
         this.getState().getMarkers().forEach((marker) => {
