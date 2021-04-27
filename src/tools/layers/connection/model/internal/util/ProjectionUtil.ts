@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import L from "leaflet";
 
 /**
  * This class provides help functions for projections of points used in the Connection tool.
@@ -10,15 +11,17 @@ class ProjectionUtil {
     /**
      * It provides the function which projects the given point to the given leaflet map with the given zoom.
      * 
+     * TODO: specify the types
+     * 
      * @param d 
      */
-    static getDataProjectionFunction(map, zoom) {
-        return function(d) {
+    public static getDataProjectionFunction(map: L.Map, zoom: number): (d: { lat: number, long: number, x: number, y: number }) => void {
+        return function(d: { lat: number, long: number, x: number, y: number }): void {
             // project the [lat, lng] point to the map with the given zoom
-            let coords = map.project(new L.LatLng(d.lat, d.long), zoom);
+            const coords = map.project(new L.LatLng(d.lat, d.long), zoom);
             d.x = coords.x;
             d.y = coords.y;
-        }
+        };
     }
 
     /**
@@ -26,10 +29,12 @@ class ProjectionUtil {
      * (1) unprojects the given point from the given leaflet map with given zoom
      * (2) projects the point of (1) to the current map state
      * 
+     * TODO: specify the types
+     * 
      * @param map 
      * @param zoom 
      */
-    static getPathProjectionFunction(map, zoom) {
+    public static getPathProjectionFunction(map: L.Map, zoom: number): d3.Line<[number, number]> {
         return d3.line()
             .curve(d3.curveBundle)
             //.x(function(d) { return d.x; })
@@ -39,19 +44,19 @@ class ProjectionUtil {
 
             // points need to be unprojected first
             // then they need to be projected to the current map state
-            .x(function(d) {
+            .x(function(d: any) {
                 // project [lat, lng] to the current map state
                 return map.latLngToLayerPoint(
                     // unproject the point to [lat,lng]
                     map.unproject(new L.Point(d.x, d.y), zoom)
                 ).x;
             })
-            .y(function(d) {
+            .y(function(d: any) {
                 // project [lat, lng] to the current map state
                 return map.latLngToLayerPoint(
                     // unproject the point to [lat,lng]
                     map.unproject(new L.Point(d.x, d.y), zoom)
-                ).y
+                ).y;
             });
     }
 }

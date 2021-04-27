@@ -1,26 +1,27 @@
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
-import IChoroplethLayerToolDefaults from "../../types/tool/IChoroplethLayerToolDefaults";
-import IChoroplethLayerTool from "../../types/tool/IChoroplethLayerTool";
-import IChoroplethLayerToolDimensions from "../../types/tool/IChoroplethLayerToolDimensions";
-import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
+import IMarkerLayerToolDefaults from "../../types/tool/IMarkerLayerToolDefaults";
+import IMarkerLayerTool from "../../types/tool/IMarkerLayerTool";
+import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
-import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
+import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
 import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
 import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
+import { GeovistoMarkerLayerTool } from "../../..";
 
 /**
  * This class provide functions which return the default state values.
  * 
  * @author Jiri Hynek
  */
-class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChoroplethLayerToolDefaults {
+class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerToolDefaults {
 
     /**
      * It initializes tool defaults.
      */
-    public constructor(tool: IChoroplethLayerTool) {
+    public constructor(tool: IMarkerLayerTool) {
         super(tool);
     }
 
@@ -28,24 +29,25 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
      * It returns a unique type string of the tool which is based on the layer it wraps.
      */
     public getType(): string {
-        return GeovistoChoroplethLayerTool.getType();
+        return GeovistoMarkerLayerTool.getType();
     }
 
     /**
      * It returns the layer name.
      */
     public getLayerName(): string {
-        return "Choropleth layer";
+        return "Marker layer";
     }
 
     /**
      * It returns the map of layer dimensions.
      */
-    public getDimensions(): IChoroplethLayerToolDimensions {
+    public getDimensions(): IMarkerLayerToolDimensions {
         return {
             geo: this.getGeoDimension(),
             value: this.getValueDimension(),
-            aggregation: this.getAggregationDimension()
+            aggregation: this.getAggregationDimension(),
+            category: this.getCategoryDimension()
         };
     }
 
@@ -88,28 +90,25 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
             domainManager.getDefault()
         );
     }
+
+    /**
+     * It returns the default category dimension.
+     */
+    public getCategoryDimension(): IMapDimension<IMapDataDomain> {
+        return new MapDimension(
+            "category",
+            this.getDataManager(),
+            undefined
+        );
+    }
     
     /**
      * It returns default centroids.
      * 
      * TODO: specify the type
      */
-    public getPolygons(): any {
-        return this.getMapObject().getMap()?.getState().getPolygons();
-    }
-
-    /**
-     * It returns preferred z index for the choropoleth layer.
-     */
-    public getZIndex(): number {
-        return 350;
-    }
-
-    /**
-     * It returns the values scale.
-     */
-    public getScale(): number[] {
-        return [1, 100, 1000, 10000, 100000, 1000000, 10000000];
+    public getCentroids(): any {
+        return JSON.parse(JSON.stringify(this.getMapObject().getMap()?.getState().getCentroids()));
     }
 }
-export default ChoroplethLayerToolDefaults;
+export default MarkerLayerToolDefaults;

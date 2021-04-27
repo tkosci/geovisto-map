@@ -1,8 +1,14 @@
 // styles
 import "./styles/style.scss";
+import { IFiltersToolProps, IFiltersTool, FiltersTool } from "..";
 
-const TOOL_TYPE = "geovisto-tool-filters";
-export { TOOL_TYPE };
+export const GeovistoFiltersTool: {
+    getType: () => string,
+    createTool: (props: IFiltersToolProps | undefined) => IFiltersTool
+} = {
+    getType: () => "geovisto-tool-filters",
+    createTool: (props) => new FiltersTool(props),
+};
 
 // types
 export type { default as IMapFilterManager } from './model/types/filter/IMapFilterManager';

@@ -12,7 +12,7 @@ import IChoroplethLayerTool from '../../types/tool/IChoroplethLayerTool';
 import IChoroplethLayerToolProps from '../../types/tool/IChoroplethLayerToolProps';
 import IChoroplethLayerToolDefaults from '../../types/tool/IChoroplethLayerToolDefaults';
 import IChoroplethLayerToolState from '../../types/tool/IChoroplethLayerToolState';
-import { TOOL as SELECTION_TOOL, ISelectionTool, IMapSelection } from '../../../../../selection';
+import { GeovistoSelectionTool, ISelectionTool, IMapSelection } from '../../../../../selection';
 import { ILayerToolSidebarTab, ISidebarTabControl } from '../../../../../sidebar';
 import IMapDataDomain from '../../../../../../model/types/data/IMapDataDomain';
 import IChoroplethLayerToolDimensions from '../../types/tool/IChoroplethLayerToolDimensions';
@@ -36,7 +36,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
      * 
      * @param props 
      */
-    public constructor(props: IChoroplethLayerToolProps) {
+    public constructor(props: IChoroplethLayerToolProps | undefined) {
         super(props);
     }
 
@@ -64,7 +64,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
     /**
      * It creates new defaults of the tool.
      */
-    public createDefaults(): IChoroplethLayerToolDefaults {
+    protected createDefaults(): IChoroplethLayerToolDefaults {
         return new ChoroplethLayerToolDefaults(this);
     }
 
@@ -78,7 +78,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
     /**
      * It returns default tool state.
      */
-    public createState(): IChoroplethLayerToolState {
+    protected createState(): IChoroplethLayerToolState {
         return new ChoroplethLayerToolState(this);
     }
 
@@ -87,7 +87,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
      */
     private getSelectionTool(): ISelectionTool | undefined {
         if(this.selectionTool == undefined) {
-            const tools = this.getMap()?.getState().getTools().getByType(SELECTION_TOOL.getType());
+            const tools = this.getMap()?.getState().getTools().getByType(GeovistoSelectionTool.getType());
             if(tools.length > 0) {
                 this.selectionTool = <ISelectionTool> tools[0];
             }
@@ -123,7 +123,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
     /**
      * It creates layer items.
      */
-    public createLayerItems(): L.Layer[] {
+    protected createLayerItems(): L.Layer[] {
         const map: L.Map | undefined = this.getMap()?.getState().getLeafletMap();
         if(map) {
             //var _this = this;
@@ -170,7 +170,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
                 // notify selection tool
                 const selectionTool: ISelectionTool | undefined = this.getSelectionTool();
                 if(selectionTool) {
-                    const selection: IMapSelection = SELECTION_TOOL.getSelection(this, [ e.target.feature.id ]);
+                    const selection: IMapSelection = GeovistoSelectionTool.createSelection(this, [ e.target.feature.id ]);
                     //console.log("select:", selection, selection.equals(selectionTool.getState().getSelection()));
                     if(selection.equals(selectionTool.getState().getSelection())) {
                         this.getSelectionTool()?.setSelection(null);
@@ -250,21 +250,20 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
             let foundGeos: any[], foundValues: any[];
             let aggregationBucket: IMapAggregationBucket | undefined;
             for (let i = 0; i < dataLen; i++) {
-                // find the 'geo' properties of data record
+                // find the 'geo' properties of the data record
                 foundGeos = mapData.getDataRecordValues(geoDimension,  data[i]);
                 // since the data are flattened we can expect max one found item
                 if(foundGeos.length == 1) {
                     // get aggregation bucket for the country or create a new one
                     aggregationBucket = bucketMap.get(foundGeos[0]);
-                    // test if country exists in the map
                     if(!aggregationBucket) {
-                        bucketMap.set(foundGeos[0], aggregationDimension.getAggregationBucket());
+                        aggregationBucket = aggregationDimension.getAggregationBucket();
+                        bucketMap.set(foundGeos[0], aggregationBucket);
                     }
                     // find the 'value' properties
                     foundValues = mapData.getDataRecordValues(valueDimension, data[i]);
-                    
                     // since the data are flattened we can expect max one found item
-                    aggregationBucket?.addValue(foundValues.length == 1 ? foundValues[0] : 0);
+                    aggregationBucket.addValue(foundValues.length == 1 ? foundValues[0] : 0);
                 }   
             }
         }

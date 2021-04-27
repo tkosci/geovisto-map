@@ -1,28 +1,29 @@
-import ChoroplethLayerToolSidebarTabDefaults from "./ChoroplethLayerToolSidebarTabDefaults";
-import IChoroplethLayerTool from "../../types/tool/IChoroplethLayerTool";
-import { ILayerToolSidebarTabProps, AbstractLayerToolSidebarTab, ILayerToolSidebarTab, ILayerToolSidebarTabDefaults } from "../../../../../sidebar";
+import { AbstractLayerToolSidebarTab, ILayerToolSidebarTab, ILayerToolSidebarTabProps, ILayerToolSidebarTabDefaults } from "../../../../../sidebar";
+import IMarkerLayerTool from "../../types/tool/IMarkerLayerTool";
+import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";
 import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IChoroplethLayerToolDimensions from "../../types/tool/IChoroplethLayerToolDimensions";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
+import MarkerLayerToolSidebarTabDefaults from "./MarkerLayerToolSidebarTabDefaults";
 
 /**
  * This class provides controls for management of the layer sidebar tab.
  * 
  * @author Jiri Hynek
  */
-class ChoropolethLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IChoroplethLayerTool> implements ILayerToolSidebarTab {
+class MarkerLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IMarkerLayerTool> implements ILayerToolSidebarTab {
     
     private htmlContent: HTMLDivElement | undefined;
     
     private inputs: {
         geo: IMapFormInput,
         value: IMapFormInput,
-        aggregation: IMapFormInput
+        aggregation: IMapFormInput,
+        category: IMapFormInput
     } | undefined;
 
-    public constructor(tool: IChoroplethLayerTool, props: ILayerToolSidebarTabProps) {
+    public constructor(tool: IMarkerLayerTool, props: ILayerToolSidebarTabProps) {
         super(tool, props);
     }
 
@@ -30,7 +31,7 @@ class ChoropolethLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IChorop
      * It creates new defaults of the tab control.
      */
     public createDefaults(): ILayerToolSidebarTabDefaults {
-        return new ChoroplethLayerToolSidebarTabDefaults(this);
+        return new MarkerLayerToolSidebarTabDefaults(this);
     }
 
     /**
@@ -38,10 +39,11 @@ class ChoropolethLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IChorop
      * 
      * @param dimensions 
      */
-    public setInputValues(dimensions: IChoroplethLayerToolDimensions): void {
+    public setInputValues(dimensions: IMarkerLayerToolDimensions): void {
         // update inputs
         this.inputs?.geo.setValue((dimensions.geo.getDomain()?.getName())?? "");
         this.inputs?.value.setValue((dimensions.value.getDomain()?.getName())?? "");
+        this.inputs?.aggregation.setValue((dimensions.aggregation.getDomain()?.getName())?? "");
         this.inputs?.aggregation.setValue((dimensions.aggregation.getDomain()?.getName())?? "");
     }
 
@@ -55,13 +57,14 @@ class ChoropolethLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IChorop
             const elem = this.htmlContent.appendChild(document.createElement('div'));
     
             // get data mapping model
-            const dimensions: IChoroplethLayerToolDimensions = this.getTool().getState().getDimensions();
+            const dimensions: IMarkerLayerToolDimensions = this.getTool().getState().getDimensions();
 
             // create inputs
             this.inputs = {
                 geo: this.getInputGeo(dimensions.geo),
                 value: this.getInputValue(dimensions.value),
-                aggregation: this.getInputAggregation(dimensions.aggregation)
+                aggregation: this.getInputAggregation(dimensions.aggregation),
+                category: this.getInputCategory(dimensions.category)
             };
             
             // append to DOM
@@ -102,5 +105,15 @@ class ChoropolethLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IChorop
     public getInputAggregation(dimension: IMapDimension<IMapAggregationFunction>): IMapFormInput {
         return this.getAutocompleteInput(dimension);
     }
+
+    /**
+     * It returns new input for the geo dimension.
+     * 
+     * @param dimension
+     */
+    public getInputCategory(dimension: IMapDimension<IMapDataDomain>): IMapFormInput {
+        return this.getAutocompleteInput(dimension);
+    }
+
 }
-export default ChoropolethLayerToolSidebarTab;
+export default MarkerLayerToolSidebarTab;

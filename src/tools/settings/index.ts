@@ -1,5 +1,12 @@
-const TOOL_TYPE = "geovisto-tool-settings";
-export { TOOL_TYPE };
+import { ISettingsToolProps, ISettingsTool, SettingsTool } from '..';
+
+export const GeovistoSettingsTool: {
+    getType: () => string,
+    createTool: (props: ISettingsToolProps | undefined) => ISettingsTool
+} = {
+    getType: () => "geovisto-tool-settings",
+    createTool: (props) => new SettingsTool(props),
+};
 
 // types
 export type { default as ISettingsTool } from './model/types/tool/ISettingsTool';

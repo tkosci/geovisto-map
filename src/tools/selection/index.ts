@@ -1,17 +1,16 @@
 import { MapSelection } from '.';
 import IMapTool from '../../model/types/tool/IMapTool';
-import { IMapSelection } from '..';
+import { IMapSelection, ISelectionTool, SelectionTool, ISelectionToolProps } from '..';
 
-const TOOL: {
+export const GeovistoSelectionTool: {
     getType: () => string,
-    getSelection: (source: IMapTool,ids: string[]) => IMapSelection
+    createTool: (props: ISelectionToolProps | undefined) => ISelectionTool
+    createSelection: (source: IMapTool, ids: string[]) => IMapSelection
 } = {
     getType: () => "geovisto-tool-selection",
-    getSelection: (source: IMapTool,ids: string[]) => {
-        return new MapSelection(source, ids);
-    }
+    createTool: (props) => new SelectionTool(props),
+    createSelection: (source, ids) => new MapSelection(source, ids)
 };
-export { TOOL };
 
 // types
 export type { default as ISelectionToolEvent } from './model/types/event/ISelectionToolEvent';

@@ -1,7 +1,7 @@
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
 import ITilesLayerToolDefaults from "../../types/tool/ITilesLayerToolDefaults";
 import ITilesLayerTool from "../../types/tool/ITilesLayerTool";
-import TilesLayerTool from "./TilesLayerTool";
+import { GeovistoTilesLayerTool } from "../../..";
 
 /**
  * This class provide functions which return the default state values.
@@ -21,7 +21,7 @@ class TilesLayerToolDefaults extends LayerToolDefaults implements ITilesLayerToo
      * It returns a unique type string of the tool which is based on the layer it wraps.
      */
     public getType(): string {
-        return TilesLayerTool.TYPE();
+        return GeovistoTilesLayerTool.getType();
     }
 
     /**

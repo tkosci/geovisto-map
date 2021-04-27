@@ -18,13 +18,13 @@ interface IChoroplethLayerToolState extends ILayerToolState {
     deserialize(config: IChoroplethLayerToolConfig): void;
 
     /**
-     * It sets the map layer dimensions property of tool state.
+     * It sets the marker layer dimensions property of tool state.
      * 
      * @param geo 
      * @param value
      * @param aggregation
      */
-    deserializeDimensions(geo: string | undefined, value: string | undefined, aggregation: string | undefined): void
+    deserializeDimensions(geo: string | undefined, value: string | undefined, aggregation: string | undefined): void;
 
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
@@ -34,12 +34,12 @@ interface IChoroplethLayerToolState extends ILayerToolState {
     serialize(filterDefaults: boolean): IChoroplethLayerToolConfig;
 
     /**
-     * It returns the map layer dimensions property of the tool state.
+     * It returns the choropleth layer dimensions property of the tool state.
      */
     getDimensions(): IChoroplethLayerToolDimensions;
 
     /**
-     * It sets the map layer dimensions property of tool state.
+     * It sets the choropleth layer dimensions property of tool state.
      * 
      * @param dimensions 
      */

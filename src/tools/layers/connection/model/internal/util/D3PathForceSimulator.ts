@@ -1,5 +1,19 @@
 import * as d3 from "d3";
 
+interface SimulationProps {
+    charge: {
+        strength: number,
+        distanceMin: number,
+        distanceMax: number
+    };
+    link: {
+        strength: number,
+        distance: number
+    };
+    // how quickly it gets to the alpha (stops the simulation)
+    alphaDecay: number;
+}
+
 /**
  * This class represents the force layout simulator powered by the d3-force library.
  * It takes the nodes and connections and prepares the list paths
@@ -19,28 +33,40 @@ import * as d3 from "d3";
  * @author Jiri Hynek
  */
 class D3PathForceSimulator {
+    
+    /**
+     * TODO: specify the types.
+     */
+    private props: { nodes: Map<string, any>; connections: { source: any, target: any, value: number }[]; segmentLength: number | undefined; };
+    private paths: any;
+    private forceProps: SimulationProps | undefined;
+    private nodes: any;
+    private links: any;
+    private segmentLength: number;
 
     /**
      * It initializes the object by setting the props.
      */
-    constructor(props){
+    public constructor(props: { nodes: Map<string, any>, connections: { source: any, target: any, value: number }[], segmentLength: number | undefined } ){
         this.props = props;
 
         // maximum number of path items
-        this.props.segmentLength = (props.segmentLength ? props.segmentLength : this.getDefaultSegmentLength());
+        this.segmentLength = (props.segmentLength && props.segmentLength > 0 ? props.segmentLength : this.getDefaultSegmentLength());
     }
     
     /**
      * It returns default size of the segment
      */
-    getDefaultSegmentLength() {
+    protected getDefaultSegmentLength(): number {
         return 50;
     }
 
     /**
      * It returns the paths.
+     * 
+     * TODO: specify the types
      */
-    getPaths() {
+    public getPaths(): any {
         if(this.paths == undefined) {
             this.paths = this.createPaths();
         }
@@ -49,15 +75,17 @@ class D3PathForceSimulator {
 
     /**
      * It creates paths (split connections into segments).
+     * 
+     * TODO: specify the types
      */
-    createPaths() {
-        let paths = [];
+    protected createPaths(): any {
+        const paths = [];
 
         // go through all map connections and create paths for every connection
         // connections represented by a path can be bent
         for(let i = 0; i < this.props.connections.length; i++) {
             paths.push(this.createPath(this.props.connections[i]));
-        };
+        }
 
         return paths;
     }
@@ -66,39 +94,41 @@ class D3PathForceSimulator {
      * Help function which takes a connection and split the connection into segments.
      * The number of segments is based on the preferred maximal length of segment.
      * 
+     * TODO: specify the types
+     * 
      * @param connection 
      */
-    createPath(connection) {
-        let path = [];
+    protected createPath(connection: any): any {
+        const path: any = [];
 
         // get connection's nodes
-        let source = connection.source;
-        let target = connection.target;
+        const source = connection.source;
+        const target = connection.target;
 
         // add the first point 
         path.push(source);
 
         // length of the connection: sqrt((x2-x1)^2 + (y2-y1)^2)
-        let length = Math.sqrt((target.x - source.x) * (target.x - source.x)
+        const length = Math.sqrt((target.x - source.x) * (target.x - source.x)
                                  + (target.y - source.y) * (target.y - source.y));
         
         // preferred number of segments
-        let numberOfSegments = Math.round(length/this.props.segmentLength);
+        const numberOfSegments = Math.round(length/this.segmentLength);
 
         // add points
         if(numberOfSegments > 1) {
             // calculate distance between the points
-            let dx = (target.x - source.x) / numberOfSegments;
-            let dy = (target.y - source.y) / numberOfSegments;
+            const dx = (target.x - source.x) / numberOfSegments;
+            const dy = (target.y - source.y) / numberOfSegments;
 
             // add the middle points
-            let numberOfPoints = numberOfSegments-1;
+            const numberOfPoints = numberOfSegments-1;
             let point = source;
             for (let i = 0; i <= numberOfPoints; i++) {
                 point = {
                     x: point.x + dx,
                     y: point.y + dy
-                }
+                };
                 // add a middle point
                 path.push(point);
             }
@@ -116,9 +146,9 @@ class D3PathForceSimulator {
      * @param onTickAction
      * @param onEndAction
      */
-    run(onTickAction, onEndAction) {
+    public run(onTickAction: () => void, onEndAction: () => void): void {
         // get D3 force layout simulator
-        let simulation = this.getSimulation();
+        const simulation = this.getSimulation();
         
         // set run properties to run the simulation
         simulation
@@ -129,9 +159,9 @@ class D3PathForceSimulator {
     /**
      * It returns the definition of D3 force simulation.
      */
-    getSimulation() {
+    protected getSimulation(): d3.Simulation<d3.SimulationNodeDatum, undefined> {
         // usage of D3 force layout simulation
-        let props = this.getForceProps();
+        const props = this.getForceProps();
         // TODO use dynamic props based on current situation
 
         return d3.forceSimulation(this.getNodes())
@@ -145,13 +175,13 @@ class D3PathForceSimulator {
                 .strength(props.link.strength)
                 .distance(props.link.distance)
             )
-            .alphaDecay(props.alphaDecay)
+            .alphaDecay(props.alphaDecay);
     }
 
     /**
      * It returns the D3 force simulation props.
      */
-    getForceProps() {
+    protected getForceProps(): SimulationProps {
         if(this.forceProps == undefined) {
             this.forceProps = this.createDefaultForceProps();
         }
@@ -161,7 +191,7 @@ class D3PathForceSimulator {
     /**
      * It returns the default D3 force simulation props.
      */
-    createDefaultForceProps() {
+    protected createDefaultForceProps(): SimulationProps {
         return {
             charge: {
                 strength: 12,
@@ -174,13 +204,15 @@ class D3PathForceSimulator {
             },
             // how quickly it gets to the alpha (stops the simulation)
             alphaDecay: 0.15
-        }
+        };
     }
 
     /**
      * It returns the nodes for D3 force layout simulator.
+     * 
+     * TODO: specify the types
      */
-    getNodes() {
+    protected getNodes(): any {
         if(this.nodes == undefined) {
             this.nodes = this.createNodes();
         }
@@ -189,26 +221,26 @@ class D3PathForceSimulator {
 
     /**
      * It prepares the nodes for D3 force layout simulator.
+     * 
+     * TODO: specify the types
      */
-    createNodes() {
-        let nodes = []
+    protected createNodes(): any {
+        const nodes = [];
 
         // go through all end nodes add them to the list
-        let endNodes = this.props.nodes;
+        const endNodes = this.props.nodes;
         let node;
-        for(let i = 0; i < endNodes.length; i++) {
-            node = endNodes[i];
-
+        for(const node of endNodes) {
             // setting the fx, fy fixed position
             // -> these nodes should not be moved by the D3 force simulation
-            node.fx = node.x;
-            node.fy = node.y;
+            (node as any).fx = (node as any).x;
+            (node as any).fy = (node as any).y;
 
             nodes.push(node);
-        };
+        }
         
         // go throught all paths and add the remaining points between the end nodes
-        let paths = this.getPaths();
+        const paths = this.getPaths();
         let path;
         for(let i = 0; i < paths.length; i++) {
             path = paths[i];
@@ -223,8 +255,10 @@ class D3PathForceSimulator {
 
     /**
      * It returns the links for D3 force layout simulator.
+     * 
+     * TODO: specify the types
      */
-    getLinks() {
+    protected getLinks(): any {
         if(this.links == undefined) {
             this.links = this.createLinks();
         }
@@ -233,12 +267,14 @@ class D3PathForceSimulator {
 
     /**
      * It creates the links for D3 force layout simulator.
+     * 
+     * TODO: specify the types
      */
-    createLinks() {
-        let links = [];
+    protected createLinks(): any {
+        const links = [];
 
         // go throught all paths and contruct links
-        let paths = this.getPaths();
+        const paths = this.getPaths();
         let path;
         for(let i = 0; i < paths.length; i++) {
             path = paths[i];

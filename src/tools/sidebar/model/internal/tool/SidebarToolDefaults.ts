@@ -1,9 +1,8 @@
-import SidebarTool from "./SidebarTool";
 import ISidebarToolDefaults from "../../types/tool/ISidebarToolDefaults";
 import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
 import ISidebarTool from "../../types/tool/ISidebarTool";
 import ISidebarToolConfig from "../../types/tool/ISidebarToolConfig";
-import { TOOL_TYPE } from "../../..";
+import { GeovistoSidebarTool } from "../../..";
 
 /**
  * This class provide functions which return the default state values.
@@ -32,7 +31,7 @@ class SidebarToolDefaults extends MapToolDefaults implements ISidebarToolDefault
      * It returns a unique string of the tool type.
      */
     public getType(): string {
-        return TOOL_TYPE;
+        return GeovistoSidebarTool.getType();
     }
 
     /**

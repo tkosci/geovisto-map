@@ -43,8 +43,8 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
             this.dimensions = defaults.getDimensions();
         }
 
-        // set z-index
-        this.polygons = props.polygons == undefined ? defaults.getPolygons() : props.polygons;
+        // set other state props
+        this.polygons = props.polygons; // default polygons are undefined since the map is undefined
         this.hoveredItem = undefined;
         this.zindex = defaults.getZIndex();
         this.bucketData = new Map<string, IMapAggregationBucket>();
@@ -133,8 +133,14 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
         super.setMap(map);
 
         // update dimensions' data domain managers
-        this.dimensions.geo.setDomainManager(map.getState().getMapData());
-        this.dimensions.value.setDomainManager(map.getState().getMapData());
+        const dimensions = this.getDimensions();
+        dimensions.geo.setDomainManager(map.getState().getMapData());
+        dimensions.value.setDomainManager(map.getState().getMapData());
+
+        // map polygons
+        if(!this.getPolygons()) {
+            this.setPolygons((<IChoroplethLayerToolDefaults> this.getDefaults()).getPolygons());
+        }
     }
 
     /**

@@ -1,5 +1,12 @@
-const TOOL_TYPE = "geovisto-tool-themes";
-export { TOOL_TYPE };
+import { IThemesToolProps, IThemesTool, ThemesTool } from '..';
+
+export const GeovistoThemesTool: {
+    getType: () => string,
+    createTool: (props: IThemesToolProps | undefined) => IThemesTool
+} = {
+    getType: () => "geovisto-tool-themes",
+    createTool: (props) => new ThemesTool(props),
+};
 
 // types
 export type { default as IThemesToolEvent } from './model/types/event/IThemesToolEvent';

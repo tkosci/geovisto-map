@@ -5,6 +5,10 @@ export { default as ReactGeovistoMap } from './react/ReactGeovistoMap';
 
 // MODEL / TYPES
 
+// aggregation
+export type { default as IMapAggregationBucket } from './model/types/aggregation/IMapAggregationBucket';
+export type { default as IMapAggregationFunction } from './model/types/aggregation/IMapAggregationFunction';
+
 // config
 export type { default as IMapConfigManager } from './model/types/config/IMapConfigManager';
 
@@ -12,14 +16,14 @@ export type { default as IMapConfigManager } from './model/types/config/IMapConf
 export type { default as IMapDataDomain } from './model/types/data/IMapDataDomain';
 export type { default as IMapDataManager } from './model/types/data/IMapDataManager';
 
+// dimension
+export type { default as IMapDimension } from './model/types/dimension/IMapDimension';
+export type { default as IMapDimensionManager } from './model/types/dimension/IMapDimensionManager';
+
 // domain
 export type { default as IMapDomain } from './model/types/domain/IMapDomain';
 export type { default as IMapDomainArrayManager } from './model/types/domain/IMapDomainArrayManager';
 export type { default as IMapDomainManager } from './model/types/domain/IMapDomainManager';
-
-// dimension
-export type { default as IMapDimension } from './model/types/dimension/IMapDimension';
-export type { default as IMapDimensionManager } from './model/types/dimension/IMapDimensionManager';
 
 // event
 export type { default as IMapEvent } from './model/types/event/IMapEvent';
@@ -40,6 +44,7 @@ export type { default as ILabeledTextFormInputProps } from './model/types/inputs
 export type { default as ILayerTool } from './model/types/layer/ILayerTool';
 export type { default as ILayerToolConfig } from './model/types/layer/ILayerToolConfig';
 export type { default as ILayerToolDefaults } from './model/types/layer/ILayerToolDefaults';
+export type { default as ILayerToolDimensions } from './model/types/layer/ILayerToolDimensions';
 export type { default as ILayerToolProps } from './model/types/layer/ILayerToolProps';
 export type { default as ILayerToolState } from './model/types/layer/ILayerToolState';
 
@@ -70,6 +75,11 @@ export type { default as IMapToolState } from './model/types/tool/IMapToolState'
 
 // MODEL / INTERNAL
 
+// aggregation
+export { default as CountAggregationFunction } from './model/internal/aggregation/basic/CountAggregationFunction';
+export { default as SumAggregationFunction } from './model/internal/aggregation/basic/SumAggregationFunction';
+export { default as AggregationFunction } from './model/internal/aggregation/generic/AggregationFunction';
+
 // config
 export { default as AbstractMapConfigManager } from './model/internal/config/abstract/AbstractMapConfigManager';
 export { default as MapConfigManager } from './model/internal/config/basic/MapConfigManager';
@@ -80,13 +90,14 @@ export { default as AbstractMapDataManager } from './model/internal/data/abstrac
 export { default as JsonMapDataDomain } from './model/internal/data/json/JsonMapDataDomain';
 export { default as JsonMapDataManager } from './model/internal/data/json/JsonMapDataManager';
 
-// domain
-export { default as AbstractMapDomain } from './model/internal/domain/abstract/AbstractMapDomain';
-export { default as MapDomainArrayManager } from './model/internal/domain/generic/MapDomainArrayManager';
-
 // dimension
 export { default as MapDimension } from './model/internal/dimension/MapDimension';
 export { default as MapDimensionManager } from './model/internal/dimension/MapDimensionManager';
+
+// domain
+export { default as AbstractMapDomain } from './model/internal/domain/abstract/AbstractMapDomain';
+export { default as MapDomain } from './model/internal/domain/generic/MapDomain';
+export { default as MapDomainArrayManager } from './model/internal/domain/generic/MapDomainArrayManager';
 
 // event
 export { default as DataChangeEvent } from './model/internal/event/data/DataChangeEvent';

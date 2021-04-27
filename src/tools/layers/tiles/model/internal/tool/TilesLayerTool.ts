@@ -32,13 +32,6 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, ISide
     }
 
     /**
-     * A unique string of the tool type.
-     */
-    public static TYPE(): string {
-        return "geovisto-tool-layer-map"; 
-    }
-
-    /**
      * It creates a copy of the uninitialized tool.
      */
     public copy(): ITilesLayerTool {
