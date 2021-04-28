@@ -308,7 +308,7 @@ class MarkerLayerTool extends AbstractLayerTool {
     /**
      * It prepares data for markers.
      */
-    prepareMapData(data) {
+    prepareMapData(data, redraw = true) {
         // prepare data
         let workData = {};
         let mapData = this.getMap().getState().getMapData();
@@ -367,8 +367,15 @@ class MarkerLayerTool extends AbstractLayerTool {
             }
         }
 
+        if (redraw) {
+            this.subvaluesCategories = categories;
+        }
+
         Object.keys(workData).forEach((item) => {
-            const emptySubValues = [...categories].reduce((acc, item) => ({ ...acc, [item]: null }), {});
+            const emptySubValues = [...this.subvaluesCategories].reduce((acc, item) => ({
+                ...acc,
+                [item]: null
+            }), {});
             workData[item].subvalues = { ...emptySubValues ,...workData[item].subvalues}
         });
 
@@ -433,7 +440,7 @@ class MarkerLayerTool extends AbstractLayerTool {
         if (!this.getState().getLayer()) {
             return;
         }
-        const markersData = this.prepareMapData(data);
+        const markersData = this.prepareMapData(data, false);
 
         this.getState().getMarkers().forEach((marker) => {
             const markerData = markersData[marker.options.id] || {
