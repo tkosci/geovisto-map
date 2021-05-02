@@ -43,7 +43,7 @@ import Pather from 'leaflet-pather';
 import { isEmpty, sortReverseAlpha, sortAlpha } from './util/functionUtils';
 import { FIRST, NOT_FOUND, SPACE_BAR } from './util/constants';
 
-// !inject in rollup config doesn't work and pather throws errors without this line
+// ! pather throws errors without this line
 window.d3 = d33;
 
 // * as advised in https://github.com/makinacorpus/Leaflet.Snap/issues/52
@@ -132,7 +132,7 @@ class DrawingLayerTool extends AbstractLayerTool {
     if (layer.layerType === 'marker') this.applyTopologyMarkerListeners(layer);
   }
 
-  polyDiff(layer) {
+  polyDiff(layer, intersect = false) {
     let selectedLayer = this.getState().selectedLayer;
     let paintPoly = this.getSidebarTabControl().getState().paintPoly;
     let fgLayers = this.getState().featureGroup._layers;
@@ -147,60 +147,79 @@ class DrawingLayerTool extends AbstractLayerTool {
       replacement?.dragging?.disable();
       replacement.layerType = 'polygon';
       if (replacementCoords) replacement._latlngs = replacementCoords;
+      replacement.identifier = replacedLayer.identifier;
+      replacement.setStyle({ ...replacement.options, ...normalStyles });
+      let content = replacedLayer.popupContent;
+      if (content) {
+        replacement.bindPopup(content, {
+          closeOnClick: false,
+          autoClose: false,
+        });
+        replacement.popupContent = content;
+      }
       this.getState().addLayer(replacement);
       this.getState().removeLayer(replacedLayer);
       paintPoly.clearPaintedPolys(replacedLayer.kIdx);
     };
 
-    if (isCurrentLayerPoly) {
-      Object.values(fgLayers)
-        .filter((l) => isLayerPoly(l))
-        .forEach((l) => {
-          let feature = getGeoJSONFeatureFromLayer(l);
+    const diffLayers = (l) => {
+      if (!l) return;
+      let feature = getGeoJSONFeatureFromLayer(l);
 
-          let layerIsNotSelected = l?._leaflet_id !== selectedLayer?._leaflet_id;
-          let canDiff = !createdIsEraser ? true : layerIsNotSelected;
-          if (canDiff) {
-            let diffFeature = difference(feature, layerFeature);
+      let layerIsNotSelected = l?._leaflet_id !== selectedLayer?._leaflet_id;
+      let canDiff = !createdIsEraser ? true : layerIsNotSelected;
+      if (canDiff || intersect) {
+        let diffFeature = difference(feature, layerFeature);
 
-            if (diffFeature) {
-              let coords;
-              let latlngs;
-              coords = diffFeature.geometry.coordinates;
-              let isMultiPoly = diffFeature.geometry.type === 'MultiPolygon';
-              let isJustPoly = diffFeature.geometry.type === 'Polygon';
-              // * when substracting you can basically slice polygon into more parts
-              // * then we have to increase depth by one because we have an array within array
-              let depth = isMultiPoly ? 2 : 1;
-              try {
-                // * this conditional asks if created polygon is polygon with hole punched in it
-                // * for the rest of cases i.e. when polygon is split into multiple parts or not we use loop
-                // * otherwise we create polygon where hole should be
-                if (isJustPoly && coords.length !== 1) {
-                  latlngs = L.GeoJSON.coordsToLatLngs(coords, 1);
-                  let result = new L.polygon(latlngs, {
-                    ...l.options,
-                  });
-                  replaceLayer(result, l);
-                } else {
-                  coords.forEach((coord) => {
-                    latlngs = L.GeoJSON.coordsToLatLngs([coord], depth);
-                    let result = new L.polygon(latlngs, {
-                      ...l.options,
-                    });
-                    let newLatLngs = depth === 1 ? result._latlngs : result._latlngs[FIRST];
-                    replaceLayer(result, l, newLatLngs);
-                  });
-                }
-              } catch (error) {
-                console.error({ coords, latlngs, error, depth });
-              }
+        if (diffFeature) {
+          let coords;
+          let latlngs;
+          coords = diffFeature.geometry.coordinates;
+          let isMultiPoly = diffFeature.geometry.type === 'MultiPolygon';
+          let isJustPoly = diffFeature.geometry.type === 'Polygon';
+          // * when substracting you can basically slice polygon into more parts
+          // * then we have to increase depth by one because we have an array within array
+          let depth = isMultiPoly ? 2 : 1;
+          try {
+            // * this conditional asks if created polygon is polygon with hole punched in it
+            // * for the rest of cases i.e. when polygon is split into multiple parts or not we use loop
+            // * otherwise we create polygon where hole should be
+            if (isJustPoly && coords.length !== 1) {
+              latlngs = L.GeoJSON.coordsToLatLngs(coords, 1);
+              let result = new L.polygon(latlngs, {
+                ...l.options,
+              });
+              replaceLayer(result, l);
             } else {
-              this.getState().removeLayer(l);
-              paintPoly.clearPaintedPolys(l.kIdx);
+              coords.forEach((coord) => {
+                latlngs = L.GeoJSON.coordsToLatLngs([coord], depth);
+                let result = new L.polygon(latlngs, {
+                  ...l.options,
+                });
+                let newLatLngs = depth === 1 ? result._latlngs : result._latlngs[FIRST];
+                replaceLayer(result, l, newLatLngs);
+              });
             }
+          } catch (error) {
+            console.error({ coords, latlngs, error, depth });
           }
-        });
+        } else {
+          this.getState().removeLayer(l);
+          paintPoly.clearPaintedPolys(l.kIdx);
+        }
+      }
+    };
+
+    if (isCurrentLayerPoly) {
+      if (intersect && !createdIsEraser) {
+        diffLayers(selectedLayer, true);
+      } else {
+        Object.values(fgLayers)
+          .filter((l) => isLayerPoly(l))
+          .forEach((l) => {
+            diffLayers(l);
+          });
+      }
     }
   }
 
@@ -248,59 +267,81 @@ class DrawingLayerTool extends AbstractLayerTool {
     return updatedLayer;
   }
 
+  // https://gis.stackexchange.com/questions/344068/splitting-a-polygon-by-multiple-linestrings-leaflet-and-turf-js
   polySlice(layer) {
     let lineFeat = getGeoJSONFeatureFromLayer(layer);
     let selectedLayer = this.getState().selectedLayer;
 
-    if (selectedLayer) {
-      const THICK_LINE_WIDTH = 0.001;
-      const THICK_LINE_UNITS = 'kilometers';
-      let offsetLine;
-      let selectedFeature = getGeoJSONFeatureFromLayer(selectedLayer);
+    if (!selectedLayer || !isLayerPoly(selectedLayer)) return;
+    const selectedFeature = getGeoJSONFeatureFromLayer(selectedLayer);
 
-      let isFeatPoly = isFeaturePoly(selectedFeature);
+    // let result = morphFeatureToPolygon(clipped, selectedLayer.options, false);
+    // this.getState().removeSelectedLayer(selectedLayer);
+    // this.getState().addLayer(result);
 
-      if (isFeatPoly) {
-        let coords;
-        let latlngs;
-        try {
-          offsetLine = turf.lineOffset(lineFeat, THICK_LINE_WIDTH, {
-            units: THICK_LINE_UNITS,
-          });
+    const polyAsLine = turf.polygonToLine(selectedFeature);
+    // const unionedLines = turf.featureCollection([polyAsLine, lineFeat]);
+    // const polyAsLineCoords = turf.getCoords(polyAsLine);
+    // const lineFeatCoords = turf.getCoords(lineFeat);
+    // const unionedLines = turf.multiLineString([polyAsLineCoords, lineFeatCoords]);
+    // L.geoJSON(unionedLines, {}).addTo(window.map);
+    // const polygonized = turf.polygonize(unionedLines);
+    // const keepFromPolygonized = polygonized.features.filter((ea) =>
+    //   turf.booleanPointInPolygon(turf.pointOnFeature(ea), selectedFeature),
+    // );
+    // console.log({ polygonized, keepFromPolygonized });
 
-          let polyCoords = [];
-          // * push all of the coordinates of original line
-          for (let j = 0; j < lineFeat.geometry.coordinates.length; j++) {
-            polyCoords.push(lineFeat.geometry.coordinates[j]);
-          }
-          // * push all of the coordinates of offset line
-          for (let j = offsetLine.geometry.coordinates.length - 1; j >= 0; j--) {
-            polyCoords.push(offsetLine.geometry.coordinates[j]);
-          }
-          // * to create linear ring
-          polyCoords.push(lineFeat.geometry.coordinates[0]);
+    // console.log({ polyExterior, lineAsPoly, unionedLines, polygonized });
 
-          let thickLineString = turf.lineString(polyCoords);
-          let thickLinePolygon = turf.lineToPolygon(thickLineString);
-          let clipped = turf.difference(selectedFeature, thickLinePolygon);
-          // clipped = simplifyFeature(clipped);
+    // if (selectedLayer) {
+    //   const THICK_LINE_WIDTH = 0.001;
+    //   const THICK_LINE_UNITS = 'kilometers';
+    //   let offsetLine;
+    //   let selectedFeature = getGeoJSONFeatureFromLayer(selectedLayer);
 
-          coords = clipped.geometry.coordinates;
-          coords.forEach((coord) => {
-            latlngs = L.GeoJSON.coordsToLatLngs(coord, 1);
-            let result = new L.polygon(latlngs, {
-              ...selectedLayer.options,
-              ...normalStyles,
-            });
-            result.layerType = 'polygon';
-            this.getState().removeSelectedLayer(selectedLayer);
-            this.getState().addLayer(result);
-          });
-        } catch (error) {
-          console.error({ coords, latlngs, error });
-        }
-      }
-    }
+    //   let isFeatPoly = isFeaturePoly(selectedFeature);
+
+    //   if (isFeatPoly) {
+    //     let coords;
+    //     let latlngs;
+    //     try {
+    //       offsetLine = turf.lineOffset(lineFeat, THICK_LINE_WIDTH, {
+    //         units: THICK_LINE_UNITS,
+    //       });
+
+    //       let polyCoords = [];
+    //       // * push all of the coordinates of original line
+    //       for (let j = 0; j < lineFeat.geometry.coordinates.length; j++) {
+    //         polyCoords.push(lineFeat.geometry.coordinates[j]);
+    //       }
+    //       // * push all of the coordinates of offset line
+    //       for (let j = offsetLine.geometry.coordinates.length - 1; j >= 0; j--) {
+    //         polyCoords.push(offsetLine.geometry.coordinates[j]);
+    //       }
+    //       // * to create linear ring
+    //       polyCoords.push(lineFeat.geometry.coordinates[0]);
+
+    //       let thickLineString = turf.lineString(polyCoords);
+    //       let thickLinePolygon = turf.lineToPolygon(thickLineString);
+    //       let clipped = turf.difference(selectedFeature, thickLinePolygon);
+    //       // clipped = simplifyFeature(clipped);
+
+    //       coords = clipped.geometry.coordinates;
+    //       coords.forEach((coord) => {
+    //         latlngs = L.GeoJSON.coordsToLatLngs(coord, 1);
+    //         let result = new L.polygon(latlngs, {
+    //           ...selectedLayer.options,
+    //           ...normalStyles,
+    //         });
+    //         result.layerType = 'polygon';
+    //         this.getState().removeSelectedLayer(selectedLayer);
+    //         this.getState().addLayer(result);
+    //       });
+    //     } catch (error) {
+    //       console.error({ coords, latlngs, error });
+    //     }
+    //   }
+    // }
   }
 
   haveSameVertice(current) {
@@ -404,7 +445,7 @@ class DrawingLayerTool extends AbstractLayerTool {
 
     if (e.layerType === 'polygon' || e.layerType === 'painted' || e.layerType === 'erased') {
       // * DIFFERENCE
-      this.polyDiff(layer);
+      this.polyDiff(layer, intersectActivated);
     }
 
     if (layer.dragging) layer.dragging.disable();
@@ -496,6 +537,7 @@ class DrawingLayerTool extends AbstractLayerTool {
         this.getState().clearSelectedLayer();
         document.querySelector('.leaflet-container').style.cursor = '';
       }
+      this.getState().clearExtraSelected();
     });
 
     document.addEventListener('keydown', (e) => {
@@ -517,15 +559,15 @@ class DrawingLayerTool extends AbstractLayerTool {
       }
     });
 
-    const pather = this.getSidebarTabControl().getState().pather;
+    const { pather, guideLayers } = this.getSidebarTabControl().getState();
     pather.on('created', this.createdPath);
 
-    const layer = this.getState().featureGroup;
-    layer.eachLayer((layer) => {
+    const { featureGroup } = this.getState();
+    featureGroup.eachLayer((layer) => {
       layer.addTo(map);
       this.applyEventListeners(layer);
     });
-    return [layer];
+    return [featureGroup];
   }
 
   setGlobalSimplificationTolerance() {
@@ -540,10 +582,10 @@ class DrawingLayerTool extends AbstractLayerTool {
   }
 
   highlightElement(el) {
-    if (el._icon) {
+    if (el?._icon) {
       L.DomUtil.addClass(el._icon, 'highlight-marker');
     } else {
-      if (el.setStyle) el.setStyle(highlightStyles);
+      if (el?.setStyle) el.setStyle(highlightStyles);
     }
   }
 
@@ -553,10 +595,10 @@ class DrawingLayerTool extends AbstractLayerTool {
   }
 
   normalizeElement(el) {
-    if (el._icon) {
+    if (el?._icon) {
       L.DomUtil.removeClass(el._icon, 'highlight-marker');
     } else {
-      if (el.setStyle) el.setStyle(normalStyles);
+      if (el?.setStyle) el.setStyle(normalStyles);
     }
   }
 
@@ -623,14 +665,20 @@ class DrawingLayerTool extends AbstractLayerTool {
 
   initChangeStyle = (e) => {
     const drawObject = e.target;
+    const state = this.getState();
 
-    const selecting = this.getState().getSelecting();
+    const selecting = state.getSelecting();
     if (selecting) {
       this.joinChosen(drawObject);
       return;
     }
 
-    let fgLayers = this.getState().featureGroup._layers;
+    if (e?.originalEvent?.ctrlKey && state.selectedLayer) {
+      state.addExtraSelected(drawObject);
+      return;
+    }
+
+    let fgLayers = state.featureGroup._layers;
     Object.values(fgLayers).forEach((_) => {
       this.normalizeElement(_);
       _?.dragging?.disable();
@@ -640,12 +688,16 @@ class DrawingLayerTool extends AbstractLayerTool {
         paintPoly.updatePaintedPolys(_.kIdx, _);
       }
     });
-    this.getState().setSelectedLayer(drawObject);
-    this.getState().setCurrEl(drawObject);
+    state.setSelectedLayer(drawObject);
+    state.setCurrEl(drawObject);
     this.initTransform(drawObject);
     this.redrawSidebarTabControl(drawObject.layerType);
+    // TODO:
+    this.tabControl.state.callIdentifierChange(true);
 
     document.querySelector('.leaflet-container').style.cursor = '';
+    // * at this point user clicked without holdin 'CTRL' key
+    // state.clearExtraSelected();
   };
 
   initTransform(drawObject, disable = false) {
@@ -703,6 +755,30 @@ class DrawingLayerTool extends AbstractLayerTool {
     this.getState().setSelecting(!selecting);
     if (!selecting) document.querySelector('.leaflet-container').style.cursor = 'crosshair';
     else document.querySelector('.leaflet-container').style.cursor = '';
+  };
+
+  divideEqual = () => {
+    const { selectedLayer } = this.getState();
+    if (!selectedLayer) return;
+    if (!isLayerPoly(selectedLayer)) return;
+
+    const polygonFeat = selectedLayer.toGeoJSON();
+    const polygonBbox = turf.bbox(polygonFeat);
+    const area = turf.area(polygonFeat);
+    const options = { units: 'meters' };
+    var from = turf.point([polygonBbox[0], polygonBbox[1]]);
+    var to = turf.point([polygonBbox[2], polygonBbox[3]]);
+
+    var distance = turf.distance(from, to, options);
+    console.log({ distance });
+    const cellSide = 50;
+
+    const squareGrid = turf.squareGrid(polygonBbox, cellSide, options);
+    // squareGrid.features.forEach((feat) => {
+    //   let latlngs = L.GeoJSON.coordsToLatLngs(feat.geometry.coordinates, 1);
+    //   let newPoly = new L.polygon(latlngs);
+    //   this.getState().addLayer(newPoly);
+    // });
   };
 
   /**

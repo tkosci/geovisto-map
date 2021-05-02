@@ -96,6 +96,13 @@ export default function useDrawingToolbar() {
         true,
       );
 
+      this.options.drawingBtns.divideBtn = this.createToolbarBtn(
+        'divideBtn',
+        toolContainer,
+        'Divide polygon',
+        'fa fa-cutlery',
+      );
+
       this.options.drawingBtns.connectBtn = this.createToolbarBtn(
         'connectBtn',
         toolContainer,
@@ -178,6 +185,7 @@ export default function useDrawingToolbar() {
         paintBtn,
         eraserBtn,
         removeBtn,
+        divideBtn,
       } = this.options.drawingBtns;
       const map = this.options.map;
       const sidebar = this.getSidebar();
@@ -218,6 +226,7 @@ export default function useDrawingToolbar() {
       L.DomEvent.on(transformBtn, 'click', this.initTransform, this);
       L.DomEvent.on(editBtn, 'click', this.initNodeEdit, this);
       L.DomEvent.on(sliceBtn, 'click', () => this.initSlicePoly(map, sidebar), this);
+      L.DomEvent.on(divideBtn, 'click', this.initDivide, this);
       L.DomEvent.on(deselectBtn, 'click', this.deselect, this);
       L.DomEvent.on(joinBtn, 'click', this.initJoin, this);
       L.DomEvent.on(connectBtn, 'click', L.DomEvent.stopPropagation)
@@ -312,6 +321,10 @@ export default function useDrawingToolbar() {
       }
     },
 
+    initDivide: function () {
+      this.options.tool.divideEqual();
+    },
+
     initNodeEdit: function () {
       this.options.tool.initNodeEdit();
     },
@@ -341,6 +354,10 @@ export default function useDrawingToolbar() {
 
     setCurrEl: function (el) {
       this.options.tool.getState().setCurrEl(el);
+    },
+
+    cleanUp: function () {
+      this.options.tool.getState().clearExtraSelected();
     },
 
     redrawSidebar: function (val, enabled = false) {
