@@ -48,11 +48,11 @@ class Demo extends Component {
     super(props);
 
     // initialize geo objects
-    this.polygons = require("/static/geo/floor-plan.json");
+    this.polygons = require("/static/geo/country_polygons.json");
     this.centroids = require("/static/geo/country_centroids.json");
 
     // // implicit file
-    const jsonData = require('/static/data/network-data.json');
+    const jsonData = require('/static/data/covidSlovakRegions.json');
 
     // // implicit config
     const jsonConfig = require('/static/config/config.json');
@@ -232,9 +232,9 @@ class Demo extends Component {
         <div className="demo-toolbar">
           <span>Data file: </span>
           <select id={C_ID_select_data}>
+            <option value="covidSlovakRegions.json">covidSlovakRegions.json</option>
             <option value="network-data.json">network-data.json</option>
             <option value="floor-plan-data.json">floor-plan-data.json</option>
-            <option value="covidSlovakRegions.json">covidSlovakRegions.json</option>
             <option value="demo1.json">demo1.json</option>
             <option value="demo2.json">demo2.json</option>
             <option disabled></option>

@@ -31,7 +31,6 @@ import lineToPolygon from '@turf/line-to-polygon';
 import * as turf from '@turf/turf';
 import * as martinez from 'martinez-polygon-clipping';
 import * as polyClipping from 'polygon-clipping';
-import './components/Edit';
 import 'leaflet-snap';
 import 'leaflet-geometryutil';
 import 'leaflet-draw';
@@ -42,6 +41,7 @@ import * as d33 from 'd3-3-5-5';
 import Pather from 'leaflet-pather';
 import { isEmpty, sortReverseAlpha, sortAlpha } from './util/functionUtils';
 import { FIRST, NOT_FOUND, SPACE_BAR } from './util/constants';
+import { getCoords } from '@turf/turf';
 
 // ! pather throws errors without this line
 window.d3 = d33;
@@ -267,81 +267,60 @@ class DrawingLayerTool extends AbstractLayerTool {
     return updatedLayer;
   }
 
-  // https://gis.stackexchange.com/questions/344068/splitting-a-polygon-by-multiple-linestrings-leaflet-and-turf-js
+  // inspired by https://gis.stackexchange.com/questions/344068/splitting-a-polygon-by-multiple-linestrings-leaflet-and-turf-js
   polySlice(layer) {
     let lineFeat = getGeoJSONFeatureFromLayer(layer);
     let selectedLayer = this.getState().selectedLayer;
 
-    if (!selectedLayer || !isLayerPoly(selectedLayer)) return;
-    const selectedFeature = getGeoJSONFeatureFromLayer(selectedLayer);
+    if (selectedLayer) {
+      const THICK_LINE_WIDTH = 0.00001;
+      const THICK_LINE_UNITS = 'kilometers';
+      let offsetLine;
+      let selectedFeature = getGeoJSONFeatureFromLayer(selectedLayer);
 
-    // let result = morphFeatureToPolygon(clipped, selectedLayer.options, false);
-    // this.getState().removeSelectedLayer(selectedLayer);
-    // this.getState().addLayer(result);
+      let isFeatPoly = isFeaturePoly(selectedFeature);
 
-    const polyAsLine = turf.polygonToLine(selectedFeature);
-    // const unionedLines = turf.featureCollection([polyAsLine, lineFeat]);
-    // const polyAsLineCoords = turf.getCoords(polyAsLine);
-    // const lineFeatCoords = turf.getCoords(lineFeat);
-    // const unionedLines = turf.multiLineString([polyAsLineCoords, lineFeatCoords]);
-    // L.geoJSON(unionedLines, {}).addTo(window.map);
-    // const polygonized = turf.polygonize(unionedLines);
-    // const keepFromPolygonized = polygonized.features.filter((ea) =>
-    //   turf.booleanPointInPolygon(turf.pointOnFeature(ea), selectedFeature),
-    // );
-    // console.log({ polygonized, keepFromPolygonized });
+      if (isFeatPoly) {
+        let coords;
+        let latlngs;
+        try {
+          offsetLine = turf.lineOffset(lineFeat, THICK_LINE_WIDTH, {
+            units: THICK_LINE_UNITS,
+          });
 
-    // console.log({ polyExterior, lineAsPoly, unionedLines, polygonized });
+          let polyCoords = [];
+          // * push all of the coordinates of original line
+          for (let j = 0; j < lineFeat.geometry.coordinates.length; j++) {
+            polyCoords.push(lineFeat.geometry.coordinates[j]);
+          }
+          // * push all of the coordinates of offset line
+          for (let j = offsetLine.geometry.coordinates.length - 1; j >= 0; j--) {
+            polyCoords.push(offsetLine.geometry.coordinates[j]);
+          }
+          // * to create linear ring
+          polyCoords.push(lineFeat.geometry.coordinates[0]);
 
-    // if (selectedLayer) {
-    //   const THICK_LINE_WIDTH = 0.001;
-    //   const THICK_LINE_UNITS = 'kilometers';
-    //   let offsetLine;
-    //   let selectedFeature = getGeoJSONFeatureFromLayer(selectedLayer);
+          let thickLineString = turf.lineString(polyCoords);
+          let thickLinePolygon = turf.lineToPolygon(thickLineString);
+          let clipped = turf.difference(selectedFeature, thickLinePolygon);
+          // clipped = simplifyFeature(clipped);
 
-    //   let isFeatPoly = isFeaturePoly(selectedFeature);
-
-    //   if (isFeatPoly) {
-    //     let coords;
-    //     let latlngs;
-    //     try {
-    //       offsetLine = turf.lineOffset(lineFeat, THICK_LINE_WIDTH, {
-    //         units: THICK_LINE_UNITS,
-    //       });
-
-    //       let polyCoords = [];
-    //       // * push all of the coordinates of original line
-    //       for (let j = 0; j < lineFeat.geometry.coordinates.length; j++) {
-    //         polyCoords.push(lineFeat.geometry.coordinates[j]);
-    //       }
-    //       // * push all of the coordinates of offset line
-    //       for (let j = offsetLine.geometry.coordinates.length - 1; j >= 0; j--) {
-    //         polyCoords.push(offsetLine.geometry.coordinates[j]);
-    //       }
-    //       // * to create linear ring
-    //       polyCoords.push(lineFeat.geometry.coordinates[0]);
-
-    //       let thickLineString = turf.lineString(polyCoords);
-    //       let thickLinePolygon = turf.lineToPolygon(thickLineString);
-    //       let clipped = turf.difference(selectedFeature, thickLinePolygon);
-    //       // clipped = simplifyFeature(clipped);
-
-    //       coords = clipped.geometry.coordinates;
-    //       coords.forEach((coord) => {
-    //         latlngs = L.GeoJSON.coordsToLatLngs(coord, 1);
-    //         let result = new L.polygon(latlngs, {
-    //           ...selectedLayer.options,
-    //           ...normalStyles,
-    //         });
-    //         result.layerType = 'polygon';
-    //         this.getState().removeSelectedLayer(selectedLayer);
-    //         this.getState().addLayer(result);
-    //       });
-    //     } catch (error) {
-    //       console.error({ coords, latlngs, error });
-    //     }
-    //   }
-    // }
+          coords = clipped.geometry.coordinates;
+          this.getState().removeSelectedLayer(selectedLayer);
+          coords.forEach((coord) => {
+            latlngs = L.GeoJSON.coordsToLatLngs(coord, 1);
+            let result = new L.polygon(latlngs, {
+              ...selectedLayer.options,
+              ...normalStyles,
+            });
+            result.layerType = 'polygon';
+            this.getState().addLayer(result);
+          });
+        } catch (error) {
+          console.error({ coords, latlngs, error });
+        }
+      }
+    }
   }
 
   haveSameVertice(current) {
@@ -434,8 +413,9 @@ class DrawingLayerTool extends AbstractLayerTool {
     let layer = e.layer;
     layer.layerType = e.layerType;
     if (e.keyIndex) layer.kIdx = e.keyIndex;
+    const sidebarState = this.getSidebarTabControl().getState();
 
-    const { intersectActivated } = this.getSidebarTabControl().getState();
+    const { intersectActivated } = sidebarState;
 
     if (e.layerType === 'polygon' || e.layerType === 'painted') {
       // * JOIN
@@ -450,16 +430,28 @@ class DrawingLayerTool extends AbstractLayerTool {
 
     if (layer.dragging) layer.dragging.disable();
 
+    // * SLICE
+    if (e.layerType === 'knife') {
+      this.polySlice(layer);
+      // * restore state
+      let enabled = sidebarState.getEnabledEl();
+      if (enabled) {
+        sidebarState.setEnabledEl(null);
+        this.redrawSidebarTabControl();
+      }
+      const divideBtn = document.querySelector('.drawingtoolbar .divideBtn .extra-btn');
+      if (divideBtn) divideBtn.classList.add('hide');
+    }
+
     if (e.layerType !== 'knife' && e.layerType !== 'erased') {
       this.getState().addLayer(layer);
-      this.getState().setCurrEl(layer);
-      this.getSidebarTabControl().getState().pushGuideLayer(layer);
+      sidebarState.pushGuideLayer(layer);
     }
 
     if (e.layerType === 'erased') {
       const map = this.getMap().getState().getLeafletMap();
       map.removeLayer(layer);
-      let paintPoly = this.getSidebarTabControl().getState().paintPoly;
+      let paintPoly = sidebarState.paintPoly;
       paintPoly.clearPaintedPolys(e.keyIndex);
     }
 
@@ -532,7 +524,6 @@ class DrawingLayerTool extends AbstractLayerTool {
         this.normalizeElement(selected);
         this.initNodeEdit(true);
         this.redrawSidebarTabControl();
-        this.getState().setCurrEl(null);
         this.initTransform(selected, true);
         this.getState().clearSelectedLayer();
         document.querySelector('.leaflet-container').style.cursor = '';
@@ -689,7 +680,6 @@ class DrawingLayerTool extends AbstractLayerTool {
       }
     });
     state.setSelectedLayer(drawObject);
-    state.setCurrEl(drawObject);
     this.initTransform(drawObject);
     this.redrawSidebarTabControl(drawObject.layerType);
     // TODO:
@@ -724,8 +714,7 @@ class DrawingLayerTool extends AbstractLayerTool {
   initNodeEdit(disable = false) {
     const selectedLayer = this.getState().selectedLayer;
 
-    if (selectedLayer.editing) {
-      // selectedLayer.editing = new L.Edit.ExtendedPoly(selectedLayer);
+    if (selectedLayer?.editing) {
       if (selectedLayer.editing._enabled || disable) {
         selectedLayer.editing.disable();
         // let paintPoly = this.options.tool.getSidebarTabControl().getState().paintPoly;

@@ -492,7 +492,7 @@ class DrawingLayerToolState extends AbstractLayerToolState {
       }
       layer.snapediting = new L.Handler.MarkerSnap(map, layer);
       layer.snapediting.enable();
-      this.tool.tabControl.state.pushGuideLayer(result);
+      this.tool.tabControl.state.pushGuideLayer(layer);
 
       layerToAdd.layerType = layer.layerType;
       if (layerToAdd.dragging) layerToAdd.dragging.disable();
