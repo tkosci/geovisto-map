@@ -21,15 +21,32 @@ export default function useDrawingToolbar() {
       position: 'topleft',
       drawingBtns: {},
     },
+    /**
+     * runs whenever you create instance
+     *
+     * @param {Object} options
+     */
     initialize: function (options) {
       if (options) {
         L.setOptions(this, options);
       }
     },
+    /**
+     * runs whenever control is being added
+     *
+     * @param {Object} map
+     * @returns
+     */
     onAdd: function (map) {
       this.options.map = map;
       return this.createUi();
     },
+    /**
+     * creates toolbar with multiple buttons
+     *
+     * @param {Object} map
+     * @returns HTML element wrapping all the buttons
+     */
     createUi: function (map) {
       const topContainer = L.DomUtil.create('div', 'drawingtoolbar');
       const toolContainer = L.DomUtil.create('div', 'leaflet-bar leaflet-control', topContainer);
@@ -147,6 +164,9 @@ export default function useDrawingToolbar() {
 
     onRemove: function (map) {},
 
+    /**
+     * adds event listeners
+     */
     addEventListeners: function () {
       const {
         lineBtn,
@@ -167,6 +187,7 @@ export default function useDrawingToolbar() {
       const map = this.options.map;
       const sidebar = this.getSidebar();
 
+      // * on click disable transform/node edit if is active
       const btnsArr = Object.values(this.options.drawingBtns);
       btnsArr.forEach((btn) => {
         if (!btn.className.includes('transformBtn')) {
@@ -177,6 +198,7 @@ export default function useDrawingToolbar() {
         }
       });
 
+      // * toggles extra button for deactivating tool
       const toggleExtra = (e) => {
         withExtra.forEach((btn) => btn.lastChild.classList.add('hide'));
         let extraBtn = e.target.lastChild;
@@ -219,6 +241,11 @@ export default function useDrawingToolbar() {
       L.DomEvent.on(removeBtn, 'click', this.initRemove, this);
     },
 
+    /**
+     * called when user wants to select multiple geo. objects
+     *
+     * @param {Object} evt
+     */
     initJoin: function (evt) {
       const sidebar = this.getSidebar();
       const init = this.options.tool.initSelecting;
@@ -232,15 +259,31 @@ export default function useDrawingToolbar() {
       });
     },
 
+    /**
+     * enables topology creation
+     *
+     * @param {Object} map
+     * @param {Object} sidebar
+     */
     initConnect: function (map, sidebar) {
       this.redrawSidebar('marker', true);
       connectClick(map, sidebar);
     },
 
+    /**
+     * removes geo. object
+     *
+     * @param {Object} evt
+     */
     initRemove: function (evt) {
       this.options.tool.removeElement();
     },
 
+    /**
+     * enables erasing of polygons
+     *
+     * @param {Object} evt
+     */
     initErasing: function (evt) {
       let sidebar = this.getSidebar();
       let paintPoly = sidebar.getState().paintPoly;
@@ -252,6 +295,11 @@ export default function useDrawingToolbar() {
       this.redrawSidebar(null);
     },
 
+    /**
+     * enables brush tool
+     *
+     * @param {Object} e
+     */
     initPainting: function (e) {
       let sidebar = this.getSidebar();
       let paintPoly = sidebar.getState().paintPoly;
@@ -263,31 +311,67 @@ export default function useDrawingToolbar() {
       this.redrawSidebar('painted');
     },
 
+    /**
+     * enables search
+     */
     initSearch: function () {
       this.options.tool.search();
     },
 
+    /**
+     * enables creating polylines
+     *
+     * @param {Object} map
+     * @param {Object} sidebar
+     */
     initCreatePolyline: function (map, sidebar) {
       this.redrawSidebar('polyline');
       polylineCreate(map, sidebar);
     },
+    /**
+     * enables creating polygons
+     *
+     * @param {Object} map
+     * @param {Object} sidebar
+     */
     initCreatePolygon: function (map, sidebar) {
       this.redrawSidebar('polygon');
       polygonCreate(map, sidebar);
     },
+    /**
+     * enables creating markers
+     *
+     * @param {Object} map
+     * @param {Object} sidebar
+     */
     initCreateMarker: function (map, sidebar) {
       this.redrawSidebar('marker', true);
       markerCreate(map, sidebar);
     },
+    /**
+     * enables freehand slicing
+     *
+     * @param {Object} map
+     * @param {Object} sidebar
+     */
     initSlicePoly: function (map, sidebar) {
       this.redrawSidebar(null);
       slicePoly(map, sidebar);
     },
+    /**
+     * enables angular slicing
+     *
+     * @param {Object} map
+     * @param {Object} sidebar
+     */
     initDividePoly: function (map, sidebar) {
       this.redrawSidebar(null);
       dividePoly(map, sidebar);
     },
 
+    /**
+     * deselects geo.object
+     */
     deselect: function () {
       const selected = this.getSelectedEl();
 
@@ -303,6 +387,11 @@ export default function useDrawingToolbar() {
       }
     },
 
+    /**
+     * disables enabled tool (markers, polylines, polygons, brush tool, eraser)
+     *
+     * @param {Object} e
+     */
     _disableDrawing: function (e) {
       e.stopPropagation();
       e?.target?.classList?.toggle('hide');
@@ -314,6 +403,9 @@ export default function useDrawingToolbar() {
       }
     },
 
+    /**
+     * disables transform of selected geo. object
+     */
     _disableTransform: function () {
       const layer = this.getSelectedEl();
 
@@ -325,22 +417,39 @@ export default function useDrawingToolbar() {
       }
     },
 
+    /**
+     * enables/disables node edit, depending on if it's active or not
+     */
     initNodeEdit: function () {
-      console.log('edit');
       this.options.tool.initNodeEdit();
     },
 
+    /**
+     * disables node edit
+     */
     _disableNodeEdit: function () {
-      console.log('disabled');
       this.options.tool.initNodeEdit(true);
     },
 
+    /**
+     * enables/disables tranform, depending on if it's active or not
+     */
     initTransform: function () {
       const selected = this.getSelectedEl();
 
       this.options.tool.initTransform(selected);
     },
 
+    /**
+     * creates toolbar button
+     *
+     * @param {String} className
+     * @param {Object} btnContainer
+     * @param {String} title
+     * @param {String} icon
+     * @param {Boolean} extra
+     * @returns button to put into toolbar
+     */
     createToolbarBtn: function (className, btnContainer, title, icon, extra = false) {
       const returnBtn = L.DomUtil.create('a', `${className} d-side-button`, btnContainer);
       returnBtn.title = title;
@@ -354,14 +463,28 @@ export default function useDrawingToolbar() {
       return returnBtn;
     },
 
+    /**
+     *
+     * @returns currently selected geo. object
+     */
     getSelectedEl: function () {
       return this.options.tool.getState().selectedLayer;
     },
 
+    /**
+     * redraws sidebar depending on val argument
+     *
+     * @param {string} val
+     * @param {Boolean} enabled
+     */
     redrawSidebar: function (val, enabled = false) {
       this.options.tool.redrawSidebarTabControl(val, enabled);
     },
 
+    /**
+     *
+     * @returns sidebar object
+     */
     getSidebar: function () {
       return this.options.tool.getSidebarTabControl();
     },

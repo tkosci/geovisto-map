@@ -34,8 +34,6 @@ import * as polyClipping from 'polygon-clipping';
 import 'leaflet-snap';
 import 'leaflet-geometryutil';
 import 'leaflet-draw';
-import 'proj4leaflet';
-import proj4 from 'proj4';
 
 import * as d33 from 'd3-3-5-5';
 import Pather from 'leaflet-pather';
@@ -52,8 +50,6 @@ L.Draw.Feature.include(L.Draw.Feature.SnapMixin);
 L.Draw.Feature.addInitHook(L.Draw.Feature.SnapMixin._snap_initialize);
 
 export const DRAWING_TOOL_LAYER_TYPE = 'geovisto-tool-layer-drawing';
-
-// proj4.defs('urn:ogc:def:crs:EPSG::3857', '+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs ');
 
 /**
  * This class represents Drawing layer tool.
@@ -121,10 +117,18 @@ class DrawingLayerTool extends AbstractLayerTool {
     return new DrawingLayerToolTabControl({ tool: this });
   }
 
+  /**
+   * @brief redraws sidebar with search fields
+   */
   search() {
     this.redrawSidebarTabControl('search');
   }
 
+  /**
+   * @brief aplies event listeners for each geo. object
+   *
+   * @param {Layer} layer
+   */
   applyEventListeners(layer) {
     layer.on('click', L.DomEvent.stopPropagation).on('click', this.initChangeStyle, this);
     layer.on('mouseover', this.hightlightOnHover, this);
@@ -132,6 +136,13 @@ class DrawingLayerTool extends AbstractLayerTool {
     if (layer.layerType === 'marker') this.applyTopologyMarkerListeners(layer);
   }
 
+  /**
+   * @brief takes currently created polygon and loops through each polygon
+   *        and executes operation 'difference'
+   *
+   * @param {Layer} layer
+   * @param {Boolean} intersect
+   */
   polyDiff(layer, intersect = false) {
     let selectedLayer = this.getState().selectedLayer;
     let paintPoly = this.getSidebarTabControl().getState().paintPoly;
@@ -211,6 +222,7 @@ class DrawingLayerTool extends AbstractLayerTool {
     };
 
     if (isCurrentLayerPoly) {
+      // * if intersect is active execute difference with only selected polygon
       if (intersect && !createdIsEraser) {
         diffLayers(selectedLayer, true);
       } else {
@@ -223,6 +235,17 @@ class DrawingLayerTool extends AbstractLayerTool {
     }
   }
 
+  /**
+   * @brief - takes selected object and currently created object
+   *        and executes passed operation
+   *        - used for union and intersection
+   *
+   * @param {Layer} layer
+   * @param {Number | undefined} eKeyIndex
+   * @param {Function} operation
+   * @param {Boolean} selectNew
+   * @returns {Layer} geo. object
+   */
   operateOnSelectedAndCurrectLayer = (layer, eKeyIndex, operation, selectNew = false) => {
     let paintPoly = this.getSidebarTabControl().getState().paintPoly;
 
@@ -239,6 +262,7 @@ class DrawingLayerTool extends AbstractLayerTool {
     let selectedFeatures = getFeatFromLayer(selectedLayer);
     if (!selectedFeatures) return layer;
 
+    // * selected feature may be multiple polygons so we sum them
     selectedFeatures.forEach((selectedFeature) => {
       let isSelectedFeaturePoly = isFeaturePoly(selectedFeature);
 
@@ -256,18 +280,37 @@ class DrawingLayerTool extends AbstractLayerTool {
     return layer;
   };
 
+  /**
+   * @brief intersect selected object with the one being currently created
+   *
+   * @param {Layer} layer
+   * @param {Number | undefined} eKeyIndex
+   * @returns
+   */
   polyIntersect(layer, eKeyIndex) {
     const updatedLayer = this.operateOnSelectedAndCurrectLayer(layer, eKeyIndex, turf.intersect);
 
     return updatedLayer;
   }
 
+  /**
+   * @brief unifies selected object with the one being currently created
+   *
+   * @param {Layer} layer
+   * @param {Number | undefined} eKeyIndex
+   * @returns
+   */
   polyJoin(layer, eKeyIndex) {
     const updatedLayer = this.operateOnSelectedAndCurrectLayer(layer, eKeyIndex, union, true);
     return updatedLayer;
   }
 
-  // inspired by https://gis.stackexchange.com/questions/344068/splitting-a-polygon-by-multiple-linestrings-leaflet-and-turf-js
+  /**
+   * @brief - inspired by https://gis.stackexchange.com/questions/344068/splitting-a-polygon-by-multiple-linestrings-leaflet-and-turf-js
+   *        - slices selected object with currently created one
+   *
+   * @param {Layer} layer
+   */
   polySlice(layer) {
     let lineFeat = getGeoJSONFeatureFromLayer(layer);
     let selectedLayer = this.getState().selectedLayer;
@@ -323,6 +366,13 @@ class DrawingLayerTool extends AbstractLayerTool {
     }
   }
 
+  /**
+   * @brief loops through each of the vertices and checks if
+   *        vertice with certain coordinates is already created
+   *
+   * @param {Layer} current
+   * @returns {Boolean}
+   */
   haveSameVertice(current) {
     const found = this.state.createdVertices.find((vertice) => {
       return (
@@ -336,6 +386,11 @@ class DrawingLayerTool extends AbstractLayerTool {
     return Boolean(found);
   }
 
+  /**
+   * @brief plots topology
+   *
+   * @param {Array<Layer>} chosen
+   */
   plotTopology(chosen = null) {
     const selectedLayer = this.getState().selectedLayer;
 
@@ -345,16 +400,19 @@ class DrawingLayerTool extends AbstractLayerTool {
     const _markers = chosen || allConnected;
     // console.log({ _markers });
     const index = 0;
+    // * chronologically the last created
     const firstMarker = _markers[index];
 
     const selectedLayerIsConnectMarker = this.getState().selectedLayerIsConnectMarker();
 
+    // * choose selected object or the second to last created
     const secondMarker =
       selectedLayerIsConnectMarker && !chosen ? selectedLayer : _markers[index + 1];
     if (secondMarker) {
       const { lat: fLat, lng: fLng } = firstMarker.getLatLng();
       const { lat: sLat, lng: sLng } = secondMarker.getLatLng();
 
+      // * create vertice
       let _latlng = [L.latLng(fLat, fLng), L.latLng(sLat, sLng)];
       let poly = new L.polyline(_latlng, {
         color: '#563412',
@@ -371,8 +429,13 @@ class DrawingLayerTool extends AbstractLayerTool {
     this.mapMarkersToVertices(_markers);
   }
 
+  /**
+   * @brief maps through each of the markes and if its coordinates fit vertice's coordinates
+   *        then vertice is mapped onto marker id
+   *
+   * @param {Array<Layer>} _markers
+   */
   mapMarkersToVertices(_markers) {
-    console.log({ _markers, mapped: this.state.mappedMarkersToVertices });
     _markers
       .map((marker) => ({ latlng: marker.getLatLng(), lId: marker._leaflet_id, marker }))
       .forEach(({ latlng, lId, marker }) => {
@@ -380,6 +443,8 @@ class DrawingLayerTool extends AbstractLayerTool {
           // * used indexing instead of another loop (vertices have only 2 points)
 
           let spread = this.state.mappedMarkersToVertices[lId] || {};
+          // * depending on if first or second latlng of vertice matches with marker's latlng
+          // * we save this information so we know which side we should move on drag
           if (vertice.getLatLngs()[0].equals(latlng)) {
             this.getState().setVerticesToMarker(lId, { ...spread, [`${index}-0`]: vertice });
           } else if (vertice.getLatLngs()[1].equals(latlng)) {
@@ -389,14 +454,26 @@ class DrawingLayerTool extends AbstractLayerTool {
       });
   }
 
-  changeVerticesLocation(latlng, oldlatlng, markerID) {
-    console.log({ m: this.state.mappedMarkersToVertices });
+  /**
+   * @brief called on drag to change vertice's point location
+   *
+   * @param {Object} latlng
+   * @param {String} markerID
+   * @returns
+   */
+  changeVerticesLocation(latlng, markerID) {
     const markerVertices = this.state.mappedMarkersToVertices[markerID];
     if (!markerVertices) return;
 
     this.setVerticesCoordinates(markerVertices, latlng);
   }
 
+  /**
+   * @brief takes in mapped vertices and markes and depending on index from key, new latlng is set to vertice
+   *
+   * @param {Object} markerVertices
+   * @param {Object} latlng
+   */
   setVerticesCoordinates(markerVertices, latlng) {
     Object.keys(markerVertices).forEach((key) => {
       let vertice = markerVertices[key];
@@ -409,6 +486,11 @@ class DrawingLayerTool extends AbstractLayerTool {
     });
   }
 
+  /**
+   * @brief called whenever new geo. object is created
+   *
+   * @param {Object} e
+   */
   createdListener = (e) => {
     let layer = e.layer;
     layer.layerType = e.layerType;
@@ -461,6 +543,11 @@ class DrawingLayerTool extends AbstractLayerTool {
     }
   };
 
+  /**
+   * @brief event listener so vetice is dragged with marker
+   *
+   * @param {Layers} layer
+   */
   applyTopologyMarkerListeners(layer) {
     layer.on('drag', (event) => {
       const { latlng, oldLatLng, target } = event;
@@ -471,6 +558,11 @@ class DrawingLayerTool extends AbstractLayerTool {
     });
   }
 
+  /**
+   * @brief slices selected polygon with pather's freehand line
+   *
+   * @param {Object} e
+   */
   createdPath = (e) => {
     // * get polyline object
     const layer = e.polyline.polyline;
@@ -561,6 +653,9 @@ class DrawingLayerTool extends AbstractLayerTool {
     return [featureGroup];
   }
 
+  /**
+   * @brief sets global tolerance for brush stroke
+   */
   setGlobalSimplificationTolerance() {
     const map = window.map;
     const metersPerPixel =
@@ -572,6 +667,11 @@ class DrawingLayerTool extends AbstractLayerTool {
     window.customTolerance = zoom >= 4 ? 0.0001 * metersPerPixel : 1.5;
   }
 
+  /**
+   * @brief highlights element
+   *
+   * @param {Object} el
+   */
   highlightElement(el) {
     if (el?._icon) {
       L.DomUtil.addClass(el._icon, 'highlight-marker');
@@ -580,11 +680,22 @@ class DrawingLayerTool extends AbstractLayerTool {
     }
   }
 
+  /**
+   * @brief highlights element on mouse hover
+   *
+   * @param {Object} e
+   * @returns
+   */
   hightlightOnHover(e) {
     if (!this.getState().getSelecting()) return;
     this.highlightElement(e.target);
   }
 
+  /**
+   * @brief sets normal styles for element
+   *
+   * @param {Object} el
+   */
   normalizeElement(el) {
     if (el?._icon) {
       L.DomUtil.removeClass(el._icon, 'highlight-marker');
@@ -593,6 +704,11 @@ class DrawingLayerTool extends AbstractLayerTool {
     }
   }
 
+  /**
+   * @brief sets normal styles for element on mouse hover
+   *
+   * @param {Object} el
+   */
   normalizeOnHover(e) {
     if (!this.getState().getSelecting()) return;
     const { chosenLayers } = this.getState();
@@ -601,6 +717,12 @@ class DrawingLayerTool extends AbstractLayerTool {
     this.normalizeElement(e.target);
   }
 
+  /**
+   * @brief unifies all the features in array
+   *
+   * @param {Array<Layer>} features
+   * @returns
+   */
   getSummedFeature = (features) => {
     if (!features || !Array.isArray(features)) return null;
 
@@ -617,12 +739,20 @@ class DrawingLayerTool extends AbstractLayerTool {
     return summedFeature;
   };
 
+  /**
+   * @brief joins two selected objects, either two polygons or two markers
+   *
+   * @param {Layer} drawObject
+   * @returns
+   */
   joinChosen = (drawObject) => {
     const layerState = this.getState();
     const unfit = !layerState.canPushToChosen(drawObject);
     if (unfit) return;
     layerState.pushChosenLayer(drawObject);
+    // * if true that means user selected second geo. object of the same correct type
     if (layerState.chosenLayersMaxed()) {
+      // * if all polys unify them
       if (layerState.chosenLayersArePolys()) {
         const { chosenLayers } = layerState;
         const chosenFeatures = chosenLayers
@@ -641,6 +771,7 @@ class DrawingLayerTool extends AbstractLayerTool {
 
         this.redrawSidebarTabControl(drawObject.layerType);
       }
+      // *  if all markers plot topology
       if (layerState.chosenLayersAreMarkers()) {
         const { chosenLayers } = layerState;
 
@@ -654,6 +785,12 @@ class DrawingLayerTool extends AbstractLayerTool {
     }
   };
 
+  /**
+   * @brief called on object click to change its style accordingly
+   *
+   * @param {Object} e
+   * @returns
+   */
   initChangeStyle = (e) => {
     const drawObject = e.target;
     const state = this.getState();
@@ -682,7 +819,7 @@ class DrawingLayerTool extends AbstractLayerTool {
     state.setSelectedLayer(drawObject);
     this.initTransform(drawObject);
     this.redrawSidebarTabControl(drawObject.layerType);
-    // TODO:
+
     this.tabControl.state.callIdentifierChange(true);
 
     document.querySelector('.leaflet-container').style.cursor = '';
@@ -690,6 +827,12 @@ class DrawingLayerTool extends AbstractLayerTool {
     // state.clearExtraSelected();
   };
 
+  /**
+   * @brief makes geo. object able to tranform  (move, scale, rotate)
+   *
+   * @param {Layer} drawObject
+   * @param {Boolean} disable
+   */
   initTransform(drawObject, disable = false) {
     const layer = drawObject;
     if (layer?.transform) {
@@ -711,6 +854,11 @@ class DrawingLayerTool extends AbstractLayerTool {
     }
   }
 
+  /**
+   * @brief makes edit nodes appear on object
+   *
+   * @param {Boolean} disable
+   */
   initNodeEdit(disable = false) {
     const selectedLayer = this.getState().selectedLayer;
 
@@ -725,8 +873,12 @@ class DrawingLayerTool extends AbstractLayerTool {
     }
   }
 
+  /**
+   * @brief removes a geo. object if selected
+   */
   removeElement() {
     const selectedLayer = this.getState().selectedLayer;
+    // * if marker is being removed, remove its vertices if any
     if (this.getState().selectedLayerIsConnectMarker()) {
       this.getState().removeMarkersMappedVertices(selectedLayer._leaflet_id);
     }
@@ -739,35 +891,14 @@ class DrawingLayerTool extends AbstractLayerTool {
     this.redrawSidebarTabControl(null);
   }
 
+  /**
+   * @brief called when user wants to join multiple geo. objects
+   */
   initSelecting = () => {
     const selecting = this.getState().getSelecting();
     this.getState().setSelecting(!selecting);
     if (!selecting) document.querySelector('.leaflet-container').style.cursor = 'crosshair';
     else document.querySelector('.leaflet-container').style.cursor = '';
-  };
-
-  divideEqual = () => {
-    const { selectedLayer } = this.getState();
-    if (!selectedLayer) return;
-    if (!isLayerPoly(selectedLayer)) return;
-
-    const polygonFeat = selectedLayer.toGeoJSON();
-    const polygonBbox = turf.bbox(polygonFeat);
-    const area = turf.area(polygonFeat);
-    const options = { units: 'meters' };
-    var from = turf.point([polygonBbox[0], polygonBbox[1]]);
-    var to = turf.point([polygonBbox[2], polygonBbox[3]]);
-
-    var distance = turf.distance(from, to, options);
-    console.log({ distance });
-    const cellSide = 50;
-
-    const squareGrid = turf.squareGrid(polygonBbox, cellSide, options);
-    // squareGrid.features.forEach((feat) => {
-    //   let latlngs = L.GeoJSON.coordsToLatLngs(feat.geometry.coordinates, 1);
-    //   let newPoly = new L.polygon(latlngs);
-    //   this.getState().addLayer(newPoly);
-    // });
   };
 
   /**

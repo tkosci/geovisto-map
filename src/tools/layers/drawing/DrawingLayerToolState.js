@@ -41,11 +41,16 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     this.createdVertices = [];
     this.mappedMarkersToVertices = {};
 
+    // * selected for join
     this.chosenLayers = [];
 
+    // * selected for customization
     this.extraSelected = [];
   }
 
+  /**
+   * clears extraSelected array and sets normal styles to each geo. object
+   */
   clearExtraSelected = () => {
     this.extraSelected.forEach((selected) => {
       this.tool.normalizeElement(selected);
@@ -54,6 +59,7 @@ class DrawingLayerToolState extends AbstractLayerToolState {
   };
 
   /**
+   * checks if layer is in extraSelected objects
    *
    * @param {String} layerId
    * @returns {Number} -1 and greater
@@ -63,6 +69,12 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     return found;
   };
 
+  /**
+   * checks if selected and passed object are of the same type
+   *
+   * @param {Layer} layer
+   * @returns {Boolean}
+   */
   areSameType = (layer) => {
     if (isLayerPoly(this.selectedLayer)) {
       return isLayerPoly(layer);
@@ -71,6 +83,12 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     return this.selectedLayer.layerType === layer.layerType;
   };
 
+  /**
+   * add passed layer to array and highlights it
+   *
+   * @param {Layer} layer
+   * @returns
+   */
   addExtraSelected = (layer) => {
     // * have only one type of object in array
     if (!this.areSameType(layer)) return;
@@ -85,10 +103,19 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     }
   };
 
+  /**
+   * checks if maximum size of an array is reached
+   */
   chosenLayersMaxed = () => {
     return this.chosenLayers.length === MAX_CHOSEN;
   };
 
+  /**
+   * pushes passed object into array, if length exceeds maximum array is shifted
+   * so the lenght is constant
+   *
+   * @param {Layer} layer
+   */
   pushChosenLayer = (layer) => {
     if (this.chosenLayers.length >= MAX_CHOSEN) {
       this.chosenLayers.shift();
@@ -97,16 +124,27 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     this.chosenLayers.push(layer);
   };
 
+  /**
+   * deselects all selected ones
+   */
   deselectChosenLayers = () => {
     this.chosenLayers.forEach((chosen) => this.tool.normalizeElement(chosen));
     this.chosenLayers = [];
   };
 
+  /**
+   * removes all selected ones
+   */
   clearChosenLayers = () => {
     this.chosenLayers.forEach((chosen) => this.removeLayer(chosen));
     this.chosenLayers = [];
   };
 
+  /**
+   * layers are joined which means remove previous ones and append joined
+   *
+   * @param {Layer} joined
+   */
   pushJoinedToChosenLayers = (joined) => {
     this.clearChosenLayers();
     this.tool.highlightElement(joined);
@@ -114,14 +152,31 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     this.addLayer(joined);
   };
 
+  /**
+   * checks if markers is connect marker
+   *
+   * @param {Layer} marker
+   * @returns {Boolean}
+   */
   isConnectMarker = (marker) => {
     return marker?.layerType === 'marker' && marker?.options?.icon?.options?.connectClick;
   };
 
+  /**
+   * checks if selected layer is connect marker
+   *
+   * @returns {boolean}
+   */
   selectedLayerIsConnectMarker = () => {
     return this.isConnectMarker(this.selectedLayer);
   };
 
+  /**
+   * checks if geo. object may be push to an array and be joined later on
+   *
+   * @param {Layer} layer
+   * @returns {Boolean}
+   */
   canPushToChosen = (layer) => {
     const acceptableType = this.isConnectMarker(layer) || isLayerPoly(layer);
     if (isEmpty(this.chosenLayers)) {
@@ -140,15 +195,30 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     return isLayerPoly(firstChosen);
   };
 
+  /**
+   * checks if layers, to be joined, are markers
+   *
+   * @returns boolean
+   */
   chosenLayersAreMarkers = () => {
     let firstChosen = this.chosenLayers[FIRST];
     return this.isConnectMarker(firstChosen);
   };
 
+  /**
+   * Pushes vertice into created ones
+   *
+   * @param {Layer} vertice
+   */
   pushVertice = (vertice) => {
     this.createdVertices.push(vertice);
   };
 
+  /**
+   * removes vertice based on given leaflet id
+   *
+   * @param {String} lId
+   */
   removeGivenVertice = (lId) => {
     const idsOfVerticesToRemove = new Set([lId]);
 
@@ -163,6 +233,7 @@ class DrawingLayerToolState extends AbstractLayerToolState {
   };
 
   /**
+   * removes vertice which ids were passed
    *
    * @param {Set} idsOfVerticesToRemove
    * @returns {Object} mappedMarkersToVertices
@@ -170,9 +241,8 @@ class DrawingLayerToolState extends AbstractLayerToolState {
   removeMappedVertices = (idsOfVerticesToRemove) => {
     // * copy object
     const newMapped = { ...this.mappedMarkersToVertices };
-    console.log({ newMapped });
 
-    // *  go through each marker object containing { [index]: vertice } pairs
+    // *  go through each marker object, containing { [index]: vertice } pairs
     Object.values(newMapped).forEach((vertObj) => {
       // * now go through each index
       Object.keys(vertObj).forEach((key) => {
@@ -187,13 +257,18 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     return newMapped;
   };
 
+  /**
+   * takes in leaflet id and removes vertices mapped to marker
+   *
+   * @param {String} lId
+   */
   removeMarkersMappedVertices = (lId) => {
     const markerVertices = this.mappedMarkersToVertices[lId];
-    console.log({ markerVertices });
+
     const idsOfVerticesToRemove = new Set();
     // * save vertices' ids
     Object.values(markerVertices)?.forEach((v) => idsOfVerticesToRemove.add(v._leaflet_id));
-    console.log({ idsOfVerticesToRemove });
+
     // * remove vertices
     const newMapped = this.removeMappedVertices(idsOfVerticesToRemove);
 
@@ -203,62 +278,83 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     this.mappedMarkersToVertices = newMapped;
   };
 
-  setActiveIndex(idx) {
-    this.activeIndex = idx;
-  }
-
-  increaseActiveIndex() {
-    this.activeIndex += 1;
-  }
-
-  getActiveIndex() {
-    return this.activeIndex;
-  }
-
-  getPrevLayer() {
-    let layersObj = this.featureGroup._layers;
-    let layersArr = [...Object.values(layersObj)];
-    return layersArr.pop();
-  }
-
-  setCurrEl(val) {
-    this.currEl = val;
-  }
-
+  /**
+   * setter
+   *
+   * @param {Boolean} is
+   */
   setSelecting(is) {
     this.selecting = is;
   }
 
+  /**
+   * getter
+   *
+   * @returns {Boolean}
+   */
   getSelecting() {
     return this.selecting;
   }
 
+  /**
+   * add layer to featureGroup and it is displayed
+   *
+   * @param {Layer} layer
+   * @returns
+   */
   addLayer(layer) {
     this.featureGroup.addLayer(layer);
     this.tool.applyEventListeners(layer);
     return layer;
   }
 
+  /**
+   * removes layer from featureGroup and from map
+   *
+   * @param {Layer} layer
+   */
   removeLayer(layer) {
     this.featureGroup.removeLayer(layer);
   }
 
+  /**
+   * removes selected layer
+   *
+   * @param {Layer} layer
+   */
   removeSelectedLayer(layer) {
     this.featureGroup.removeLayer(layer || this.selectedLayer);
     this.selectedLayer = null;
   }
 
+  /**
+   * gets layer with kIdx that equals passed one
+   *
+   * @param {Number} idx
+   * @returns {Layer}
+   */
   getLayerByIdx(idx) {
     const found = Object.values(this.featureGroup._layers).find((l) => l.kIdx === idx);
     return found;
   }
 
+  /**
+   * removes layer with same kIdx as passed one
+   *
+   * @param {Number} idx
+   * @returns
+   */
   removeLayerByIdx(idx) {
     if (idx === undefined) return;
     const found = Object.values(this.featureGroup._layers).find((l) => l.kIdx === idx);
     if (found) this.removeLayer(found);
   }
 
+  /**
+   * sets selected layer and highlights it
+   *
+   * @param {Layer} layer
+   */
   setSelectedLayer(layer) {
     this.tool.normalizeElement(this.selectedLayer);
     this.selectedLayer = layer;
@@ -266,14 +362,29 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     this.clearExtraSelected();
   }
 
+  /**
+   * removes selected layer
+   */
   clearSelectedLayer() {
     this.selectedLayer = null;
   }
 
+  /**
+   * sets vertices to marker
+   *
+   * @param {String} lId
+   * @param {Object} val
+   */
   setVerticesToMarker(lId, val) {
     this.mappedMarkersToVertices[lId] = val;
   }
 
+  /**
+   * saving topology information to marker
+   *
+   * @param {Layer} layer
+   * @param {Layer} result
+   */
   addMappedVertices = (layer, result) => {
     let lId = layer._leaflet_id;
     let mappedVertices = this.mappedMarkersToVertices[lId];
@@ -284,6 +395,13 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     if (!isEmpty(mappedProperty)) result.mappedVertices = mappedProperty;
   };
 
+  /**
+   * called so when we import topology dragging of vertices works
+   *
+   * @param {*} lType
+   * @param {*} result
+   * @param {*} source
+   */
   initMappedMarkersToVertices = (lType, result, source) => {
     if (lType === 'marker' && source.mappedVertices) {
       this.mappedMarkersToVertices[result._leaflet_id] = source.mappedVertices;
@@ -309,6 +427,11 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     }
   };
 
+  /**
+   * serializes map state to GeoJSON
+   *
+   * @returns {Object}
+   */
   serializeToGeoJSON() {
     const geo = {
       type: 'FeatureCollection',
@@ -338,6 +461,12 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     return geo;
   }
 
+  /**
+   * deserializes GeoJSON to map state
+   *
+   * @param {Object} geojson
+   * @returns
+   */
   deserializeGeoJSON(geojson) {
     const sidebarState = this.tool.getSidebarTabControl().getState();
     // console.log({ geojson });
@@ -392,6 +521,12 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     return;
   }
 
+  /**
+   * serializes map state to internal JSON representation
+   *
+   * @param {Object} defaults
+   * @returns
+   */
   serialize(defaults) {
     let config = super.serialize(defaults);
 
@@ -443,6 +578,11 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     return config;
   }
 
+  /**
+   * deserializes internal JSON representation to map state
+   *
+   * @param {Object} config
+   */
   deserialize(config) {
     super.deserialize(config);
 
