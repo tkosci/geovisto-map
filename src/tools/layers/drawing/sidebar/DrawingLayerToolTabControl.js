@@ -41,6 +41,17 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return new DrawingLayerToolTabControlState(this);
   }
 
+  /**
+   * creates a grid of options, when a tile is clicked passed function runs
+   * was made for colors and icons, if img is true it expects icon urls as options
+   *
+   * @param {String} label
+   * @param {Array<String>} opts
+   * @param {Number} activeIdx
+   * @param {Function} changeAction
+   * @param {Boolean} img
+   * @returns {Object} HTML element
+   */
   createPalette(label, opts, activeIdx, changeAction, img = false) {
     const inputPalette = document.createElement('div');
     if (label) inputPalette.appendChild(document.createTextNode(label + ': '));
@@ -68,6 +79,11 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return inputPalette;
   }
 
+  /**
+   * creates color picker field
+   *
+   * @returns {Object} HTML element
+   */
   createColorPicker() {
     const inputWrapper = document.createElement('div');
     inputWrapper.appendChild(document.createTextNode('Pick color: '));
@@ -79,6 +95,11 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return inputWrapper;
   }
 
+  /**
+   * creates a color grid
+   *
+   * @returns {Object} HTML element
+   */
   createColorPalette() {
     const colors = this.getState().colors;
     const activeColor = this.getState().getSelectedColor();
@@ -92,6 +113,11 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return res;
   }
 
+  /**
+   * creates a icon grid
+   *
+   * @returns {Object} HTML element
+   */
   createIconPalette() {
     const iconsSet = this.getState().iconSrcs;
     const iconUrl = this._getSelected()?.options?.icon?.options?.iconUrl;
@@ -138,6 +164,12 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     this.inputId.setValue(dataMapping[model.identifier.name]);
   }
 
+  /**
+   * removes all elements of a sidebar and calls function to create new content of the sidebar
+   *
+   * @param {String} layerType
+   * @param {Boolean} enabled
+   */
   redrawTabContent(layerType, enabled = false) {
     console.log('redrawing sidebar...');
     // get rendered sidebar tab
@@ -153,10 +185,20 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     tabContent.appendChild(this.getTabContent(layerType, enabled));
   }
 
+  /**
+   * gets selected object
+   *
+   * @returns {Layer}
+   */
   _getSelected() {
     return this.getTool().getState().selectedLayer;
   }
 
+  /**
+   * creates a field for brush size input
+   *
+   * @returns {Object} HTML element
+   */
   createBrushSizeControl = () => {
     let paintPoly = this.getState().paintPoly;
 
@@ -182,6 +224,11 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return controlWrapper;
   };
 
+  /**
+   * creates a field for identier input
+   *
+   * @returns {Object} HTML element
+   */
   createIdentifierInput = (model) => {
     const data = this.getTool()?.getState()?.map?.state?.data;
 
@@ -201,6 +248,11 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return result;
   };
 
+  /**
+   * creates a field for picking column name where to choose identifier from
+   *
+   * @returns {Object} HTML element
+   */
   createPickIdentifier = (model) => {
     const data = this.getTool()?.getState()?.map?.state?.data;
 
@@ -216,16 +268,31 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return result;
   };
 
+  /**
+   * for linebreak in poup text we use '<br>' tag
+   *
+   * @returns {String}
+   */
   convertDescToPopText = (descText) => {
     if (!descText) return '';
     return descText.replaceAll('\n', '<br />');
   };
 
+  /**
+   * for linebreak in field we use '\n' character
+   *
+   * @returns {String}
+   */
   convertDescfromPopText = (popText) => {
     if (!popText) return '';
     return popText.replaceAll('<br />', '\n');
   };
 
+  /**
+   * checkbox to be able to create topology with place search
+   *
+   * @returns {Object} HTML element
+   */
   createConnectCheck = () => {
     const onChange = (val) => this.getState().setConnectActivated(val);
     const { connectActivated } = this.getState();
@@ -240,6 +307,11 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return result;
   };
 
+  /**
+   * checkbox to set if we can create within selected object
+   *
+   * @returns {Object} HTML element
+   */
   createIntersectionCheck = () => {
     const onChange = (val) => this.getState().setIntersectActivated(val);
     const { intersectActivated } = this.getState();
@@ -253,6 +325,11 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return result;
   };
 
+  /**
+   * checkbox to set if result of area search will be HQ
+   *
+   * @returns {Object} HTML element
+   */
   createHighQualityCheck = () => {
     const onChange = (val) => this.getState().setHighQuality(val);
     const { highQuality } = this.getState();
@@ -266,6 +343,11 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return result;
   };
 
+  /**
+   * checkbox to set if marker is connect marker
+   *
+   * @returns {Object} HTML element
+   */
   createChangeConnectCheck = () => {
     const toolState = this.getTool().getState();
     const onChange = (connectClick) => {
@@ -286,6 +368,11 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return result;
   };
 
+  /**
+   * slider to change tolerance of brush stroke a.k.a how smooth it will be
+   *
+   * @returns {Object} HTML element
+   */
   createCustomToleranceCheck = () => {
     const { paintPoly } = this.getState();
     const toleranceChange = (val) => {
@@ -293,6 +380,7 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
       paintPoly.clearAllAccumulated();
     };
 
+    // * tolerance changes with zoom
     window.map.on('zoomend', () => {
       let firstChild = this.customToleranceInput.firstChild;
       if (firstChild) {
@@ -338,6 +426,12 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return result;
   };
 
+  /**
+   * slider for anchor change
+   *
+   * @param {'x' | 'y'} coordinate
+   * @returns {Object} HTML element
+   */
   createIconAnchorSlider = (coordinate) => {
     const selectedEl = this._getSelected();
 
@@ -357,15 +451,37 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     return customAnchor;
   };
 
+  /**
+   * X coordinate slider
+   *
+   * @returns {Object} HTML element
+   */
   createXAnchorSlider = () => this.createIconAnchorSlider('x');
+  /**
+   * Y coordinate slider
+   *
+   * @returns {Object} HTML element
+   */
   createYAnchorSlider = () => this.createIconAnchorSlider('y');
 
+  /**
+   * creates heading element
+   *
+   * @param {String} title
+   * @param {Object} elem HTML element wrapper
+   */
   addHeading = (title, elem) => {
     let headingTag = document.createElement('h3');
     headingTag.innerText = title;
     elem.appendChild(headingTag);
   };
 
+  /**
+   * creates all of the search inputs
+   *
+   * @param {Object} elem HTML element wrapper
+   * @param {Object} model
+   */
   renderSearchInputs = (elem, model) => {
     this.addHeading('Search for place', elem);
     // * labeled text Search
@@ -415,6 +531,12 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     elem.appendChild(this.searchForAreasBtn);
   };
 
+  /**
+   * creates the data mapping fields
+   *
+   * @param {Object} elem
+   * @param {Object} model
+   */
   renderDataInputs = (elem, model) => {
     let disableTextFields = !Boolean(this._getSelected());
     // Select Pick Identifier
@@ -435,6 +557,12 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     this.inputDesc.setDisabled(disableTextFields);
   };
 
+  /**
+   * creates the filter fields
+   *
+   * @param {Object} elem
+   * @param {Object} model
+   */
   renderDataFilters = (elem, model) => {
     const data = this.getTool()?.getState()?.map?.state?.data;
 
@@ -480,6 +608,12 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     }
   };
 
+  /**
+   * creates the buttons for adding/removing buttons
+   *
+   * @param {Object} elem
+   * @param {Object} model
+   */
   renderFilterInputs = (elem, model) => {
     let disabled = !Boolean(this._getSelected());
 
@@ -510,6 +644,12 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     elem.appendChild(wrapper);
   };
 
+  /**
+   * creates the fields associated with polygons/polylines
+   *
+   * @param {Object} elem
+   * @param {Object} model
+   */
   renderPolyInputs = (elem, model) => {
     // select stroke thickness
     const thicknessOpts = this.getState().strokes;
@@ -526,6 +666,12 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     elem.appendChild(this.inputColor);
   };
 
+  /**
+   * creates the fields associated with marker
+   *
+   * @param {Object} elem
+   * @param {Object} model
+   */
   renderIconInputs = (elem, model) => {
     // palette Icons
     this.inputIcon = this.createIconPalette();

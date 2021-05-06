@@ -10,7 +10,6 @@ import * as turf from '@turf/turf';
 import {
   convertOptionsToProperties,
   getGeoJSONFeatureFromLayer,
-  getSimplifiedPoly,
   highlightStyles,
   normalStyles,
   simplifyFeature,
@@ -45,18 +44,38 @@ class PaintPoly {
     this._active = false;
   }
 
+  /**
+   * getter
+   *
+   * @returns {Boolean}
+   */
   getMouseDown = () => {
     return this._mouseDown;
   };
 
+  /**
+   * getter
+   *
+   * @returns {Number}
+   */
   getBrushSize = () => {
     return this._circleRadius;
   };
 
+  /**
+   * getter
+   *
+   * @returns {{ maxBrushSize: Number, minBrushSize: Number}}
+   */
   getBrushSizeConstraints = () => {
     return { maxBrushSize: this._maxCircleRadius, minBrushSize: this._minCircleRadius };
   };
 
+  /**
+   * resizes brush size (changes circle radius)
+   *
+   * @param {Number} val
+   */
   resizeBrush = (val) => {
     if (val && val <= this._maxCircleRadius && val >= this._minCircleRadius) {
       this._circleRadius = val;
@@ -64,6 +83,9 @@ class PaintPoly {
     }
   };
 
+  /**
+   * stops brush tool, and removes circle object from mouse cursor
+   */
   stop = () => {
     this._action = null;
     if (this._circle) {
@@ -72,6 +94,9 @@ class PaintPoly {
     this._removeMouseListener();
   };
 
+  /**
+   * creates circle around mouse cursor and applies event listeners
+   */
   startPaint = () => {
     this.stop();
     this._action = 'draw';
@@ -83,6 +108,9 @@ class PaintPoly {
       .addTo(window.map);
   };
 
+  /**
+   * creates circle around mouse cursor and applies event listeners
+   */
   startErase = () => {
     this.stop();
     this._action = 'erase';
@@ -94,6 +122,10 @@ class PaintPoly {
       .addTo(window.map);
   };
 
+  /**
+   * painted polygons change (with union, difference ops)
+   * whenever one changes remove it, otherwise you'll start painting on the old one (not modified one)
+   */
   clearPaintedPolys = (kIdx) => {
     if (kIdx === undefined) return;
 
@@ -104,12 +136,22 @@ class PaintPoly {
     delete this._accumulatedShapes[kIdx];
   };
 
+  /**
+   * removes all accumulated circles (painted polygons)
+   */
   clearAllAccumulated = () => {
     Object.keys(this._accumulatedShapes).forEach((key) => {
       delete this._accumulatedShapes[key];
     });
   };
 
+  /**
+   * updates painted polygons with passed layer
+   *
+   * @param {Number} kIdx
+   * @param {Layer} layer
+   * @returns
+   */
   updatePaintedPolys = (kIdx, layer) => {
     if (kIdx === undefined) return;
 
@@ -122,7 +164,11 @@ class PaintPoly {
     this._accumulatedShapes[kIdx] = feature;
   };
 
-  // taken from https://stackoverflow.com/questions/27545098/leaflet-calculating-meters-per-pixel-at-zoom-level
+  /**
+   * taken from https://stackoverflow.com/questions/27545098/leaflet-calculating-meters-per-pixel-at-zoom-level
+   *
+   * @returns {Number}
+   */
   _pixelsToMeters = () => {
     const metersPerPixel =
       (40075016.686 * Math.abs(Math.cos((this._latlng.lat * Math.PI) / 180))) /
@@ -131,6 +177,11 @@ class PaintPoly {
     return this._circleRadius * metersPerPixel;
   };
 
+  /**
+   * creates circle and appends it to accumulated circles object
+   *
+   * @param {Boolean} erase
+   */
   drawCircle = (erase) => {
     const brushColor = this.tabState.getSelectedColor() || DEFAULT_COLOR;
     const brushStroke = this.tabState.getSelectedStroke() || STROKES[1].value;
@@ -156,6 +207,9 @@ class PaintPoly {
     this._redrawShapes();
   };
 
+  /**
+   * got through all accumulated circles and out put them on the map
+   */
   _redrawShapes = () => {
     const selectedLayer = this.tabState.getToolState().selectedLayer;
     Object.keys(this._accumulatedShapes).forEach((key) => {
@@ -191,6 +245,10 @@ class PaintPoly {
     });
   };
 
+  /**
+   * when fired brush stroke is appended to map
+   * created object is passed to 'createdListener' function of tool
+   */
   _fireCreatedShapes = () => {
     // console.log('%cfired', 'color: #085f89');
     const layerState = this.tabState.getToolState();
@@ -241,6 +299,11 @@ class PaintPoly {
   };
   // ================= EVENT LISTENERS END =================
 
+  /**
+   * updates latlng so circle around mouse cursor follows it
+   *
+   * @param {Object} latlng
+   */
   _setLatLng = (latlng) => {
     if (latlng !== undefined) {
       this._latlng = latlng;
@@ -250,6 +313,12 @@ class PaintPoly {
     }
   };
 
+  /**
+   * button for painting is clicked
+   *
+   * @param {Object} event
+   * @returns
+   */
   clickDraw = (event) => {
     if (event.type == 'mousedown') {
       L.DomEvent.stop(event);
@@ -262,6 +331,12 @@ class PaintPoly {
     }
   };
 
+  /**
+   * button for erasing is clicked
+   *
+   * @param {Object} event
+   * @returns
+   */
   erase = (event) => {
     if (event.type == 'mousedown') {
       L.DomEvent.stop(event);
@@ -275,21 +350,35 @@ class PaintPoly {
     }
   };
 
+  /**
+   * enables erasing
+   */
   enableErase = () => {
     this.startErase();
     this._active = true;
   };
 
+  /**
+   * enables painting
+   */
   enablePaint = () => {
     this.startPaint();
     this._active = true;
   };
 
+  /**
+   * disables tool
+   */
   disable = () => {
     this.stop();
     this._active = false;
   };
 
+  /**
+   * getter
+   *
+   * @returns {Boolean}
+   */
   isActive = () => {
     return this._active;
   };

@@ -14,6 +14,13 @@ import * as turf from '@turf/turf';
 export const highlightStyles = { fillOpacity: 0.5, opacity: 0.2 };
 export const normalStyles = { fillOpacity: 0.2, opacity: 0.5 };
 
+/**
+ * enables creation of polygons
+ *
+ * @param {Object} map
+ * @param {Object} sidebar
+ * @returns
+ */
 export const polygonCreate = (map, sidebar) => {
   const x = new L.Draw.Polygon(map, {
     allowIntersection: false,
@@ -36,6 +43,13 @@ export const polygonCreate = (map, sidebar) => {
   return x;
 };
 
+/**
+ * enables creation of polylines
+ *
+ * @param {Object} map
+ * @param {Object} sidebar
+ * @returns
+ */
 export const polylineCreate = (map, sidebar) => {
   const x = new L.Draw.Polyline(map, {
     shapeOptions: {
@@ -52,6 +66,13 @@ export const polylineCreate = (map, sidebar) => {
   return x;
 };
 
+/**
+ * enables freehand slicing
+ *
+ * @param {Object} map
+ * @param {Object} sidebar
+ * @returns
+ */
 export const slicePoly = (map, sidebar) => {
   const pather = sidebar.getState().pather;
   const patherStatus = sidebar.getState().patherActive;
@@ -71,6 +92,13 @@ export const slicePoly = (map, sidebar) => {
   sidebar.getState().setPatherStatus(!patherStatus);
 };
 
+/**
+ * enables angular slicing
+ *
+ * @param {Object} map
+ * @param {Object} sidebar
+ * @returns
+ */
 export const dividePoly = (map, sidebar) => {
   const x = new L.Draw.Slice(map, {
     shapeOptions: {
@@ -86,12 +114,25 @@ export const dividePoly = (map, sidebar) => {
   return x;
 };
 
+/**
+ * gets GeoJSON representation from layer structure
+ *
+ * @param {Layer} layer
+ * @returns
+ */
 export const getGeoJSONFeatureFromLayer = (layer) => {
   let geoFeature = layer.toGeoJSON();
   let feature = geoFeature.type === 'FeatureCollection' ? geoFeature.features[0] : geoFeature;
   return feature;
 };
 
+/**
+ * reverses GeoJSON coordinates to Leaflet coordinater
+ *
+ * @param {Array<Number>} featureCoordinates
+ * @param {String} type
+ * @returns {Array<Number>}
+ */
 export const featureToLeafletCoordinates = (featureCoordinates, type = 'Polygon') => {
   let point;
   if (type === 'Point') {
@@ -122,6 +163,12 @@ export const featureToLeafletCoordinates = (featureCoordinates, type = 'Polygon'
   return featureCoordinates;
 };
 
+/**
+ * maps feature types to leaflet types
+ *
+ * @param {String} feature
+ * @returns
+ */
 export const getLeafletTypeFromFeature = (feature) => {
   switch (feature?.geometry?.type) {
     case 'Polygon':
@@ -135,6 +182,12 @@ export const getLeafletTypeFromFeature = (feature) => {
   }
 };
 
+/**
+ * converts GeoJSON properties to Leaflet options
+ *
+ * @param {Object} properties
+ * @returns
+ */
 export const convertPropertiesToOptions = (properties) => {
   let options = { draggable: true, transform: true };
   if (!properties) return options;
@@ -146,6 +199,12 @@ export const convertPropertiesToOptions = (properties) => {
   return options;
 };
 
+/**
+ * converts Leaflet options to GeoJSON properties
+ *
+ * @param {Object} properties
+ * @returns
+ */
 export const convertOptionsToProperties = (options) => {
   let properties = { draggable: true, transform: true };
   properties['stroke-width'] = options.weight || STROKES[1].value;
@@ -157,6 +216,12 @@ export const convertOptionsToProperties = (options) => {
   return properties;
 };
 
+/**
+ * returns GeoJSON representation, always array of them
+ *
+ * @param {Layer} layer
+ * @returns {Array}
+ */
 export const getFeatFromLayer = (layer) => {
   if (!layer) return null;
   let drawnGeoJSON = layer.toGeoJSON();
@@ -165,6 +230,12 @@ export const getFeatFromLayer = (layer) => {
   return feature;
 };
 
+/**
+ * checks if feature is polygon
+ *
+ * @param {Object} feature
+ * @returns
+ */
 export const isFeaturePoly = (feature) => {
   if (!feature) return false;
   if (feature?.type === 'FeatureCollection') {
@@ -174,34 +245,13 @@ export const isFeaturePoly = (feature) => {
   return feature?.geometry?.type === 'Polygon' || feature?.geometry?.type === 'MultiPolygon';
 };
 
-export const getSimplifiedPoly = (param_latlngs) => {
-  let latlngs = param_latlngs || [];
-  let points;
-  let simplified;
-  let tolerance = 0.505;
-
-  if (latlngs.length) {
-    // latlng to x/y
-    points = latlngs.map((a) => ({
-      x: a.lat,
-      y: a.lng,
-    }));
-
-    // simplified points (needs x/y keys)
-    simplified = L.LineUtil.simplify(points, tolerance);
-
-    // console.log({ latlngs, simplified, points });
-    try {
-      // x/y back to latlng
-      latlngs = simplified.map((a) => new L.LatLng(a.x, a.y));
-    } catch (error) {
-      console.error({ error, param_latlngs: [...param_latlngs], simplified, points });
-    }
-  }
-
-  return [latlngs];
-};
-
+/**
+ * simplifies polygon feature according to pixels
+ *
+ * @param {Object} feature
+ * @param {Number} pixels
+ * @returns {Object} GeoJSON polygon
+ */
 export const simplifyFeature = (feature, pixels) => {
   const tolerance = pixels || window.customTolerance;
 
@@ -209,11 +259,25 @@ export const simplifyFeature = (feature, pixels) => {
   return result;
 };
 
+/**
+ * checks if layer structure is polygon
+ *
+ * @param {Layer} layer
+ * @returns
+ */
 export const isLayerPoly = (layer) => {
   let feature = getGeoJSONFeatureFromLayer(layer);
   return isFeaturePoly(feature);
 };
 
+/**
+ * helper function for morphing GeoJSON feature to Polygon {Layer} structure
+ *
+ * @param {Object} feature
+ * @param {Object} options
+ * @param {Boolean} simplify
+ * @returns
+ */
 export const morphFeatureToPolygon = (feature, options = {}, simplify = true) => {
   let depth = 1;
   if (feature.geometry.type === 'MultiPolygon') {

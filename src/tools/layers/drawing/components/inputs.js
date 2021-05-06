@@ -1,3 +1,14 @@
+/**
+ * creates a slider with displayed value on side
+ *
+ * @param {String} label
+ * @param {Number} min
+ * @param {Number} max
+ * @param {Function} onChange
+ * @param {Number} value
+ * @param {Number} step
+ * @returns {Object} HTML element
+ */
 export const createIntervalInput = (label, min, max, onChange, value, step = 1) => {
   const controlWrapper = document.createElement('div');
   controlWrapper.style.display = 'flex';
@@ -27,6 +38,15 @@ export const createIntervalInput = (label, min, max, onChange, value, step = 1) 
   return controlWrapper;
 };
 
+/**
+ * creates checkbox
+ *
+ * @param {Boolean} value
+ * @param {Function} onCheck
+ * @param {String} prefix
+ * @param {String} label
+ * @returns {Object} HTML element
+ */
 export const createCheck = (value, onCheck, prefix, label) => {
   const onChange = (e) => {
     const val = e.target.checked;

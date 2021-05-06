@@ -15,7 +15,6 @@ import {
   normalStyles,
   getFeatFromLayer,
   isFeaturePoly,
-  getSimplifiedPoly,
   isLayerPoly,
   simplifyFeature,
   morphFeatureToPolygon,
