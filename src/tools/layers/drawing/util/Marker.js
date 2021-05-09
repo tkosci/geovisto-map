@@ -8,6 +8,10 @@ import { OpenStreetMapProvider } from 'leaflet-geosearch';
 import { MapLayerTool } from '../../map';
 
 /**
+ * @author Andrej Tlcina
+ */
+
+/**
  * extends marker so we can change its options while marker tool is enabled
  */
 L.Draw.ExtendedMarker = L.Draw.Marker.extend({

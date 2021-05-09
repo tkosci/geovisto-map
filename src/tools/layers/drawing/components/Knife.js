@@ -2,6 +2,10 @@ import L from 'leaflet';
 import 'leaflet-draw';
 
 /**
+ * @author Andrej Tlcina
+ */
+
+/**
  * extends polyline, it does not change a lot just its type to 'knife'
  */
 L.Draw.Slice = L.Draw.Polyline.extend({

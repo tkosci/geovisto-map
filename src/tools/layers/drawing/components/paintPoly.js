@@ -22,6 +22,9 @@ const DEFAULT_RADIUS = 30;
 const ERASE_KEY = 'X';
 const ERASER_COLOR = '#ee000055';
 
+/**
+ * @author Andrej Tlcina
+ */
 class PaintPoly {
   constructor(props) {
     this.tabState = props.tabState;

@@ -15,6 +15,9 @@ import * as turf from '@turf/turf';
 
 const UNABLE_TO_CLICK_DISABLE = ['lineBtn', 'markerBtn', 'polygonBtn'];
 
+/**
+ * @author Andrej Tlcina
+ */
 export default function useDrawingToolbar() {
   L.Control.DrawingToolbar = L.Control.extend({
     options: {

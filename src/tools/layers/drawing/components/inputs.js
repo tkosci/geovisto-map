@@ -1,4 +1,8 @@
 /**
+ * @author Andrej Tlcina
+ */
+
+/**
  * creates a slider with displayed value on side
  *
  * @param {String} label

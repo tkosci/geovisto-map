@@ -15,6 +15,10 @@ export const highlightStyles = { fillOpacity: 0.5, opacity: 0.2 };
 export const normalStyles = { fillOpacity: 0.2, opacity: 0.5 };
 
 /**
+ * @author Andrej Tlcina
+ */
+
+/**
  * enables creation of polygons
  *
  * @param {Object} map
