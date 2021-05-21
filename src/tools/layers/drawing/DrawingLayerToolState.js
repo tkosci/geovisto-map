@@ -497,8 +497,8 @@ class DrawingLayerToolState extends AbstractLayerToolState {
           if (result) {
             result.layerType = lType;
 
-            result.snapediting = new L.Handler.MarkerSnap(map, result);
-            result.snapediting.enable();
+            // result.snapediting = new L.Handler.MarkerSnap(map, result);
+            // result.snapediting.enable();
             this.tool.tabControl.state.pushGuideLayer(result);
 
             if (f?.properties?.popupContent) {
@@ -630,8 +630,8 @@ class DrawingLayerToolState extends AbstractLayerToolState {
         layerToAdd.bindPopup(layer.popupContent, { closeOnClick: false, autoClose: false });
         layerToAdd.popupContent = layer.popupContent;
       }
-      layer.snapediting = new L.Handler.MarkerSnap(map, layer);
-      layer.snapediting.enable();
+      // layer.snapediting = new L.Handler.MarkerSnap(map, layer);
+      // layer.snapediting.enable();
       this.tool.tabControl.state.pushGuideLayer(layer);
 
       layerToAdd.layerType = layer.layerType;
