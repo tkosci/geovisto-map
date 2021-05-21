@@ -6,7 +6,7 @@ import IMapFiltersManager from "../../types/filter/IMapFilterManager";
 import IFiltersTool from "../../types/tool/IFiltersTool";
 import TabDOMUtil from "../../../../../util/TabDOMUtil";
 import FilterAutocompleteFormInput from "../../../../../model/internal/inputs/filter/autocomplete/FilterAutocompleteFormInput";
-import AutocompleteFormInput from "../../../../../model/internal/inputs/labeled/autocomplete/AutocompleteFormInput";
+import LabeledAutocompleteFormInput from "../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput";
 
 /**
  * This interface provides a help type which represents double (html element container, input).
@@ -132,9 +132,9 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
 
                 if(input) {
                     const inputElement: { 
-                        data: AutocompleteFormInput,
-                        op: AutocompleteFormInput,
-                        val: AutocompleteFormInput
+                        data: LabeledAutocompleteFormInput,
+                        op: LabeledAutocompleteFormInput,
+                        val: LabeledAutocompleteFormInput
                     } | null = input.getInputElement();
 
                     if(inputElement) {

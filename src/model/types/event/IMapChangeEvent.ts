@@ -1,5 +1,4 @@
 import IMapEvent from "./IMapEvent";
-import IMapObject from "../object/IMapObject";
 
 /**
  * This interface declares abstract map event change object.

@@ -1,71 +1,73 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import '../styles/common.scss';
-import GeovistoMap from "../model/internal/map/GeovistoMap";
+import { IMap, Geovisto } from "..";
+import IReactGeovistoMapProps from "./IReactGeovistoMapProps";
 
 /**
  * React component which wraps Geovisto map.
  * 
  * @author Jiri Hynek
  */
-class ReactGeovistoMap extends Component {
+class ReactGeovistoMap extends Component<IReactGeovistoMapProps, Record<string, never>> {
+    
+    private m: IMap;
 
     /**
      * Initializes object.
      * 
      * @param props 
      */
-    constructor(props) {
+    public constructor(props: IReactGeovistoMapProps) {
         super(props);
 
         if(props.id == undefined) props.id = this.getDefaultId();
 
         // create new Geovisto map
-        this.m = new GeovistoMap(props);
+        this.m = Geovisto.createMap(props);
     }
 
     /**
      * It returns Geovisto map.
      */
-    getMap() {
+    public getMap(): IMap {
         return this.m;
     }
 
     /**
      * It returns a default id used for Geovisto map container.
      */
-    getDefaultId() {
+    private getDefaultId(): string {
         return 'my-geovisto-map';
     }
 
     /**
      * It returns a default class name used for Geovisto map container.
      */
-    getDefaultClass() {
+    private getDefaultClass(): string {
         return 'geovisto-map';
     }
 
     /**
      * Draw map after component is rendered
      */
-    componentDidMount() {
+    public componentDidMount(): void {
         // draw map with the current config
-        this.m.draw(this.props.config);
+        this.m.draw(this.props.config ?? Geovisto.getMapConfigManagerFactory().default({}));
     }
 
     /**
      * Redraw map after component is updated
      */
-    componentDidUpdate() {
+    public componentDidUpdate(): void {
         // redraw map with a new config and new props
-        this.m.redraw(this.props.config, this.props);
+        this.m.redraw(this.props.config ?? Geovisto.getMapConfigManagerFactory().default({}), this.props);
     }
 
     /**
      * The render function prepares a wrapper which will be used by Geovisto/Leaflet to render the map.
      */
-    render() {
+    public render(): JSX.Element {
         return <div id={this.props.id} className={this.getDefaultClass()} />;
     }
-};
-
+}
 export default ReactGeovistoMap;

@@ -4,7 +4,7 @@ import SettingsTool from '../../../../settings/model/internal/tool/SettingsTool'
 import IMapTheme from '../../types/theme/IMapTheme';
 import IMapThemesManager from '../../types/theme/IMapThemesManager';
 import IThemesTool from '../../types/tool/IThemesTool';
-import AutocompleteFormInput from '../../../../../model/internal/inputs/labeled/autocomplete/AutocompleteFormInput';
+import LabeledAutocompleteFormInput from '../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput';
 
 /**
  * This class represents tab fragment for Themes tool.
@@ -64,7 +64,7 @@ class ThemesToolSidebarFragment extends AbstractSidebarFragment<IThemesTool> {
                 tool.setTheme(newTheme[0]);
             }
         };
-        const themeInput = new AutocompleteFormInput({ label: "Theme", options: themesManager.getDomainNames(), onChangeAction: changeTheme });
+        const themeInput = new LabeledAutocompleteFormInput({ label: "Theme", options: themesManager.getDomainNames(), onChangeAction: changeTheme });
         htmlContent.appendChild(themeInput.create());
         themeInput.setValue(tool.getState().getTheme().getName());
 

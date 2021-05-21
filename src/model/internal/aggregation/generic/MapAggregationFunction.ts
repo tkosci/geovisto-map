@@ -7,7 +7,7 @@ import IMapAggregationBucket from "../../../types/aggregation/IMapAggregationBuc
  * 
  * @author Jiri Hynek
  */
-class AggregationFunction extends MapDomain implements IMapAggregationFunction {
+class MapAggregationFunction extends MapDomain implements IMapAggregationFunction {
 
     private aggregationBucket: () => IMapAggregationBucket;
 
@@ -27,4 +27,4 @@ class AggregationFunction extends MapDomain implements IMapAggregationFunction {
         return this.aggregationBucket();
     }
 }
-export default AggregationFunction;
+export default MapAggregationFunction;

@@ -9,12 +9,12 @@ import IMapGlobals from "../../types/map/IMapGlobals";
 import MapObjectDefaults from "../object/MapObjectDefaults";
 import MapToolsManager from "../tool/MapToolsManager";
 import MapConfigManager from "../config/basic/MapConfigManager";
-import GeovistoMap from "./GeovistoMap";
 import JsonMapDataManager from "../data/json/JsonMapDataManager";
 
+// TODO: remove
 import countryCentroids from '../../../../static/geo/country_centroids.json';
 import countryPolygons from '../../../../static/geo/country_polygons.json';
-import { SidebarTool, SettingsTool, FiltersTool, ThemesTool, SelectionTool, TilesLayerTool } from "../../../tools";
+import { Geovisto } from "../../..";
 
 /**
  * This class provide functions which return the default state values.
@@ -62,7 +62,7 @@ class GeovistoMapDefaults extends MapObjectDefaults implements IMapDefaults {
      * It returns a unique type string of the object.
      */
     public getType(): string {
-        return GeovistoMap.TYPE();
+        return Geovisto.getType();
     }
 
     /**
@@ -78,17 +78,7 @@ class GeovistoMapDefaults extends MapObjectDefaults implements IMapDefaults {
      * It returns a default tools manager containing used tools.
      */
     public getToolTemplates(): MapToolsManager {
-        return new MapToolsManager([
-            new SidebarTool(undefined),
-            new SettingsTool(undefined),
-            new FiltersTool(undefined),
-            new ThemesTool(undefined),
-            new SelectionTool(undefined),
-            new TilesLayerTool(undefined),
-            new ChoroplethLayerTool({ zindex: 350 }),
-            new MarkerLayerTool(),
-            new ConnectionLayerTool(),
-        ]);
+        return new MapToolsManager([]);
     }
 
     /**

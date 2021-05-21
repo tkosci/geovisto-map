@@ -1,4 +1,8 @@
-import { ITilesLayerToolProps, ITilesLayerTool, TilesLayerTool } from '../..';
+import { 
+    ITilesLayerToolProps,
+    ITilesLayerTool,
+    TilesLayerTool
+} from '.';
 
 export const GeovistoTilesLayerTool: {
     getType: () => string,

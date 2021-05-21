@@ -1,0 +1,51 @@
+import IMapFormInput from "./IMapFormInput";
+import ITextFormInputProps from "./basic/text/ITextFormInputProps";
+import ISelectFormInputProps from "./basic/select/ISelectFormInputProps";
+import ILabeledMapFormInputProps from "./labeled/text/ILabeledTextFormInputProps";
+import ILabeledSelectFormInputProps from "./labeled/select/ILabeledSelectFormInputProps";
+import ILabeledAutocompleteFormInputProps from "./labeled/autocomplete/ILabeledAutocompleteFormInputProps";
+import IFilterFormInputProps from "./filter/IFilterFormInputProps";
+
+/**
+ * This interface declares a factory for form inputs.
+ * 
+ * @author Jiri Hynek
+ */
+interface IMapFormInputFactory {
+    
+    /**
+     * It creates the text form input.
+     */
+    text(props: ITextFormInputProps): IMapFormInput;
+    
+    /**
+     * It creates the select form input.
+     */
+    select(props: ISelectFormInputProps): IMapFormInput;
+    
+    /**
+     * It creates the labeled text form input.
+     */
+    labeledText(props: ILabeledMapFormInputProps): IMapFormInput;
+    
+    /**
+     * It creates the labeled select form input.
+     */
+    labeledSelect(props: ILabeledSelectFormInputProps): IMapFormInput;
+    
+    /**
+     * It creates the labeled autocomplete form input.
+     */
+    labeledAutocomplete(props: ILabeledAutocompleteFormInputProps): IMapFormInput;
+    
+    /**
+     * It creates the filter select form input.
+     */
+    filterSelect(props: IFilterFormInputProps): IMapFormInput;
+    
+    /**
+     * It creates the filter autocomplete form input.
+     */
+    filterAutocomplete(props: IFilterFormInputProps): IMapFormInput;
+}
+export default IMapFormInputFactory;

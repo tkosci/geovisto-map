@@ -1,4 +1,8 @@
-import { ISettingsToolProps, ISettingsTool, SettingsTool } from '..';
+import { 
+    ISettingsToolProps,
+    ISettingsTool,
+    SettingsTool
+} from '.';
 
 export const GeovistoSettingsTool: {
     getType: () => string,

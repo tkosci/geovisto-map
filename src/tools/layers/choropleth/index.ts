@@ -1,4 +1,8 @@
-import { IChoroplethLayerToolProps, IChoroplethLayerTool, ChoroplethLayerTool } from '../..';
+import { 
+    IChoroplethLayerToolProps,
+    IChoroplethLayerTool,
+    ChoroplethLayerTool
+} from '.';
 
 export const GeovistoChoroplethLayerTool: {
     getType: () => string,

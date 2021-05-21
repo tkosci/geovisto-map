@@ -1,5 +1,5 @@
 import AbstractMapFormInput from "../../abstract/AbstractMapFormInput";
-import AutocompleteFormInput from "../../labeled/autocomplete/AutocompleteFormInput";
+import LabeledAutocompleteFormInput from "../../labeled/autocomplete/LabeledAutocompleteFormInput";
 import IFilterFormInputProps from "../../../../types/inputs/filter/IFilterFormInputProps";
 import IFilterFormInputValue from "../../../../types/inputs/filter/IFilterFormInputValue";
 
@@ -24,9 +24,9 @@ class FilterAutocompleteFormInput extends AbstractMapFormInput {
      * Input element is composed of 3 HTML select elements
      */
     private input: { 
-        data: AutocompleteFormInput,
-        op: AutocompleteFormInput,
-        val: AutocompleteFormInput
+        data: LabeledAutocompleteFormInput,
+        op: LabeledAutocompleteFormInput,
+        val: LabeledAutocompleteFormInput
     } | null;
 
     public constructor(props: IFilterFormInputProps) {
@@ -56,9 +56,9 @@ class FilterAutocompleteFormInput extends AbstractMapFormInput {
             // initialize filter inputs
             const props = <IFilterFormInputProps> this.getProps();
             this.input = {
-                val: new AutocompleteFormInput({ label: "Value", options: [], onChangeAction: props.vals.onChangeAction }),
-                op: new AutocompleteFormInput({ label: "Operation", options: props.ops.options, onChangeAction: props.ops.onChangeAction }),
-                data: new AutocompleteFormInput({ label: "Data", options: props.data.options, onChangeAction: props.data.onChangeAction })
+                val: new LabeledAutocompleteFormInput({ label: "Value", options: [], onChangeAction: props.vals.onChangeAction }),
+                op: new LabeledAutocompleteFormInput({ label: "Operation", options: props.ops.options, onChangeAction: props.ops.onChangeAction }),
+                data: new LabeledAutocompleteFormInput({ label: "Data", options: props.data.options, onChangeAction: props.data.onChangeAction })
             };
 
             // create elements of filter inputs and add them to parent div
@@ -102,9 +102,9 @@ class FilterAutocompleteFormInput extends AbstractMapFormInput {
      * It returns input
      */
     public getInputElement(): { 
-        data: AutocompleteFormInput,
-        op: AutocompleteFormInput,
-        val: AutocompleteFormInput
+        data: LabeledAutocompleteFormInput,
+        op: LabeledAutocompleteFormInput,
+        val: LabeledAutocompleteFormInput
     } | null {
         return this.input;
     }

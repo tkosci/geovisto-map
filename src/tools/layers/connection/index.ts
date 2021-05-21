@@ -1,6 +1,8 @@
-import IConnectionLayerToolProps from './model/types/tool/IConnectionLayerToolProps';
-import IConnectionLayerTool from './model/types/tool/IConnectionLayerTool';
-import { ConnectionLayerTool } from '../..';
+import { 
+    IConnectionLayerTool,
+    IConnectionLayerToolProps,
+    ConnectionLayerTool
+} from '.';
 
 export const GeovistoConnectionLayerTool: {
     getType: () => string,

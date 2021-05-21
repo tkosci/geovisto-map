@@ -3,6 +3,7 @@ import IMapTemplates from "./IMapTemplates";
 import IMapGlobals from "./IMapGlobals";
 import IMapDataManager from "../data/IMapDataManager";
 import IMapToolsManager from "../tool/IMapToolsManager";
+import IMapConfig from "./IMapConfig";
 
 /**
  * This interface provide specification of map props model.

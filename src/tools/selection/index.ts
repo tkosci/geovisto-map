@@ -1,6 +1,11 @@
-import { MapSelection } from '.';
-import IMapTool from '../../model/types/tool/IMapTool';
-import { IMapSelection, ISelectionTool, SelectionTool, ISelectionToolProps } from '..';
+import { IMapTool } from '../..';
+import { 
+    IMapSelection,
+    ISelectionTool,
+    SelectionTool,
+    ISelectionToolProps,
+    MapSelection
+} from '.';
 
 export const GeovistoSelectionTool: {
     getType: () => string,

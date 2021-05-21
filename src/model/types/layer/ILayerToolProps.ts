@@ -7,6 +7,5 @@ import IMapToolProps from "../tool/IMapToolProps";
  */
 interface ILayerToolProps extends IMapToolProps {
     name: string | undefined;
-    data: any; // TODO: specify the type
 }
 export default ILayerToolProps;

@@ -1,42 +1,93 @@
 import 'font-awesome/css/font-awesome.min.css';
+import {
+    IMap,
+    IMapAggregationFunctionFactory,
+    IMapConfigManagerFactory,
+    IMapDataManagerFactory,
+    IMapDimension,
+    IMapDomain,
+    IMapDomainManager,
+    IMapDomainManagerFactory,
+    IMapEventFactory,
+    IMapObject,
+    IMapObjectsManager,
+    IMapProps,
+    IMapTool,
+    IMapToolsManager,
+    GeovistoMap,
+    MapAggregationFunctionFactory,
+    MapConfigManagerFactory,
+    MapDataManagerFactory,
+    MapDomainManagerFactory,
+    MapDimension,
+    MapEventFactory,
+    MapObjectsManager,
+    MapToolsManager
+} from '.';
 
-// REACT MAP
-export { default as ReactGeovistoMap } from './react/ReactGeovistoMap';
+export const Geovisto: {
+    getType: () => string,
+    getMapAggregationFunctionFactory: () => IMapAggregationFunctionFactory,
+    getMapConfigManagerFactory: () => IMapConfigManagerFactory,
+    getMapDataManagerFactory: () => IMapDataManagerFactory,
+    getMapDomainManagerFactory: () => IMapDomainManagerFactory,
+    getMapEventFactory: () => IMapEventFactory,
+    createMap: (props: IMapProps) => IMap,
+    createMapDimension: <T extends IMapDomain>(name: string, domainManager: IMapDomainManager<T>, dataDomain: T | undefined) => IMapDimension<T>,
+    createMapObjectsManager: <T extends IMapObject>(objects: T[] | undefined) => IMapObjectsManager<T>
+    createMapToolsManager: <T extends IMapTool>(tools: T[]) => IMapToolsManager
+} = {
+    getType: () => "geovisto-map",
+    getMapAggregationFunctionFactory: () => new MapAggregationFunctionFactory(),
+    getMapConfigManagerFactory: () => new MapConfigManagerFactory(),
+    getMapDataManagerFactory: () => new MapDataManagerFactory(),
+    getMapDomainManagerFactory: () => new MapDomainManagerFactory(),
+    getMapEventFactory: () => new MapEventFactory(),
+    createMap: (props) => new GeovistoMap(props),
+    createMapDimension: <T extends IMapDomain>(name: string, domainManager: IMapDomainManager<T>, dataDomain: T | undefined) => new MapDimension<T>(name, domainManager, dataDomain),
+    createMapObjectsManager: <T extends IMapObject>(objects: T[] | undefined) => new MapObjectsManager<T>(objects),
+    createMapToolsManager: (tools: IMapTool[]) => new MapToolsManager(tools),
+};
 
 // MODEL / TYPES
 
 // aggregation
 export type { default as IMapAggregationBucket } from './model/types/aggregation/IMapAggregationBucket';
 export type { default as IMapAggregationFunction } from './model/types/aggregation/IMapAggregationFunction';
+export type { default as IMapAggregationFunctionFactory } from './model/types/aggregation/IMapAggregationFunctionFactory';
 
 // config
 export type { default as IMapConfigManager } from './model/types/config/IMapConfigManager';
+export type { default as IMapConfigManagerFactory } from './model/types/config/IMapConfigManagerFactory';
 
 // data
 export type { default as IMapDataDomain } from './model/types/data/IMapDataDomain';
 export type { default as IMapDataManager } from './model/types/data/IMapDataManager';
+export type { default as IMapDataManagerFactory } from './model/types/data/IMapDataManagerFactory';
 
 // dimension
 export type { default as IMapDimension } from './model/types/dimension/IMapDimension';
-export type { default as IMapDimensionManager } from './model/types/dimension/IMapDimensionManager';
 
 // domain
 export type { default as IMapDomain } from './model/types/domain/IMapDomain';
 export type { default as IMapDomainArrayManager } from './model/types/domain/IMapDomainArrayManager';
 export type { default as IMapDomainManager } from './model/types/domain/IMapDomainManager';
+export type { default as IMapDomainManagerFactory } from './model/types/domain/IMapDomainManagerFactory';
 
 // event
 export type { default as IMapEvent } from './model/types/event/IMapEvent';
+export type { default as IMapEventFactory } from './model/types/event/IMapEventFactory';
 export type { default as IMapChangeEvent } from './model/types/event/IMapChangeEvent';
 
 // inputs
 export type { default as IMapFormInput } from './model/types/inputs/IMapFormInput';
+export type { default as IMapFormInputFactory } from './model/types/inputs/IMapFormInputFactory';
 export type { default as IMapFormInputProps } from './model/types/inputs/IMapFormInputProps';
 export type { default as ISelectFormInputProps } from './model/types/inputs/basic/select/ISelectFormInputProps';
 export type { default as ITextFormInputProps } from './model/types/inputs/basic/text/ITextFormInputProps';
 export type { default as IFilterFormInputProps } from './model/types/inputs/filter/IFilterFormInputProps';
 export type { default as IFilterFormInputValue } from './model/types/inputs/filter/IFilterFormInputValue';
-export type { default as IAutocompleteFormInputProps } from './model/types/inputs/labeled/autocomplete/IAutocompleteFormInputProps';
+export type { default as ILabeledAutocompleteFormInputProps } from './model/types/inputs/labeled/autocomplete/ILabeledAutocompleteFormInputProps';
 export type { default as ILabeledSelectFormInputProps } from './model/types/inputs/labeled/select/ILabeledSelectFormInputProps';
 export type { default as ILabeledTextFormInputProps } from './model/types/inputs/labeled/text/ILabeledTextFormInputProps';
 
@@ -76,15 +127,18 @@ export type { default as IMapToolState } from './model/types/tool/IMapToolState'
 // MODEL / INTERNAL
 
 // aggregation
+export { default as MapAggregationFunctionFactory } from './model/internal/aggregation/MapAggregationFunctionFactory';
 export { default as CountAggregationFunction } from './model/internal/aggregation/basic/CountAggregationFunction';
 export { default as SumAggregationFunction } from './model/internal/aggregation/basic/SumAggregationFunction';
-export { default as AggregationFunction } from './model/internal/aggregation/generic/AggregationFunction';
+export { default as MapAggregationFunction } from './model/internal/aggregation/generic/MapAggregationFunction';
 
 // config
+export { default as MapConfigManagerFactory } from './model/internal/config/MapConfigManagerFactory';
 export { default as AbstractMapConfigManager } from './model/internal/config/abstract/AbstractMapConfigManager';
 export { default as MapConfigManager } from './model/internal/config/basic/MapConfigManager';
 
 // data
+export { default as MapDataManagerFactory } from './model/internal/data/MapDataManagerFactory';
 export { default as AbstractMapDataDomain } from './model/internal/data/abstract/AbstractMapDataDomain';
 export { default as AbstractMapDataManager } from './model/internal/data/abstract/AbstractMapDataManager';
 export { default as JsonMapDataDomain } from './model/internal/data/json/JsonMapDataDomain';
@@ -92,25 +146,27 @@ export { default as JsonMapDataManager } from './model/internal/data/json/JsonMa
 
 // dimension
 export { default as MapDimension } from './model/internal/dimension/MapDimension';
-export { default as MapDimensionManager } from './model/internal/dimension/MapDimensionManager';
 
 // domain
+export { default as MapDomainManagerFactory } from './model/internal/domain/MapDomainManagerFactory';
 export { default as AbstractMapDomain } from './model/internal/domain/abstract/AbstractMapDomain';
 export { default as MapDomain } from './model/internal/domain/generic/MapDomain';
 export { default as MapDomainArrayManager } from './model/internal/domain/generic/MapDomainArrayManager';
 
 // event
+export { default as MapEventFactory } from './model/internal/event/MapEventFactory';
 export { default as DataChangeEvent } from './model/internal/event/data/DataChangeEvent';
 export { default as MapEvent } from './model/internal/event/generic/MapEvent';
 export { default as MapChangeEvent } from './model/internal/event/generic/MapChangeEvent';
 
 // inputs
+export { default as MapFormInputFactory } from './model/internal/inputs/MapFormInputFactory';
 export { default as AbstractMapFormInput } from './model/internal/inputs/abstract/AbstractMapFormInput';
 export { default as SelectFormInput } from './model/internal/inputs/basic/select/SelectFormInput';
 export { default as TextFormInput } from './model/internal/inputs/basic/text/TextFormInput';
 export { default as FilterAutocompleteFormInput } from './model/internal/inputs/filter/autocomplete/FilterAutocompleteFormInput';
 export { default as FilterSelectFormInput } from './model/internal/inputs/filter/select/FilterSelectFormInput';
-export { default as AutocompleteFormInput } from './model/internal/inputs/labeled/autocomplete/AutocompleteFormInput';
+export { default as LabeledAutocompleteFormInput } from './model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput';
 export { default as LabeledSelectFormInput } from './model/internal/inputs/labeled/select/LabeledSelectFormInput';
 export { default as LabeledTextFormInput } from './model/internal/inputs/labeled/text/LabeledTextFormInput';
 
@@ -136,5 +192,9 @@ export { default as MapToolDefaults } from './model/internal/tool/MapToolDefault
 export { default as MapToolsManager } from './model/internal/tool/MapToolsManager';
 export { default as MapToolState } from './model/internal/tool/MapToolState';
 
-// tools
+// REACT MAP
+export { default as ReactGeovistoMap } from './react/ReactGeovistoMap';
+
+// TOOLS
+// TODO: this should be removed in the future since the tools will be represented as standalone bundles
 export * from './tools';

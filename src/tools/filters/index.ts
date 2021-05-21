@@ -1,13 +1,31 @@
 // styles
 import "./styles/style.scss";
-import { IFiltersToolProps, IFiltersTool, FiltersTool } from "..";
+import { 
+    IFiltersToolProps, 
+    IFiltersTool, 
+    FiltersTool, 
+    MapFiltersManager, 
+    IMapFilterOperation, 
+    IMapFilterManager, 
+    EqFilterOperation, 
+    NeqFilterOperation, 
+    RegFilterOperation 
+} from ".";
 
 export const GeovistoFiltersTool: {
     getType: () => string,
     createTool: (props: IFiltersToolProps | undefined) => IFiltersTool
+    createFiltersManager: (filterOperations: IMapFilterOperation[]) => IMapFilterManager,
+    createFilterOperationEq: () => IMapFilterOperation,
+    createFilterOperationNeq: () => IMapFilterOperation,
+    createFilterOperationReg: () => IMapFilterOperation
 } = {
     getType: () => "geovisto-tool-filters",
     createTool: (props) => new FiltersTool(props),
+    createFiltersManager: (filterOperations) => new MapFiltersManager(filterOperations),
+    createFilterOperationEq: () => new EqFilterOperation(),
+    createFilterOperationNeq: () => new NeqFilterOperation(),
+    createFilterOperationReg: () => new RegFilterOperation()
 };
 
 // types

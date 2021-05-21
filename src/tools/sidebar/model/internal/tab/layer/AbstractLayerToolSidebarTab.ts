@@ -7,7 +7,7 @@ import ILayerToolSidebarTab from "../../../types/tab/layer/ILayerToolSidebarTab"
 import ILayerToolSidebarTabDefaults from "../../../types/tab/layer/ILayerToolSidebarTabDefaults";
 import ILayerToolSidebarTabState from "../../../types/tab/layer/ILayerToolSidebarTabState";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
-import AutocompleteFormInput from "../../../../../../model/internal/inputs/labeled/autocomplete/AutocompleteFormInput";
+import LabeledAutocompleteFormInput from "../../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput";
 import IMapDomain from "../../../../../../model/types/domain/IMapDomain";
 import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
 import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
@@ -74,7 +74,7 @@ abstract class AbstractLayerToolSidebarTab<T extends ILayerTool> extends Abstrac
      */
     protected getAutocompleteInput(dimension: IMapDimension<IMapDomain>): IMapFormInput {
         var _this = this;
-        return new AutocompleteFormInput({
+        return new LabeledAutocompleteFormInput({
             label: dimension.getName(),
             options: dimension.getDomainManager().getDomainNames(),
             onChangeAction: function(ev: Event) {

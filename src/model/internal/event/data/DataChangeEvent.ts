@@ -9,7 +9,7 @@ import IMapChangeEvent from "../../../types/event/IMapChangeEvent";
  * 
  * @author Jiri Hynek
  */
-class DataChangeEvent<TSource extends IMapObject> extends MapChangeEvent<TSource, any> implements IMapChangeEvent<TSource, any> {
+class DataChangeEvent<TSource extends IMapObject> extends MapChangeEvent<TSource, any> implements IMapChangeEvent {
 
     /**
      * It initializes event.

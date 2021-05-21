@@ -1,4 +1,8 @@
-import { IMarkerLayerToolProps, IMarkerLayerTool, MarkerLayerTool } from '../..';
+import { 
+    IMarkerLayerToolProps,
+    IMarkerLayerTool,
+    MarkerLayerTool
+} from '.';
 
 export const GeovistoMarkerLayerTool: {
     getType: () => string,

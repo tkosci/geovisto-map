@@ -5,9 +5,9 @@ import IMapFormInputProps from "../../IMapFormInputProps";
  * 
  * @author Jiri Hynek
  */
-interface IAutocompleteFormInputProps extends IMapFormInputProps {
+interface ILabeledAutocompleteFormInputProps extends IMapFormInputProps {
     onChangeAction : ((this: GlobalEventHandlers, ev: Event) => any) | null;
     label: string;
     options: string[];
 }
-export default IAutocompleteFormInputProps;
+export default ILabeledAutocompleteFormInputProps;

@@ -1,7 +1,7 @@
 import AbstractMapFormInput from "../../abstract/AbstractMapFormInput";
 import TabDOMUtil from "../../../../../util/TabDOMUtil";
 import IMapFormInput from "../../../../types/inputs/IMapFormInput";
-import IAutocompleteFormInputProps from "../../../../types/inputs/labeled/autocomplete/IAutocompleteFormInputProps";
+import ILabeledAutocompleteFormInputProps from "../../../../types/inputs/labeled/autocomplete/ILabeledAutocompleteFormInputProps";
 
 const ID = "geovisto-input-autocomplete";
 
@@ -25,7 +25,7 @@ const COMPONENT_COMPLETION_ACTIVE_ITEM_CLASS = ID + "-option-a";
  * @author Jakub Kachlik
  * @author Jiri Hynek (refactoring, code review)
  */
-class AutocompleteFormInput extends AbstractMapFormInput implements IMapFormInput {
+class LabeledAutocompleteFormInput extends AbstractMapFormInput implements IMapFormInput {
     
     /**
      * Current options.
@@ -45,7 +45,7 @@ class AutocompleteFormInput extends AbstractMapFormInput implements IMapFormInpu
      */
     private selectedCompletionItem: number;
 
-    public constructor(props: IAutocompleteFormInputProps){
+    public constructor(props: ILabeledAutocompleteFormInputProps){
         super(props);
         
         this.options = props.options ? props.options : [];
@@ -139,7 +139,7 @@ class AutocompleteFormInput extends AbstractMapFormInput implements IMapFormInpu
         // label div
         const labelDiv = document.createElement('div');
         labelDiv.classList.add(COMPONENT_DIV_LABEL_CLASS);
-        labelDiv.innerHTML = (<IAutocompleteFormInputProps> this.getProps()).label;
+        labelDiv.innerHTML = (<ILabeledAutocompleteFormInputProps> this.getProps()).label;
 
         // input div
         this.inputDiv = document.createElement('div');
@@ -167,7 +167,7 @@ class AutocompleteFormInput extends AbstractMapFormInput implements IMapFormInpu
             var _this = this;
 
             // when input changed, notify listeners
-            this.input.onchange = (<IAutocompleteFormInputProps> this.getProps()).onChangeAction;
+            this.input.onchange = (<ILabeledAutocompleteFormInputProps> this.getProps()).onChangeAction;
 
             // input change listener: create autocomplete and find
             this.input.addEventListener('input', function() {
@@ -288,4 +288,4 @@ class AutocompleteFormInput extends AbstractMapFormInput implements IMapFormInpu
         _this.selectedCompletionItem = -1;
     }
 }
-export default AutocompleteFormInput;
+export default LabeledAutocompleteFormInput;

@@ -1,4 +1,8 @@
-import { ISidebarToolProps, ISidebarTool, SidebarTool } from '..';
+import { 
+    ISidebarToolProps,
+    ISidebarTool,
+    SidebarTool
+} from '.';
 
 export const GeovistoSidebarTool: {
     getType: () => string,
