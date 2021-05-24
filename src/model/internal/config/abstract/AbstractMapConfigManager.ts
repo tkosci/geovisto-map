@@ -8,7 +8,7 @@ import IMapToolConfig from "../../../types/tool/IMapToolConfig";
  */
 abstract class AbstractMapConfigManager {
     
-    private originalConfig: any;
+    private originalConfig: Record<string, unknown>;
     private config: IMapConfig;
 
     /**
@@ -17,7 +17,7 @@ abstract class AbstractMapConfigManager {
      * 
      * @param config 
      */
-    public constructor(config: any) {
+    public constructor(config: Record<string, unknown>) {
         this.originalConfig = config;
         this.config = this.import(config);
     }
@@ -27,19 +27,19 @@ abstract class AbstractMapConfigManager {
      * 
      * @param mapConfing 
      */
-    protected abstract import(config: any): IMapConfig;
+    protected abstract import(config: Record<string, unknown>): IMapConfig;
 
     /**
      * It converts map config to the original structure.
      * 
      * @param mapConfing 
      */
-    public abstract export(mapConfig: IMapConfig): any;
+    public abstract export(mapConfig: IMapConfig): Record<string, unknown>;
 
     /**
      * It returns the original config.
      */
-    public getOriginalConfig(): any {
+    public getOriginalConfig(): Record<string, unknown> {
         return this.originalConfig;
     }
 

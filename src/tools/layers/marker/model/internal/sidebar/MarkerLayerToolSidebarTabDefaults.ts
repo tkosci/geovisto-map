@@ -1,12 +1,11 @@
-import LayerToolSidebarTabDefaults from "../../../../../sidebar/model/internal/tab/sidebar/LayerToolSidebarTabDefaults";
-import { ILayerToolSidebarTab } from "../../../../../sidebar";
+import { ILayerToolSidebarTab, LayerToolSidebarTabDefaults, ILayerToolSidebarTabDefaults } from "../../../../../sidebar";
 
 /**
  * This class provide functions which return the default state values.
  * 
  * @author Jiri Hynek
  */
-class MarkerLayerToolSidebarTabDefaults extends LayerToolSidebarTabDefaults {
+class MarkerLayerToolSidebarTabDefaults extends LayerToolSidebarTabDefaults implements ILayerToolSidebarTabDefaults {
 
     /**
      * It creates sidebar tab defaults.

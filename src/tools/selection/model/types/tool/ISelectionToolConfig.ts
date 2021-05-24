@@ -1,13 +1,11 @@
 import IMapToolConfig from "../../../../../model/types/tool/IMapToolConfig";
 
 /**
- * This interface provides specification of the selection tool config model.
- * 
- * It contains only basic data types.
+ * This type provides specification of the selection tool config model.
  * 
  * @author Jiri Hynek
  */
-interface ISelectionToolConfig extends IMapToolConfig {
+type ISelectionToolConfig = IMapToolConfig & {
     selection: { 
         tool: string;
         ids: string[];

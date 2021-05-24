@@ -28,7 +28,7 @@ class EqFilterOperation extends AbstractMapDomain implements IMapFilterOperation
      * @param value 
      * @param pattern 
      */
-    public match(value: any, pattern: any): boolean {
+    public match(value: unknown, pattern: string): boolean {
         return value == pattern;
     }
 }

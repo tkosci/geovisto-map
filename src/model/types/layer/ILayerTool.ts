@@ -30,15 +30,6 @@ interface ILayerTool extends MapTool {
     getLayerItems(): L.Layer[];
 
     /**
-     * It updates data mapping and redraws the layer.
-     * It can be used by the layer tab providers when input values are changed.
-     * 
-     * @param dataMapping 
-     * @param onlyStyle
-     */
-    setDataMapping(dataMapping: any, onlyStyle: boolean): void;
-
-    /**
      * It reloads data and redraw the layer.
      * 
      * @param onlyStyle 

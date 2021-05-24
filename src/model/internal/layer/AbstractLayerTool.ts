@@ -164,21 +164,6 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
     }
 
     /**
-     * It updates data mapping and redraws the layer.
-     * It can be used by the layer tab providers when input values are changed.
-     * 
-     * @param dataMapping 
-     * @param onlyStyle
-     */
-    public setDataMapping(dataMapping: any, onlyStyle: boolean): void {
-        // update state
-        this.getState().setDataMapping(dataMapping);
-
-        // redraw the layer items
-        this.redraw(onlyStyle);
-    }
-
-    /**
      * It reloads data and redraw the layer.
      * 
      * Override this function.

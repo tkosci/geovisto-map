@@ -151,9 +151,9 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, ISide
         // TODO: remove the any type
         if(layer && (layer as any)._url != theme.getBaseMap()) {
             // remove the old layer
-            const map = this.getMap().getState().getLeafletMap();
-            if(map) {
-                map.removeLayer(layer);
+            const leafltMap = this.getMap()?.getState().getLeafletMap();
+            if(leafltMap) {
+                leafltMap.removeLayer(layer);
 
                 // create a new tile layer
                 layer = this.createTileLayer(this.getState().getBaseMap());
@@ -162,7 +162,7 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, ISide
                 this.getState().setTileLayer(layer);
 
                 // add the new layer to the leaflet map
-                layer.addTo(map);
+                layer.addTo(leafltMap);
             }
         }
     }

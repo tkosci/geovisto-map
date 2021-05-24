@@ -61,9 +61,12 @@ export type { default as IMapConfigManager } from './model/types/config/IMapConf
 export type { default as IMapConfigManagerFactory } from './model/types/config/IMapConfigManagerFactory';
 
 // data
+export type { default as IMapData } from './model/types/data/IMapData';
 export type { default as IMapDataDomain } from './model/types/data/IMapDataDomain';
 export type { default as IMapDataManager } from './model/types/data/IMapDataManager';
 export type { default as IMapDataManagerFactory } from './model/types/data/IMapDataManagerFactory';
+export type { default as IMapDataRecord } from './model/types/data/IMapDataRecord';
+export type { default as IMapDataRecordItem } from './model/types/data/IMapDataRecordItem';
 
 // dimension
 export type { default as IMapDimension } from './model/types/dimension/IMapDimension';
@@ -95,7 +98,6 @@ export type { default as ILabeledTextFormInputProps } from './model/types/inputs
 export type { default as ILayerTool } from './model/types/layer/ILayerTool';
 export type { default as ILayerToolConfig } from './model/types/layer/ILayerToolConfig';
 export type { default as ILayerToolDefaults } from './model/types/layer/ILayerToolDefaults';
-export type { default as ILayerToolDimensions } from './model/types/layer/ILayerToolDimensions';
 export type { default as ILayerToolProps } from './model/types/layer/ILayerToolProps';
 export type { default as ILayerToolState } from './model/types/layer/ILayerToolState';
 

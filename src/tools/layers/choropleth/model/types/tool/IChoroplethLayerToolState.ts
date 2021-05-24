@@ -43,7 +43,7 @@ interface IChoroplethLayerToolState extends ILayerToolState {
      * 
      * @param dimensions 
      */
-    setDimension(dimensions: IChoroplethLayerToolDimensions): void;
+    setDimensions(dimensions: IChoroplethLayerToolDimensions): void;
 
     /**
      * It returns a Leaflet geoJSON layer.
@@ -74,7 +74,7 @@ interface IChoroplethLayerToolState extends ILayerToolState {
      * 
      * TODO: specify the type
      */
-    getPolygons(): any;
+    getPolygons(): unknown;
 
     /**
      * It sets the polygons.
@@ -83,14 +83,14 @@ interface IChoroplethLayerToolState extends ILayerToolState {
      * 
      * @param polygons 
      */
-    setPolygons(polygons: any): void;
+    setPolygons(polygons: unknown): void;
 
     /**
      * It returns the hovered item.
      * 
      * TODO: specify the type
      */
-    getHoveredItem(): any;
+    getHoveredItem(): unknown;
 
     /**
      * It sets the hovered item.
@@ -99,7 +99,7 @@ interface IChoroplethLayerToolState extends ILayerToolState {
      * 
      * @param hoveredItem 
      */
-    setHoveredItem(hoveredItem: any): void;
+    setHoveredItem(hoveredItem: unknown): void;
 
     /**
      * It returns the z index.

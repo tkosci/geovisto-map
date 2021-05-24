@@ -10,6 +10,6 @@ interface IMapChangeEvent extends IMapEvent {
     /**
      * Return the changed object.
      */
-    getChangedObject(): any;
+    getChangedObject(): unknown;
 }
 export default IMapChangeEvent;

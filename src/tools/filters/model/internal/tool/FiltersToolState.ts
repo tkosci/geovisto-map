@@ -64,17 +64,17 @@ class FiltersToolState extends MapToolState implements IFiltersToolState {
         if(config.filterRules) {
             // get filter and data manegers which are need for proper deserialization of filter rules
             const filterManager = this.getFiltersManager();
-            const mapDataManager = this.getMap().getState().getMapData();
-            if(filterManager != undefined && mapDataManager != undefined) {
+            const mapDataManager = this.getMap()?.getState().getMapData();
+            if(filterManager && mapDataManager) {
                 const filterRules: IMapFilterRule[] = [];
                 let configFilterRule;
                 let dataDomain: IMapDataDomain | undefined;
                 let filterRule: IMapFilterRule | null;
-                if(config.filterRules != undefined) {
+                if(config.filterRules) {
                     for(let i = 0; i < config.filterRules.length; i++) {
                         configFilterRule = config.filterRules[i];
                         // get data domain
-                        dataDomain = mapDataManager.getDataDomain(configFilterRule.domain);
+                        dataDomain = mapDataManager.getDomain(configFilterRule.domain);
                         if(dataDomain && configFilterRule.operation && configFilterRule.pattern) {
                             filterRule = filterManager.createRule(dataDomain, configFilterRule.operation, configFilterRule.pattern);
                             if(filterRule) {

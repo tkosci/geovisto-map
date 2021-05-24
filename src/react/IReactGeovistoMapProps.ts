@@ -4,11 +4,11 @@ import ReactGeovistoMap from "./ReactGeovistoMap";
 import { RefObject } from "react";
 
 /**
- * This interface provide specification of map props model.
+ * This type provide specification of map props model.
  * 
  * @author Jiri Hynek
  */
-interface IReactGeovistoMapProps extends IMapProps {
+type IReactGeovistoMapProps = IMapProps & {
     ref: RefObject<ReactGeovistoMap>,
     config: IMapConfigManager | undefined
 }

@@ -1,13 +1,11 @@
 import IMapToolConfig from "../../../../../model/types/tool/IMapToolConfig";
 
 /**
- * This interface provides specification of the themes tool config model.
- * 
- * It contains only basic data types.
+ * This type provides specification of the themes tool config model.
  * 
  * @author Jiri Hynek
  */
-interface IThemesToolConfig extends IMapToolConfig {
+type IThemesToolConfig = IMapToolConfig & {
     theme: string | undefined;
 }
 export default IThemesToolConfig;

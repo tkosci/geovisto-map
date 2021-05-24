@@ -15,11 +15,10 @@ import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMa
  */
 class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLayerToolState {
 
-    private dimensions: IChoroplethLayerToolDimensions;
     private geoJSONlayer: L.GeoJSON | undefined;
     private popup: L.Control | undefined;
-    private polygons: any; // TODO: specify the type
-    private hoveredItem: any; // TODO: specify the type
+    private polygons: unknown; // TODO: specify the type
+    private hoveredItem: unknown; // TODO: specify the type
     private zindex: number;
     private bucketData: Map<string, IMapAggregationBucket>;
 
@@ -34,13 +33,13 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
 
         // sets map dimensions
         if(props.dimensions) {
-            this.dimensions = {
+            this.setDimensions({
                 geo: props.dimensions.geo == undefined ? defaults.getGeoDimension() : props.dimensions.geo,
                 value: props.dimensions.value == undefined ? defaults.getValueDimension() : props.dimensions.value,
                 aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation
-            };
+            });
         } else {
-            this.dimensions = defaults.getDimensions();
+            this.setDimensions(defaults.getDimensions());
         }
 
         // set other state props
@@ -61,13 +60,13 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
 
         // the choropleth layer tool properties
         if(props.dimensions) {
-            this.dimensions = {
+            this.setDimensions({
                 geo: props.dimensions.geo == undefined ? defaults.getGeoDimension() : props.dimensions.geo,
                 value: props.dimensions.value == undefined ? defaults.getValueDimension() : props.dimensions.value,
                 aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation
-            };
+            });
         } else {
-            this.dimensions = defaults.getDimensions();
+            this.setDimensions(defaults.getDimensions());
         }
         this.setPolygons(props.polygons == undefined ? defaults.getPolygons() : props.polygons);
         this.setHoveredItem(undefined);
@@ -147,7 +146,7 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
      * It returns the map layer dimensions property of the tool state.
      */
     public getDimensions(): IChoroplethLayerToolDimensions {
-        return this.dimensions;
+        return super.getDimensions() as IChoroplethLayerToolDimensions;
     }
 
     /**
@@ -155,8 +154,8 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
      * 
      * @param dimensions 
      */
-    public setDimension(dimensions: IChoroplethLayerToolDimensions): void {
-       this.dimensions = dimensions;
+    public setDimensions(dimensions: IChoroplethLayerToolDimensions): void {
+       super.setDimensions(dimensions);
     }
 
     /**
@@ -196,7 +195,7 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
      * 
      * TODO: specify the type
      */
-    public getPolygons(): any {
+    public getPolygons(): unknown {
         return this.polygons;
     }
 
@@ -207,7 +206,7 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
      * 
      * @param polygons 
      */
-    public setPolygons(polygons: any): void {
+    public setPolygons(polygons: unknown): void {
         this.polygons = polygons;
     }
 
@@ -216,7 +215,7 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
      * 
      * TODO: specify the type
      */
-    public getHoveredItem(): any {
+    public getHoveredItem(): unknown {
         return this.hoveredItem;
     }
 
@@ -227,7 +226,7 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
      * 
      * @param hoveredItem 
      */
-    public setHoveredItem(hoveredItem: any): void {
+    public setHoveredItem(hoveredItem: unknown): void {
         this.hoveredItem = hoveredItem;
     }
 
@@ -243,7 +242,7 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
      * 
      * @param zindex 
      */
-    public setZIndex(zindex: number): any {
+    public setZIndex(zindex: number): void {
         this.zindex = zindex;
     }
 

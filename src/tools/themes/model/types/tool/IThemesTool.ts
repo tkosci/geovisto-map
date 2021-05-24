@@ -1,5 +1,4 @@
 import IMapTool from "../../../../../model/types/tool/IMapTool";
-import ISidebarFragmentControl from "../../../../sidebar/model/types/fragment/ISidebarFragmentControl";
 import IThemesToolDefaults from "./IThemesToolDefaults";
 import IThemesToolProps from "./IThemesToolProps";
 import IThemesToolState from "./IThemesToolState";

@@ -11,6 +11,7 @@ import IMapTool from "../../types/tool/IMapTool";
 import IMapToolConfig from "../../types/tool/IMapToolConfig";
 import IMapDataManager from "../../types/data/IMapDataManager";
 import IMapConfigManager from "../../types/config/IMapConfigManager";
+import IMapData from "../../types/data/IMapData";
 
 /**
  * This class manages state of the map.
@@ -24,10 +25,10 @@ class GeovistoMapState extends MapObjectState implements IMapState {
     private tools: IMapToolsManager;
     private toolTemplates: IMapToolsManager;
     private mapData: IMapDataManager;
-    private data: any[];
+    private data: IMapData;
     private mapConfig: IMapConfigManager;
-    private polygons: any;
-    private centroids: any;
+    private polygons: unknown;
+    private centroids: unknown;
     private zoom: number;
     private mapCenter: { lat: number; lng: number; };
     private mapStructure: { maxZoom: number; maxBounds: [[number, number], [number, number]]; };
@@ -216,7 +217,7 @@ class GeovistoMapState extends MapObjectState implements IMapState {
      * 
      * TODO: specify the type
      */
-    public getCurrentData(): any[] {
+    public getCurrentData(): IMapData {
         return this.data;
     }
 
@@ -227,7 +228,7 @@ class GeovistoMapState extends MapObjectState implements IMapState {
      * 
      * @param data
      */
-    public setCurrentData(data: any[]): void {
+    public setCurrentData(data: IMapData): void {
         this.data = data;
     }
 
@@ -252,7 +253,7 @@ class GeovistoMapState extends MapObjectState implements IMapState {
      * 
      * TODO: specify the type
      */
-    public getPolygons(): any {
+    public getPolygons(): unknown {
         return this.polygons;
     }
 
@@ -263,8 +264,8 @@ class GeovistoMapState extends MapObjectState implements IMapState {
      * 
      * @param polygons
      */
-    public setPolygons(polygons: any): void {
-        return this.polygons = polygons;
+    public setPolygons(polygons: unknown): void {
+        this.polygons = polygons;
     }
 
     /**
@@ -272,7 +273,7 @@ class GeovistoMapState extends MapObjectState implements IMapState {
      * 
      * TODO: specify the type
      */
-    public getCentroids(): any {
+    public getCentroids(): unknown {
         return this.centroids;
     }
 
@@ -283,8 +284,8 @@ class GeovistoMapState extends MapObjectState implements IMapState {
      * 
      * @param centroids
      */
-    public setCentroids(centroids: any): void {
-        return this.centroids = centroids;
+    public setCentroids(centroids: unknown): void {
+        this.centroids = centroids;
     }
 
     /**

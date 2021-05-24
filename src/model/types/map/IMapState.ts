@@ -3,6 +3,7 @@ import IMapConfig from "./IMapConfig";
 import IMapToolsManager from "../tool/IMapToolsManager";
 import IMapDataManager from "../data/IMapDataManager";
 import IMapConfigManager from "../config/IMapConfigManager";
+import IMapData from "../data/IMapData";
 
 /**
  * This interface declares the state of the map.
@@ -77,19 +78,15 @@ interface IMapState extends IMapObjectState {
 
     /**
      * It returns current data (might be filtered).
-     * 
-     * TODO: specify the type
      */
-    getCurrentData(): any[];
+    getCurrentData(): IMapData;
 
     /**
      * It sets current data.
      * 
-     * TODO: specify the type
-     * 
      * @param data
      */
-    setCurrentData(data: any[]): void;
+    setCurrentData(data: IMapData): void;
 
     /**
      * It returns the map config manager.
@@ -108,7 +105,7 @@ interface IMapState extends IMapObjectState {
      * 
      * TODO: specify the type
      */
-    getPolygons(): any;
+    getPolygons(): unknown;
 
     /**
      * It sets polygons.
@@ -117,14 +114,14 @@ interface IMapState extends IMapObjectState {
      * 
      * @param polygons
      */
-    setPolygons(polygons: any): void;
+    setPolygons(polygons: unknown): void;
 
     /**
      * It returns centroids.
      * 
      * TODO: specify the type
      */
-    getCentroids(): any;
+    getCentroids(): unknown;
 
     /**
      * It sets centroids.
@@ -133,7 +130,7 @@ interface IMapState extends IMapObjectState {
      * 
      * @param centroids
      */
-    setCentroids(centroids: any): void;
+    setCentroids(centroids: unknown): void;
 
     /**
      * It returns the initial zoom level.

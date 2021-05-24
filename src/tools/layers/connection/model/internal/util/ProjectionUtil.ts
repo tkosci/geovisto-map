@@ -44,6 +44,7 @@ class ProjectionUtil {
 
             // points need to be unprojected first
             // then they need to be projected to the current map state
+            // TODO: specify the types
             .x(function(d: any) {
                 // project [lat, lng] to the current map state
                 return map.latLngToLayerPoint(
@@ -51,6 +52,7 @@ class ProjectionUtil {
                     map.unproject(new L.Point(d.x, d.y), zoom)
                 ).x;
             })
+            // TODO: specify the types
             .y(function(d: any) {
                 // project [lat, lng] to the current map state
                 return map.latLngToLayerPoint(

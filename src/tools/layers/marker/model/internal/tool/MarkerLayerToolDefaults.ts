@@ -107,7 +107,7 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
      * 
      * TODO: specify the type
      */
-    public getCentroids(): any {
+    public getCentroids(): unknown {
         return JSON.parse(JSON.stringify(this.getMapObject().getMap()?.getState().getCentroids()));
     }
 }

@@ -28,10 +28,10 @@ const C_ID_input_config = "leaflet-combined-map-input-config";
 const C_ID_input_import = "leaflet-combined-map-input-import";
 const C_ID_input_export = "leaflet-combined-map-input-export";
 
-class Demo extends Component<Record<string, never>, { data: Record<string, unknown>, config: Record<string, unknown> }> {
+class Demo extends Component<Record<string, never>, { data: unknown, config: Record<string, unknown> }> {
     
-    private polygons: Record<string, unknown>;
-    private centroids: Record<string, unknown>;
+    private polygons: unknown;
+    private centroids: unknown;
     private map: React.RefObject<ReactGeovistoMap>;
 
     public constructor(props: Record<string, never>) {
@@ -82,7 +82,7 @@ class Demo extends Component<Record<string, never>, { data: Record<string, unkno
         // ------ process files ------ //
 
         // process path
-        const pathSubmitted = function(file: File, result: { json: Record<string, unknown> | undefined }) {
+        const pathSubmitted = function(file: File, result: { json: unknown | undefined }) {
             const reader = new FileReader();
             const onLoadAction = function(e: ProgressEvent<FileReader>) {
                 try {

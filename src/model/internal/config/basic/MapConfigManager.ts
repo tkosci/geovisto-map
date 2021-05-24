@@ -15,7 +15,7 @@ class MapConfigManager extends AbstractMapConfigManager implements IMapConfigMan
      * 
      * @param config 
      */
-    public constructor(config: any) {
+    public constructor(config: Record<string, unknown>) {
         super(config);
     }
 
@@ -25,8 +25,10 @@ class MapConfigManager extends AbstractMapConfigManager implements IMapConfigMan
      * 
      * @param mapConfing 
      */
-    protected import(config: any): IMapConfig {
-        return config;
+    protected import(config: Record<string, unknown>): IMapConfig {
+        // we expect the external config in the config model
+        // TODO: provide validation
+        return config as unknown as IMapConfig;
     }
 
     /**
@@ -34,7 +36,7 @@ class MapConfigManager extends AbstractMapConfigManager implements IMapConfigMan
      * 
      * @param mapConfing 
      */
-    public export(mapConfig: IMapConfig): any {
+    public export(mapConfig: IMapConfig): Record<string, unknown> {
         return mapConfig;
     }
 }

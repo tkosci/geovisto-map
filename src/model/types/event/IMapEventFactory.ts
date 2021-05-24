@@ -1,6 +1,7 @@
 import IMapObject from "../object/IMapObject";
 import IMapEvent from "./IMapEvent";
 import IMapChangeEvent from "./IMapChangeEvent";
+import IMapData from "../data/IMapData";
 
 /**
  * This interface declares a factory for map events.
@@ -17,11 +18,11 @@ interface IMapEventFactory {
     /**
      * It creates a generic change event.
      */
-    change(type: string, source: IMapObject, changedObject: any): IMapChangeEvent;
+    change(type: string, source: IMapObject, changedObject: unknown): IMapChangeEvent;
     
     /**
      * It creates the data change event.
      */
-    dataChange(source: IMapObject, data: any): IMapChangeEvent;
+    dataChange(source: IMapObject, data: IMapData): IMapChangeEvent;
 }
 export default IMapEventFactory;

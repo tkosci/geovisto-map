@@ -40,15 +40,25 @@ interface ILayerToolState extends IMapToolState {
      * 
      * TODO: specify the type
      */
-    getLayerItems(): any[] | undefined;
+    getLayerItems(): L.Layer[] | undefined;
 
     /**
      * It sets the layer items property of tool state.
      * 
-     * TODO: specify the type
-     * 
      * @param layerItems 
      */
-    setLayerItems(layerItems: any[]): void;
+    setLayerItems(layerItems: L.Layer[]): void;
+
+    /**
+     * It returns the layer dimensions property of the tool state.
+     */
+    getDimensions(): ILayerToolDimensions;
+
+    /**
+     * It sets the layer dimensions property of tool state.
+     * 
+     * @param dimensions 
+     */
+    setDimensions(dimensions: ILayerToolDimensions): void;
 }
 export default ILayerToolState;

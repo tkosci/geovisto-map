@@ -1,5 +1,7 @@
 import IMapDataDomain from "../../../types/data/IMapDataDomain";
 import IMapDataManager from "../../../types/data/IMapDataManager";
+import IMapData from "../../../types/data/IMapData";
+import IMapDataRecord from "../../../types/data/IMapDataRecord";
 
 /**
  * The class wraps data used by the map, its metadata and functions to acquire data items.
@@ -8,28 +10,28 @@ import IMapDataManager from "../../../types/data/IMapDataManager";
  */
 abstract class AbstractMapDataManager implements IMapDataManager {
     
-    private data: any;
+    private data: unknown;
 
     /**
      * It initializes the data wrapper providing a basic API.
      * 
      * @param data 
      */
-    public constructor(data: any) {
+    public constructor(data: unknown) {
         this.data = data;
     }
 
     /**
      * It returns the original input data.
      */
-    public getOriginalData(): any {
+    public getOriginalData(): unknown {
         return this.data;
     }
 
     /**
      * It returns the preprocessed data as a list of data reconds of the *same* object type.
      */
-    public abstract getDataRecords(): any[];
+    public abstract getDataRecords(): IMapData;
 
     /**
      * It returns list of data domains.
@@ -41,7 +43,7 @@ abstract class AbstractMapDataManager implements IMapDataManager {
      * 
      * @param dataDomain
      */
-    public abstract getValues(dataDomain: IMapDataDomain): string[];
+    public abstract getValues(dataDomain: IMapDataDomain): unknown[];
 
     /**
      * Help function which returns the list of data domain string name.
@@ -79,7 +81,7 @@ abstract class AbstractMapDataManager implements IMapDataManager {
      * @param dataDomain
      * @param dataRecords
      */
-    public abstract getDataRecordsValues(dataDomain: IMapDataDomain, data: any[]): string[];
+    public abstract getDataRecordsValues(dataDomain: IMapDataDomain, data: IMapData): unknown[];
 
     /**
      * It returns values stored of the selected data domain stored in the given data record.
@@ -87,6 +89,6 @@ abstract class AbstractMapDataManager implements IMapDataManager {
      * @param dataDomain
      * @param dataRecord
      */
-    public abstract getDataRecordValues(dataDomain: IMapDataDomain, dataRecord: any): string[];
+    public abstract getDataRecordValues(dataDomain: IMapDataDomain, dataRecord: IMapDataRecord): unknown[];
 }
 export default AbstractMapDataManager;

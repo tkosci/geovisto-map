@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import './style/choroplethLayer.scss'
+import '../../../style/choroplethLayer.scss';
 import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
 import ChoroplethLayerToolState from './ChoroplethLayerToolState';
 import ChoroplethLayerToolDefaults from './ChoroplethLayerToolDefaults';
@@ -20,6 +20,7 @@ import IMapAggregationFunction from '../../../../../../model/types/aggregation/I
 import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMapAggregationBucket';
 import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
+import IMapData from '../../../../../../model/types/data/IMapData';
 
 /**
  * This class represents Choropleth layer tool. It works with geojson polygons representing countries.
@@ -88,7 +89,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
     private getSelectionTool(): ISelectionTool | undefined {
         if(this.selectionTool == undefined) {
             const tools = this.getMap()?.getState().getTools().getByType(GeovistoSelectionTool.getType());
-            if(tools.length > 0) {
+            if(tools && tools.length > 0) {
                 this.selectionTool = <ISelectionTool> tools[0];
             }
         }
@@ -194,7 +195,8 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
             if(pane) {
                 pane.style.zIndex = this.getState().getZIndex().toString();
                 // create Choropleth layer
-                const layer = L.geoJSON(this.getState().getPolygons(), {
+                // TODO: specify the type
+                const layer = L.geoJSON(this.getState().getPolygons() as any, {
                     onEachFeature: onEachFeature,
                     pane: this.getId()
                 });
@@ -202,7 +204,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
             
                 // create info control that shows country info on hover
                 // TODO specify the types
-                const layerPopup: any = L.control();
+                const layerPopup: any = new L.Control();
             
                 // TODO specify the types
                 layerPopup.onAdd = function (map: any) {
@@ -240,20 +242,21 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
         const geoDimension: IMapDataDomain | undefined = dimensions.geo.getDomain();
         const valueDimension: IMapDataDomain | undefined = dimensions.value.getDomain();
         const aggregationDimension: IMapAggregationFunction | undefined = dimensions.aggregation.getDomain();
+        const map = this.getMap();
 
         // test whether the dimension are set
-        if(geoDimension && valueDimension && aggregationDimension) {
+        if(geoDimension && valueDimension && aggregationDimension && map) {
             // and go through all data records
-            const mapData: IMapDataManager = this.getMap().getState().getMapData();
-            const data: any[] = this.getMap().getState().getCurrentData();
+            const mapData: IMapDataManager = map.getState().getMapData();
+            const data: IMapData = map.getState().getCurrentData();
             const dataLen: number = data.length;
-            let foundGeos: any[], foundValues: any[];
+            let foundGeos: unknown[], foundValues: unknown[];
             let aggregationBucket: IMapAggregationBucket | undefined;
             for (let i = 0; i < dataLen; i++) {
                 // find the 'geo' properties of the data record
                 foundGeos = mapData.getDataRecordValues(geoDimension,  data[i]);
                 // since the data are flattened we can expect max one found item
-                if(foundGeos.length == 1) {
+                if(foundGeos.length == 1 && typeof foundGeos[0] === "string") {
                     // get aggregation bucket for the country or create a new one
                     aggregationBucket = bucketMap.get(foundGeos[0]);
                     if(!aggregationBucket) {
@@ -263,7 +266,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
                     // find the 'value' properties
                     foundValues = mapData.getDataRecordValues(valueDimension, data[i]);
                     // since the data are flattened we can expect max one found item
-                    aggregationBucket.addValue(foundValues.length == 1 ? foundValues[0] : 0);
+                    aggregationBucket.addValue(foundValues.length == 1 ? (typeof foundValues[0] === "number" ? foundValues[0] : 1) : 0);
                 }   
             }
         }

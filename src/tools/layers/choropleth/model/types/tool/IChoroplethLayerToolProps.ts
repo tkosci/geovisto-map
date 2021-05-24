@@ -8,6 +8,6 @@ import IChoroplethLayerToolDimensions from "./IChoroplethLayerToolDimensions";
  */
 interface IChoroplethLayerToolProps extends ILayerToolProps {
     dimensions: IChoroplethLayerToolDimensions | undefined;
-    polygons: any; // TODO: specify the type
+    polygons: unknown; // TODO: specify the type
 }
 export default IChoroplethLayerToolProps;

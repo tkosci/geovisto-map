@@ -13,7 +13,7 @@ class MapFilterRule implements IMapFilterRule {
     
     private operation: IMapFilterOperation;
     
-    private pattern: any;
+    private pattern: string;
 
     /**
      * It creates a filter rule composed of given data domain, operation and pattern.
@@ -22,7 +22,7 @@ class MapFilterRule implements IMapFilterRule {
      * @param operation 
      * @param pattern 
      */
-    public constructor(dataDomain: IMapDataDomain, operation: IMapFilterOperation, pattern: any) {
+    public constructor(dataDomain: IMapDataDomain, operation: IMapFilterOperation, pattern: string) {
         this.dataDomain = dataDomain;
         this.operation = operation;
         this.pattern = pattern;
@@ -45,7 +45,7 @@ class MapFilterRule implements IMapFilterRule {
     /**
      * It returns the string label of the filter representing operator given by the parameter of constructor.
      */
-    public getPattern(): any {
+    public getPattern(): string {
         return this.pattern;
     }
 }

@@ -1,13 +1,11 @@
 import IMapObjectConfig from "../object/IMapObjectConfig";
 
 /**
- * This interface provides specification of map tool config model.
- * 
- * It contains only basic data types.
+ * This type provides specification of map tool config model.
  * 
  * @author Jiri Hynek
  */
-interface IMapToolConfig extends IMapObjectConfig {
+type IMapToolConfig = IMapObjectConfig & {
     enabled: boolean | undefined;
 }
 export default IMapToolConfig;

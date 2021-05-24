@@ -48,14 +48,14 @@ interface IMapDefaults extends IMapObjectDefaults {
      * 
      * TODO: provide a GeoJSON manager.
      */
-    getPolygons(): any;
+    getPolygons(): unknown;
 
     /**
      * It returns default geo centroids.
      * 
      * TODO: provide a GeoJSON manager.
      */
-    getCentroids(): any;
+    getCentroids(): unknown;
 
     /**
      * It returns default global state variables.

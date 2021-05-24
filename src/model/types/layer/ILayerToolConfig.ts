@@ -1,13 +1,11 @@
 import IMapToolConfig from "../tool/IMapToolConfig";
 
 /**
- * This interface provides specification of the layer tool config model.
- * 
- * It contains only basic data types.
+ * This type provides specification of the layer tool config model.
  * 
  * @author Jiri Hynek
  */
-interface ILayerToolConfig extends IMapToolConfig {
+type ILayerToolConfig = IMapToolConfig & {
     name: string | undefined;
 }
 export default ILayerToolConfig;

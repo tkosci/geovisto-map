@@ -3,6 +3,7 @@ import IMapDataDomain from "../../../../../model/types/data/IMapDataDomain";
 import IMapFilterOperation from "./IMapFilterOperation";
 import IMapFilterRule from "./IMapFilterRule";
 import IMapDataManager from "../../../../../model/types/data/IMapDataManager";
+import IMapData from "../../../../../model/types/data/IMapData";
 
 /**
  * This interface declares functions for using filters.
@@ -30,6 +31,6 @@ interface IMapFiltersManager extends IMapDomainArrayManager<IMapFilterOperation>
      * @param dataRecords 
      * @param filterRules 
      */
-    filterData(dataManager: IMapDataManager, dataRecords: any[], filterRules: IMapFilterRule[]): any[];
+    filterData(dataManager: IMapDataManager, dataRecords: IMapData, filterRules: IMapFilterRule[]): IMapData;
 }
 export default IMapFiltersManager;

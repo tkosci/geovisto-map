@@ -4,6 +4,7 @@ import IMapConfigManager from "../config/IMapConfigManager";
 import IMapDefaults from "./IMapDefaults";
 import IMapProps from "./IMapProps";
 import IMapState from "./IMapState";
+import IMapData from "../data/IMapData";
 
 /**
  * Declaration of map wrapper which handles map inputs (data, props, config), map tools and other map objects.
@@ -35,7 +36,7 @@ interface IMap extends IMapObject {
     /**
      * It exports the serialized representation of the current state of the map.
      */
-    export(): any;
+    export(): Record<string, unknown>;
 
     /**
      * It updates data and invokes listeners.
@@ -43,7 +44,7 @@ interface IMap extends IMapObject {
      * @param data
      * @param source of the change
      */
-    updateData(data: any[], source: IMapObject): void;
+    updateData(data: IMapData, source: IMapObject): void;
     
     /**
      * It sends custom event to all listeners (tools)

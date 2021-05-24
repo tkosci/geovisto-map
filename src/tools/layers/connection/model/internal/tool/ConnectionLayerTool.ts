@@ -26,6 +26,7 @@ import CountAggregationFunction from '../../../../../../model/internal/aggregati
 import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMapAggregationBucket';
 import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapChangeEvent from '../../../../../../model/types/event/IMapChangeEvent';
+import IMapData from '../../../../../../model/types/data/IMapData';
 
 /**
  * This class represents Connection layer tool. It uses SVG layer and D3 to draw the lines.
@@ -94,7 +95,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
     private getSelectionTool(): ISelectionTool | undefined {
         if(this.selectionTool == undefined) {
             const tools = this.getMap()?.getState().getTools().getByType(GeovistoSelectionTool.getType());
-            if(tools.length > 0) {
+            if(tools && tools.length > 0) {
                 this.selectionTool = <ISelectionTool> tools[0];
             }
         }
@@ -165,7 +166,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
      * @param to 
      */
     protected geoIdsToBucketHash(from: string, to: string): string {
-        return from + "\t" + "to";
+        return from + "\t" + to;
     }
 
     /**
@@ -187,54 +188,58 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
             connections: new Map<string, IMapAggregationBucket>()
         };
 
-        const map = this.getMap().getState().getLeafletMap();
-        const dimensions: IConnectionLayerToolDimensions = this.getState().getDimensions();
-        const fromDimension: IMapDataDomain | undefined = dimensions.from.getDomain();
-        const toDimension: IMapDataDomain | undefined = dimensions.to.getDomain();
+        const map = this.getMap();
+        if(map) {
+            const leafletMap = map?.getState().getLeafletMap();
+            const dimensions: IConnectionLayerToolDimensions = this.getState().getDimensions();
+            const fromDimension: IMapDataDomain | undefined = dimensions.from.getDomain();
+            const toDimension: IMapDataDomain | undefined = dimensions.to.getDomain();
 
-        // TODO: implement aggregation of values
-        const aggregationDimension: IMapAggregationFunction = new CountAggregationFunction();
+            // TODO: implement aggregation of values
+            const aggregationDimension: IMapAggregationFunction = new CountAggregationFunction();
 
-        // test whether the dimension are set
-        if(map && fromDimension && toDimension) {
-            const mapData: IMapDataManager = this.getMap().getState().getMapData();
-            const data: any[] = this.getMap().getState().getCurrentData();
-            const dataLen: number = data.length;
-            let foundFroms: any[], foundTos: any[];
-            const value = 1; // TODO: fetch the value from data
-            let bucketHash;
+            // test whether the dimension are set
+            if(leafletMap && fromDimension && toDimension) {
+                const mapData: IMapDataManager = map.getState().getMapData();
+                const data: IMapData = map.getState().getCurrentData();
+                const dataLen: number = data.length;
+                let foundFroms: unknown[], foundTos: unknown[];
+                const value = 1; // TODO: fetch the value from data
+                let bucketHash;
 
-            let aggregationBucket: IMapAggregationBucket | undefined;
-            for (let i = 0; i < dataLen; i++) {
-                // find the 'from' properties of the data record
-                foundFroms = mapData.getDataRecordValues(fromDimension, data[i]);
-                // since the data are flattened we can expect max one found item
-                if(foundFroms.length == 1) {
-                    // find the 'to' properties of the data record
-                    foundTos = mapData.getDataRecordValues(fromDimension, data[i]);
+                let aggregationBucket: IMapAggregationBucket | undefined;
+                for (let i = 0; i < dataLen; i++) {
+                    // find the 'from' properties of the data record
+                    foundFroms = mapData.getDataRecordValues(fromDimension, data[i]);
                     // since the data are flattened we can expect max one found item
-                    if(foundTos.length == 1) {
-                        // update the node set
-                        bucketData.nodes.add(foundFroms[0]);
-                        bucketData.nodes.add(foundTos[0]);
-                        // update the bucket map
-                        bucketHash = this.geoIdsToBucketHash(foundFroms[0], foundTos[0]);
-                        aggregationBucket = bucketData.connections.get(bucketHash);
-                        if(!aggregationBucket) {
-                            aggregationBucket = aggregationDimension.getAggregationBucket();
-                            bucketData.connections.set(bucketHash, aggregationBucket);
-                        }
-                        // find the 'value' properties (TODO: provide support)
-                        //foundValues = mapData.getDataRecordValues(valueDimension, data[i]);
+                    if(foundFroms.length == 1 && typeof foundFroms[0] === "string") {
+                        // find the 'to' properties of the data record
+                        foundTos = mapData.getDataRecordValues(fromDimension, data[i]);
                         // since the data are flattened we can expect max one found item
-                        aggregationBucket.addValue(value);
+                        if(foundTos.length == 1 && typeof foundTos[0] === "string") {
+                            // update the node set
+                            // TODO: country identifiers should be always string
+                            bucketData.nodes.add(foundFroms[0]);
+                            bucketData.nodes.add(foundTos[0]);
+                            // update the bucket map
+                            bucketHash = this.geoIdsToBucketHash(foundFroms[0], foundTos[0]);
+                            aggregationBucket = bucketData.connections.get(bucketHash);
+                            if(!aggregationBucket) {
+                                aggregationBucket = aggregationDimension.getAggregationBucket();
+                                bucketData.connections.set(bucketHash, aggregationBucket);
+                            }
+                            // find the 'value' properties (TODO: provide support)
+                            //foundValues = mapData.getDataRecordValues(valueDimension, data[i]);
+                            // since the data are flattened we can expect max one found item
+                            aggregationBucket.addValue(value);
+                        }
                     }
-                }
-            }    
-        }
+                }    
+            }
 
-        // update work data
-        this.getState().setBucketData(bucketData);
+            // update work data
+            this.getState().setBucketData(bucketData);
+        }
 
         return bucketData;
     }
@@ -245,9 +250,9 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
      */
     public postCreateLayerItems(): void {
         const svgLayer = this.getState().getSVGLayer();
-        const map = this.getMap().getState().getLeafletMap();
+        const leafletMap = this.getMap()?.getState().getLeafletMap();
 
-        if(svgLayer && map) {
+        if(svgLayer && leafletMap) {
             // get overleay pane
             // TODO: use public API
             const overlayPane = d3.select((svgLayer as any)._map.getPanes().overlayPane);
@@ -264,12 +269,13 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
             const bucketData = this.getState().getBucketData();
 
             // prepare nodes
-            const clone = new rfdc();
+            const clone = rfdc();
             const centroids = this.getState().getCentroids();
-            const projectPoint = ProjectionUtil.getDataProjectionFunction(map, this.getDefaults().getProjectionZoom());
-            const nodes = new Map<string, any>();
+            const projectPoint = ProjectionUtil.getDataProjectionFunction(leafletMap, this.getDefaults().getProjectionZoom());
+            const nodes = new Map<string, unknown>();
             let centroidCopy;
-            for(const centroid of centroids) {
+            // TODO specify the type
+            for(const centroid of centroids as any) {
                 if(bucketData.nodes.has(centroid.id)) {
                     centroidCopy = clone(centroid);
                     projectPoint(centroid);
@@ -278,6 +284,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
             }
 
             // prepare connections
+            // TODO: specify the types
             const connections: { source: any, target: any, value: number }[] = [];
             let geos, source, target;
             for(const [hash, bucket] of bucketData.connections) {
@@ -303,7 +310,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
             // get projection path function
             // geographic locations [lat, lng] of nodes needs to be projected to leaflet map
             // we use the zoom preferred for the force layout simulation
-            var projectionPathFunction = ProjectionUtil.getPathProjectionFunction(map, this.getDefaults().getProjectionZoom());
+            const projectionPathFunction = ProjectionUtil.getPathProjectionFunction(leafletMap, this.getDefaults().getProjectionZoom());
 
             // draw paths
             g.selectAll("path.abc")
@@ -328,7 +335,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
             }
 
             // map move/zoom listener
-            map.on("moveend", updatePaths);
+            leafletMap.on("moveend", updatePaths);
             // initial update
             updatePaths();
 

@@ -44,7 +44,7 @@ interface IMarkerLayerToolState extends ILayerToolState {
      * 
      * @param dimensions 
      */
-    setDimension(dimensions: IMarkerLayerToolDimensions): void;
+    setDimensions(dimensions: IMarkerLayerToolDimensions): void;
 
     /**
      * It returns a Leaflet layer group.
@@ -63,7 +63,7 @@ interface IMarkerLayerToolState extends ILayerToolState {
      * 
      * TODO: specify the types
      */
-    getCentroids(): any;
+    getCentroids(): unknown;
 
     /**
      * It sets the centroids.
@@ -72,7 +72,7 @@ interface IMarkerLayerToolState extends ILayerToolState {
      * 
      * @param centroids 
      */
-    setCentroids(centroids: any): void;
+    setCentroids(centroids: unknown): void;
 
     /**
      * It returns the markers.

@@ -11,7 +11,7 @@ interface IMapConfigManager {
     /**
      * It returns the original config.
      */
-    getOriginalConfig(): any;
+    getOriginalConfig(): Record<string, unknown>;
 
     /**
      * It returns the map config.
@@ -35,6 +35,6 @@ interface IMapConfigManager {
      * 
      * @param mapConfing 
      */
-    export(mapConfing: IMapConfig): any;
+    export(mapConfing: IMapConfig): Record<string, unknown>;
 }
 export default IMapConfigManager;

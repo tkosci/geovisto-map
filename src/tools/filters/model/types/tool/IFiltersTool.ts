@@ -1,5 +1,4 @@
 import IMapTool from "../../../../../model/types/tool/IMapTool";
-import ISidebarTabControl from "../../../../sidebar/model/types/tab/ISidebarTabControl";
 import IFiltersToolProps from "./IFiltersToolProps";
 import IFiltersToolDefaults from "./IFiltersToolDefaults";
 import IFiltersToolState from "./IFiltersToolState";

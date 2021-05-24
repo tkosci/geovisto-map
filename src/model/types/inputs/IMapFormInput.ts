@@ -13,14 +13,14 @@ interface IMapFormInput {
     /**
      * It returns value of the input element.
      */
-    getValue(): any;
+    getValue(): unknown;
 
     /**
      * It sets value of the input element.
      * 
      * @param value 
      */
-    setValue(value: any): void;
+    setValue(value: unknown): void;
 
 }
 export default IMapFormInput;

@@ -12,7 +12,7 @@ class MapConfigManagerFactory implements IMapConfigManagerFactory {
     /**
      * It creates the default config manager function.
      */
-    public default(config: any): IMapConfigManager {
+    public default(config: Record<string, unknown>): IMapConfigManager {
         return new MapConfigManager(config);
     }
 }

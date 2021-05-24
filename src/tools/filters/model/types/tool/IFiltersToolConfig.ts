@@ -1,13 +1,11 @@
 import IMapToolConfig from "../../../../../model/types/tool/IMapToolConfig";
 
 /**
- * This interface provides specification of the filters tool config model.
- * 
- * It contains only basic data types.
+ * This type provides specification of the filters tool config model.
  * 
  * @author Jiri Hynek
  */
-interface IFiltersToolConfig extends IMapToolConfig {
+type IFiltersToolConfig = IMapToolConfig & {
     filterRules: {
         domain: string,
         operation: string,

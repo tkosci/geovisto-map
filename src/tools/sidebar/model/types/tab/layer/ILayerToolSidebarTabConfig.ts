@@ -1,9 +1,7 @@
 import { ISidebarTabConfig } from "../../../..";
 
 /**
- * This interface provides specification of sidebar fragment config model.
- * 
- * It contains only basic data types or ruther configs.
+ * This type provides specification of sidebar fragment config model.
  * 
  * @author Jiri Hynek
  */

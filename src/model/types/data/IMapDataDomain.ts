@@ -10,6 +10,6 @@ interface IMapDataDomain extends IMapDomain {
     /**
      * It returns the original representation of data domain.
      */
-    getOriginal(): any;
+    getOriginal(): unknown;
 }
 export default IMapDataDomain;

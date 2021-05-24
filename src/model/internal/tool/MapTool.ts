@@ -8,7 +8,6 @@ import IMapToolConfig from "../../types/tool/IMapToolConfig";
 import MapObject from "../object/MapObject";
 import MapToolDefaults from "./MapToolDefaults";
 import MapToolState from "./MapToolState";
-import IMapObject from "../../types/object/IMapObject";
 
 /**
  * This class provides basic tools API.
@@ -104,7 +103,7 @@ class MapTool extends MapObject implements IMapTool {
      * 
      * @returns {CombinedMap}
      */
-    public getMap(): IMap {
+    public getMap(): IMap | undefined {
         return this.getState().getMap();
     }
 

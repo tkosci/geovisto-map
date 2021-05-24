@@ -1,12 +1,9 @@
 import ILayerToolConfig from "../../../../../../model/types/layer/ILayerToolConfig";
 
 /**
- * This interface provides specification of the tiles layer tool config model.
- * 
- * It contains only basic data types.
+ * This type provides specification of the tiles layer tool config model.
  * 
  * @author Jiri Hynek
  */
-interface ITilesLayerToolConfig extends ILayerToolConfig {
-}
+type ITilesLayerToolConfig = ILayerToolConfig
 export default ITilesLayerToolConfig;

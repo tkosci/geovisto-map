@@ -16,7 +16,7 @@ class MapFilterOperation extends AbstractMapDomain implements IMapFilterOperatio
      * @param value 
      * @param pattern 
      */
-    public match: (value: any, pattern: any) => boolean;
+    public match: (value: unknown, pattern: unknown) => boolean;
 
     /**
      * It creates a new filter operation.
@@ -24,7 +24,7 @@ class MapFilterOperation extends AbstractMapDomain implements IMapFilterOperatio
      * @param label 
      * @param acceptFunction 
      */
-    public constructor(label: string, acceptFunction: (value: any, pattern: any) => boolean) {
+    public constructor(label: string, acceptFunction: (value: unknown, pattern: unknown) => boolean) {
         super();
         this.label = label;
         this.match = acceptFunction;

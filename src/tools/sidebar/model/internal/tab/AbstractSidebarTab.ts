@@ -169,6 +169,8 @@ abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implemen
                         const tabEnableBtn: HTMLInputElement = document.createElement("input");
                         tabEnableBtn.setAttribute("type", "checkbox");
                         tabEnableBtn.setAttribute("id", this.getState().getId() + '-enable-btn');
+                        // TODO
+                        // eslint-disable-next-line no-var, @typescript-eslint/no-this-alias
                         var _this = this;
                         tabEnableBtn.onclick = function() {
                             // onclick event handler enables/disables its items

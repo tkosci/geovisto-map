@@ -1,13 +1,11 @@
 import ILayerToolConfig from "../../../../../../model/types/layer/ILayerToolConfig";
 
 /**
- * This interface provides specification of the choropleth layer tool config model.
- * 
- * It contains only basic data types.
+ * This type provides specification of the choropleth layer tool config model.
  * 
  * @author Jiri Hynek
  */
-interface IChoroplethLayerToolConfig extends ILayerToolConfig {
+type IChoroplethLayerToolConfig = ILayerToolConfig & {
     data: {
         geo: string | undefined,
         value: string | undefined,

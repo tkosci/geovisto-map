@@ -4,6 +4,7 @@ import ILayerTool from "../../types/layer/ILayerTool";
 import ILayerToolProps from "../../types/layer/ILayerToolProps";
 import ILayerToolDefaults from "../../types/layer/ILayerToolDefaults";
 import ILayerToolConfig from "../../types/layer/ILayerToolConfig";
+import ILayerToolDimensions from "../../types/layer/ILayerToolDimensions";
 
 /**
  * This class provide functions for using the state of the layer tool.
@@ -14,6 +15,7 @@ class LayerToolState extends MapToolState implements ILayerToolState {
     
     private layerName: string;
     private layerItems: L.Layer[] | undefined;
+    private dimensions: ILayerToolDimensions;
 
     /**
      * It creates a tool state.
@@ -25,6 +27,7 @@ class LayerToolState extends MapToolState implements ILayerToolState {
         const defaults = <ILayerToolDefaults> this.getDefaults();
 
         this.layerName = props.name == undefined ? defaults.getLayerName() : props.name;
+        this.dimensions = {};
     }
 
     /**
@@ -98,6 +101,22 @@ class LayerToolState extends MapToolState implements ILayerToolState {
      */
     public setLayerItems(layerItems: L.Layer[]): void {
        this.layerItems = layerItems;
+    }
+
+    /**
+     * It returns the map layer dimensions property of the tool state.
+     */
+    public getDimensions(): ILayerToolDimensions {
+        return this.dimensions;
+    }
+
+    /**
+     * It sets the map layer dimensions property of tool state.
+     * 
+     * @param dimensions 
+     */
+    public setDimensions(dimensions: ILayerToolDimensions): void {
+       this.dimensions = dimensions;
     }
 }
 export default LayerToolState;

@@ -1,8 +1,7 @@
 /**
- * This interface provide specification of the layer tool props model.
+ * This type provide specification of the layer tool props model.
  * 
  * @author Jiri Hynek
  */
-interface ILayerToolDimensions {
-}
+type ILayerToolDimensions = Record<string, unknown>
 export default ILayerToolDimensions;

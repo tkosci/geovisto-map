@@ -1,13 +1,13 @@
-import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
 
 /**
- * This interface provide specification of the connection layer tool dimensions model.
+ * This type provide specification of the connection layer tool dimensions model.
  * 
  * @author Jiri Hynek
  */
-interface IConnectionLayerToolDimensions extends ILayerToolDimensions {
+type IConnectionLayerToolDimensions = ILayerToolDimensions & {
     from: IMapDimension<IMapDataDomain>,
     to: IMapDimension<IMapDataDomain>,
 }

@@ -32,14 +32,14 @@ abstract class AbstractMapFormInput implements IMapFormInput {
     /**
      * It returns value of the input element.
      */
-    public abstract getValue(): any;
+    public abstract getValue(): unknown;
 
     /**
      * It sets value of the input element.
      * 
      * @param value 
      */
-    public abstract setValue(value: any): void;
+    public abstract setValue(value: unknown): void;
 
 }
 export default AbstractMapFormInput;

@@ -90,7 +90,7 @@ class SidebarTool extends MapTool implements ISidebarTool {
      */
     protected createSidebar(): void {
         if(this.isEnabled()) {
-            const map = this.getMap().getState().getLeafletMap();
+            const map = this.getMap()?.getState().getLeafletMap();
             if(map) {
                 let sidebar = undefined;
                 // create sidebar control and add it to the map
@@ -126,23 +126,26 @@ class SidebarTool extends MapTool implements ISidebarTool {
      * It returns sidebar tabs.
      */
     private createTabs(): void {
-        // import tabs
-        const tabsConfigs: ISidebarTabConfig[] | undefined = this.getState().getTabsConfigs();
-        if(tabsConfigs) {
-            // based on config
-            let tabConfig: ISidebarTabConfig, tool: IMapTool | undefined;
-            for(let i = 0; i < tabsConfigs.length; i++) {
-                tabConfig = tabsConfigs[i];
-                if(tabConfig.tool) {
-                    tool = this.getMap().getState().getTools().getById(tabConfig.tool);
-                    this.createSidebarTab(tool, tabConfig);
+        const map = this.getMap();
+        if(map) {
+            // import tabs
+            const tabsConfigs: ISidebarTabConfig[] | undefined = this.getState().getTabsConfigs();
+            if(tabsConfigs) {
+                // based on config
+                let tabConfig: ISidebarTabConfig, tool: IMapTool | undefined;
+                for(let i = 0; i < tabsConfigs.length; i++) {
+                    tabConfig = tabsConfigs[i];
+                    if(tabConfig.tool) {
+                        tool = map.getState().getTools().getById(tabConfig.tool);
+                        this.createSidebarTab(tool, tabConfig);
+                    }
                 }
-            }
-        } else {
-            // based on the implicit order of the tools in the list of the tools
-            const tools: IMapTool[] = this.getMap().getState().getTools().getAll();
-            for(let i = 0; i < tools.length; i++) {
-                this.createSidebarTab(tools[i], undefined);
+            } else {
+                // based on the implicit order of the tools in the list of the tools
+                const tools: IMapTool[] = map.getState().getTools().getAll();
+                for(let i = 0; i < tools.length; i++) {
+                    this.createSidebarTab(tools[i], undefined);
+                }
             }
         }
     }

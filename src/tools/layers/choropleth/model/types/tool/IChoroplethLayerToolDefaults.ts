@@ -36,7 +36,7 @@ interface IChoroplethLayerToolDefaults extends ILayerToolDefaults {
      * 
      * TODO: specify the type.
      */
-    getPolygons(): any;
+    getPolygons(): unknown;
 
     /**
      * It returns preferred z index for the choropoleth layer

@@ -10,6 +10,6 @@ interface IMapConfigManagerFactory {
     /**
      * It creates the default config manager function.
      */
-    default(config: any): IMapConfigManager;
+    default(config: Record<string, unknown>): IMapConfigManager;
 }
 export default IMapConfigManagerFactory;

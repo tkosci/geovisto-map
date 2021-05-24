@@ -8,6 +8,6 @@ import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
  */
 interface IConnectionLayerToolProps extends ILayerToolProps {
     dimensions: IConnectionLayerToolDimensions | undefined;
-    centroids: any; // TODO: specify the type
+    centroids: unknown; // TODO: specify the type
 }
 export default IConnectionLayerToolProps;

@@ -6,7 +6,7 @@ import IMapFormInputProps from "../../IMapFormInputProps";
  * @author Jiri Hynek
  */
 interface ILabeledAutocompleteFormInputProps extends IMapFormInputProps {
-    onChangeAction : ((this: GlobalEventHandlers, ev: Event) => any) | null;
+    onChangeAction : ((this: GlobalEventHandlers, ev: Event) => unknown) | null;
     label: string;
     options: string[];
 }

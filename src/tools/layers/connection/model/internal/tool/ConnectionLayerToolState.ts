@@ -15,8 +15,7 @@ import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMa
  */
 class ConnectionLayerToolState extends LayerToolState implements IConnectionLayerToolState {
 
-    private dimensions: IConnectionLayerToolDimensions;
-    private centroids: any;
+    private centroids: unknown;
     private svgLayer: L.SVG | undefined;
     private bucketData: { nodes: Set<string>, connections: Map<string, IMapAggregationBucket> };
 
@@ -31,12 +30,12 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
 
         // sets map dimensions
         if(props.dimensions) {
-            this.dimensions = {
+            this.setDimensions({
                 from: props.dimensions.from == undefined ? defaults.getFromDimension() : props.dimensions.from,
                 to: props.dimensions.to == undefined ? defaults.getToDimension() : props.dimensions.to
-            };
+            });
         } else {
-            this.dimensions = defaults.getDimensions();
+            this.setDimensions(defaults.getDimensions());
         }
 
         // the layer tool properties
@@ -58,12 +57,12 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
 
         // sets map dimensions
         if(props.dimensions) {
-            this.dimensions = {
+            this.setDimensions({
                 from: props.dimensions.from == undefined ? defaults.getFromDimension() : props.dimensions.from,
                 to: props.dimensions.to == undefined ? defaults.getToDimension() : props.dimensions.to
-            };
+            });
         } else {
-            this.dimensions = defaults.getDimensions();
+            this.setDimensions(defaults.getDimensions());
         }
 
         // the layer tool properties
@@ -140,7 +139,7 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
      * It returns the map layer dimensions property of the tool state.
      */
     public getDimensions(): IConnectionLayerToolDimensions {
-        return this.dimensions;
+        return super.getDimensions() as IConnectionLayerToolDimensions;
     }
 
     /**
@@ -148,8 +147,8 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
      * 
      * @param dimensions 
      */
-    public setDimension(dimensions: IConnectionLayerToolDimensions): void {
-       this.dimensions = dimensions;
+    public setDimensions(dimensions: IConnectionLayerToolDimensions): void {
+       super.setDimensions(dimensions);
     }
 
     /**
@@ -173,7 +172,7 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
      * 
      * TODO: specify the type
      */
-    public getCentroids(): any {
+    public getCentroids(): unknown {
         return this.centroids;
     }
 
@@ -184,7 +183,7 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
      * 
      * @param centroids 
      */
-    public setCentroids(centroids: any): void {
+    public setCentroids(centroids: unknown): void {
         this.centroids = centroids;
     }
 

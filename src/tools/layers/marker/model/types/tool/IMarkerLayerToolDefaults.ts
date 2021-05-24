@@ -39,6 +39,6 @@ interface IMarkerLayerToolDefaults extends ILayerToolDefaults {
     /**
      * It returns the default centroids.
      */
-    getCentroids(): any;
+    getCentroids(): unknown;
 }
 export default IMarkerLayerToolDefaults;

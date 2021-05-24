@@ -100,9 +100,10 @@ class ThemesTool extends MapTool implements IThemesTool, ISidebarFragmentControl
     public setTheme(theme: IMapTheme): void {
         if(theme != undefined) {
             // if the theme tool is enabled, update map theme
-            if(this.isEnabled()) {
+            const map = this.getMap();
+            if(this.isEnabled() && map) {
                 // update map container theme attribute (used by CSS selectors)
-                const mapContainer = document.getElementById(this.getMap().getId());
+                const mapContainer = document.getElementById(map.getId());
                 if(mapContainer) {
                     mapContainer.setAttribute(THEME_ATTR_NAME, theme.getName());
                 }
@@ -111,7 +112,7 @@ class ThemesTool extends MapTool implements IThemesTool, ISidebarFragmentControl
                 this.getState().setTheme(theme);
 
                 // dispatch event
-                this.getMap().dispatchEvent(new ThemesToolEvent(this, theme));
+                map.dispatchEvent(new ThemesToolEvent(this, theme));
             }
         }
     }

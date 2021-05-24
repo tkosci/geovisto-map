@@ -1,5 +1,4 @@
-import L, { marker } from 'leaflet';
-import LL from 'leaflet.markercluster';
+import L, { marker, MarkerClusterGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
@@ -24,6 +23,7 @@ import IMapAggregationFunction from '../../../../../../model/types/aggregation/I
 import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
 import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMapAggregationBucket';
 import IMapEvent from '../../../../../../model/types/event/IMapEvent';
+import IMapData from '../../../../../../model/types/data/IMapData';
 
 /**
  * This class represents custom div icon which is used to mark center of countries.
@@ -109,7 +109,7 @@ const MarkerIcon = L.DivIcon.extend({
     },
 
     /**
-     * TODO specify the type
+     * TODO specify the types
      * 
      * @param oldIcon 
      */
@@ -169,6 +169,7 @@ const MarkerIcon = L.DivIcon.extend({
         //var color = d3.scaleOrdinal()
         //    .domain(options.values.subvalues)
         //    .range(this.donutColors);
+        // TODO specify the types
         const pie = d3.pie().value(function(d) { return (d as any)[1]; });
         const values_ready = pie(options.values.subvalues as any);
         // donut chart
@@ -275,7 +276,7 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
     private getSelectionTool(): ISelectionTool | undefined {
         if(this.selectionTool == undefined) {
             const tools = this.getMap()?.getState().getTools().getByType(GeovistoSelectionTool.getType());
-            if(tools.length > 0) {
+            if(tools && tools.length > 0) {
                 this.selectionTool = <ISelectionTool> tools[0];
             }
         }
@@ -312,13 +313,14 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
     protected createLayerItems(): L.Layer[] {
         // create layer which clusters points
         //let layer = L.layerGroup([]);
-        const markerLayerGroup: L.MarkerClusterGroup = L.markerClusterGroup({
+        const markerLayerGroup: MarkerClusterGroup = L.markerClusterGroup({
 
             // create cluster icon
             iconCreateFunction: function (cluster) {
                 const markers: L.Marker[] = cluster.getAllChildMarkers();
                 const data = { id: "<Group>", value: 0, subvalues: {} };
                 for (let i = 0; i < markers.length; i++) {
+                    // TODO specify the types
                     data.value += (markers[i].options.icon as any)?.options.values.value;
                     for(const [key, value] of Object.entries((markers[i].options.icon as any)?.options.values.subvalues)) {
                         if((data.subvalues as any)[key] == undefined) {
@@ -376,13 +378,14 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
         const valueDimension: IMapDataDomain | undefined = dimensions.value.getDomain();
         const aggregationDimension: IMapAggregationFunction | undefined = dimensions.aggregation.getDomain();
         const categoryDimension: IMapDataDomain | undefined = dimensions.category.getDomain();
+        const map = this.getMap();
 
         // test whether the dimension are set
-        if(geoDimension && valueDimension && aggregationDimension && categoryDimension) {
-            const mapData: IMapDataManager = this.getMap().getState().getMapData();
-            const data: any[] = this.getMap().getState().getCurrentData();
+        if(geoDimension && valueDimension && aggregationDimension && categoryDimension && map) {
+            const mapData: IMapDataManager = map.getState().getMapData();
+            const data: IMapData = map.getState().getCurrentData();
             const dataLen: number = data.length;
-            let foundGeos: any[], foundValues: any[], foundCategories: any[];
+            let foundGeos: unknown[], foundValues: unknown[], foundCategories: unknown[];
             
             let bucketMap: Map<string, IMapAggregationBucket> | undefined;
             let aggregationBucket: IMapAggregationBucket | undefined;
@@ -390,7 +393,7 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
                 // find the 'geo' properties of the data record
                 foundGeos = mapData.getDataRecordValues(geoDimension, data[i]);
                 // since the data are flattened we can expect max one found item
-                if(foundGeos.length == 1) {
+                if(foundGeos.length == 1 && typeof foundGeos[0] == "string") {
                     // get the aggregation bucket map for the country or create a new one
                     bucketMap = bucketMaps.get(foundGeos[0]);
                     if(!bucketMap) {
@@ -410,7 +413,7 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
                         // find the 'value' properties
                         foundValues = mapData.getDataRecordValues(valueDimension, data[i]);
                         // since the data are flattened we can expect max one found item
-                        aggregationBucket.addValue(foundValues.length == 1 ? foundValues[0] : 0);
+                        aggregationBucket.addValue(foundValues.length == 1 ? (typeof foundValues[0] == "number" ? foundValues[0] : 1) : 0);
                     }
                 }
             }
@@ -430,9 +433,10 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
         const markers: L.Marker[] = [];
 
         const bucketMaps: Map<string, Map<string, IMapAggregationBucket>> = this.getState().getBucketData();
-        const layerGroup = this.getState().getMarkerLayerGroup();
-        const centroids = this.getState().getCentroids();
-        const selectedIds = this.getSelectionTool()?.getState().getSelection()?.getIds();
+        const layerGroup: L.LayerGroup | undefined = this.getState().getMarkerLayerGroup();
+        // TODO: specify the type
+        const centroids: any = this.getState().getCentroids();
+        const selectedIds: string[] | undefined = this.getSelectionTool()?.getState().getSelection()?.getIds();
 
         // iterate over centroids
         let centroid, bucketMap, marker;

@@ -1,11 +1,11 @@
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
 import IConnectionLayerToolDefaults from "../../types/tool/IConnectionLayerToolDefaults";
 import IConnectionLayerTool from "../../types/tool/IConnectionLayerTool";
-import { TOOL_TYPE } from "../../..";
 import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToolDimensions";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
+import { GeovistoConnectionLayerTool } from "../../..";
 
 /**
  * This class provide functions which return the default state values.
@@ -25,7 +25,7 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
      * It returns a unique type string of the tool which is based on the layer it wraps.
      */
     public getType(): string {
-        return TOOL_TYPE;
+        return GeovistoConnectionLayerTool.getType();
     }
 
     /**
@@ -79,7 +79,7 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
      * 
      * TODO: specify the type
      */
-    public getCentroids(): any {
+    public getCentroids(): unknown {
         return JSON.parse(JSON.stringify(this.getMapObject().getMap()?.getState().getCentroids()));
     }
 }

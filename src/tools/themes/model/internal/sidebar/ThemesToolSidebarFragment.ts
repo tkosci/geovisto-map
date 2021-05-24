@@ -1,10 +1,10 @@
 import { ISidebarTab, ISidebarFragmentProps } from '../../../../sidebar';
 import AbstractSidebarFragment from '../../../../sidebar/model/internal/fragment/AbstractSidebarFragment';
-import SettingsTool from '../../../../settings/model/internal/tool/SettingsTool';
 import IMapTheme from '../../types/theme/IMapTheme';
 import IMapThemesManager from '../../types/theme/IMapThemesManager';
 import IThemesTool from '../../types/tool/IThemesTool';
 import LabeledAutocompleteFormInput from '../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput';
+import { GeovistoSettingsTool } from '../../../../settings';
 
 /**
  * This class represents tab fragment for Themes tool.
@@ -31,7 +31,7 @@ class ThemesToolSidebarFragment extends AbstractSidebarFragment<IThemesTool> {
      * @param sidebarTab 
      */
     public isChild(sidebarTab: ISidebarTab): boolean {
-        return sidebarTab.getTool().getType() == SettingsTool.TYPE();
+        return sidebarTab.getTool().getType() == GeovistoSettingsTool.getType();
     }
 
     /**
@@ -58,10 +58,10 @@ class ThemesToolSidebarFragment extends AbstractSidebarFragment<IThemesTool> {
         // eslint-disable-next-line no-var
         var themesManager: IMapThemesManager = tool.getState().getThemesManager();
         // TODO: define types
-        const changeTheme = function(e: any) {
-            const newTheme: IMapTheme[] = themesManager.getDomain(e.target.value);
-            if(newTheme && newTheme.length > 0) {
-                tool.setTheme(newTheme[0]);
+        const changeTheme = function(e: Event) {
+            const newTheme: IMapTheme | undefined = themesManager.getDomain((e.target as HTMLInputElement).value);
+            if(newTheme) {
+                tool.setTheme(newTheme);
             }
         };
         const themeInput = new LabeledAutocompleteFormInput({ label: "Theme", options: themesManager.getDomainNames(), onChangeAction: changeTheme });

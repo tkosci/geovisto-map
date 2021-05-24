@@ -23,8 +23,8 @@ import { Geovisto } from "../../..";
  */
 class GeovistoMapDefaults extends MapObjectDefaults implements IMapDefaults {
     
-    private polygons: any;
-    private centroids: any;
+    private polygons: unknown;
+    private centroids: unknown;
 
     /**
      * It creates map defaults.
@@ -100,7 +100,7 @@ class GeovistoMapDefaults extends MapObjectDefaults implements IMapDefaults {
      * 
      * TODO: provide a GeoJSON manager.
      */
-    public getPolygons(): any {
+    public getPolygons(): unknown {
         if(!this.polygons) {
             this.polygons = countryPolygons;
         }
@@ -112,7 +112,7 @@ class GeovistoMapDefaults extends MapObjectDefaults implements IMapDefaults {
      * 
      * TODO: provide a GeoJSON manager.
      */
-    public getCentroids(): any {
+    public getCentroids(): unknown {
         if(!this.centroids) {
             this.centroids = countryCentroids;
         }

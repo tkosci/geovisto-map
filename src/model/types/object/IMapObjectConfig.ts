@@ -1,11 +1,9 @@
 /**
- * This interface provides specification of map object config model.
- * 
- * It contains only basic data types.
+ * This type provides specification of map object config model.
  * 
  * @author Jiri Hynek
  */
-interface IMapObjectConfig {
+type IMapObjectConfig = {
     type: string | undefined;
     id : string | undefined;
 }

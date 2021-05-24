@@ -8,6 +8,6 @@ import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
  */
 interface IMarkerLayerToolProps extends ILayerToolProps {
     dimensions: IMarkerLayerToolDimensions | undefined;
-    centroids: any; // TODO: specify the type
+    centroids: unknown; // TODO: specify the type
 }
 export default IMarkerLayerToolProps;

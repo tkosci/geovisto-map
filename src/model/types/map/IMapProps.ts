@@ -3,7 +3,6 @@ import IMapTemplates from "./IMapTemplates";
 import IMapGlobals from "./IMapGlobals";
 import IMapDataManager from "../data/IMapDataManager";
 import IMapToolsManager from "../tool/IMapToolsManager";
-import IMapConfig from "./IMapConfig";
 
 /**
  * This interface provide specification of map props model.
@@ -15,7 +14,8 @@ interface IMapProps extends IMapObjectProps {
     globals: IMapGlobals | undefined;
     data: IMapDataManager | undefined;
     tools: IMapToolsManager | undefined;
-    centroids: any;
-    polygons: any;
+    // TODO: specify the types
+    centroids: unknown;
+    polygons: unknown;
 }
 export default IMapProps;

@@ -4,6 +4,7 @@ import MapEvent from "./generic/MapEvent";
 import IMapChangeEvent from "../../types/event/IMapChangeEvent";
 import MapChangeEvent from "./generic/MapChangeEvent";
 import DataChangeEvent from "./data/DataChangeEvent";
+import IMapData from "../../types/data/IMapData";
 
 /**
  * This class provides a factory for map events.
@@ -22,14 +23,14 @@ class MapEventFactory {
     /**
      * It creates a generic change event.
      */
-    public change(type: string, source: IMapObject, changedObject: any): IMapChangeEvent {
+    public change(type: string, source: IMapObject, changedObject: unknown): IMapChangeEvent {
         return new MapChangeEvent(type, source, changedObject);
     }
     
     /**
      * It creates the data change event.
      */
-    public dataChange(source: IMapObject, data: any): IMapChangeEvent {
+    public dataChange(source: IMapObject, data: IMapData): IMapChangeEvent {
         return new DataChangeEvent(source, data);
     }
 }

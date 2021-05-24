@@ -6,6 +6,6 @@ import IMapFormInputProps from "../../IMapFormInputProps";
  * @author Jiri Hynek
  */
 interface ITextFormInputProps extends IMapFormInputProps {
-    onChangeAction : ((this: GlobalEventHandlers, ev: Event) => any) | null;
+    onChangeAction : ((this: GlobalEventHandlers, ev: Event) => unknown) | null;
 }
 export default ITextFormInputProps;

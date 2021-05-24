@@ -42,7 +42,7 @@ interface IConnectionLayerToolState extends LayerToolState {
      * 
      * @param dimensions 
      */
-    setDimension(dimensions: IConnectionLayerToolDimensions): void;
+    setDimensions(dimensions: IConnectionLayerToolDimensions): void;
 
     /**
      * It returns a Leaflet SVG layer.
@@ -61,7 +61,7 @@ interface IConnectionLayerToolState extends LayerToolState {
      * 
      * TODO: specify the type.
      */
-    getCentroids(): any;
+    getCentroids(): unknown;
 
     /**
      * It sets the centroids.
@@ -70,7 +70,7 @@ interface IConnectionLayerToolState extends LayerToolState {
      * 
      * @param centroids 
      */
-    setCentroids(centroids: void): void;
+    setCentroids(centroids: unknown): void;
 
     /**
      * It returns work data for the force layout algorithm.

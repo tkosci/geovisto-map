@@ -112,10 +112,11 @@ class FiltersTool extends MapTool implements IFiltersTool, ISidebarTabControl {
      */
     public setFilterRules(filterRules: IMapFilterRule[]): void {
         if(filterRules != undefined) {
+            const map : IMap | undefined = this.getMap();
             // if the filter tool is enabled, update map data
-            if(this.isEnabled()) {
-                const mapDataManager = this.getMap().getState().getMapData();
-                this.getMap().updateData(
+            if(this.isEnabled() && map) {
+                const mapDataManager = map.getState().getMapData();
+                map.updateData(
                     this.getState().getFiltersManager().filterData(mapDataManager, mapDataManager.getDataRecords(), filterRules),
                     this);
             }
@@ -136,16 +137,18 @@ class FiltersTool extends MapTool implements IFiltersTool, ISidebarTabControl {
             this.getState().setEnabled(enabled);
 
             // the Geovisto map stores the current data and works as the event dispatcher
-            const map: IMap = this.getMap();
+            const map: IMap | undefined = this.getMap();
 
-            // apply filter rules if enabled, else use empty list of filters (use the initial data)
-            if(enabled) {
-                const mapData = this.getMap().getState().getMapData();
-                map.updateData(
-                    this.getState().getFiltersManager().filterData(mapData, mapData.getDataRecords(), this.getState().getFilterRules()),
-                    this);
-            } else {
-                map.updateData(map.getState().getMapData().getDataRecords(), this);
+            if(map) {
+                // apply filter rules if enabled, else use empty list of filters (use the initial data)
+                if(enabled) {
+                    const mapData = map.getState().getMapData();
+                    map.updateData(
+                        this.getState().getFiltersManager().filterData(mapData, mapData.getDataRecords(), this.getState().getFilterRules()),
+                        this);
+                } else {
+                    map.updateData(map.getState().getMapData().getDataRecords(), this);
+                }
             }
         }
     }

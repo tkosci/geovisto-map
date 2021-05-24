@@ -33,6 +33,6 @@ interface IConnectionLayerToolDefaults extends ILayerToolDefaults {
     /**
      * It returns default centroids.
      */
-    getCentroids(): any;
+    getCentroids(): unknown;
 }
 export default IConnectionLayerToolDefaults;

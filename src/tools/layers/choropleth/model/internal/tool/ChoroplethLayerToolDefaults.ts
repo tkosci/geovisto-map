@@ -95,7 +95,7 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
      * 
      * TODO: specify the type
      */
-    public getPolygons(): any {
+    public getPolygons(): unknown {
         return this.getMapObject().getMap()?.getState().getPolygons();
     }
 

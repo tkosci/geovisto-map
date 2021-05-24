@@ -59,7 +59,9 @@ abstract class AbstractLayerToolSidebarTab<T extends ILayerTool> extends Abstrac
     }
 
     /**
-     * It updates inputs according to the given layer tool dimensions.
+     * It updates selected input values according to the given dimensions.
+     * 
+     * This function is intended to be extended.
      * 
      * @param dimensions 
      */
@@ -73,15 +75,19 @@ abstract class AbstractLayerToolSidebarTab<T extends ILayerTool> extends Abstrac
      * @param dimension
      */
     protected getAutocompleteInput(dimension: IMapDimension<IMapDomain>): IMapFormInput {
+        // TODO
+        // eslint-disable-next-line no-var, @typescript-eslint/no-this-alias
         var _this = this;
         return new LabeledAutocompleteFormInput({
             label: dimension.getName(),
             options: dimension.getDomainManager().getDomainNames(),
             onChangeAction: function(ev: Event) {
                 // get selected values and update layer tool's dimension
-                const domains: IMapDomain[] = dimension.getDomainManager().getDomain((<HTMLInputElement> ev.target).value);
-                dimension.setDomain(domains.length > 0 ? domains[0] : undefined);
-                _this.getTool().setDimensionDomain(dimension, domains.length > 0 ? domains[0] : undefined);
+                const domain: IMapDomain | undefined = dimension.getDomainManager().getDomain((<HTMLInputElement> ev.target).value);
+                if(dimension.getDomain() !== domain) {
+                    dimension.setDomain(domain);
+                    _this.getTool().redraw(false);
+                }
             }
         });
     }

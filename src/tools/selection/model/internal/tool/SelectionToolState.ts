@@ -53,7 +53,7 @@ class SelectionToolState extends MapToolState implements ISelectionToolState {
 
         // deserialize selection
         if(config.selection) {
-            const tool: IMapTool | undefined = this.getMap().getState().getTools().getById(config.selection.tool);
+            const tool: IMapTool | undefined = this.getMap()?.getState().getTools().getById(config.selection.tool);
             if(tool) {
                 this.setSelection(new MapSelection(tool, config.selection.ids));
             }

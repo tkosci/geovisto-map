@@ -11,7 +11,7 @@ class MapAggregationFunctionFactory {
     /**
      * It creates the JSON map data mananger.
      */
-    public json(data: any): IMapDataManager {
+    public json(data: unknown): IMapDataManager {
         return new JsonMapDataManager(data);
     }
 }

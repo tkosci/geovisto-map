@@ -28,8 +28,8 @@ class RegFilterOperation extends AbstractMapDomain implements IMapFilterOperatio
      * @param value 
      * @param pattern 
      */
-    public match(value: any, pattern: any): boolean {
-        return value.match(new RegExp(pattern, 'g'));
+    public match(value: unknown, pattern: string): boolean {
+        return (new String(value)).match(new RegExp(pattern, 'g')) !== null;
     }
 }
 export default RegFilterOperation;

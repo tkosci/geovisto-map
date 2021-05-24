@@ -2,13 +2,11 @@ import IMapObjectConfig from "../../../../../model/types/object/IMapObjectConfig
 import ISidebarFragmentConfig from "../fragment/ISidebarFragmentConfig";
 
 /**
- * This interface provides specification of sidebar fragment config model.
- * 
- * It contains only basic data types or ruther configs.
+ * This type provides specification of sidebar fragment config model.
  * 
  * @author Jiri Hynek
  */
-interface ISidebarTabConfig extends IMapObjectConfig {
+type ISidebarTabConfig = IMapObjectConfig & {
     tool: string | undefined;
     enabled: boolean | undefined;
     name: string | undefined;

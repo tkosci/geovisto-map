@@ -98,7 +98,7 @@ class SelectionTool extends MapTool implements ISelectionTool, ISidebarFragmentC
             this.getState().setSelection(selection);
 
             // dispatch event
-            this.getMap().dispatchEvent(new SelectionToolEvent(this, selection));
+            this.getMap()?.dispatchEvent(new SelectionToolEvent(this, selection));
         }
     }
 

@@ -15,10 +15,9 @@ import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMa
  */
 class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolState {
 
-    private dimensions: IMarkerLayerToolDimensions;
     private markers: L.Marker[];
     private layerGroup: L.LayerGroup | undefined;
-    private centroids: any;
+    private centroids: unknown;
     private bucketData: Map<string, Map<string, IMapAggregationBucket>>;
 
     /**
@@ -32,14 +31,14 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
 
         // sets map dimensions
         if(props.dimensions) {
-            this.dimensions = {
+            this.setDimensions({
                 geo: props.dimensions.geo == undefined ? defaults.getGeoDimension() : props.dimensions.geo,
                 value: props.dimensions.value == undefined ? defaults.getValueDimension() : props.dimensions.value,
                 aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation,
                 category: props.dimensions.category == undefined ? defaults.getCategoryDimension() : props.dimensions.category
-            };
+            });
         } else {
-            this.dimensions = defaults.getDimensions();
+            this.setDimensions(defaults.getDimensions());
         }
 
         // the layer tool properties
@@ -60,14 +59,14 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
 
         // sets map dimensions
         if(props.dimensions) {
-            this.dimensions = {
+            this.setDimensions({
                 geo: props.dimensions.geo == undefined ? defaults.getGeoDimension() : props.dimensions.geo,
                 value: props.dimensions.value == undefined ? defaults.getValueDimension() : props.dimensions.value,
                 aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation,
                 category: props.dimensions.category == undefined ? defaults.getCategoryDimension() : props.dimensions.category
-            };
+            });
         } else {
-            this.dimensions = defaults.getDimensions();
+            this.setDimensions(defaults.getDimensions());
         }
 
         // the layer tool properties
@@ -152,7 +151,7 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
      * It returns the map layer dimensions property of the tool state.
      */
     public getDimensions(): IMarkerLayerToolDimensions {
-        return this.dimensions;
+        return super.getDimensions() as IMarkerLayerToolDimensions;
     }
 
     /**
@@ -160,8 +159,8 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
      * 
      * @param dimensions 
      */
-    public setDimension(dimensions: IMarkerLayerToolDimensions): void {
-       this.dimensions = dimensions;
+    public setDimensions(dimensions: IMarkerLayerToolDimensions): void {
+       super.setDimensions(dimensions);
     }
 
     /**
@@ -185,7 +184,7 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
      * 
      * TODO: specify the type
      */
-    public getCentroids(): any {
+    public getCentroids(): unknown {
         return this.centroids;
     }
 
@@ -196,7 +195,7 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
      * 
      * @param centroids 
      */
-    public setCentroids(centroids: any): void {
+    public setCentroids(centroids: unknown): void {
         this.centroids = centroids;
     }
 

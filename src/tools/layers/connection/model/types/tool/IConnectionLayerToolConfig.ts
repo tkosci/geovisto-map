@@ -1,13 +1,11 @@
 import ILayerToolConfig from "../../../../../../model/types/layer/ILayerToolConfig";
 
 /**
- * This interface provides specification of the connection layer tool config model.
- * 
- * It contains only basic data types.
+ * This type provides specification of the connection layer tool config model.
  * 
  * @author Jiri Hynek
  */
-interface IConnectionLayerToolConfig extends ILayerToolConfig {
+type IConnectionLayerToolConfig = ILayerToolConfig & {
     data: {
         from: string | undefined,
         to: string | undefined,

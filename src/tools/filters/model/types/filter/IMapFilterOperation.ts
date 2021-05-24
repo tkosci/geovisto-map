@@ -13,6 +13,6 @@ interface IMapFilterOperation extends IMapDomain {
      * @param value 
      * @param pattern 
      */
-    match(value: any, pattern: any): boolean;
+    match(value: unknown, pattern: unknown): boolean;
 }
 export default IMapFilterOperation;

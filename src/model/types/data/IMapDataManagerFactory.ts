@@ -10,6 +10,6 @@ interface IMapAggregationFunctionFactory {
     /**
      * It creates the JSON map data mananger.
      */
-    json(data: any): IMapDataManager;
+    json(data: unknown): IMapDataManager;
 }
 export default IMapAggregationFunctionFactory;

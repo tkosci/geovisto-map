@@ -76,7 +76,7 @@ class FilterSelectFormInput extends AbstractMapFormInput {
      * @param onChangeAction 
      * @param options 
      */
-    protected createSelectElement(onChangeAction: ((this: GlobalEventHandlers, ev: Event) => any) | null, options: string[]): HTMLSelectElement {
+    protected createSelectElement(onChangeAction: ((this: GlobalEventHandlers, ev: Event) => unknown) | null, options: string[]): HTMLSelectElement {
         // create select element
         const select = document.createElement('select');
         select.onchange = onChangeAction;

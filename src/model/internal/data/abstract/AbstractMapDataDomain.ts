@@ -7,14 +7,14 @@ import IMapDataDomain from "../../../types/data/IMapDataDomain";
  */
 abstract class AbstractMapDataDomain implements IMapDataDomain {
     
-    private originalDataDomain: any;
+    private originalDataDomain: unknown;
 
     /**
      *  It initializes the data domain wrapper providing a basic API.
      * 
      * @param originalDataDomain 
      */
-    public constructor(originalDataDomain: any) {
+    public constructor(originalDataDomain: unknown) {
         this.originalDataDomain = originalDataDomain;
     }
 
@@ -22,7 +22,7 @@ abstract class AbstractMapDataDomain implements IMapDataDomain {
      * The function returns the string representation of the map data domain
      * which is *unique* among the labels of other data domains.
      */
-    public getOriginal(): string {
+    public getOriginal(): unknown {
         return this.originalDataDomain;
     }
 

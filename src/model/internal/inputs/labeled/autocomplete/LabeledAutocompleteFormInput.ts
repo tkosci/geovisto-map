@@ -164,6 +164,8 @@ class LabeledAutocompleteFormInput extends AbstractMapFormInput implements IMapF
      */
     protected createListeners(): void {
         if(this.input) {
+            // TODO
+            // eslint-disable-next-line no-var, @typescript-eslint/no-this-alias
             var _this = this;
 
             // when input changed, notify listeners
@@ -244,6 +246,8 @@ class LabeledAutocompleteFormInput extends AbstractMapFormInput implements IMapF
      * Creates and open MatchItems in PopUpList and set value according chosen input.
      */
     protected createMenu(): void {
+        // TODO
+        // eslint-disable-next-line no-var, @typescript-eslint/no-this-alias
         var _this = this;
         
         // if PopUpList already exist delete old one

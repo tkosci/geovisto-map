@@ -1,5 +1,4 @@
-import LayerToolSidebarTabDefaults from "../../../../../sidebar/model/internal/tab/sidebar/LayerToolSidebarTabDefaults";
-import { ILayerToolSidebarTabDefaults, ILayerToolSidebarTab } from "../../../../../sidebar";
+import { ILayerToolSidebarTabDefaults, ILayerToolSidebarTab, LayerToolSidebarTabDefaults } from "../../../../../sidebar";
 
 /**
  * This class provide functions which return the default state values.

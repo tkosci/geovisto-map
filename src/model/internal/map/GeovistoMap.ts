@@ -18,6 +18,7 @@ import IMapTool from '../../types/tool/IMapTool';
 import IMap from '../../types/map/IMap';
 import IMapEvent from '../../types/event/IMapEvent';
 import IMapObject from '../../types/object/IMapObject';
+import IMapData from '../../types/data/IMapData';
 
 /**
  * Representation of map wrapper which handles map layers, sidebar and other tools
@@ -178,7 +179,7 @@ class GeovistoMap extends MapObject implements IMap {
     /**
      * It exports the serialized representation of the current state of the map.
      */
-    public export(): any {
+    public export(): Record<string, unknown> {
         return this.getState().getMapConfig().export(this.getState().serialize(true));
     }
 
@@ -276,7 +277,7 @@ class GeovistoMap extends MapObject implements IMap {
      * @param data
      * @param source of the change
      */
-    public updateData(data: any[], source: IMapObject): void {
+    public updateData(data: IMapData, source: IMapObject): void {
         // update state
         this.getState().setCurrentData(data);
 
