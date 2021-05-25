@@ -59,7 +59,7 @@ class SidebarTool extends MapTool implements ISidebarTool {
      * It creates new defaults of the tool.
      */
     protected createDefaults(): ISidebarToolDefaults {
-        return new SidebarToolDefaults(this);
+        return new SidebarToolDefaults();
     }
 
     /**

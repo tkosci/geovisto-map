@@ -1,6 +1,5 @@
 import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
 import ISettingsToolDefaults from "../../types/tool/ISettingsToolDefaults";
-import ISettingsTool from "../../types/tool/ISettingsTool";
 import ISettingsToolConfig from "../../types/tool/ISettingsToolConfig";
 import { GeovistoSettingsTool } from "../../..";
 
@@ -10,13 +9,6 @@ import { GeovistoSettingsTool } from "../../..";
  * @author Jiri Hynek
  */
 class SettingsToolDefaults extends MapToolDefaults implements ISettingsToolDefaults {
-
-    /**
-     * It creates tool defaults.
-     */
-    public constructor(tool: ISettingsTool) {
-        super(tool);
-    }
     
     /**
      * It returns default config if no config is given.

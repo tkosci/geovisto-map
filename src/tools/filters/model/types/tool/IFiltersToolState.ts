@@ -2,27 +2,19 @@ import IMapToolState from "../../../../../model/types/tool/IMapToolState";
 import IFiltersToolConfig from "./IFiltersToolConfig";
 import IMapFiltersManager from "../filter/IMapFilterManager";
 import IMapFilterRule from "../filter/IMapFilterRule";
+import IFiltersToolDefaults from "./IFiltersToolDefaults";
+import IFiltersToolProps from "./IFiltersToolProps";
 
 /**
  * This indetrface declares functions for using filters.
  * 
  * @author Jiri Hynek
  */
-interface IFiltersToolState extends IMapToolState {
-
-    /**
-     * The metod takes config and deserializes the values.
-     * 
-     * @param config 
-     */
-    deserialize(config: IFiltersToolConfig): void;
-
-    /**
-     * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
-     * 
-     * @param filterDefaults 
-     */
-    serialize(defaults: boolean): IFiltersToolConfig;
+interface IFiltersToolState<
+    TProps extends IFiltersToolProps = IFiltersToolProps,
+    TDefaults extends IFiltersToolDefaults = IFiltersToolDefaults,
+    TConfig extends IFiltersToolConfig = IFiltersToolConfig
+> extends IMapToolState<TProps, TDefaults, TConfig> {
 
     /**
      * It returns filter manager

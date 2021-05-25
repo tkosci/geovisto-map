@@ -2,6 +2,7 @@ import MapToolState from "../../../../../model/internal/tool/MapToolState";
 import ISettingsTool from "../../types/tool/ISettingsTool";
 import ISettingsToolState from "../../types/tool/ISettingsToolState";
 import ISettingsToolConfig from "../../types/tool/ISettingsToolConfig";
+import ISettingsToolDefaults from "../../types/tool/ISettingsToolDefaults";
 
 /**
  * This class provide functions for using selections.
@@ -29,10 +30,10 @@ class SettingsToolState extends MapToolState implements ISettingsToolState {
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    public serialize(filterDefaults: boolean): ISettingsToolConfig {
-        return super.serialize(filterDefaults);
+    public serialize(defaults: ISettingsToolDefaults | undefined): ISettingsToolConfig {
+        return super.serialize(defaults);
     }
 }
 export default SettingsToolState;

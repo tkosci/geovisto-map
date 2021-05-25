@@ -8,22 +8,27 @@ import IMapObjectConfig from "./IMapObjectConfig";
  * 
  * @author Jiri Hynek
  */
-interface IMapObject {
+interface IMapObject<
+    TProps extends IMapObjectProps = IMapObjectProps,
+    TDefaults extends IMapObjectDefaults = IMapObjectDefaults,
+    TState extends IMapObjectState = IMapObjectState,
+    TConfig extends IMapObjectConfig = IMapObjectConfig
+> {
 
     /**
      * It returns the props given by the programmer.
      */
-    getProps(): IMapObjectProps;
+    getProps(): TProps;
 
     /**
      * It returns default values of the state properties.
      */
-    getDefaults(): IMapObjectDefaults;
+    getDefaults(): TDefaults;
 
     /**
      * It returns the map object state.
      */
-    getState(): IMapObjectState;
+    getState(): TState;
 
     /**
      * Help function which returns the type of the object.
@@ -36,10 +41,14 @@ interface IMapObject {
     getId(): string;
 
     /**
-     * It sets the config of the object.
+     * It initializes the state of the object.
+     * It processes the serialized config and sets further objects.
+     * 
+     * This cannot be done in the object constructor
+     * since the object can be created before the Geovisto map is created.
      * 
      * @param config 
      */
-    setConfig(config: IMapObjectConfig): void
+    initialize(initProps: { config: TConfig | undefined }): this;
 }
 export default IMapObject;

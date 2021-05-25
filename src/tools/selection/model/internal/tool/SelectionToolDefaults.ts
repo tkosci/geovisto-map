@@ -1,7 +1,6 @@
 import IMapSelection from "../../types/selection/IMapSelection";
 import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
 import ISelectionToolDefaults from "../../types/tool/ISelectionToolDefaults";
-import ISelectionTool from "../../types/tool/ISelectionTool";
 import ISelectionToolConfig from "../../types/tool/ISelectionToolConfig";
 import { GeovistoSelectionTool } from "../../..";
 
@@ -11,13 +10,6 @@ import { GeovistoSelectionTool } from "../../..";
  * @author Jiri Hynek
  */
 class SelectionToolDefaults extends MapToolDefaults implements ISelectionToolDefaults {
-
-    /**
-     * It creates tool defaults.
-     */
-    public constructor(tool: ISelectionTool) {
-        super(tool);
-    }
 
     /**
      * It returns the default config.

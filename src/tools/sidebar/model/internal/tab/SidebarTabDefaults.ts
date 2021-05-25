@@ -1,4 +1,3 @@
-import ISidebarTab from "../../types/tab/ISidebarTab";
 import ISidebarTabDefaults from "../../types/tab/ISidebarTabDefaults";
 import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
 import MapObjectDefaults from "../../../../../model/internal/object/MapObjectDefaults";
@@ -9,15 +8,6 @@ import MapObjectDefaults from "../../../../../model/internal/object/MapObjectDef
  * @author Jiri Hynek
  */
 class SidebarTabDefaults extends MapObjectDefaults implements ISidebarTabDefaults {
-
-    /**
-     * It creates a sidebar tab defaults.
-     * 
-     * @param sidebarTab
-     */
-    public constructor(sidebarTab: ISidebarTab) {
-        super(sidebarTab);
-    }
 
     /**
      * It returns the default config.
@@ -47,7 +37,7 @@ class SidebarTabDefaults extends MapObjectDefaults implements ISidebarTabDefault
      * It returns name of the sidebar tab.
      */
     public getName(): string {
-        return "Custom tab";
+        return "Custom tool";
     }
 
     /**

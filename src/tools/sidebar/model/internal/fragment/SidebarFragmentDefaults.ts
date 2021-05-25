@@ -1,6 +1,5 @@
 import MapObjectDefaults from "../../../../../model/internal/object/MapObjectDefaults";
 import ISidebarFragmentDefaults from "../../types/fragment/ISidebarFragmentDefaults";
-import ISidebarFragment from "../../types/fragment/ISidebarFragment";
 import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
 
 /**
@@ -9,15 +8,6 @@ import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig"
  * @author Jiri Hynek
  */
 class SidebarFragmentDefaults extends MapObjectDefaults implements ISidebarFragmentDefaults {
-
-    /**
-     * It initializes a sidebar fragment defaults.
-     * 
-     * @param sidebarFragment
-     */
-    public constructor(sidebarFragment: ISidebarFragment) {
-        super(sidebarFragment);
-    }
 
     /**
      * It returns the default config.

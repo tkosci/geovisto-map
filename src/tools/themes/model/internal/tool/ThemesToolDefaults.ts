@@ -6,7 +6,6 @@ import Dark1Theme from "../theme/custom/dark1/Dark1Theme";
 import Dark2Theme from "../theme/custom/dark2/Dark2Theme";
 import Dark3Theme from "../theme/custom/dark3/Dark3Theme";
 import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
-import IThemesTool from "../../types/tool/IThemesTool";
 import IMapThemesManager from "../../types/theme/IMapThemesManager";
 import IMapTheme from "../../types/theme/IMapTheme";
 import IThemesToolDefaults from "../../types/tool/IThemesToolDefaults";
@@ -20,13 +19,6 @@ import { GeovistoThemesTool } from "../../..";
  * @author Jiri Hynek
  */
 class ThemesToolDefaults extends MapToolDefaults implements IThemesToolDefaults {
-
-    /**
-     * It creates tool defaults.
-     */
-    public constructor(tool: IThemesTool) {
-        super(tool);
-    }
 
     /**
      * It returns the default config.
@@ -68,8 +60,11 @@ class ThemesToolDefaults extends MapToolDefaults implements IThemesToolDefaults 
     /**
      * It returns default theme.
      */
-    public getTheme(): IMapTheme {
-        let theme: IMapTheme | undefined = (<IThemesTool> this.getMapObject()).getState().getThemesManager().getDefault();
+    public getTheme(themesManager: IMapThemesManager | undefined): IMapTheme {
+        if(!themesManager) {
+            themesManager = this.getThemesManager();
+        }
+        let theme: IMapTheme | undefined = themesManager.getDefault();
         if(theme == undefined) {
             theme = new BasicTheme();
         }

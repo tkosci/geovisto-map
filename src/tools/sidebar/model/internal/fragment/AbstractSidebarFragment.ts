@@ -50,7 +50,7 @@ abstract class AbstractSidebarFragment<T extends IMapTool> extends MapObject imp
      * It creates new defaults of the sidebar fragment.
      */
     protected createDefaults(): ISidebarFragmentDefaults {
-        return new SidebarFragmentDefaults(this);
+        return new SidebarFragmentDefaults();
     }
 
     /**

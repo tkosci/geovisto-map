@@ -4,6 +4,8 @@ import IMapToolsManager from "../tool/IMapToolsManager";
 import IMapDataManager from "../data/IMapDataManager";
 import IMapConfigManager from "../config/IMapConfigManager";
 import IMapData from "../data/IMapData";
+import IMapDefaults from "./IMapDefaults";
+import IMapProps from "./IMapProps";
 
 /**
  * This interface declares the state of the map.
@@ -11,21 +13,16 @@ import IMapData from "../data/IMapData";
  * 
  * @author Jiri Hynek
  */
-interface IMapState extends IMapObjectState {
+interface IMapState<
+    TProps extends IMapProps = IMapProps,
+    TDefaults extends IMapDefaults = IMapDefaults,
+    TConfig extends IMapConfig = IMapConfig
+> extends IMapObjectState<TProps, TDefaults, TConfig> {
 
     /**
-     * It takes config and deserializes the values.
-     * 
-     * @param config
+     * It resets the state to the initial state.
      */
-    deserialize(config: IMapConfig): void;
-
-    /**
-     * It serializes the map state. Optionally, a serialized value can be let undefined if it equals the default value.
-     * 
-     * @param filterDefaults 
-     */
-    serialize(filterDefaults: boolean | undefined): IMapConfig
+    initialize(defaults: TDefaults, props: TProps, initProps: { config: TConfig | undefined, configManager: IMapConfigManager }): void;
 
     /**
      * It returns the Leaflet map.

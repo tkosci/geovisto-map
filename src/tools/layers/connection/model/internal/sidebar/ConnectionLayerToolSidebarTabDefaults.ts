@@ -1,4 +1,4 @@
-import { ILayerToolSidebarTabDefaults, ILayerToolSidebarTab, LayerToolSidebarTabDefaults } from "../../../../../sidebar";
+import { ILayerToolSidebarTabDefaults, LayerToolSidebarTabDefaults } from "../../../../../sidebar";
 
 /**
  * This class provide functions which return the default state values.
@@ -8,10 +8,10 @@ import { ILayerToolSidebarTabDefaults, ILayerToolSidebarTab, LayerToolSidebarTab
 class ConnectionLayerToolSidebarTabDefaults extends LayerToolSidebarTabDefaults implements ILayerToolSidebarTabDefaults {
 
     /**
-     * It creates sidebar tab defaults.
+     * It returns the default name of the tab.
      */
-    public constructor(sidebarTab: ILayerToolSidebarTab) {
-        super(sidebarTab);
+    public getName(): string {
+        return "Connection layer tool settings";
     }
 
     /**

@@ -21,17 +21,17 @@ import IMapData from "../../types/data/IMapData";
  */
 class GeovistoMapState extends MapObjectState implements IMapState {
     
-    private map: L.Map | undefined;
-    private tools: IMapToolsManager;
-    private toolTemplates: IMapToolsManager;
-    private mapData: IMapDataManager;
-    private data: IMapData;
-    private mapConfig: IMapConfigManager;
+    private leafletMap: L.Map | undefined;
+    private tools!: IMapToolsManager;
+    private toolTemplates!: IMapToolsManager;
+    private mapData!: IMapDataManager;
+    private data!: IMapData;
+    private mapConfig!: IMapConfigManager;
     private polygons: unknown;
     private centroids: unknown;
-    private zoom: number;
-    private mapCenter: { lat: number; lng: number; };
-    private mapStructure: { maxZoom: number; maxBounds: [[number, number], [number, number]]; };
+    private zoom!: number;
+    private mapCenter!: { lat: number; lng: number; };
+    private mapStructure!: { maxZoom: number; maxBounds: [[number, number], [number, number]]; };
 
     /**
      * It initializes a map state.
@@ -40,42 +40,12 @@ class GeovistoMapState extends MapObjectState implements IMapState {
      */
     public constructor(map: IMap) {
         super(map);
-
-        const props = <IMapProps> this.getProps();
-        const defaults = <IMapDefaults> this.getDefaults();
-
-        this.mapConfig = defaults.getConfigManager();
-
-        // templates
-        const templates: IMapTemplates = props.templates == undefined ? defaults.getTemplates() : props.templates;
-        this.toolTemplates = (templates.tools == undefined ? defaults.getToolTemplates() : templates.tools);
-
-        // tools
-        this.tools = props.tools == undefined ? defaults.getTools() : props.tools;
-
-        // data
-        this.mapData = props.data == undefined ? defaults.getMapData() : props.data;
-        this.data = this.mapData.getDataRecords();
-
-        // geo data - TODO convert to generic geo data
-        this.polygons = props.polygons == undefined ? defaults.getPolygons() : props.polygons;
-        this.centroids = props.centroids == undefined ? defaults.getCentroids() : props.centroids;
-
-        // globals (state variables which are common for all geovisto tools) - can be undefined and set by initialize function
-        const globals: IMapGlobals = props.globals == undefined ? defaults.getGlobals() : props.globals;
-        this.zoom = globals.zoom == undefined ? defaults.getZoom() : globals.zoom;
-        this.mapCenter = globals.mapCenter == undefined ? defaults.getMapCenter() : globals.mapCenter;
-        this.mapStructure = globals.mapStructure == undefined ? defaults.getMapStructure() : globals.mapStructure;
     }
 
     /**
-     * It resets state with respect to initial props.
+     * It resets the state to the initial props.
      */
-    public reset(): void {
-        super.reset();
-        
-        const props = <IMapProps> this.getProps();
-        const defaults = <IMapDefaults> this.getDefaults();
+    public initialize(defaults: IMapDefaults, props: IMapProps, initProps: { config: IMapConfig | undefined, configManager: IMapConfigManager }): void {
 
         // templates
         const templates: IMapTemplates = props.templates == undefined ? defaults.getTemplates() : props.templates;
@@ -96,6 +66,12 @@ class GeovistoMapState extends MapObjectState implements IMapState {
         this.setInitialZoom(globals.zoom == undefined ? defaults.getZoom() : globals.zoom);
         this.setInitialMapCenter(globals.mapCenter == undefined ? defaults.getMapCenter() : globals.mapCenter);
         this.setInitialMapStructure(globals.mapStructure == undefined ? defaults.getMapStructure() : globals.mapStructure);
+
+        // set map config manager
+        this.setMapConfig(initProps.configManager);
+
+        // set super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**
@@ -114,11 +90,10 @@ class GeovistoMapState extends MapObjectState implements IMapState {
     /**
      * It serializes the map state. Optionally, a serialized value can be let undefined if it equals the default value.
      * 
-     * @param filterDefaults 
+     * @param defaults 
      */
-    public serialize(filterDefaults: boolean | undefined): IMapConfig {
-        const defaults: IMapDefaults = <IMapDefaults> this.getDefaults();
-        const map: L.Map | undefined = this.getLeafletMap();
+    public serialize(defaults: IMapDefaults | undefined): IMapConfig {
+        const leafletMap: L.Map | undefined = this.getLeafletMap();
 
         // initialize config
         // do not serialize the id and type for map
@@ -126,8 +101,8 @@ class GeovistoMapState extends MapObjectState implements IMapState {
         const config: IMapConfig = {
             id: undefined,
             type: undefined,
-            zoom: filterDefaults && map?.getZoom() == defaults.getZoom() ? undefined : map?.getZoom(),
-            mapCenter: filterDefaults && map?.getCenter() == defaults.getMapCenter() ? undefined : map?.getCenter(),
+            zoom: defaults && leafletMap?.getZoom() == defaults.getZoom() ? undefined : leafletMap?.getZoom(),
+            mapCenter: defaults && leafletMap?.getCenter() == defaults.getMapCenter() ? undefined : leafletMap?.getCenter(),
             mapStructure: undefined, // TODO map structure
             tools: undefined // see the code below
         };
@@ -136,7 +111,7 @@ class GeovistoMapState extends MapObjectState implements IMapState {
         const tools: IMapTool[] = this.getTools().getAll();
         const toolsConfigs: IMapToolConfig[] = [];
         for (let i = 0; i < tools.length; i++) {
-            toolsConfigs.push(tools[i].getState().serialize(false));
+            toolsConfigs.push(tools[i].getState().serialize(defaults ? tools[i].getDefaults() : undefined));
         }
         config.tools = toolsConfigs;
 
@@ -147,7 +122,7 @@ class GeovistoMapState extends MapObjectState implements IMapState {
      * It returns the Leaflet map.
      */
     public getLeafletMap(): L.Map | undefined {
-        return this.map;
+        return this.leafletMap;
     }
 
     /**
@@ -158,7 +133,7 @@ class GeovistoMapState extends MapObjectState implements IMapState {
      * @param map 
      */
     public setLeafletMap(map: L.Map): void {
-        this.map = map;
+        this.leafletMap = map;
     }
 
     /**

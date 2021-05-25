@@ -14,20 +14,14 @@ class AbstractMapObjectState implements IMapObjectState {
     
     private mapObject: IMapObject;
 
-    private type: string;
-    private id: string;
+    private type!: string;
+    private id!: string;
 
     /**
      * It creates a map object state.
      */
     public constructor(mapObject : IMapObject) {
         this.mapObject = mapObject;
-
-        // sets the type of the object (can be set only once in constructor)
-        this.type = (this.getDefaults().getType());
-
-        // set the id of the object (can be set only once in constructor)
-        this.id = (this.getProps().id != undefined ? this.getDefaults().getId() : ((String) (this.getProps().id)));
     }
 
     /**
@@ -38,24 +32,17 @@ class AbstractMapObjectState implements IMapObjectState {
     }
 
     /**
-     * It makes the props visible to extended classes.
-     */
-    protected getProps(): IMapObjectProps {
-        return this.mapObject.getProps();
-    }
-
-    /**
-     * It makes the defaults visible to extended classes.
-     */
-    protected getDefaults(): IMapObjectDefaults {
-        return this.mapObject.getDefaults();
-    }
-
-    /**
      * It resets the state to the initial props.
      */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public reset(): void {
+    public initialize(defaults: IMapObjectDefaults, props: IMapObjectProps, initProps: { config: IMapObjectConfig | undefined }): void {
+        // sets the type of the object (can be set only once in constructor)
+        this.type = defaults.getType();
+
+        // set the id of the object (can be set only once in constructor)
+        this.setId(props.id == undefined ? defaults.getId() : props.id);
+
+        // deserialize config which overrides the defined state props if defined
+        this.deserialize(initProps.config == undefined ? defaults.getConfig() : initProps.config);
     }
 
     /**
@@ -70,10 +57,10 @@ class AbstractMapObjectState implements IMapObjectState {
     /**
      * The method serializes the tool state. Optionally, a serialized value can be let undefined if it equals the default value.
      * 
-     * @param filterDefaults 
+     * @param defaults 
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public serialize(filterDefaults : boolean | undefined): IMapObjectConfig {
+    public serialize(defaults : IMapObjectDefaults | undefined): IMapObjectConfig {
         return {
             type: this.getType(),
             id: this.getId(),

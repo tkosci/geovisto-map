@@ -5,6 +5,7 @@ import ISidebarTool from "../../types/tool/ISidebarTool";
 import ISidebarToolConfig from "../../types/tool/ISidebarToolConfig";
 import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
 import { Control } from "leaflet";
+import SidebarToolDefaults from "./SidebarToolDefaults";
 
 /**
  * This class provide sidebar tool model.
@@ -57,16 +58,16 @@ class SidebarToolState extends MapToolState implements ISidebarToolState {
     /**
      * The method serializes the tool configuration. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    public serialize(filterDefaults: boolean): ISidebarToolConfig {
-        const config: ISidebarToolConfig = <ISidebarToolConfig> super.serialize(filterDefaults);
+    public serialize(defaults: SidebarToolDefaults | undefined): ISidebarToolConfig {
+        const config: ISidebarToolConfig = <ISidebarToolConfig> super.serialize(defaults);
 
         // serialize sidebar tabs
         config.tabs = [];
         const tabs: ISidebarTab[] = this.getTabs();
         for(let i = 0; i < tabs.length; i++) {
-            config.tabs.push(tabs[i].getState().serialize(filterDefaults));
+            config.tabs.push(tabs[i].getState().serialize(tabs[i].getDefaults()));
         }
 
         return config;

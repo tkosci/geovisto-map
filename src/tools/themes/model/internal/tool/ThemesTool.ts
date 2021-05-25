@@ -64,7 +64,7 @@ class ThemesTool extends MapTool implements IThemesTool, ISidebarFragmentControl
      * It creates new defaults of the tool.
      */
     protected createDefaults(): IThemesToolDefaults {
-        return new ThemesToolDefaults(this);
+        return new ThemesToolDefaults();
     }
 
     /**

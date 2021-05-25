@@ -2,6 +2,7 @@ import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState
 import IMarkerLayerToolConfig from "./IMarkerLayerToolConfig";
 import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
+import IMarkerLayerToolDefaults from "./IMarkerLayerToolDefaults";
 
 /**
  * This interface declares functions for using the state of the layer tool.
@@ -30,9 +31,9 @@ interface IMarkerLayerToolState extends ILayerToolState {
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    serialize(filterDefaults: boolean): IMarkerLayerToolConfig;
+    serialize(defaults: IMarkerLayerToolDefaults | undefined): IMarkerLayerToolConfig;
 
     /**
      * It returns the marker layer dimensions property of the tool state.

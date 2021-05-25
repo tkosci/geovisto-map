@@ -2,6 +2,7 @@ import IMapToolState from "../../../../../model/types/tool/IMapToolState";
 import IThemesToolConfig from "./IThemesToolConfig";
 import IMapThemesManager from "../theme/IMapThemesManager";
 import IMapTheme from "../theme/IMapTheme";
+import IThemesToolDefaults from "./IThemesToolDefaults";
 
 /**
  * This interface declares functions for using themes.
@@ -20,9 +21,9 @@ interface IThemesToolState extends IMapToolState {
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    serialize(filterDefaults: boolean | undefined): IThemesToolConfig;
+    serialize(defaults: IThemesToolDefaults | undefined): IThemesToolConfig;
 
     /**
      * It returns themes manager.

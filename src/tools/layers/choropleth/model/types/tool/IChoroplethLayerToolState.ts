@@ -2,20 +2,20 @@ import IChoroplethLayerToolConfig from "./IChoroplethLayerToolConfig";
 import IChoroplethLayerToolDimensions from "./IChoroplethLayerToolDimensions";
 import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
+import IChoroplethLayerToolDefaults from "./IChoroplethLayerToolDefaults";
+import IChoroplethLayerToolProps from "./IChoroplethLayerToolProps";
 
 /**
  * This interface declares functions for using the state of the layer tool.
  * 
  * @author Jiri Hynek
  */
-interface IChoroplethLayerToolState extends ILayerToolState {
-
-    /**
-     * The metod takes config and deserializes the values.
-     * 
-     * @param config 
-     */
-    deserialize(config: IChoroplethLayerToolConfig): void;
+interface IChoroplethLayerToolState<
+    TProps extends IChoroplethLayerToolProps = IChoroplethLayerToolProps,
+    TDefaults extends IChoroplethLayerToolDefaults = IChoroplethLayerToolDefaults,
+    TConfig extends IChoroplethLayerToolConfig = IChoroplethLayerToolConfig,
+    TDimensions extends IChoroplethLayerToolDimensions = IChoroplethLayerToolDimensions
+> extends ILayerToolState<TProps, TDefaults, TConfig, TDimensions> {
 
     /**
      * It sets the marker layer dimensions property of tool state.
@@ -25,13 +25,6 @@ interface IChoroplethLayerToolState extends ILayerToolState {
      * @param aggregation
      */
     deserializeDimensions(geo: string | undefined, value: string | undefined, aggregation: string | undefined): void;
-
-    /**
-     * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
-     * 
-     * @param filterDefaults
-     */
-    serialize(filterDefaults: boolean): IChoroplethLayerToolConfig;
 
     /**
      * It returns the choropleth layer dimensions property of the tool state.

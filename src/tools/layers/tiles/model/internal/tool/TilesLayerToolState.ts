@@ -55,10 +55,10 @@ class TilesLayerToolState extends LayerToolState implements ITilesLayerToolState
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    public serialize(filterDefaults: boolean): ITilesLayerToolConfig {
-        const config: ITilesLayerToolConfig = <ITilesLayerToolConfig> super.serialize(filterDefaults);
+    public serialize(defaults: ITilesLayerToolDefaults | undefined): ITilesLayerToolConfig {
+        const config: ITilesLayerToolConfig = <ITilesLayerToolConfig> super.serialize(defaults);
 
         // serialize the map layer tool properties
         // TODO

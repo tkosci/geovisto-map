@@ -148,21 +148,19 @@ class SidebarTabState extends MapObjectState implements ISidebarTabState {
      * The method serializes the sidebar tab control configuration.
      * Optionally, a serialized value can be let undefined if it equals the default value.
      * 
-     * @param filterDefaults 
+     * @param defaults 
      */
-    public serialize(filterDefaults: boolean | undefined): ISidebarTabConfig {
+    public serialize(defaults: ISidebarTabDefaults | undefined): ISidebarTabConfig {
         // do not serialize id and type - it is not necessary for deserialization
-
-        const defaults = <ISidebarTabDefaults> this.getDefaults();
 
         const config: ISidebarTabConfig = {
             type: undefined,
             id: undefined,
             tool: this.getTool()?.getId(),
-            enabled: filterDefaults && this.isEnabled() == defaults.isEnabled() ? undefined : this.isEnabled(),
-            name: filterDefaults && this.getName() == defaults.getName() ? undefined : this.getName(),
-            icon: filterDefaults && this.getIcon() == defaults.getIcon() ? undefined : this.getIcon(),
-            checkButton: filterDefaults && this.hasCheckButton() == defaults.isEnabled() ? undefined : this.hasCheckButton(),
+            enabled: defaults && this.isEnabled() == defaults.isEnabled() ? undefined : this.isEnabled(),
+            name: defaults && this.getName() == defaults.getName() ? undefined : this.getName(),
+            icon: defaults && this.getIcon() == defaults.getIcon() ? undefined : this.getIcon(),
+            checkButton: defaults && this.hasCheckButton() == defaults.isEnabled() ? undefined : this.hasCheckButton(),
             fragments: undefined
         };
 
@@ -171,7 +169,7 @@ class SidebarTabState extends MapObjectState implements ISidebarTabState {
         if(fragments) {
             config.fragments = [];
             for(let i = 0; i != fragments.length; i++) {
-                config.fragments.push(fragments[i].getState().serialize(true));
+                config.fragments.push(fragments[i].getState().serialize(defaults ? fragments[i].getDefaults() : undefined));
             }
         }
 

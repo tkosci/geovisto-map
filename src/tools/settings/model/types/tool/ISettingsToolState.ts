@@ -1,5 +1,6 @@
 import IMapToolState from "../../../../../model/types/tool/IMapToolState";
 import ISettingsToolConfig from "./ISettingsToolConfig";
+import ISettingsToolDefaults from "./ISettingsToolDefaults";
 
 /**
  * This class provide functions for using selections.
@@ -18,8 +19,8 @@ interface ISettingsToolState extends IMapToolState {
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    serialize(filterDefaults: boolean | undefined): ISettingsToolConfig;
+    serialize(defaults: ISettingsToolDefaults | undefined): ISettingsToolConfig;
 }
 export default ISettingsToolState;

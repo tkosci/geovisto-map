@@ -6,17 +6,20 @@ import IMapObjectConfig from "./IMapObjectConfig";
  * 
  * @author Jiri Hynek
  */
-interface IMapObjectDefaults {
+interface IMapObjectDefaults<
+    TProps extends IMapObjectProps = IMapObjectProps,
+    TConfig extends IMapObjectConfig = IMapObjectConfig
+> {
 
     /**
      * It returns default props if no props are given.
      */
-    getProps(): IMapObjectProps;
+    getProps(): TProps;
     
     /**
      * It returns a default config if no config is given.
      */
-    getConfig(): IMapObjectConfig;
+    getConfig(): TConfig;
 
     /**
      * It returns a unique type string of the map object.

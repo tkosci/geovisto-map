@@ -5,7 +5,6 @@ import RegFilterOperation from "../filter/custom/RegFilterOperation";
 import IMapFiltersManager from "../../types/filter/IMapFilterManager";
 import IMapFilterRule from "../../types/filter/IMapFilterRule";
 import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
-import IFiltersTool from "../../types/tool/IFiltersTool";
 import IFiltersToolConfig from "../../types/tool/IFiltersToolConfig";
 import IFiltersToolDefaults from "../../types/tool/IFiltersToolDefaults";
 import { GeovistoFiltersTool } from "../../..";
@@ -16,13 +15,6 @@ import { GeovistoFiltersTool } from "../../..";
  * @author Jiri Hynek
  */
 class FiltersToolDefaults extends MapToolDefaults implements IFiltersToolDefaults {
-
-    /**
-     * It creates tool defaults.
-     */
-    public constructor(tool: IFiltersTool) {
-        super(tool);
-    }
     
     /**
      * It returns default config if no config is given.

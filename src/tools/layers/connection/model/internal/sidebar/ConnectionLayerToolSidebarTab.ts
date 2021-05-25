@@ -29,7 +29,7 @@ class ConnectionLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IConnect
      * It creates new defaults of the tab control.
      */
     public createDefaults(): ILayerToolSidebarTabDefaults {
-        return new ConnectionLayerToolSidebarTabDefaults(this);
+        return new ConnectionLayerToolSidebarTabDefaults();
     }
 
     /**

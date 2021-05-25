@@ -2,6 +2,7 @@ import SidebarTabState from "../SidebarTabState";
 import ILayerToolSidebarTab from "../../../types/tab/layer/ILayerToolSidebarTab";
 import ILayerToolSidebarTabConfig from "../../../types/tab/layer/ILayerToolSidebarTabConfig";
 import ILayerToolSidebarTabState from "../../../types/tab/layer/ILayerToolSidebarTabState";
+import ILayerToolSidebarTabDefaults from "../../../types/tab/layer/ILayerToolSidebarTabDefaults";
 
 /**
  * This class manages the state of the sidebar tab.
@@ -34,10 +35,10 @@ class LayerToolSidebarTabState extends SidebarTabState implements ILayerToolSide
      * The method serializes the sidebar tab control configuration.
      * Optionally, a serialized value can be let undefined if it equals the default value.
      * 
-     * @param filterDefaults 
+     * @param defaults 
      */
-    public serialize(filterDefaults: boolean | undefined): ILayerToolSidebarTabConfig {
-        return super.serialize(filterDefaults);
+    public serialize(defaults: ILayerToolSidebarTabDefaults | undefined): ILayerToolSidebarTabConfig {
+        return super.serialize(defaults);
     }
 }
 export default LayerToolSidebarTabState;

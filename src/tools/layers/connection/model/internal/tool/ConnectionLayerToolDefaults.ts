@@ -15,13 +15,6 @@ import { GeovistoConnectionLayerTool } from "../../..";
 class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnectionLayerToolDefaults {
 
     /**
-     * It initializes tool defaults.
-     */
-    public constructor(tool: IConnectionLayerTool) {
-        super(tool);
-    }
-
-    /**
      * It returns a unique type string of the tool which is based on the layer it wraps.
      */
     public getType(): string {
@@ -80,7 +73,7 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
      * TODO: specify the type
      */
     public getCentroids(): unknown {
-        return JSON.parse(JSON.stringify(this.getMapObject().getMap()?.getState().getCentroids()));
+        return {};
     }
 }
 export default ConnectionLayerToolDefaults;

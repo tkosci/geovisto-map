@@ -2,7 +2,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import * as d3 from "d3";
 import rfdc from 'rfdc';
-import './style/connectionLayer.scss';
+import '../../../style/connectionLayer.scss';
 import ConnectionLayerToolSidebarTab from '../sidebar/ConnectionLayerToolSidebarTab';
 import ConnectionLayerToolState from './ConnectionLayerToolState';
 import ConnectionLayerToolDefaults from './ConnectionLayerToolDefaults';

@@ -63,10 +63,10 @@ class SelectionToolState extends MapToolState implements ISelectionToolState {
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    public serialize(filterDefaults: boolean): ISelectionToolConfig {
-        const config: ISelectionToolConfig = <ISelectionToolConfig> super.serialize(filterDefaults);
+    public serialize(defaults: ISelectionToolDefaults | undefined): ISelectionToolConfig {
+        const config: ISelectionToolConfig = <ISelectionToolConfig> super.serialize(defaults);
 
         // serialize the selection
         const selection: IMapSelection | null = this.getSelection();

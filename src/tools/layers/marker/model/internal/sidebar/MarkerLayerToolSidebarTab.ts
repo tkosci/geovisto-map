@@ -31,7 +31,7 @@ class MarkerLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IMarkerLayer
      * It creates new defaults of the tab control.
      */
     public createDefaults(): ILayerToolSidebarTabDefaults {
-        return new MarkerLayerToolSidebarTabDefaults(this);
+        return new MarkerLayerToolSidebarTabDefaults();
     }
 
     /**

@@ -1,6 +1,5 @@
 import ISidebarToolDefaults from "../../types/tool/ISidebarToolDefaults";
 import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
-import ISidebarTool from "../../types/tool/ISidebarTool";
 import ISidebarToolConfig from "../../types/tool/ISidebarToolConfig";
 import { GeovistoSidebarTool } from "../../..";
 
@@ -10,13 +9,6 @@ import { GeovistoSidebarTool } from "../../..";
  * @author Jiri Hynek
  */
 class SidebarToolDefaults extends MapToolDefaults implements ISidebarToolDefaults {
-
-    /**
-     * It creates a tool defaults.
-     */
-    public constructor(tool: ISidebarTool) {
-        super(tool);
-    }
 
     /**
      * It returns the default config.

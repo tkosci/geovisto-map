@@ -61,7 +61,7 @@ class SelectionTool extends MapTool implements ISelectionTool, ISidebarFragmentC
      * It creates new defaults of the tool.
      */
     public createDefaults(): ISelectionToolDefaults {
-        return new SelectionToolDefaults(this);
+        return new SelectionToolDefaults();
     }
 
     /**

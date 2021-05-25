@@ -1,27 +1,32 @@
 import IMapToolState from "../tool/IMapToolState";
 import ILayerToolConfig from "./ILayerToolConfig";
 import ILayerToolDimensions from "./ILayerToolDimensions";
+import ILayerToolDefaults from "./ILayerToolDefaults";
+import ILayerToolProps from "./ILayerToolProps";
 
 /**
  * This interface declares functions for using the state of the layer tool.
  * 
  * @author Jiri Hynek
  */
-interface ILayerToolState extends IMapToolState {
+interface ILayerToolState<
+    TProps extends ILayerToolProps = ILayerToolProps,
+    TDefaults extends ILayerToolDefaults = ILayerToolDefaults,
+    TConfig extends ILayerToolConfig = ILayerToolConfig,
+    TDimensions extends ILayerToolDimensions = ILayerToolDimensions
+> extends IMapToolState<TProps, TDefaults, TConfig> {
 
     /**
-     * The metod takes config and deserializes the values.
-     * 
-     * @param config 
+     * It returns the layer dimensions property of the tool state.
      */
-    deserialize(config: ILayerToolConfig): void;
+    getDimensions(): TDimensions;
 
     /**
-     * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
+     * It sets the layer dimensions property of tool state.
      * 
-     * @param filterDefaults
+     * @param dimensions 
      */
-    serialize(filterDefaults: boolean): ILayerToolConfig;
+    setDimensions(dimensions: TDimensions): void;
 
     /**
      * It returns the layer name property of the tool state.
@@ -48,17 +53,5 @@ interface ILayerToolState extends IMapToolState {
      * @param layerItems 
      */
     setLayerItems(layerItems: L.Layer[]): void;
-
-    /**
-     * It returns the layer dimensions property of the tool state.
-     */
-    getDimensions(): ILayerToolDimensions;
-
-    /**
-     * It sets the layer dimensions property of tool state.
-     * 
-     * @param dimensions 
-     */
-    setDimensions(dimensions: ILayerToolDimensions): void;
 }
 export default ILayerToolState;

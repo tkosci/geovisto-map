@@ -42,7 +42,7 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, ISide
      * Help function which returns the props given by the programmer.
      */
     public getProps(): ITilesLayerToolProps {
-        return this.getProps();
+        return <ITilesLayerToolProps> super.getProps();
     }
 
     /**
@@ -56,7 +56,7 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, ISide
      * It creates new defaults of the layer tool.
      */
     protected createDefaults(): ITilesLayerToolDefaults {
-        return new TilesLayerToolDefaults(this);
+        return new TilesLayerToolDefaults();
     }
 
     /**

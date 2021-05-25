@@ -53,7 +53,7 @@ class MapObject implements IMapObject {
      * This function can be overriden.
      */
     protected createDefaults(): IMapObjectDefaults {
-        return new MapObjectDefaults(this);
+        return new MapObjectDefaults();
     }
 
     /**
@@ -87,15 +87,21 @@ class MapObject implements IMapObject {
     public getId(): string {
         return this.state.getId();
     }
-    
+
     /**
-     * It sets a config
+     * It initializes the state of the object.
+     * It processes the serialized config and sets further objects.
      * 
-     * @param config 
+     * This cannot be done in the object constructor
+     * since the object can be created before the Geovisto map is created.
+     * 
+     * @param initProps
      */
-    public setConfig(config: IMapObjectConfig): void {
+    public initialize(initProps: { config: IMapObjectConfig | undefined }): this {
         // override state by the config if specified in argument
-        this.getState().deserialize(config);
+        this.getState().initialize(this.getDefaults(), this.getProps(), initProps);
+
+        return this;
     }
 }
 export default MapObject;

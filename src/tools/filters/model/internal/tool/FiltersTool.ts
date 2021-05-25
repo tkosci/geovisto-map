@@ -56,7 +56,7 @@ class FiltersTool extends MapTool implements IFiltersTool, ISidebarTabControl {
      * It creates new defaults of the tool.
      */
     public createDefaults(): IFiltersToolDefaults {
-        return new FiltersToolDefaults(this);
+        return new FiltersToolDefaults();
     }
 
     /**

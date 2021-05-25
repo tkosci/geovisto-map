@@ -1,4 +1,4 @@
-import { ILayerToolSidebarTab, LayerToolSidebarTabDefaults, ILayerToolSidebarTabDefaults } from "../../../../../sidebar";
+import { LayerToolSidebarTabDefaults, ILayerToolSidebarTabDefaults } from "../../../../../sidebar";
 
 /**
  * This class provide functions which return the default state values.
@@ -8,10 +8,10 @@ import { ILayerToolSidebarTab, LayerToolSidebarTabDefaults, ILayerToolSidebarTab
 class MarkerLayerToolSidebarTabDefaults extends LayerToolSidebarTabDefaults implements ILayerToolSidebarTabDefaults {
 
     /**
-     * It creates sidebar tab defaults.
+     * It returns the default name of the tab.
      */
-    public constructor(sidebarTab: ILayerToolSidebarTab) {
-        super(sidebarTab);
+    public getName(): string {
+        return "Marker layer tool settings";
     }
 
     /**

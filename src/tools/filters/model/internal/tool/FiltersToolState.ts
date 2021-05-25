@@ -91,10 +91,10 @@ class FiltersToolState extends MapToolState implements IFiltersToolState {
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    public serialize(filterDefaults: boolean): IFiltersToolConfig {
-        const config: IFiltersToolConfig = <IFiltersToolConfig> super.serialize(filterDefaults);
+    public serialize(defaults: IFiltersToolDefaults | undefined): IFiltersToolConfig {
+        const config: IFiltersToolConfig = <IFiltersToolConfig> super.serialize(defaults);
 
         // serialize filter filters
         if(this.rules != undefined) {

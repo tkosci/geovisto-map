@@ -73,15 +73,14 @@ class SidebarFragmentState extends MapObjectState implements ISidebarFragmentSta
      * The method serializes the sidebar tab fragment configuration.
      * Optionally, a serialized value can be let undefined if it equals the default value.
      * 
-     * @param filterDefaults 
+     * @param defaults 
      */
-    public serialize(filterDefaults: boolean | undefined): ISidebarFragmentConfig {
-        const defaults = <ISidebarFragmentDefaults> this.getDefaults();
+    public serialize(defaults: ISidebarFragmentDefaults | undefined): ISidebarFragmentConfig {
         return {
             id: undefined,
             type: undefined,
             tool: this.getTool()?.getId(),
-            enabled: filterDefaults && this.isEnabled() == defaults.isEnabled() ? undefined : this.isEnabled(),
+            enabled: defaults && this.isEnabled() == defaults.isEnabled() ? undefined : this.isEnabled(),
         };
     }
 

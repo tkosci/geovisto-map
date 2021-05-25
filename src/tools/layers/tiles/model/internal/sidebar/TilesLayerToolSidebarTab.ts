@@ -17,7 +17,7 @@ class TilesLayerToolSidebarTab extends AbstractLayerToolSidebarTab<ITilesLayerTo
      * It creates new defaults of the sidebar tab.
      */
     public createDefaults(): ILayerToolSidebarTabDefaults {
-        return new TilesLayerToolSidebarTabDefaults(this);
+        return new TilesLayerToolSidebarTabDefaults();
     }
 
     /**

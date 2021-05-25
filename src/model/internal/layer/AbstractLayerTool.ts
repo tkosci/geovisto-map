@@ -5,6 +5,7 @@ import ILayerToolDefaults from "../../types/layer/ILayerToolDefaults";
 import ILayerToolState from "../../types/layer/ILayerToolState";
 import LayerToolDefaults from "./LayerToolDefaults";
 import LayerToolState from "./LayerToolState";
+import ILayerToolConfig from "../../types/layer/ILayerToolConfig";
 
 /**
  * This class wraps filter tool. It provides methods for layer management.
@@ -38,7 +39,7 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
      * Help function which returns the props given by the programmer.
      */
     public getProps(): ILayerToolProps {
-        return this.getProps();
+        return <ILayerToolProps> super.getProps();
     }
 
     /**
@@ -52,7 +53,7 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
      * It creates new defaults of the layer tool.
      */
     protected createDefaults(): ILayerToolDefaults {
-        return new LayerToolDefaults(this);
+        return new LayerToolDefaults();
     }
 
     /**
@@ -70,12 +71,30 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
     }
 
     /**
+     * It initializes the state of the layer tool.
+     * It processes the serialized config and sets further objects.
+     * 
+     * This cannot be done in the object constructor
+     * since the object can be created before the Geovisto map is created.
+     * 
+     * @param initProps
+     */
+    public initialize(initProps: { config: ILayerToolConfig | undefined }): ILayerToolObject {
+        // override state by the config if specified in argument
+        this.getState().initialize(this.getDefaults(), this.getProps(), initProps);
+
+        return this;
+    }
+
+    /**
      * It creates new layer with respect to configuration
      */
-    public create(): void {
+    public create(): ILayerTool {
         if(this.isEnabled()) {
             this.showLayerItems();
         }
+
+        return this;
     }
 
     /**
@@ -103,14 +122,14 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
      * This function is meant to be private.
      */
     protected showLayerItems(): void {
-        const map = this.getMap().getState().getLeafletMap();
-        if(map) {
+        const leafletMap = this.getMap()?.getState().getLeafletMap();
+        if(leafletMap) {
             // get/create items
             const layerItems = this.getLayerItems();
 
             // render/remove items
             for(let j = 0; j < layerItems.length; j++) {
-                layerItems[j].addTo(map);
+                layerItems[j].addTo(leafletMap);
             }
 
             // post create items
@@ -124,14 +143,14 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
      * This function is meant to be private.
      */
     protected hideLayerItems(): void {
-        const map = this.getMap().getState().getLeafletMap();
+        const leafletMap = this.getMap()?.getState().getLeafletMap();
 
         // render/remove items
-        if(map) {
+        if(leafletMap) {
             // get/create items
             const layerItems = this.getLayerItems();
             for(let j = 0; j < layerItems.length; j++) {
-                map.removeLayer(layerItems[j]);
+                leafletMap.removeLayer(layerItems[j]);
             }
         }
     }

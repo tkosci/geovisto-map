@@ -30,7 +30,7 @@ class ChoropolethLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IChorop
      * It creates new defaults of the tab control.
      */
     public createDefaults(): ILayerToolSidebarTabDefaults {
-        return new ChoroplethLayerToolSidebarTabDefaults(this);
+        return new ChoroplethLayerToolSidebarTabDefaults();
     }
 
     /**

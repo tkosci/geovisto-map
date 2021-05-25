@@ -105,10 +105,10 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    public serialize(filterDefaults: boolean): IChoroplethLayerToolConfig {
-        const config: IChoroplethLayerToolConfig = <IChoroplethLayerToolConfig> super.serialize(filterDefaults);
+    public serialize(defaults: IChoroplethLayerToolDefaults | undefined): IChoroplethLayerToolConfig {
+        const config: IChoroplethLayerToolConfig = <IChoroplethLayerToolConfig> super.serialize(defaults);
 
         // serialize the layer tool properties
         const dimensions = this.getDimensions();

@@ -7,6 +7,7 @@ import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToo
 import IConnectionLayerToolConfig from "../../types/tool/IConnectionLayerToolConfig";
 import IMap from "../../../../../../model/types/map/IMap";
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
+import { IChoroplethLayerToolDefaults } from "../../../../choropleth";
 
 /**
  * This class provide functions for using the state of the layer tool.
@@ -27,16 +28,6 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
 
         const props: IConnectionLayerToolProps = <IConnectionLayerToolProps> this.getProps();
         const defaults: IConnectionLayerToolDefaults = <IConnectionLayerToolDefaults> this.getDefaults();
-
-        // sets map dimensions
-        if(props.dimensions) {
-            this.setDimensions({
-                from: props.dimensions.from == undefined ? defaults.getFromDimension() : props.dimensions.from,
-                to: props.dimensions.to == undefined ? defaults.getToDimension() : props.dimensions.to
-            });
-        } else {
-            this.setDimensions(defaults.getDimensions());
-        }
 
         // the layer tool properties
         this.centroids = props.centroids; // default centroids are undefined since the map is undefined
@@ -99,10 +90,10 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    public serialize(filterDefaults: boolean): IConnectionLayerToolConfig {
-        const config: IConnectionLayerToolConfig = <IConnectionLayerToolConfig> super.serialize(filterDefaults);
+    public serialize(defaults: IChoroplethLayerToolDefaults | undefined): IConnectionLayerToolConfig {
+        const config: IConnectionLayerToolConfig = <IConnectionLayerToolConfig> super.serialize(defaults);
 
         // serialize the layer tool properties
         const dimensions = this.getDimensions();

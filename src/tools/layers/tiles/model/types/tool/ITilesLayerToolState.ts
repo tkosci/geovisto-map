@@ -1,5 +1,6 @@
 import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
 import ITilesLayerToolConfig from "./ITilesLayerToolConfig";
+import ITilesLayerToolDefaults from "./ITilesLayerToolDefaults";
 
 /**
  * This interface declares functions for using the state of the layer tool.
@@ -18,9 +19,9 @@ interface ITilesLayerToolState extends LayerToolState {
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    serialize(filterDefaults: boolean): ITilesLayerToolConfig;
+    serialize(defaults: ITilesLayerToolDefaults | undefined): ITilesLayerToolConfig;
 
     /**
      * It returns a base map ID.

@@ -108,10 +108,10 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    public serialize(filterDefaults: boolean): IMarkerLayerToolConfig {
-        const config: IMarkerLayerToolConfig = <IMarkerLayerToolConfig> super.serialize(filterDefaults);
+    public serialize(defaults: IMarkerLayerToolDefaults | undefined): IMarkerLayerToolConfig {
+        const config: IMarkerLayerToolConfig = <IMarkerLayerToolConfig> super.serialize(defaults);
 
         // serialize the layer tool properties
         const dimensions = this.getDimensions();

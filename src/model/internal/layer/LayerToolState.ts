@@ -13,34 +13,27 @@ import ILayerToolDimensions from "../../types/layer/ILayerToolDimensions";
  */
 class LayerToolState extends MapToolState implements ILayerToolState {
     
-    private layerName: string;
+    private layerName!: string;
+    private dimensions!: ILayerToolDimensions;
     private layerItems: L.Layer[] | undefined;
-    private dimensions: ILayerToolDimensions;
 
     /**
      * It creates a tool state.
      */
     public constructor(tool: ILayerTool) {
         super(tool);
-
-        const props = <ILayerToolProps> this.getProps();
-        const defaults = <ILayerToolDefaults> this.getDefaults();
-
-        this.layerName = props.name == undefined ? defaults.getLayerName() : props.name;
-        this.dimensions = {};
     }
 
     /**
-     * It resets state with respect to initial props.
+     * It resets the state with respect to the initial props.
      */
-    public reset(): void {
-        super.reset();
-
-        const props = <ILayerToolProps> this.getProps();
-        const defaults = <ILayerToolDefaults> this.getDefaults();
-
+    public initialize(defaults: ILayerToolDefaults, props: ILayerToolProps, initProps: { config: ILayerToolConfig | undefined }): void {
         // the layer tool properties
         this.setLayerName(props.name == undefined ? defaults.getLayerName() : props.name);
+        this.setDimensions(defaults.getDimensions());
+
+        // set super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**
@@ -58,15 +51,13 @@ class LayerToolState extends MapToolState implements ILayerToolState {
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    public serialize(filterDefaults: boolean): ILayerToolConfig {
-        const config: ILayerToolConfig = <ILayerToolConfig> super.serialize(filterDefaults);
-
-        const defaults = <ILayerToolDefaults> this.getDefaults();
+    public serialize(defaults: ILayerToolDefaults | undefined): ILayerToolConfig {
+        const config: ILayerToolConfig = <ILayerToolConfig> super.serialize(defaults);
 
         // serialize the layer tool properties
-        config.name = filterDefaults && this.getLayerName() == defaults.getLayerName() ? undefined : this.getLayerName();
+        config.name = defaults && this.getLayerName() == defaults.getLayerName() ? undefined : this.getLayerName();
 
         return config;
     }

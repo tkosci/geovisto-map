@@ -1,21 +1,21 @@
-import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
 import IConnectionLayerToolConfig from "./IConnectionLayerToolConfig";
 import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
+import IConnectionLayerToolDefaults from "./IConnectionLayerToolDefaults";
+import IConnectionLayerToolProps from "./IConnectionLayerToolProps";
+import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
 
 /**
  * This interface declares functions for using the state of the layer tool.
  * 
  * @author Jiri Hynek
  */
-interface IConnectionLayerToolState extends LayerToolState {
-
-    /**
-     * The metod takes config and deserializes the values.
-     * 
-     * @param config 
-     */
-    deserialize(config: IConnectionLayerToolConfig): void;
+interface IConnectionLayerToolState<
+    TProps extends IConnectionLayerToolProps = IConnectionLayerToolProps,
+    TDefaults extends IConnectionLayerToolDefaults = IConnectionLayerToolDefaults,
+    TConfig extends IConnectionLayerToolConfig = IConnectionLayerToolConfig,
+    TDimensions extends IConnectionLayerToolDimensions = IConnectionLayerToolDimensions
+> extends ILayerToolState<TProps, TDefaults, TConfig, TDimensions> {
 
     /**
      * It sets the marker layer dimensions property of tool state.
@@ -24,25 +24,6 @@ interface IConnectionLayerToolState extends LayerToolState {
      * @param to
      */
     deserializeDimensions(from: string | undefined, to: string | undefined): void;
-
-    /**
-     * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
-     * 
-     * @param filterDefaults
-     */
-    serialize(filterDefaults: boolean): IConnectionLayerToolConfig;
-
-    /**
-     * It returns the connection layer dimensions property of the tool state.
-     */
-    getDimensions(): IConnectionLayerToolDimensions;
-
-    /**
-     * It sets the connection layer dimensions property of tool state.
-     * 
-     * @param dimensions 
-     */
-    setDimensions(dimensions: IConnectionLayerToolDimensions): void;
 
     /**
      * It returns a Leaflet SVG layer.

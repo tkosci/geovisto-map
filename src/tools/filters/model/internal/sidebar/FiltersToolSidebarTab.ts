@@ -63,7 +63,7 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
      * It creates new defaults of the tab control.
      */
     public createDefaults(): ISidebarTabDefaults {
-        return new FiltersToolSidebarTabDefaults(this);
+        return new FiltersToolSidebarTabDefaults();
     }
 
     /**
@@ -107,7 +107,7 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
         if(_this.htmlContent) {
             const defaults: FiltersToolSidebarTabDefaults = <FiltersToolSidebarTabDefaults> _this.getDefaults();
             const div: HTMLDivElement = _this.htmlContent.insertBefore(document.createElement('div'), _this.btnGroup);
-            div.classList.add(defaults.getFilterRuleElementClass());
+            div.classList.add(defaults.getFilterRuleElementClass(_this.getType()));
             
             const minusButton = TabDOMUtil.createButton("<i class=\"fa fa-minus-circle\"></i>",
                                                         function(e: MouseEvent) { FiltersToolSidebarTab.removeSelectItem(e, _this); }, "minusBtn");        
@@ -124,7 +124,7 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
             const updateValueOptions = function(e: Event) {
                 // find the input item
                 let input: FilterAutocompleteFormInput | null = null;
-                const div: HTMLElement | null = (e.target as HTMLInputElement).closest("." + defaults.getFilterRuleElementClass());
+                const div: HTMLElement | null = (e.target as HTMLInputElement).closest("." + defaults.getFilterRuleElementClass(_this.getType()));
                 for(let i = 0; i < _this.inputs.length; i++) {
                     if(_this.inputs[i].container == div) {
                         input = _this.inputs[i].input;

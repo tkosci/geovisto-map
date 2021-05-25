@@ -1,5 +1,4 @@
 import AbstractLayerTool from "./AbstractLayerTool";
-import ILayerTool from "../../types/layer/ILayerTool";
 import MapToolDefaults from "../tool/MapToolDefaults";
 import ILayerToolDefaults from "../../types/layer/ILayerToolDefaults";
 import ILayerToolDimensions from "../../types/layer/ILayerToolDimensions";
@@ -10,13 +9,6 @@ import ILayerToolDimensions from "../../types/layer/ILayerToolDimensions";
  * @author Jiri Hynek
  */
 class LayerToolDefaults extends MapToolDefaults implements ILayerToolDefaults {
-
-    /**
-     * It initializes the tool defaults.
-     */
-    public constructor(tool: ILayerTool) {
-        super(tool);
-    }
 
     /**
      * It returns a unique type string of the tool which is based on the layer it wraps.

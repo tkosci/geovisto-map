@@ -9,13 +9,6 @@ import IMapObject from "../../../../../model/types/object/IMapObject";
 class FiltersToolSidebarTabDefaults extends SidebarTabDefaults implements ISidebarTabDefaults {
 
     /**
-     * It initializes sidebar tab control defaults.
-     */
-    public constructor(sidebarTab: ISidebarTab) {
-        super(sidebarTab);
-    }
-
-    /**
      * It returns name of tab pane.
      */
     public getName(): string {
@@ -32,10 +25,9 @@ class FiltersToolSidebarTabDefaults extends SidebarTabDefaults implements ISideb
     /**
      * It returns the element class.
      */
-    public getFilterRuleElementClass(): string {
-        const mapObject: IMapObject | undefined = this.getMapObject();
-        if(mapObject) {
-            return mapObject.getType() + "-filter";
+    public getFilterRuleElementClass(objectType: string | undefined): string {
+        if(objectType) {
+            return objectType + "-filter";
         }
         return "unknown-object-filter";
     }

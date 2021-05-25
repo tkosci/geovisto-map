@@ -31,7 +31,7 @@ class ThemesToolState extends MapToolState implements IThemesToolState {
         this.manager = props.manager == undefined ? defaults.getThemesManager() : props.manager;
 
         // set theme
-        this.theme = props.theme == undefined ? defaults.getTheme() : props.theme;
+        this.theme = props.theme == undefined ? defaults.getTheme(this.manager) : props.theme;
     }
 
     /**
@@ -47,7 +47,7 @@ class ThemesToolState extends MapToolState implements IThemesToolState {
         this.setThemesManager(props.manager == undefined ? defaults.getThemesManager() : props.manager);
 
         // set theme
-        this.setTheme(props.theme == undefined ? defaults.getTheme() : props.theme);
+        this.setTheme(props.theme == undefined ? defaults.getTheme(this.getThemesManager()) : props.theme);
     }
 
     /**
@@ -74,15 +74,15 @@ class ThemesToolState extends MapToolState implements IThemesToolState {
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    public serialize(filterDefaults: boolean): IThemesToolConfig {
-        const config: IThemesToolConfig = <IThemesToolConfig> super.serialize(filterDefaults);
+    public serialize(defaults: IThemesToolDefaults | undefined): IThemesToolConfig {
+        const config: IThemesToolConfig = <IThemesToolConfig> super.serialize(defaults);
 
         // serialize the theme
         const theme = this.getTheme();
-        const defaultTheme: IMapTheme | undefined = (<IThemesToolDefaults> this.getDefaults()).getTheme();
-        config.theme = filterDefaults && defaultTheme && theme.getName() == defaultTheme.getName() ? undefined : theme.getName();
+        const defaultTheme: IMapTheme | undefined = defaults?.getTheme(this.getThemesManager());
+        config.theme = defaultTheme && theme.getName() == defaultTheme.getName() ? undefined : theme.getName();
 
         return config;
     }

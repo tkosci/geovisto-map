@@ -1,6 +1,8 @@
 import IMapObjectState from "../object/IMapObjectState";
 import IMapToolConfig from "./IMapToolConfig";
 import IMap from "../map/IMap";
+import IMapToolDefaults from "./IMapToolDefaults";
+import IMapToolProps from "./IMapToolProps";
 
 /**
  * This interface declares the state of the map tool.
@@ -8,21 +10,16 @@ import IMap from "../map/IMap";
  * 
  * @author Jiri Hynek
  */
-interface IMapToolState extends IMapObjectState {
+interface IMapToolState<
+    TProps extends IMapToolProps = IMapToolProps,
+    TDefaults extends IMapToolDefaults = IMapToolDefaults,
+    TConfig extends IMapToolConfig = IMapToolConfig
+> extends IMapObjectState<TProps, TDefaults, TConfig> {
 
     /**
-     * The metod takes config and deserializes the values.
-     * 
-     * @param config 
+     * It resets the state with respect to the initial props.
      */
-    deserialize(config: IMapToolConfig): void;
-
-    /**
-     * The method serializes the map tool state. Optionally, a serialized value can be let undefined if it equals the default value.
-     * 
-     * @param filterDefaults 
-     */
-    serialize(filterDefaults: boolean | undefined): IMapToolConfig;
+    initialize(defaults: TDefaults, props: TProps, initProps: { config: TConfig | undefined, map: IMap }): void
 
     /**
      * It returns the enabled property of the tool state.

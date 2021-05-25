@@ -19,6 +19,7 @@ import IMap from '../../types/map/IMap';
 import IMapEvent from '../../types/event/IMapEvent';
 import IMapObject from '../../types/object/IMapObject';
 import IMapData from '../../types/data/IMapData';
+import IMapConfig from '../../types/map/IMapConfig';
 
 /**
  * Representation of map wrapper which handles map layers, sidebar and other tools
@@ -37,11 +38,10 @@ class GeovistoMap extends MapObject implements IMap {
     }
 
     /**
-     * The type of the object.
+     * Help function which returns the props given by the programmer.
      */
-    public static TYPE(): string {
-        // important! CSS styles use this name!
-        return "geovisto-map";
+    public getProps(): IMapProps {
+        return <IMapProps> super.getProps();
     }
 
     /**
@@ -55,7 +55,7 @@ class GeovistoMap extends MapObject implements IMap {
      * It creates new defaults of the object.
      */
     public createDefaults(): IMapDefaults {
-        return new GeovistoMapDefaults(this);
+        return new GeovistoMapDefaults();
     }
 
     /**
@@ -75,12 +75,9 @@ class GeovistoMap extends MapObject implements IMap {
     /**
      * The function draws a new map.
      */
-    public draw(mapConfig: IMapConfigManager): HTMLElement | null {
-        // reset variables, use defaults
-        this.getState().reset();
-
+    public draw(configManager: IMapConfigManager): HTMLElement | null {
         // initialize map and tools
-        this.initialize(mapConfig);
+        this.initialize({ config: configManager.getMapConfig(), configManager: configManager});
 
         // render map and tools
         return this.create();
@@ -89,7 +86,7 @@ class GeovistoMap extends MapObject implements IMap {
     /**
      * This function redraws the current map.
      */
-    public redraw(mapConfig: IMapConfigManager, props: IMapProps): HTMLElement | null {
+    public redraw(configManager: IMapConfigManager, props: IMapProps): HTMLElement | null {
         // get map and remove map children
         const mapContainer: HTMLElement | null = document.getElementById(this.getState().getId());
         if(mapContainer && mapContainer.childNodes.length > 0) {
@@ -104,10 +101,9 @@ class GeovistoMap extends MapObject implements IMap {
             } else {
                 this.state.reset(this.getDefaults());
             }*/
-            this.getState().reset();
 
             // initialize map and tools
-            this.initialize(mapConfig);
+            this.initialize({ config: configManager.getMapConfig(), configManager: configManager});
 
             // render map and tools
             return this.create();
@@ -116,15 +112,11 @@ class GeovistoMap extends MapObject implements IMap {
     }
   
     /**
-     * Resets variables.
+     * It resets the state to the initial state.
      */
-    protected initialize(mapConfig: IMapConfigManager | undefined): void {
-        mapConfig = mapConfig == undefined ? this.getDefaults().getConfigManager() : mapConfig;
-        this.getState().setMapConfig(mapConfig);
-
-        // override state by Geovisto config if specified in argument
-        // this also initializes child map objects - e.g., tools
-        this.getState().deserialize(mapConfig.getMapConfig());
+    public initialize(initProps: { config: IMapConfig | undefined, configManager: IMapConfigManager }): IMap {
+        // init the map state
+        this.getState().initialize(this.getDefaults(), this.getProps(), initProps);
 
         // initialize existing tools
         const toolsManager: IMapToolsManager = this.getState().getTools();
@@ -133,12 +125,12 @@ class GeovistoMap extends MapObject implements IMap {
             const tools: IMapTool[] = toolsManager.getAll();
             for(let i = 0; i < tools.length; i++) {
                 // initialize tool (provide map and config)
-                tools[i].initialize(this, mapConfig.getToolConfig(tools[i].getId()));
+                tools[i].initialize({ config: initProps.configManager.getToolConfig(tools[i].getId()), map: this });
             }
         }
         
         // deserialize remaining tools with respect to the config
-        const toolsConfigs: IMapToolConfig[] | undefined = mapConfig.getToolsConfigs();
+        const toolsConfigs: IMapToolConfig[] | undefined = initProps.configManager.getToolsConfigs();
         if(toolsConfigs != undefined) {
             const toolTemplatesManager: IMapToolsManager = this.getState().getToolTemplates();
             let tool: IMapTool | undefined;
@@ -165,7 +157,7 @@ class GeovistoMap extends MapObject implements IMap {
                         // create copy of the tool template
                         tool = toolTemplates[0].copy();
                         // initialize tool
-                        tool.initialize(this, toolConfig);
+                        tool.initialize({ config: toolConfig, map: this });
                         // add to the list of tools
                         toolsManager.add(tool);
                     }
@@ -174,13 +166,15 @@ class GeovistoMap extends MapObject implements IMap {
                 // if there is no template, the tool config is ignored
             }
         }
+        
+        return this;
     }
 
     /**
      * It exports the serialized representation of the current state of the map.
      */
     public export(): Record<string, unknown> {
-        return this.getState().getMapConfig().export(this.getState().serialize(true));
+        return this.getState().getMapConfig().export(this.getState().serialize(this.getDefaults()));
     }
 
     /**

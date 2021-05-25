@@ -58,7 +58,7 @@ abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implemen
      * It creates new defaults of the sidebar tab.
      */
     protected createDefaults(): ISidebarTabDefaults {
-        return <ISidebarTabDefaults> new SidebarTabDefaults(this);
+        return <ISidebarTabDefaults> new SidebarTabDefaults();
     }
 
     /**

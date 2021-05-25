@@ -2,6 +2,7 @@ import IMapObjectState from "../../../../../model/types/object/IMapObjectState";
 import ISidebarFragmentConfig from "./ISidebarFragmentConfig";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
 import ISidebarTab from "../tab/ISidebarTab";
+import ISidebarFragmentDefaults from "./ISidebarFragmentDefaults";
 
 /**
  * This interface declares the state of the sidebar fragment.
@@ -22,9 +23,9 @@ interface ISidebarFragmentState extends IMapObjectState {
      * The method serializes the sidebar tab fragment configuration.
      * Optionally, a serialized value can be let undefined if it equals the default value.
      * 
-     * @param filterDefaults 
+     * @param defaults 
      */
-    serialize(filterDefaults: boolean | undefined): ISidebarFragmentConfig;
+    serialize(defaults: ISidebarFragmentDefaults | undefined): ISidebarFragmentConfig;
 
     /**
      * It returns the tool property of the sidebar tab fragment state.

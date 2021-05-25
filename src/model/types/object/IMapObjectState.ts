@@ -1,4 +1,6 @@
 import IMapObjectConfig from "./IMapObjectConfig";
+import IMapObjectDefaults from "./IMapObjectDefaults";
+import IMapObjectProps from "./IMapObjectProps";
 
 /**
  * This interface declares the state of a map object.
@@ -6,26 +8,30 @@ import IMapObjectConfig from "./IMapObjectConfig";
  * 
  * @author Jiri Hynek
  */
-interface IMapObjectState {
+interface IMapObjectState<
+    TProps extends IMapObjectProps = IMapObjectProps,
+    TDefaults extends IMapObjectDefaults = IMapObjectDefaults,
+    TConfig extends IMapObjectConfig = IMapObjectConfig
+> {
 
     /**
-     * It resets the state to the initial props.
+     * It resets the state to the initial state.
      */
-    reset(): void;
+    initialize(defaults: TDefaults, props: TProps, initProps: { config: TConfig | undefined }): void;
 
     /**
      * The metod takes config and deserializes the values.
      * 
      * @param config 
      */
-    deserialize(config: IMapObjectConfig): void;
+    deserialize(config: TConfig): void;
 
     /**
      * The method serializes the map object state. Optionally, a serialized value can be let undefined if it equals the default value.
      * 
-     * @param filterDefaults 
+     * @param defaults 
      */
-    serialize(filterDefaults: boolean | undefined): IMapObjectConfig;
+    serialize(defaults: TDefaults | undefined): IMapObjectConfig;
 
     /**
      * It returns the type property of the map object state.

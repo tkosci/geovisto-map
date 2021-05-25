@@ -11,13 +11,6 @@ import { GeovistoTilesLayerTool } from "../../..";
 class TilesLayerToolDefaults extends LayerToolDefaults implements ITilesLayerToolDefaults {
 
     /**
-     * It initializes tool defaults.
-     */
-    public constructor(tool: ITilesLayerTool) {
-        super(tool);
-    }
-
-    /**
      * It returns a unique type string of the tool which is based on the layer it wraps.
      */
     public getType(): string {

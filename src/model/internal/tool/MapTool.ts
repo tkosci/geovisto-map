@@ -34,7 +34,7 @@ class MapTool extends MapObject implements IMapTool {
      * Help function which returns the props given by the programmer.
      */
     public getProps(): IMapToolProps {
-        return this.getProps();
+        return <IMapToolProps> super.getProps();
     }
 
     /**
@@ -48,7 +48,7 @@ class MapTool extends MapObject implements IMapTool {
      * It creates new defaults of the tool.
      */
     protected createDefaults(): IMapToolDefaults {
-        return new MapToolDefaults(this);
+        return new MapToolDefaults();
     }
 
     /**
@@ -86,14 +86,9 @@ class MapTool extends MapObject implements IMapTool {
      * @param map
      * @param config
      */
-    public initialize(map: IMap, config: IMapToolConfig | undefined): void {
-        // the map should not be undefined (this function is called only by GeovistoMap)
-        this.getState().setMap(map);
-        
-        // override state by Geovisto config if specified in argument - this can happen only if:
-        // 1) the config of the same id was found
-        // 2) the tool was created as a copy of the generic tool (generic config)
-        this.setConfig(config != undefined ? config : this.getDefaults().getConfig());
+    public initialize(initProps: { config: IMapToolConfig | undefined, map: IMap }): this {
+        super.initialize(initProps);
+        return this;
     }
 
     /**
@@ -112,8 +107,8 @@ class MapTool extends MapObject implements IMapTool {
      * 
      * Override this function.
      */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public create(): void {
+    public create(): this {
+        return this;
     }
 
     /**
@@ -156,8 +151,9 @@ class MapTool extends MapObject implements IMapTool {
      * 
      * @param event
      */
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     public handleEvent(event: IMapEvent): void {
+        return;
     }
 }
 export default MapTool;

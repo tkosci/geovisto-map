@@ -1,4 +1,4 @@
-import { LayerToolSidebarTabDefaults, ILayerToolSidebarTab, ILayerToolSidebarTabDefaults } from "../../../../../sidebar";
+import { LayerToolSidebarTabDefaults, ILayerToolSidebarTabDefaults } from "../../../../../sidebar";
 
 /**
  * This class provide functions which return the default state values.
@@ -8,10 +8,10 @@ import { LayerToolSidebarTabDefaults, ILayerToolSidebarTab, ILayerToolSidebarTab
 class TilesLayerToolSidebarTabDefaults extends LayerToolSidebarTabDefaults implements ILayerToolSidebarTabDefaults {
 
     /**
-     * It creates sidebar tab defaults.
+     * It returns the default name of the tab.
      */
-    public constructor(sidebarTab: ILayerToolSidebarTab) {
-        super(sidebarTab);
+    public getName(): string {
+        return "Tiles layer tool settings";
     }
 
     /**

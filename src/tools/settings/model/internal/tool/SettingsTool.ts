@@ -57,7 +57,7 @@ class SettingsTool extends MapTool implements ISettingsTool, ISidebarTabControl 
      * It creates new defaults of the tool.
      */
     public createDefaults(): ISettingsToolDefaults {
-        return new SettingsToolDefaults(this);
+        return new SettingsToolDefaults();
     }
 
     /**

@@ -1,5 +1,4 @@
 import IMapDefaults from "../../types/map/IMapDefaults";
-import IMap from "../../types/map/IMap";
 import IMapConfig from "../../types/map/IMapConfig";
 import IMapConfigManager from "../../types/config/IMapConfigManager";
 import IMapTemplates from "../../types/map/IMapTemplates";
@@ -25,15 +24,6 @@ class GeovistoMapDefaults extends MapObjectDefaults implements IMapDefaults {
     
     private polygons: unknown;
     private centroids: unknown;
-
-    /**
-     * It creates map defaults.
-     * 
-     * @param map 
-     */
-    public constructor(map: IMap) {
-        super(map);
-    }
 
     /**
      * It returns default map config manager.

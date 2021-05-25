@@ -5,6 +5,7 @@ import IMapDefaults from "./IMapDefaults";
 import IMapProps from "./IMapProps";
 import IMapState from "./IMapState";
 import IMapData from "../data/IMapData";
+import IMapConfig from "./IMapConfig";
 
 /**
  * Declaration of map wrapper which handles map inputs (data, props, config), map tools and other map objects.
@@ -26,12 +27,17 @@ interface IMap extends IMapObject {
     /**
      * The function draws a new map.
      */
-    draw(mapConfig: IMapConfigManager): void;
+    draw(mapConfig: IMapConfigManager): HTMLElement | null;
 
     /**
      * This function redraws the current map.
      */
-    redraw(mapConfig: IMapConfigManager, props: IMapProps): void;
+    redraw(mapConfig: IMapConfigManager, props: IMapProps): HTMLElement | null;
+
+    /**
+     * It resets the state to the initial state.
+     */
+    initialize(initProps: { config: IMapConfig | undefined, configManager: IMapConfigManager }): IMap;
 
     /**
      * It exports the serialized representation of the current state of the map.

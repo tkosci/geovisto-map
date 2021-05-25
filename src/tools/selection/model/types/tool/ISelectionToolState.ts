@@ -1,6 +1,7 @@
 import IMapToolState from "../../../../../model/types/tool/IMapToolState";
 import IMapSelection from "../selection/IMapSelection";
 import ISelectionToolConfig from "./ISelectionToolConfig";
+import ISelectionToolDefaults from "./ISelectionToolDefaults";
 
 /**
  * This interface declares functions for using selections.
@@ -19,9 +20,9 @@ interface ISelectionToolState extends IMapToolState {
     /**
      * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
      * 
-     * @param filterDefaults
+     * @param defaults
      */
-    serialize(filterDefaults: boolean | undefined): ISelectionToolConfig;
+    serialize(defaults: ISelectionToolDefaults | undefined): ISelectionToolConfig;
 
     /**
      * It returns the selection property of the tool state.

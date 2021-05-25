@@ -14,7 +14,7 @@ import IMap from '../../types/map/IMap';
  */
 class MapToolState extends MapObjectState implements IMapToolState {
     
-    private enabled: boolean;
+    private enabled!: boolean;
     
     /**
      * map is set during the tool initialization
@@ -28,21 +28,17 @@ class MapToolState extends MapObjectState implements IMapToolState {
      */
     public constructor(tool : IMapTool) {
         super(tool);
-
-        this.enabled = (<IMapToolDefaults> this.getDefaults()).isEnabled();
     }
 
     /**
      * It resets the state to the initial props.
      */
-    public reset(): void {
-        super.reset();
-
-        const props = <IMapToolProps> this.getProps();
-        const defaults = <IMapToolDefaults> this.getDefaults();
-
+    public initialize(defaults: IMapToolDefaults, props: IMapToolProps, initProps: { config: IMapToolConfig | undefined }): void {
         // set the enabled property 
-        this.setEnabled(props.enabled == undefined ? defaults.isEnabled() :  props.enabled);
+        this.setEnabled(props.enabled == undefined ? defaults.isEnabled() : props.enabled);
+
+        // set super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**
@@ -60,13 +56,13 @@ class MapToolState extends MapObjectState implements IMapToolState {
     /**
      * The method serializes the tool state. Optionally, a serialized value can be let undefined if it equals the default value.
      * 
-     * @param filterDefaults 
+     * @param defaults 
      */
-    public serialize(filterDefaults : boolean | undefined): IMapToolConfig {
-        const config: IMapToolConfig = <IMapToolConfig> super.serialize(filterDefaults);
+    public serialize(defaults : IMapToolDefaults | undefined): IMapToolConfig {
+        const config: IMapToolConfig = <IMapToolConfig> super.serialize(defaults);
 
         // tools properties
-        config.enabled = filterDefaults && this.isEnabled() == (<IMapToolDefaults>  this.getDefaults()).isEnabled() ? undefined : this.isEnabled();
+        config.enabled = defaults && this.isEnabled() == defaults.isEnabled() ? undefined : this.isEnabled();
         
         return config;
     }

@@ -1,5 +1,4 @@
 import IMapObjectDefaults from "../../types/object/IMapObjectDefaults";
-import IMapObject from "../../types/object/IMapObject";
 import IMapObjectProps from "../../types/object/IMapObjectProps";
 import IMapObjectConfig from "../../types/object/IMapObjectConfig";
 
@@ -12,25 +11,6 @@ class MapObjectDefaults implements IMapObjectDefaults {
 
     protected static id: number;
     protected idString : string | undefined;
-
-    /**
-     * reference to the map object - some defaults can be derived from map object
-     */
-    protected mapObject: IMapObject;
-
-    /**
-     * It creates map object defaults.
-     */
-    public constructor(mapObject : IMapObject) {
-        this.mapObject = mapObject;
-    }
-
-    /**
-     * It returns the map object which works with the defaults.
-     */
-    protected getMapObject(): IMapObject {
-        return this.mapObject;
-    }
 
     /**
      * It returns default props if no props are given.

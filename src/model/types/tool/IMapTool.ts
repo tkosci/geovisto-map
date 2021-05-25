@@ -11,27 +11,12 @@ import IMapToolProps from "./IMapToolProps";
  * 
  * @author Jiri Hynek
  */
-interface IMapTool extends IMapObject {
-
-    /**
-     * It creates copy of the uninitialized tool.
-     */
-    copy(): IMapTool;
-
-    /**
-     * It returns the props given by the programmer.
-     */
-    getProps(): IMapToolProps;
-
-    /**
-     * It returns default values of the state properties.
-     */
-    getDefaults(): IMapToolDefaults;
-
-    /**
-     * It returns the map tool state.
-     */
-    getState(): IMapToolState;
+interface IMapTool<
+    TProps extends IMapToolProps = IMapToolProps,
+    TDefaults extends IMapToolDefaults = IMapToolDefaults,
+    TState extends IMapToolState = IMapToolState,
+    TConfig extends IMapToolConfig = IMapToolConfig
+> extends IMapObject<TProps, TDefaults, TState, TConfig> {
 
     /**
      * It returns a logical value whether the tool type is singleton.
@@ -49,10 +34,9 @@ interface IMapTool extends IMapObject {
      * since there can be possible dependencies between the tools
      * (the tool might depend on other tools which needs to be initialized).
      * 
-     * @param map
-     * @param config 
+     * @param initProps
      */
-    initialize(map: IMap, config: IMapToolConfig | undefined): void;
+    initialize(initProps: { config: TConfig | undefined, map: IMap }): this;
 
     /**
      * Help function which returns map which uses this tool.
@@ -62,7 +46,7 @@ interface IMapTool extends IMapObject {
     /**
      * It creates a tool.
      */
-    create(): void;
+    create(): this;
 
     /**
      * Help getter which returns enabled property of state.
