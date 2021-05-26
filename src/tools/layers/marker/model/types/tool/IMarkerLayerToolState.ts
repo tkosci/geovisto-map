@@ -1,51 +1,22 @@
 import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
-import IMarkerLayerToolConfig from "./IMarkerLayerToolConfig";
+import { IMarkerLayerToolConfig, IMarkerLayerToolDimensionsConfig } from "./IMarkerLayerToolConfig";
 import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
 import IMarkerLayerToolDefaults from "./IMarkerLayerToolDefaults";
+import IMarkerLayerToolProps from "./IMarkerLayerToolProps";
 
 /**
  * This interface declares functions for using the state of the layer tool.
  * 
  * @author Jiri Hynek
  */
-interface IMarkerLayerToolState extends ILayerToolState {
-
-    /**
-     * The metod takes config and deserializes the values.
-     * 
-     * @param config 
-     */
-    deserialize(config: IMarkerLayerToolConfig): void;
-
-    /**
-     * It sets the marker layer dimensions property of tool state.
-     * 
-     * @param geo 
-     * @param value
-     * @param aggregation
-     * @param category
-     */
-    deserializeDimensions(geo: string | undefined, value: string | undefined, aggregation: string | undefined, category: string | undefined): void;
-
-    /**
-     * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
-     * 
-     * @param defaults
-     */
-    serialize(defaults: IMarkerLayerToolDefaults | undefined): IMarkerLayerToolConfig;
-
-    /**
-     * It returns the marker layer dimensions property of the tool state.
-     */
-    getDimensions(): IMarkerLayerToolDimensions;
-
-    /**
-     * It sets the marker layer dimensions property of tool state.
-     * 
-     * @param dimensions 
-     */
-    setDimensions(dimensions: IMarkerLayerToolDimensions): void;
+interface IMarkerLayerToolState<
+    TProps extends IMarkerLayerToolProps = IMarkerLayerToolProps,
+    TDefaults extends IMarkerLayerToolDefaults = IMarkerLayerToolDefaults,
+    TConfig extends IMarkerLayerToolConfig = IMarkerLayerToolConfig,
+    TDimensionsConfig extends IMarkerLayerToolDimensionsConfig = IMarkerLayerToolDimensionsConfig,
+    TDimensions extends IMarkerLayerToolDimensions = IMarkerLayerToolDimensions
+> extends ILayerToolState<TProps, TDefaults, TConfig, TDimensionsConfig, TDimensions> {
 
     /**
      * It returns a Leaflet layer group.

@@ -1,15 +1,17 @@
-import IMapObjectProps from "../object/IMapObjectProps";
+import { IMapObjectProps, IMapObjectInitProps } from "../object/IMapObjectProps";
 import IMapTemplates from "./IMapTemplates";
 import IMapGlobals from "./IMapGlobals";
 import IMapDataManager from "../data/IMapDataManager";
 import IMapToolsManager from "../tool/IMapToolsManager";
+import IMapConfig from "./IMapConfig";
+import IMapConfigManager from "../config/IMapConfigManager";
 
 /**
- * This interface provide specification of map props model.
+ * This type provides the specification of the map props model.
  * 
  * @author Jiri Hynek
  */
-interface IMapProps extends IMapObjectProps {
+type IMapProps = IMapObjectProps & {
     templates: IMapTemplates | undefined;
     globals: IMapGlobals | undefined;
     data: IMapDataManager | undefined;
@@ -18,4 +20,13 @@ interface IMapProps extends IMapObjectProps {
     centroids: unknown;
     polygons: unknown;
 }
-export default IMapProps;
+
+/**
+ * This type provides the specification of the map object props model used in its initialization.
+ * 
+ * @author Jiri Hynek
+ */
+type IMapInitProps<TConfig extends IMapConfig = IMapConfig> = IMapObjectInitProps<TConfig> & {
+    configManager : IMapConfigManager;
+}
+export type { IMapProps, IMapInitProps };

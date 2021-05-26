@@ -1,4 +1,4 @@
-import IMapObjectProps from "./IMapObjectProps";
+import { IMapObjectProps } from "./IMapObjectProps";
 import IMapObjectConfig from "./IMapObjectConfig";
 
 /**

@@ -1,5 +1,5 @@
 import MapTool from "../../../../../model/internal/tool/MapTool";
-import { ISidebarTabControl, ISidebarTab } from "../../../../sidebar";
+import { ISidebarTabControl, ISidebarTab, ISidebarToolConfig } from "../../../../sidebar";
 import ISettingsTool from "../../types/tool/ISettingsTool";
 import ISettingsToolProps from "../../types/tool/ISettingsToolProps";
 import SettingsToolDefaults from "./SettingsToolDefaults";
@@ -7,6 +7,7 @@ import SettingsToolState from "./SettingsToolState";
 import SettingsToolSidebarTab from "../sidebar/SettingsToolSidebarTab";
 import ISettingsToolState from "../../types/tool/ISettingsToolState";
 import ISettingsToolDefaults from "../../types/tool/ISettingsToolDefaults";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 
 /**
  * This class represents settings tools. It provides empty sidebar which can be used be other tools via tab fragments.
@@ -72,6 +73,15 @@ class SettingsTool extends MapTool implements ISettingsTool, ISidebarTabControl 
      */
     public createState(): ISettingsToolState {
         return new SettingsToolState(this);
+    }
+
+    /**
+     * Overrides the super method.
+     * 
+     * @param initProps
+     */
+    public initialize(initProps: IMapToolInitProps<ISidebarToolConfig>): this {
+        return super.initialize(initProps);
     }
 
     /**

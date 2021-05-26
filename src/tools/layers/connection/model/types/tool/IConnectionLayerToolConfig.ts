@@ -1,4 +1,5 @@
-import ILayerToolConfig from "../../../../../../model/types/layer/ILayerToolConfig";
+import { ILayerToolConfig, ILayerToolDimensionsConfig } from "../../../../../../model/types/layer/ILayerToolConfig";
+
 
 /**
  * This type provides specification of the connection layer tool config model.
@@ -6,9 +7,18 @@ import ILayerToolConfig from "../../../../../../model/types/layer/ILayerToolConf
  * @author Jiri Hynek
  */
 type IConnectionLayerToolConfig = ILayerToolConfig & {
+    data: IConnectionLayerToolDimensionsConfig | undefined;
+}
+
+/**
+ * This type provides specification of the connection layer tool dimensions config model.
+ * 
+ * @author Jiri Hynek
+ */
+type IConnectionLayerToolDimensionsConfig = ILayerToolDimensionsConfig & {
     data: {
         from: string | undefined,
         to: string | undefined,
     };
 }
-export default IConnectionLayerToolConfig;
+export type { IConnectionLayerToolConfig, IConnectionLayerToolDimensionsConfig };

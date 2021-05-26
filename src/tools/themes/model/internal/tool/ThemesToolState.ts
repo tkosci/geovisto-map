@@ -6,6 +6,8 @@ import IThemesToolProps from "../../types/tool/IThemesToolProps";
 import IThemesToolDefaults from "../../types/tool/IThemesToolDefaults";
 import IMapThemesManager from "../../types/theme/IMapThemesManager";
 import IMapTheme from "../../types/theme/IMapTheme";
+import IMap from "../../../../../model/types/map/IMap";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 
 /**
  * This class provide functions for using themes.
@@ -14,40 +16,32 @@ import IMapTheme from "../../types/theme/IMapTheme";
  */
 class ThemesToolState extends MapToolState implements IThemesToolState {
     
-    private manager: IMapThemesManager;
-    
-    private theme: IMapTheme;
+    private manager!: IMapThemesManager;
+    private theme!: IMapTheme;
 
     /**
      * It creates a tool state.
      */
     public constructor(tool: IThemesTool) {
         super(tool);
-
-        const props: IThemesToolProps = <IThemesToolProps> this.getProps();
-        const defaults: IThemesToolDefaults = <IThemesToolDefaults> this.getDefaults();
-
-        // set theme manager - needs to be set before the theme
-        this.manager = props.manager == undefined ? defaults.getThemesManager() : props.manager;
-
-        // set theme
-        this.theme = props.theme == undefined ? defaults.getTheme(this.manager) : props.theme;
     }
 
     /**
-     * It resets state with respect to initial props.
+     * It resets the state with respect to the initial props.
+     * 
+     * @param defaults 
+     * @param props 
+     * @param initProps 
      */
-    public reset(): void {
-        super.reset();
-
-        const props: IThemesToolProps = <IThemesToolProps> this.getProps();
-        const defaults: IThemesToolDefaults = <IThemesToolDefaults> this.getDefaults();
-
+    public initialize(defaults: IThemesToolDefaults, props: IThemesToolProps, initProps: IMapToolInitProps<IThemesToolConfig>): void {
         // set theme manager - needs to be set before the theme
         this.setThemesManager(props.manager == undefined ? defaults.getThemesManager() : props.manager);
 
         // set theme
         this.setTheme(props.theme == undefined ? defaults.getTheme(this.getThemesManager()) : props.theme);
+
+        // initialize super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**

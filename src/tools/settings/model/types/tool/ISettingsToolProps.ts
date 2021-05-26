@@ -1,7 +1,7 @@
-import IMapToolProps from "../../../../../model/types/tool/IMapToolProps";
+import { IMapToolProps } from "../../../../../model/types/tool/IMapToolProps";
 
 /**
- * This interface provide specification of the settings tool props model.
+ * This type provides the specification of the settings tool props model.
  * 
  * @author Jiri Hynek
  */

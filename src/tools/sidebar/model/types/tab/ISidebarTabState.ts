@@ -4,6 +4,7 @@ import IMapTool from "../../../../../model/types/tool/IMapTool";
 import ISidebarFragment from "../fragment/ISidebarFragment";
 import { Control } from "leaflet";
 import ISidebarTabDefaults from "./ISidebarTabDefaults";
+import ISidebarTabProps from "./ISidebarTabProps";
 
 /**
  * This interface declares the state of the sidebar tab.
@@ -11,22 +12,11 @@ import ISidebarTabDefaults from "./ISidebarTabDefaults";
  * 
  * @author Jiri Hynek
  */
-interface ISidebarTabState extends IMapObjectState {
-
-    /**
-     * The function takes config and deserializes the values.
-     * 
-     * @param config 
-     */
-    deserialize(config: ISidebarTabConfig): void;
-
-    /**
-     * The method serializes the sidebar tab configuration.
-     * Optionally, a serialized value can be let undefined if it equals the default value.
-     * 
-     * @param defaults 
-     */
-    serialize(defaults: ISidebarTabDefaults | undefined): ISidebarTabConfig;
+interface ISidebarTabState<
+    TProps extends ISidebarTabProps = ISidebarTabProps,
+    TDefaults extends ISidebarTabDefaults = ISidebarTabDefaults,
+    TConfig extends ISidebarTabConfig = ISidebarTabConfig
+> extends IMapObjectState<TProps, TDefaults, TConfig> {
 
     /**
      * It returns the tool property of the sidebar tab state.

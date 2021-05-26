@@ -1,27 +1,22 @@
-import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
-import ITilesLayerToolConfig from "./ITilesLayerToolConfig";
+import ITilesLayerToolProps from "./ITilesLayerToolProps";
 import ITilesLayerToolDefaults from "./ITilesLayerToolDefaults";
+import ITilesLayerToolConfig from "./ITilesLayerToolConfig";
+import { ILayerToolDimensionsConfig } from "../../../../../../model/types/layer/ILayerToolConfig";
+import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
+import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
 
 /**
  * This interface declares functions for using the state of the layer tool.
  * 
  * @author Jiri Hynek
  */
-interface ITilesLayerToolState extends LayerToolState {
-
-    /**
-     * The metod takes config and deserializes the values.
-     * 
-     * @param config 
-     */
-    deserialize(config: ITilesLayerToolConfig): void;
-
-    /**
-     * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
-     * 
-     * @param defaults
-     */
-    serialize(defaults: ITilesLayerToolDefaults | undefined): ITilesLayerToolConfig;
+interface ITilesLayerToolState<
+    TProps extends ITilesLayerToolProps = ITilesLayerToolProps,
+    TDefaults extends ITilesLayerToolDefaults = ITilesLayerToolDefaults,
+    TConfig extends ITilesLayerToolConfig = ITilesLayerToolConfig,
+    TDimensionsConfig extends ILayerToolDimensionsConfig = ILayerToolDimensionsConfig,
+    TDimensions extends ILayerToolDimensions = ILayerToolDimensions
+> extends ILayerToolState<TProps, TDefaults, TConfig, TDimensionsConfig, TDimensions> {
 
     /**
      * It returns a base map ID.

@@ -1,4 +1,4 @@
-import IMapObjectProps from "../../../../../model/types/object/IMapObjectProps";
+import { IMapObjectProps } from "../../../../../model/types/object/IMapObjectProps";
 
 /**
  * This interface provides specification of sidebar fragment props model.

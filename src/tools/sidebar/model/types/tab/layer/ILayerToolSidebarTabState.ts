@@ -1,4 +1,7 @@
 import { ISidebarTabState } from "../../../..";
+import ISidebarTabProps from "../ISidebarTabProps";
+import ISidebarTabDefaults from "../ISidebarTabDefaults";
+import ISidebarTabConfig from "../ISidebarTabConfig";
 
 /**
  * This interface declares the state of the sidebar tab.
@@ -6,5 +9,9 @@ import { ISidebarTabState } from "../../../..";
  * 
  * @author Jiri Hynek
  */
-type ILayerToolSidebarTabState = ISidebarTabState
+type ILayerToolSidebarTabState<
+    TProps extends ISidebarTabProps = ISidebarTabProps,
+    TDefaults extends ISidebarTabDefaults = ISidebarTabDefaults,
+    TConfig extends ISidebarTabConfig = ISidebarTabConfig
+> = ISidebarTabState<TProps, TDefaults, TConfig>
 export default ILayerToolSidebarTabState;

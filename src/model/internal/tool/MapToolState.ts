@@ -1,7 +1,7 @@
 import MapObjectState from '../object/MapObjectState';
 import IMapTool from '../../types/tool/IMapTool';
 import IMapToolDefaults from '../../types/tool/IMapToolDefaults';
-import IMapToolProps from '../../types/tool/IMapToolProps';
+import { IMapToolProps, IMapToolInitProps } from '../../types/tool/IMapToolProps';
 import IMapToolConfig from '../../types/tool/IMapToolConfig';
 import IMapToolState from '../../types/tool/IMapToolState';
 import IMap from '../../types/map/IMap';
@@ -19,7 +19,7 @@ class MapToolState extends MapObjectState implements IMapToolState {
     /**
      * map is set during the tool initialization
      */
-    private map: IMap | undefined;
+    private map!: IMap;
 
     /**
      * It creates a map object state.
@@ -32,8 +32,15 @@ class MapToolState extends MapObjectState implements IMapToolState {
 
     /**
      * It resets the state to the initial props.
+     * 
+     * @param defaults 
+     * @param props 
+     * @param initProps 
      */
-    public initialize(defaults: IMapToolDefaults, props: IMapToolProps, initProps: { config: IMapToolConfig | undefined }): void {
+    public initialize(defaults: IMapToolDefaults, props: IMapToolProps, initProps: IMapToolInitProps): void {
+        // it sets the map
+        this.setMap(initProps.map);
+
         // set the enabled property 
         this.setEnabled(props.enabled == undefined ? defaults.isEnabled() : props.enabled);
 
@@ -86,7 +93,7 @@ class MapToolState extends MapObjectState implements IMapToolState {
     /**
      * It returns the map property of the tool state.
      */
-    public getMap(): IMap | undefined {
+    public getMap(): IMap {
         return this.map;
     }
 

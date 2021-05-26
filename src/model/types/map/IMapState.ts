@@ -5,7 +5,7 @@ import IMapDataManager from "../data/IMapDataManager";
 import IMapConfigManager from "../config/IMapConfigManager";
 import IMapData from "../data/IMapData";
 import IMapDefaults from "./IMapDefaults";
-import IMapProps from "./IMapProps";
+import { IMapProps, IMapInitProps } from "./IMapProps";
 
 /**
  * This interface declares the state of the map.
@@ -21,8 +21,12 @@ interface IMapState<
 
     /**
      * It resets the state to the initial state.
+     * 
+     * @param defaults 
+     * @param props 
+     * @param initProps 
      */
-    initialize(defaults: TDefaults, props: TProps, initProps: { config: TConfig | undefined, configManager: IMapConfigManager }): void;
+    initialize(defaults: TDefaults, props: TProps, initProps: IMapInitProps<TConfig>): void;
 
     /**
      * It returns the Leaflet map.

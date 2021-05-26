@@ -1,10 +1,9 @@
 import MapObjectDefaults from "./MapObjectDefaults";
 import IMapObject from "../../types/object/IMapObject";
-import IMapObjectProps from "../../types/object/IMapObjectProps";
+import { IMapObjectProps, IMapObjectInitProps } from "../../types/object/IMapObjectProps";
 import IMapObjectState from "../../types/object/IMapObjectState";
 import IMapObjectDefaults from "../../types/object/IMapObjectDefaults";
 import AbstractMapObjectState from "./MapObjectState";
-import IMapObjectConfig from "../../types/object/IMapObjectConfig";
 
 /**
  * This class provide functions for using map object which can be identified by uniquie string.
@@ -97,7 +96,7 @@ class MapObject implements IMapObject {
      * 
      * @param initProps
      */
-    public initialize(initProps: { config: IMapObjectConfig | undefined }): this {
+    public initialize(initProps: IMapObjectInitProps): this {
         // override state by the config if specified in argument
         this.getState().initialize(this.getDefaults(), this.getProps(), initProps);
 

@@ -4,7 +4,7 @@ import IMapAggregationFunction from "../../../../../../model/types/aggregation/I
 import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
 
 /**
- * This interface provide specification of the marker layer tool dimensions model.
+ * This type provides the specification of the marker layer tool dimensions model.
  * 
  * @author Jiri Hynek
  */

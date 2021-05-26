@@ -1,4 +1,4 @@
-import IConnectionLayerToolConfig from "./IConnectionLayerToolConfig";
+import { IConnectionLayerToolConfig, IConnectionLayerToolDimensionsConfig } from "./IConnectionLayerToolConfig";
 import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
 import IConnectionLayerToolDefaults from "./IConnectionLayerToolDefaults";
@@ -14,16 +14,9 @@ interface IConnectionLayerToolState<
     TProps extends IConnectionLayerToolProps = IConnectionLayerToolProps,
     TDefaults extends IConnectionLayerToolDefaults = IConnectionLayerToolDefaults,
     TConfig extends IConnectionLayerToolConfig = IConnectionLayerToolConfig,
+    TDimensionsConfig extends IConnectionLayerToolDimensionsConfig = IConnectionLayerToolDimensionsConfig,
     TDimensions extends IConnectionLayerToolDimensions = IConnectionLayerToolDimensions
-> extends ILayerToolState<TProps, TDefaults, TConfig, TDimensions> {
-
-    /**
-     * It sets the marker layer dimensions property of tool state.
-     * 
-     * @param from 
-     * @param to
-     */
-    deserializeDimensions(from: string | undefined, to: string | undefined): void;
+> extends ILayerToolState<TProps, TDefaults, TConfig, TDimensionsConfig, TDimensions> {
 
     /**
      * It returns a Leaflet SVG layer.

@@ -1,4 +1,4 @@
-import ILayerToolConfig from "../../../../../../model/types/layer/ILayerToolConfig";
+import { ILayerToolConfig, ILayerToolDimensionsConfig } from "../../../../../../model/types/layer/ILayerToolConfig";
 
 /**
  * This type provides specification of the choropleth layer tool config model.
@@ -6,10 +6,17 @@ import ILayerToolConfig from "../../../../../../model/types/layer/ILayerToolConf
  * @author Jiri Hynek
  */
 type IChoroplethLayerToolConfig = ILayerToolConfig & {
-    data: {
-        geo: string | undefined,
-        value: string | undefined,
-        aggregation: string | undefined
-    };
+    data: IChoroplethLayerToolDimensionsConfig | undefined;
 }
-export default IChoroplethLayerToolConfig;
+
+/**
+ * This type provides specification of the choropleth layer tool dimensions config model.
+ * 
+ * @author Jiri Hynek
+ */
+type IChoroplethLayerToolDimensionsConfig = ILayerToolDimensionsConfig & {
+    geo: string | undefined,
+    value: string | undefined,
+    aggregation: string | undefined
+}
+export type { IChoroplethLayerToolConfig, IChoroplethLayerToolDimensionsConfig };

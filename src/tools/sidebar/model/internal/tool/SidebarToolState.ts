@@ -6,6 +6,10 @@ import ISidebarToolConfig from "../../types/tool/ISidebarToolConfig";
 import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
 import { Control } from "leaflet";
 import SidebarToolDefaults from "./SidebarToolDefaults";
+import ISidebarToolDefaults from "../../types/tool/ISidebarToolDefaults";
+import ISidebarToolProps from "../../types/tool/ISidebarToolProps";
+import IMap from "../../../../../model/types/map/IMap";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 
 /**
  * This class provide sidebar tool model.
@@ -34,13 +38,16 @@ class SidebarToolState extends MapToolState implements ISidebarToolState {
 
     /**
      * It resets state with respect to initial props.
+     * 
+     * @param defaults 
+     * @param props 
+     * @param initProps 
      */
-    public reset(): void {
-        super.reset();
-
-        // tabs will be added by using addTab function
-        this.tabsConfigs = undefined;
+    public initialize(defaults: ISidebarToolDefaults, props: ISidebarToolProps, initProps: IMapToolInitProps<ISidebarToolConfig>): void {
         this.tabs = [];
+
+        // initialize super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**

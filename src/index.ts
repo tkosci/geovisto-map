@@ -96,7 +96,7 @@ export type { default as ILabeledTextFormInputProps } from './model/types/inputs
 
 // layer
 export type { default as ILayerTool } from './model/types/layer/ILayerTool';
-export type { default as ILayerToolConfig } from './model/types/layer/ILayerToolConfig';
+export type { ILayerToolConfig, ILayerToolDimensionsConfig } from './model/types/layer/ILayerToolConfig';
 export type { default as ILayerToolDefaults } from './model/types/layer/ILayerToolDefaults';
 export type { default as ILayerToolProps } from './model/types/layer/ILayerToolProps';
 export type { default as ILayerToolState } from './model/types/layer/ILayerToolState';

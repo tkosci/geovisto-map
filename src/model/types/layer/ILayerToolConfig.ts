@@ -7,5 +7,14 @@ import IMapToolConfig from "../tool/IMapToolConfig";
  */
 type ILayerToolConfig = IMapToolConfig & {
     name: string | undefined;
+    data: ILayerToolDimensionsConfig | undefined
 }
-export default ILayerToolConfig;
+
+/**
+ * This type provides specification of the layer tool dimensions config model.
+ * 
+ * @author Jiri Hynek
+ */
+type ILayerToolDimensionsConfig = {
+}
+export type { ILayerToolConfig, ILayerToolDimensionsConfig };

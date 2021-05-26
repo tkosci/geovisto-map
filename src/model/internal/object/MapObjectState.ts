@@ -1,6 +1,6 @@
 import IMapObjectState from "../../types/object/IMapObjectState";
 import IMapObjectDefaults from "../../types/object/IMapObjectDefaults";
-import IMapObjectProps from "../../types/object/IMapObjectProps";
+import { IMapObjectProps, IMapObjectInitProps } from "../../types/object/IMapObjectProps";
 import IMapObjectConfig from "../../types/object/IMapObjectConfig";
 import IMapObject from "../../types/object/IMapObject";
 
@@ -33,8 +33,12 @@ class AbstractMapObjectState implements IMapObjectState {
 
     /**
      * It resets the state to the initial props.
+     * 
+     * @param defaults 
+     * @param props 
+     * @param initProps 
      */
-    public initialize(defaults: IMapObjectDefaults, props: IMapObjectProps, initProps: { config: IMapObjectConfig | undefined }): void {
+    public initialize(defaults: IMapObjectDefaults, props: IMapObjectProps, initProps: IMapObjectInitProps): void {
         // sets the type of the object (can be set only once in constructor)
         this.type = defaults.getType();
 

@@ -1,6 +1,6 @@
 import IMapObjectDefaults from "./IMapObjectDefaults";
 import IMapObjectState from "./IMapObjectState";
-import IMapObjectProps from "./IMapObjectProps";
+import { IMapObjectProps, IMapObjectInitProps } from "./IMapObjectProps";
 import IMapObjectConfig from "./IMapObjectConfig";
 
 /**
@@ -12,7 +12,8 @@ interface IMapObject<
     TProps extends IMapObjectProps = IMapObjectProps,
     TDefaults extends IMapObjectDefaults = IMapObjectDefaults,
     TState extends IMapObjectState = IMapObjectState,
-    TConfig extends IMapObjectConfig = IMapObjectConfig
+    TConfig extends IMapObjectConfig = IMapObjectConfig,
+    TInitProps extends IMapObjectInitProps<TConfig> = IMapObjectInitProps<TConfig>
 > {
 
     /**
@@ -49,6 +50,6 @@ interface IMapObject<
      * 
      * @param config 
      */
-    initialize(initProps: { config: TConfig | undefined }): this;
+    initialize(initProps: TInitProps): this;
 }
 export default IMapObject;

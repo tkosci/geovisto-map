@@ -3,7 +3,7 @@ import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
 
 /**
- * This type provide specification of the connection layer tool dimensions model.
+ * This type provides the specification of the connection layer tool dimensions model.
  * 
  * @author Jiri Hynek
  */

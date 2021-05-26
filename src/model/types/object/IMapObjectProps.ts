@@ -1,9 +1,20 @@
+import IMapObjectConfig from "./IMapObjectConfig";
+
 /**
- * This interface provides specification of map object props model.
+ * This type provides the specification of the map object props model.
  * 
  * @author Jiri Hynek
  */
-interface IMapObjectProps {
+type IMapObjectProps = {
     id : string | undefined;
 }
-export default IMapObjectProps;
+
+/**
+ * This type provides the specification of the map object props model used in its initialization.
+ * 
+ * @author Jiri Hynek
+ */
+type IMapObjectInitProps<TConfig extends IMapObjectConfig = IMapObjectConfig> = {
+    config : TConfig | undefined;
+}
+export type { IMapObjectProps, IMapObjectInitProps };

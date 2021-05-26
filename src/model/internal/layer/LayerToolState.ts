@@ -3,8 +3,9 @@ import ILayerToolState from "../../types/layer/ILayerToolState";
 import ILayerTool from "../../types/layer/ILayerTool";
 import ILayerToolProps from "../../types/layer/ILayerToolProps";
 import ILayerToolDefaults from "../../types/layer/ILayerToolDefaults";
-import ILayerToolConfig from "../../types/layer/ILayerToolConfig";
+import { ILayerToolConfig, ILayerToolDimensionsConfig } from "../../types/layer/ILayerToolConfig";
 import ILayerToolDimensions from "../../types/layer/ILayerToolDimensions";
+import { IMapToolInitProps } from "../../types/tool/IMapToolProps";
 
 /**
  * This class provide functions for using the state of the layer tool.
@@ -26,8 +27,12 @@ class LayerToolState extends MapToolState implements ILayerToolState {
 
     /**
      * It resets the state with respect to the initial props.
+     * 
+     * @param defaults 
+     * @param props 
+     * @param initProps 
      */
-    public initialize(defaults: ILayerToolDefaults, props: ILayerToolProps, initProps: { config: ILayerToolConfig | undefined }): void {
+    public initialize(defaults: ILayerToolDefaults, props: ILayerToolProps, initProps: IMapToolInitProps): void {
         // the layer tool properties
         this.setLayerName(props.name == undefined ? defaults.getLayerName() : props.name);
         this.setDimensions(defaults.getDimensions());
@@ -46,6 +51,21 @@ class LayerToolState extends MapToolState implements ILayerToolState {
 
         // the layer tool config
         if(config.name != undefined) this.setLayerName(config.name);
+        
+        // the layer tool config
+        if(config.data != undefined) {
+            this.deserializeDimensions(config.data);
+        }
+    }
+
+    /**
+     * It sets the marker layer dimensions property of tool state.
+     * 
+     * @param dimensionsConfig
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public deserializeDimensions(dimensionsConfig: ILayerToolDimensionsConfig): void {
+        return;
     }
 
     /**

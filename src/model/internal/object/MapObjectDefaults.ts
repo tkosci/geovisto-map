@@ -1,5 +1,5 @@
 import IMapObjectDefaults from "../../types/object/IMapObjectDefaults";
-import IMapObjectProps from "../../types/object/IMapObjectProps";
+import { IMapObjectProps } from "../../types/object/IMapObjectProps";
 import IMapObjectConfig from "../../types/object/IMapObjectConfig";
 
 /**

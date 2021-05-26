@@ -1,5 +1,5 @@
 /**
- * This type provide specification of the layer tool props model.
+ * This type provides the specification of the layer tool props model.
  * 
  * @author Jiri Hynek
  */

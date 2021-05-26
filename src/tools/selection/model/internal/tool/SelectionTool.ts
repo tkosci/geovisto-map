@@ -9,6 +9,8 @@ import { ISidebarFragment, ISidebarFragmentControl } from "../../../../sidebar";
 import ISelectionToolDefaults from "../../types/tool/ISelectionToolDefaults";
 import ISelectionToolState from "../../types/tool/ISelectionToolState";
 import MapTool from "../../../../../model/internal/tool/MapTool";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+import ISelectionToolConfig from "../../types/tool/ISelectionToolConfig";
 
 /**
  * This class provides the selection tool.
@@ -79,12 +81,22 @@ class SelectionTool extends MapTool implements ISelectionTool, ISidebarFragmentC
     }
 
     /**
+     * Overrides the super method.
+     * 
+     * @param initProps
+     */
+    public initialize(initProps: IMapToolInitProps<ISelectionToolConfig>): this {
+        return super.initialize(initProps);
+    }
+
+    /**
      * It creates new filter tool.
      */
-    public create(): void {
+    public create(): this {
         // set selection
         // not necessary
         //this.setSelection(this.getState().getSelection());
+        return this;
     }
 
     /**

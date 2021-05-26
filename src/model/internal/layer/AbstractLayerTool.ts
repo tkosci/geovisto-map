@@ -5,7 +5,8 @@ import ILayerToolDefaults from "../../types/layer/ILayerToolDefaults";
 import ILayerToolState from "../../types/layer/ILayerToolState";
 import LayerToolDefaults from "./LayerToolDefaults";
 import LayerToolState from "./LayerToolState";
-import ILayerToolConfig from "../../types/layer/ILayerToolConfig";
+import { IMapToolInitProps } from "../../types/tool/IMapToolProps";
+import { ILayerToolConfig } from "../../types/layer/ILayerToolConfig";
 
 /**
  * This class wraps filter tool. It provides methods for layer management.
@@ -79,17 +80,16 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
      * 
      * @param initProps
      */
-    public initialize(initProps: { config: ILayerToolConfig | undefined }): ILayerToolObject {
+    public initialize(initProps: IMapToolInitProps<ILayerToolConfig>): this {
         // override state by the config if specified in argument
         this.getState().initialize(this.getDefaults(), this.getProps(), initProps);
-
         return this;
     }
 
     /**
      * It creates new layer with respect to configuration
      */
-    public create(): ILayerTool {
+    public create(): this {
         if(this.isEnabled()) {
             this.showLayerItems();
         }

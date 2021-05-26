@@ -1,7 +1,7 @@
 import MapObjectState from "../object/MapObjectState";
 import IMapState from "../../types/map/IMapState";
 import IMap from "../../types/map/IMap";
-import IMapProps from "../../types/map/IMapProps";
+import { IMapProps, IMapInitProps } from "../../types/map/IMapProps";
 import IMapDefaults from "../../types/map/IMapDefaults";
 import IMapTemplates from "../../types/map/IMapTemplates";
 import IMapGlobals from "../../types/map/IMapGlobals";
@@ -44,8 +44,12 @@ class GeovistoMapState extends MapObjectState implements IMapState {
 
     /**
      * It resets the state to the initial props.
+     * 
+     * @param defaults 
+     * @param props 
+     * @param initProps 
      */
-    public initialize(defaults: IMapDefaults, props: IMapProps, initProps: { config: IMapConfig | undefined, configManager: IMapConfigManager }): void {
+    public initialize(defaults: IMapDefaults, props: IMapProps, initProps: IMapInitProps): void {
 
         // templates
         const templates: IMapTemplates = props.templates == undefined ? defaults.getTemplates() : props.templates;

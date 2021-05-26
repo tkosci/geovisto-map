@@ -9,6 +9,8 @@ import ThemesToolState from "./ThemesToolState";
 import IMapTheme from "../../types/theme/IMapTheme";
 import ThemesToolEvent from "../event/ThemesToolEvent";
 import ThemesToolSidebarFragment from "../sidebar/ThemesToolSidebarFragment";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+import IThemesToolConfig from "../../types/tool/IThemesToolConfig";
 
 /**
  * Attribute which is set to the map container.
@@ -82,14 +84,25 @@ class ThemesTool extends MapTool implements IThemesTool, ISidebarFragmentControl
     }
 
     /**
+     * Overrides the super method.
+     * 
+     * @param initProps
+     */
+    public initialize(initProps: IMapToolInitProps<IThemesToolConfig>): this {
+        return super.initialize(initProps);
+    }
+
+    /**
      * It creates new filter tool.
      */
-    public create(): void {
+    public create(): this {
         // set theme
         const theme = this.getState().getTheme();
         if(theme) {
             this.setTheme(theme);
         }
+
+        return this;
     }
 
     /**

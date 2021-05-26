@@ -2,11 +2,11 @@ import ILayerToolProps from "../../../../../../model/types/layer/ILayerToolProps
 import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
 
 /**
- * This interface provide specification of the marker layer tool props model.
+ * This type provides the specification of the marker layer tool props model.
  * 
  * @author Jiri Hynek
  */
-interface IMarkerLayerToolProps extends ILayerToolProps {
+type IMarkerLayerToolProps = ILayerToolProps & {
     dimensions: IMarkerLayerToolDimensions | undefined;
     centroids: unknown; // TODO: specify the type
 }

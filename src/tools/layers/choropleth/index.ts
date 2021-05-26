@@ -14,7 +14,7 @@ export const GeovistoChoroplethLayerTool: {
 
 // types
 export type { default as IChoroplethLayerTool } from './model/types/tool/IChoroplethLayerTool';
-export type { default as IChoroplethLayerToolConfig } from './model/types/tool/IChoroplethLayerToolConfig';
+export type { IChoroplethLayerToolConfig, IChoroplethLayerToolDimensionsConfig } from './model/types/tool/IChoroplethLayerToolConfig';
 export type { default as IChoroplethLayerToolDefaults } from './model/types/tool/IChoroplethLayerToolDefaults';
 export type { default as IChoroplethLayerToolDimensions } from './model/types/tool/IChoroplethLayerToolDimensions';
 export type { default as IChoroplethLayerToolProps } from './model/types/tool/IChoroplethLayerToolProps';

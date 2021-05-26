@@ -3,6 +3,8 @@ import ISettingsTool from "../../types/tool/ISettingsTool";
 import ISettingsToolState from "../../types/tool/ISettingsToolState";
 import ISettingsToolConfig from "../../types/tool/ISettingsToolConfig";
 import ISettingsToolDefaults from "../../types/tool/ISettingsToolDefaults";
+import ISettingsToolProps from "../../types/tool/ISettingsToolProps";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 
 /**
  * This class provide functions for using selections.
@@ -16,6 +18,18 @@ class SettingsToolState extends MapToolState implements ISettingsToolState {
      */
     public constructor(tool: ISettingsTool) {
         super(tool);
+    }
+
+    /**
+     * It resets the state with respect to the initial props.
+     * 
+     * @param defaults 
+     * @param props 
+     * @param initProps 
+     */
+    public initialize(defaults: ISettingsToolDefaults, props: ISettingsToolProps, initProps: IMapToolInitProps<ISettingsToolConfig>): void {
+        // initialize super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**

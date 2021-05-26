@@ -2,7 +2,7 @@ import IMapObjectState from "../object/IMapObjectState";
 import IMapToolConfig from "./IMapToolConfig";
 import IMap from "../map/IMap";
 import IMapToolDefaults from "./IMapToolDefaults";
-import IMapToolProps from "./IMapToolProps";
+import { IMapToolProps, IMapToolInitProps } from "./IMapToolProps";
 
 /**
  * This interface declares the state of the map tool.
@@ -13,13 +13,18 @@ import IMapToolProps from "./IMapToolProps";
 interface IMapToolState<
     TProps extends IMapToolProps = IMapToolProps,
     TDefaults extends IMapToolDefaults = IMapToolDefaults,
-    TConfig extends IMapToolConfig = IMapToolConfig
+    TConfig extends IMapToolConfig = IMapToolConfig,
+    TInitProps extends IMapToolInitProps<TConfig> = IMapToolInitProps<TConfig>
 > extends IMapObjectState<TProps, TDefaults, TConfig> {
 
     /**
      * It resets the state with respect to the initial props.
+     * 
+     * @param defaults 
+     * @param props 
+     * @param initProps 
      */
-    initialize(defaults: TDefaults, props: TProps, initProps: { config: TConfig | undefined, map: IMap }): void
+    initialize(defaults: TDefaults, props: TProps, initProps: TInitProps): void
 
     /**
      * It returns the enabled property of the tool state.

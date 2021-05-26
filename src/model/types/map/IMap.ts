@@ -2,7 +2,7 @@ import IMapObject from "../object/IMapObject";
 import IMapEvent from "../event/IMapEvent";
 import IMapConfigManager from "../config/IMapConfigManager";
 import IMapDefaults from "./IMapDefaults";
-import IMapProps from "./IMapProps";
+import { IMapProps, IMapInitProps } from "./IMapProps";
 import IMapState from "./IMapState";
 import IMapData from "../data/IMapData";
 import IMapConfig from "./IMapConfig";
@@ -12,17 +12,13 @@ import IMapConfig from "./IMapConfig";
  * 
  * @author Jiri Hynek
  */
-interface IMap extends IMapObject {
-
-    /**
-     * It returns object defaults as the map defaults.
-     */
-    getDefaults(): IMapDefaults;
-
-    /**
-     * It returns object state as the map state.
-     */
-    getState(): IMapState;
+interface IMap<
+    TProps extends IMapProps = IMapProps,
+    TDefaults extends IMapDefaults = IMapDefaults,
+    TState extends IMapState = IMapState,
+    TConfig extends IMapConfig = IMapConfig,
+    TInitProps extends IMapInitProps<TConfig> = IMapInitProps<TConfig>
+> extends IMapObject<TProps, TDefaults, TState, TConfig, TInitProps> {
 
     /**
      * The function draws a new map.
@@ -33,11 +29,6 @@ interface IMap extends IMapObject {
      * This function redraws the current map.
      */
     redraw(mapConfig: IMapConfigManager, props: IMapProps): HTMLElement | null;
-
-    /**
-     * It resets the state to the initial state.
-     */
-    initialize(initProps: { config: IMapConfig | undefined, configManager: IMapConfigManager }): IMap;
 
     /**
      * It exports the serialized representation of the current state of the map.

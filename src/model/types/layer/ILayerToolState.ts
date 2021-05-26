@@ -1,5 +1,5 @@
 import IMapToolState from "../tool/IMapToolState";
-import ILayerToolConfig from "./ILayerToolConfig";
+import { ILayerToolConfig, ILayerToolDimensionsConfig } from "./ILayerToolConfig";
 import ILayerToolDimensions from "./ILayerToolDimensions";
 import ILayerToolDefaults from "./ILayerToolDefaults";
 import ILayerToolProps from "./ILayerToolProps";
@@ -13,8 +13,16 @@ interface ILayerToolState<
     TProps extends ILayerToolProps = ILayerToolProps,
     TDefaults extends ILayerToolDefaults = ILayerToolDefaults,
     TConfig extends ILayerToolConfig = ILayerToolConfig,
+    TDimensionsConfig extends ILayerToolDimensionsConfig = ILayerToolDimensionsConfig,
     TDimensions extends ILayerToolDimensions = ILayerToolDimensions
 > extends IMapToolState<TProps, TDefaults, TConfig> {
+
+    /**
+     * It sets the marker layer dimensions property of tool state.
+     * 
+     * @param dimensionsConfig
+     */
+    deserializeDimensions(dimensionsConfig: TDimensionsConfig): void;
 
     /**
      * It returns the layer dimensions property of the tool state.

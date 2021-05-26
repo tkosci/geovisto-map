@@ -8,7 +8,7 @@ import DataChangeEvent from '../event/data/DataChangeEvent';
 import GeovistoMapDefaults from './GeovistoMapDefaults';
 import GeovistoMapState from './GeovistoMapState';
 import MapObject from '../object/MapObject';
-import IMapProps from '../../types/map/IMapProps';
+import { IMapProps, IMapInitProps } from '../../types/map/IMapProps';
 import IMapDefaults from '../../types/map/IMapDefaults';
 import IMapState from '../../types/map/IMapState';
 import IMapConfigManager from '../../types/config/IMapConfigManager';
@@ -19,7 +19,6 @@ import IMap from '../../types/map/IMap';
 import IMapEvent from '../../types/event/IMapEvent';
 import IMapObject from '../../types/object/IMapObject';
 import IMapData from '../../types/data/IMapData';
-import IMapConfig from '../../types/map/IMapConfig';
 
 /**
  * Representation of map wrapper which handles map layers, sidebar and other tools
@@ -113,8 +112,10 @@ class GeovistoMap extends MapObject implements IMap {
   
     /**
      * It resets the state to the initial state.
+     * 
+     * @param initProps 
      */
-    public initialize(initProps: { config: IMapConfig | undefined, configManager: IMapConfigManager }): IMap {
+    public initialize(initProps: IMapInitProps): this {
         // init the map state
         this.getState().initialize(this.getDefaults(), this.getProps(), initProps);
 

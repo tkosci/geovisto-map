@@ -1,12 +1,12 @@
-import IMapToolProps from "../../../../../model/types/tool/IMapToolProps";
+import { IMapToolProps } from "../../../../../model/types/tool/IMapToolProps";
 import IMapSelection from "../selection/IMapSelection";
 
 /**
- * This interface provide specification of the selection tool props model.
+ * This type provides the specification of the selection tool props model.
  * 
  * @author Jiri Hynek
  */
-interface ISelectionToolProps extends IMapToolProps {
+type ISelectionToolProps = IMapToolProps & {
     selection: IMapSelection | undefined;
 }
 export default ISelectionToolProps;

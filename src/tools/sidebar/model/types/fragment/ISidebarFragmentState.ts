@@ -3,6 +3,7 @@ import ISidebarFragmentConfig from "./ISidebarFragmentConfig";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
 import ISidebarTab from "../tab/ISidebarTab";
 import ISidebarFragmentDefaults from "./ISidebarFragmentDefaults";
+import ISidebarFragmentProps from "./ISidebarFragmentProps";
 
 /**
  * This interface declares the state of the sidebar fragment.
@@ -10,7 +11,11 @@ import ISidebarFragmentDefaults from "./ISidebarFragmentDefaults";
  * 
  * @author Jiri Hynek
  */
-interface ISidebarFragmentState extends IMapObjectState {
+interface ISidebarFragmentState<
+    TProps extends ISidebarFragmentProps = ISidebarFragmentProps,
+    TDefaults extends ISidebarFragmentDefaults = ISidebarFragmentDefaults,
+    TConfig extends ISidebarFragmentConfig = ISidebarFragmentConfig
+> extends IMapObjectState<TProps, TDefaults, TConfig> {
 
     /**
      * The metod takes config and deserializes the values.

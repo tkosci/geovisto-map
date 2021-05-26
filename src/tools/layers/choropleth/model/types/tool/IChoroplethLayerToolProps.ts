@@ -2,11 +2,11 @@ import ILayerToolProps from "../../../../../../model/types/layer/ILayerToolProps
 import IChoroplethLayerToolDimensions from "./IChoroplethLayerToolDimensions";
 
 /**
- * This interface provide specification of the choropleth layer tool props model.
+ * This type provides the specification of the choropleth layer tool props model.
  * 
  * @author Jiri Hynek
  */
-interface IChoroplethLayerToolProps extends ILayerToolProps {
+type IChoroplethLayerToolProps = ILayerToolProps & {
     dimensions: IChoroplethLayerToolDimensions | undefined;
     polygons: unknown; // TODO: specify the type
 }

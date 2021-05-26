@@ -1,4 +1,4 @@
-import IMapToolProps from "../../types/tool/IMapToolProps";
+import { IMapToolProps, IMapToolInitProps } from "../../types/tool/IMapToolProps";
 import IMapEvent from "../../types/event/IMapEvent";
 import IMapToolDefaults from "../../types/tool/IMapToolDefaults";
 import IMapTool from "../../types/tool/IMapTool";
@@ -83,10 +83,9 @@ class MapTool extends MapObject implements IMapTool {
      * since there can be possible dependencies between the tools
      * (the tool might depend on other tools which needs to be initialized).
      * 
-     * @param map
-     * @param config
+     * @param initProps
      */
-    public initialize(initProps: { config: IMapToolConfig | undefined, map: IMap }): this {
+    public initialize(initProps: IMapToolInitProps<IMapToolConfig>): this {
         super.initialize(initProps);
         return this;
     }

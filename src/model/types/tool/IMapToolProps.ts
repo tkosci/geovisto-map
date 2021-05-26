@@ -1,11 +1,22 @@
-import IMapObjectProps from "../object/IMapObjectProps";
+import { IMapObjectProps, IMapObjectInitProps } from "../object/IMapObjectProps";
+import IMapToolConfig from "./IMapToolConfig";
+import { IMap } from "../../..";
 
 /**
- * This interface provide specification of map tool props model.
+ * This type provides the specification of the map tool props model.
  * 
  * @author Jiri Hynek
  */
-interface IMapToolProps extends IMapObjectProps {
+type IMapToolProps = IMapObjectProps & {
     enabled: boolean | undefined
 }
-export default IMapToolProps;
+
+/**
+ * This type provides the specification of the map tool props model used in its initialization.
+ * 
+ * @author Jiri Hynek
+ */
+type IMapToolInitProps<TConfig extends IMapToolConfig = IMapToolConfig> = IMapObjectInitProps<TConfig> & {
+    map : IMap;
+}
+export type { IMapToolProps, IMapToolInitProps };

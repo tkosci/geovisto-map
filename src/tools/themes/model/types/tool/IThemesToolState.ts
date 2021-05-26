@@ -3,27 +3,18 @@ import IThemesToolConfig from "./IThemesToolConfig";
 import IMapThemesManager from "../theme/IMapThemesManager";
 import IMapTheme from "../theme/IMapTheme";
 import IThemesToolDefaults from "./IThemesToolDefaults";
+import IThemesToolProps from "./IThemesToolProps";
 
 /**
  * This interface declares functions for using themes.
  * 
  * @author Jiri Hynek
  */
-interface IThemesToolState extends IMapToolState {
-
-    /**
-     * The metod takes config and deserializes the values.
-     * 
-     * @param config 
-     */
-    deserialize(config: IThemesToolConfig): void;
-
-    /**
-     * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
-     * 
-     * @param defaults
-     */
-    serialize(defaults: IThemesToolDefaults | undefined): IThemesToolConfig;
+interface IThemesToolState<
+    TProps extends IThemesToolProps = IThemesToolProps,
+    TDefaults extends IThemesToolDefaults = IThemesToolDefaults,
+    TConfig extends IThemesToolConfig = IThemesToolConfig
+> extends IMapToolState<TProps, TDefaults, TConfig> {
 
     /**
      * It returns themes manager.

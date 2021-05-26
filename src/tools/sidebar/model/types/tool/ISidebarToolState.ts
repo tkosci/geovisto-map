@@ -4,27 +4,18 @@ import ISidebarTab from "../tab/ISidebarTab";
 import ISidebarTabConfig from "../tab/ISidebarTabConfig";
 import { Control } from "leaflet";
 import ISidebarToolDefaults from "./ISidebarToolDefaults";
+import ISidebarToolProps from "./ISidebarToolProps";
 
 /**
  * This interface declares sidebar tool model.
  * 
  * @author Jiri Hynek
  */
-interface ISidebarToolState extends IMapToolState {
-
-    /**
-     * The metod takes config and deserializes the values.
-     * 
-     * @param config 
-     */
-    deserialize(config: ISidebarToolConfig): void;
-
-    /**
-     * The method serializes the tool configuration. Optionally, defaults can be set if property is undefined.
-     * 
-     * @param defaults
-     */
-    serialize(defaults: ISidebarToolDefaults | undefined): ISidebarToolConfig;
+interface ISidebarToolState<
+    TProps extends ISidebarToolProps = ISidebarToolProps,
+    TDefaults extends ISidebarToolDefaults = ISidebarToolDefaults,
+    TConfig extends ISidebarToolConfig = ISidebarToolConfig
+> extends IMapToolState<TProps, TDefaults, TConfig> {
 
     /**
      * It returns the tabs configs.

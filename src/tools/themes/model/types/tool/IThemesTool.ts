@@ -12,11 +12,6 @@ import IMapTheme from "../theme/IMapTheme";
 interface IThemesTool extends IMapTool {
 
     /**
-     * It creates a copy of the uninitialized tool.
-     */
-    copy(): IThemesTool;
-
-    /**
      * It returns the props given by the programmer.
      */
     getProps(): IThemesToolProps;

@@ -14,7 +14,7 @@ export const GeovistoMarkerLayerTool: {
 
 // types
 export type { default as IMarkerLayerTool } from './model/types/tool/IMarkerLayerTool';
-export type { default as IMarkerLayerToolConfig } from './model/types/tool/IMarkerLayerToolConfig';
+export type { IMarkerLayerToolConfig, IMarkerLayerToolDimensionsConfig } from './model/types/tool/IMarkerLayerToolConfig';
 export type { default as IMarkerLayerToolDefaults } from './model/types/tool/IMarkerLayerToolDefaults';
 export type { default as IMarkerLayerToolDimensions } from './model/types/tool/IMarkerLayerToolDimensions';
 export type { default as IMarkerLayerToolProps } from './model/types/tool/IMarkerLayerToolProps';

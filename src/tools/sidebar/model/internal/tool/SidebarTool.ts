@@ -17,6 +17,8 @@ import ISidebarTab from '../../types/tab/ISidebarTab';
 import ISidebarTabConfig from '../../types/tab/ISidebarTabConfig';
 import IMapTool from '../../../../../model/types/tool/IMapTool';
 import ISidebarTabControl from '../../types/tab/ISidebarTabControl';
+import ISidebarToolConfig from '../../types/tool/ISidebarToolConfig';
+import { IMapToolInitProps } from '../../../../../model/types/tool/IMapToolProps';
 
 /**
  * This class provides the sidebar tool.
@@ -77,12 +79,22 @@ class SidebarTool extends MapTool implements ISidebarTool {
     }
 
     /**
+     * Overrides the super method.
+     * 
+     * @param initProps
+     */
+    public initialize(initProps: IMapToolInitProps<ISidebarToolConfig>): this {
+        return super.initialize(initProps);
+    }
+
+    /**
      * It creates sidebar.
      */
-    public create(): void {
+    public create(): this {
         super.create();
         this.createSidebar();
         this.createTabs();
+        return this;
     }
 
     /**

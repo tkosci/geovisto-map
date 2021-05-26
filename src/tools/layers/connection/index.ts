@@ -14,7 +14,7 @@ export const GeovistoConnectionLayerTool: {
 
 // types
 export type { default as IConnectionLayerTool } from './model/types/tool/IConnectionLayerTool';
-export type { default as IConnectionLayerToolConfig } from './model/types/tool/IConnectionLayerToolConfig';
+export type { IConnectionLayerToolConfig, IConnectionLayerToolDimensionsConfig } from './model/types/tool/IConnectionLayerToolConfig';
 export type { default as IConnectionLayerToolDefaults } from './model/types/tool/IConnectionLayerToolDefaults';
 export type { default as IConnectionLayerToolDimensions } from './model/types/tool/IConnectionLayerToolDimensions';
 export type { default as IConnectionLayerToolProps } from './model/types/tool/IConnectionLayerToolProps';

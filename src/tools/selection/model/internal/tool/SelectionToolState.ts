@@ -33,7 +33,7 @@ class SelectionToolState extends MapToolState implements ISelectionToolState {
     /**
      * It resets state with respect to initial props.
      */
-    public reset(): void {
+    public initialize(defaults: IThemesToolDefaults, props: IThemesToolProps, initProps: { config: IThemesToolConfig | undefined, map: IMap }): void {
         super.reset();
 
         const props: ISelectionToolProps = <ISelectionToolProps> this.getProps();
