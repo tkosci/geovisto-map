@@ -128,7 +128,7 @@ class SelectionTool extends MapTool implements ISelectionTool, ISidebarFragmentC
      * It creates new tab control.
      */
     protected createSidebarFragment(): ISidebarFragment {
-        return new SelectionToolTabFragment(this, {
+        return new SelectionToolTabFragment({
             // defined by the sidebar fragment defaults
             id: undefined,
             enabled: undefined

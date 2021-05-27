@@ -21,6 +21,8 @@ import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMa
 import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
 import IMapData from '../../../../../../model/types/data/IMapData';
+import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
+import { IChoroplethLayerToolConfig } from '../../types/tool/IChoroplethLayerToolConfig';
 
 /**
  * This class represents Choropleth layer tool. It works with geojson polygons representing countries.
@@ -66,7 +68,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
      * It creates new defaults of the tool.
      */
     protected createDefaults(): IChoroplethLayerToolDefaults {
-        return new ChoroplethLayerToolDefaults(this);
+        return new ChoroplethLayerToolDefaults();
     }
 
     /**
@@ -105,13 +107,12 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
         }
         return this.sidebarTab;
     }
-
     /**
      * It creates new tab control.
      */
     protected createSidebarTabControl(): ILayerToolSidebarTab {
         // override if needed
-        return new ChoropolethLayerToolSidebarTab(this, {
+        return new ChoropolethLayerToolSidebarTab({
             // defined by the sidebar tab defaults
             id: undefined,
             enabled: undefined,
@@ -119,6 +120,15 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
             icon: undefined,
             checkButton: undefined
         });
+    }
+
+    /**
+     * Overrides the super method.
+     * 
+     * @param initProps
+     */
+    public initialize(initProps: IMapToolInitProps<IChoroplethLayerToolConfig>): this {
+        return super.initialize(initProps);
     }
 
     /**

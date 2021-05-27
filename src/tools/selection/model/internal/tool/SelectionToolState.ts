@@ -7,6 +7,7 @@ import ISelectionToolProps from "../../types/tool/ISelectionToolProps";
 import ISelectionToolDefaults from "../../types/tool/ISelectionToolDefaults";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
 import MapSelection from "../selection/MapSelection";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 
 /**
  * This class provide functions for using selections.
@@ -15,32 +16,24 @@ import MapSelection from "../selection/MapSelection";
  */
 class SelectionToolState extends MapToolState implements ISelectionToolState {
     
-    private selection: IMapSelection | null;
+    private selection!: IMapSelection | null;
 
     /**
      * It creates a tool state.
      */
     public constructor(tool: ISelectionTool) {
         super(tool);
-
-        const props: ISelectionToolProps = <ISelectionToolProps> this.getProps();
-        const defaults: ISelectionToolDefaults = <ISelectionToolDefaults> this.getDefaults();
-
-        // set selection
-        this.selection = props.selection == undefined ? defaults.getSelection() : props.selection;
     }
 
     /**
      * It resets state with respect to initial props.
      */
-    public initialize(defaults: IThemesToolDefaults, props: IThemesToolProps, initProps: { config: IThemesToolConfig | undefined, map: IMap }): void {
-        super.reset();
-
-        const props: ISelectionToolProps = <ISelectionToolProps> this.getProps();
-        const defaults: ISelectionToolDefaults = <ISelectionToolDefaults> this.getDefaults();
-
+    public initialize(defaults: ISelectionToolDefaults, props: ISelectionToolProps, initProps: IMapToolInitProps<ISelectionToolConfig>): void {
         // set selection
         this.setSelection(props.selection == undefined ? defaults.getSelection() : props.selection);
+
+        // set super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**

@@ -27,6 +27,8 @@ import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMa
 import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapChangeEvent from '../../../../../../model/types/event/IMapChangeEvent';
 import IMapData from '../../../../../../model/types/data/IMapData';
+import { IConnectionLayerToolConfig } from '../../types/tool/IConnectionLayerToolConfig';
+import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
 
 /**
  * This class represents Connection layer tool. It uses SVG layer and D3 to draw the lines.
@@ -72,7 +74,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
      * It creates new defaults of the tool.
      */
     protected createDefaults(): IConnectionLayerToolDefaults {
-        return new ConnectionLayerToolDefaults(this);
+        return new ConnectionLayerToolDefaults();
     }
 
     /**
@@ -116,7 +118,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
      * It creates new tab control.
      */
     protected createSidebarTabControl(): ILayerToolSidebarTab {
-        return new ConnectionLayerToolSidebarTab(this, {
+        return new ConnectionLayerToolSidebarTab({
             // defined by the sidebar tab defaults
             id: undefined,
             enabled: undefined,
@@ -124,6 +126,15 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
             icon: undefined,
             checkButton: undefined
         });
+    }
+
+    /**
+     * Overrides the super method.
+     * 
+     * @param initProps
+     */
+    public initialize(initProps: IMapToolInitProps<IConnectionLayerToolConfig>): this {
+        return super.initialize(initProps);
     }
 
     /**

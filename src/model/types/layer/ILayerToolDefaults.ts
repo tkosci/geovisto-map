@@ -1,5 +1,6 @@
 import IMapToolDefaults from "../tool/IMapToolDefaults";
 import ILayerToolDimensions from "./ILayerToolDimensions";
+import IMap from "../map/IMap";
 
 /**
  * This interface declares functions which return the default state values.
@@ -16,6 +17,6 @@ interface ILayerToolDefaults extends IMapToolDefaults {
     /**
      * It returns list of map dimensions.
      */
-    getDimensions(): ILayerToolDimensions;
+    getDimensions(map?: IMap): ILayerToolDimensions;
 }
 export default ILayerToolDefaults;

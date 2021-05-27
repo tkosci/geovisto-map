@@ -9,8 +9,8 @@ import TilesLayerToolSidebarTabDefaults from "./TilesLayerToolSidebarTabDefaults
  */
 class TilesLayerToolSidebarTab extends AbstractLayerToolSidebarTab<ITilesLayerTool> implements ILayerToolSidebarTab {
 
-    public constructor(tool: ITilesLayerTool, props: ILayerToolSidebarTabProps) {
-        super(tool, props);
+    public constructor(props: ILayerToolSidebarTabProps) {
+        super(props);
     } 
 
     /**

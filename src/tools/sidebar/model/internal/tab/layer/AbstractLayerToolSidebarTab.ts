@@ -11,6 +11,8 @@ import LabeledAutocompleteFormInput from "../../../../../../model/internal/input
 import IMapDomain from "../../../../../../model/types/domain/IMapDomain";
 import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
 import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
+import { ISidebarTabInitProps } from "../../../types/tab/ISidebarTabProps";
+import ILayerToolSidebarTabConfig from "../../../types/tab/layer/ILayerToolSidebarTabConfig";
 
 /**
  * This class provides controls for management of the layer sidebar tab.
@@ -19,8 +21,13 @@ import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerTool
  */
 abstract class AbstractLayerToolSidebarTab<T extends ILayerTool> extends AbstractSidebarTab<T> implements ILayerToolSidebarTab {
 
-    public constructor(tool: T, props: ILayerToolSidebarTabProps | undefined) {
-        super(tool, props);
+    /**
+     * It creates abstract layer tool sidebar tab with respect to the given props.
+     * 
+     * @param props 
+     */
+    public constructor(props: ILayerToolSidebarTabProps | undefined) {
+        super(props);
     }
 
     /**
@@ -41,7 +48,7 @@ abstract class AbstractLayerToolSidebarTab<T extends ILayerTool> extends Abstrac
      * It creates new defaults of the sidebar tab.
      */
     protected createDefaults(): ILayerToolSidebarTabDefaults {
-        return <ILayerToolSidebarTabDefaults> new LayerToolSidebarTabDefaults(this);
+        return <ILayerToolSidebarTabDefaults> new LayerToolSidebarTabDefaults();
     }
 
     /**
@@ -56,6 +63,15 @@ abstract class AbstractLayerToolSidebarTab<T extends ILayerTool> extends Abstrac
      */
     protected createState(): ILayerToolSidebarTabState {
         return <ILayerToolSidebarTabState> new LayerToolSidebarTabState(this);
+    }
+
+    /**
+     * Overrides the super method.
+     * 
+     * @param initProps
+     */
+    public initialize(initProps: ISidebarTabInitProps<ILayerToolSidebarTabConfig, T>): this {
+        return super.initialize(initProps);
     }
 
     /**

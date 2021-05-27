@@ -1,6 +1,6 @@
 import MapObjectState from "../../../../../model/internal/object/MapObjectState";
 import ISidebarFragment from "../../types/fragment/ISidebarFragment";
-import ISidebarFragmentProps from "../../types/fragment/ISidebarFragmentProps";
+import { ISidebarFragmentProps, ISidebarFragmentInitProps } from "../../types/fragment/ISidebarFragmentProps";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
 import ISidebarFragmentDefaults from "../../types/fragment/ISidebarFragmentDefaults";
 import ISidebarFragmentState from "../../types/fragment/ISidebarFragmentState";
@@ -15,11 +15,11 @@ import ISidebarTab from "../../types/tab/ISidebarTab";
  */
 class SidebarFragmentState extends MapObjectState implements ISidebarFragmentState {
     
-    private enabled: boolean;
+    private enabled!: boolean;
     
-    private tool: IMapTool | null;
+    private tool!: IMapTool;
     
-    private sidebarTab: ISidebarTab | null;
+    private sidebarTab!: ISidebarTab;
     
     private content: HTMLElement | null;
 
@@ -31,33 +31,23 @@ class SidebarFragmentState extends MapObjectState implements ISidebarFragmentSta
     public constructor(sidebarFragment: ISidebarFragment) {
         super(sidebarFragment);
 
-        const props = <ISidebarFragmentProps> this.getProps();
-        const defaults = <ISidebarFragmentDefaults> this.getDefaults();
-
-        this.enabled = props.enabled == undefined ? defaults.isEnabled() : props.enabled;
-        
-        // store the tool which provides this sidebar fragment
-        // props.tool should not be undefined
-        this.tool = null;
-
-        this.sidebarTab = null;
         this.content = null;
     }
 
     /**
      * It resets state with respect to initial props.
      */
-    public reset(): void {
-        super.reset();
-
-        const props = <ISidebarFragmentProps> this.getProps();
-        const defaults = <ISidebarFragmentDefaults> this.getDefaults();
+    public initialize(defaults: ISidebarFragmentDefaults, props: ISidebarFragmentProps, initProps: ISidebarFragmentInitProps<ISidebarFragmentConfig>): void {
+        this.setTool(initProps.tool);
+        this.setSidebarTab(initProps.sidebarTab);
 
         // set remaining properties if not set
         this.setEnabled(props.enabled == undefined ? defaults.isEnabled() : props.enabled);
 
-        this.sidebarTab = null;
         this.content = null;
+
+        // set super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**
@@ -96,7 +86,7 @@ class SidebarFragmentState extends MapObjectState implements ISidebarFragmentSta
      * 
      * @param tool 
      */
-    public setTool(tool: IMapTool): void {
+    protected setTool(tool: IMapTool): void {
        this.tool = tool;
     }
 
@@ -119,7 +109,7 @@ class SidebarFragmentState extends MapObjectState implements ISidebarFragmentSta
     /**
      * It returns the sidebar tab property of the sidebar fragment control state.
      */
-    public getSidebarTab(): ISidebarTab | null {
+    public getSidebarTab(): ISidebarTab {
         return this.sidebarTab;
     }
 

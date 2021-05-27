@@ -35,7 +35,7 @@ class LayerToolState extends MapToolState implements ILayerToolState {
     public initialize(defaults: ILayerToolDefaults, props: ILayerToolProps, initProps: IMapToolInitProps): void {
         // the layer tool properties
         this.setLayerName(props.name == undefined ? defaults.getLayerName() : props.name);
-        this.setDimensions(defaults.getDimensions());
+        this.setDimensions(defaults.getDimensions(initProps.map));
 
         // set super props
         super.initialize(defaults, props, initProps);

@@ -23,8 +23,8 @@ class MarkerLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IMarkerLayer
         category: IMapFormInput
     } | undefined;
 
-    public constructor(tool: IMarkerLayerTool, props: ILayerToolSidebarTabProps) {
-        super(tool, props);
+    public constructor(props: ILayerToolSidebarTabProps) {
+        super(props);
     }
 
     /**

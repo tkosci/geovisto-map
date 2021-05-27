@@ -12,6 +12,8 @@ import TilesLayerToolSidebarTab from '../sidebar/TilesLayerToolSidebarTab';
 import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import { ThemesToolEvent, IMapTheme } from '../../../../../themes';
 import IMapChangeEvent from '../../../../../../model/types/event/IMapChangeEvent';
+import ITilesLayerToolConfig from '../../types/tool/ITilesLayerToolConfig';
+import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
 
 /**
  * This class represents Map layer tool. It use tile layer and OSM maps.
@@ -88,7 +90,7 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, ISide
      */
     protected createSidebarTabControl(): ILayerToolSidebarTab {
         // override if needed
-        return new TilesLayerToolSidebarTab(this, {
+        return new TilesLayerToolSidebarTab({
             // defined by the sidebar tab defaults
             id: undefined,
             enabled: undefined,
@@ -96,6 +98,15 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, ISide
             icon: undefined,
             checkButton: undefined
         });
+    }
+
+    /**
+     * Overrides the super method.
+     * 
+     * @param initProps
+     */
+    public initialize(initProps: IMapToolInitProps<ITilesLayerToolConfig>): this {
+        return super.initialize(initProps);
     }
 
     /**

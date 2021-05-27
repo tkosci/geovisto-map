@@ -4,10 +4,9 @@ import IConnectionLayerTool from "../../types/tool/IConnectionLayerTool";
 import IConnectionLayerToolProps from "../../types/tool/IConnectionLayerToolProps";
 import IConnectionLayerToolDefaults from "../../types/tool/IConnectionLayerToolDefaults";
 import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToolDimensions";
-import IConnectionLayerToolConfig from "../../types/tool/IConnectionLayerToolConfig";
-import IMap from "../../../../../../model/types/map/IMap";
+import { IConnectionLayerToolConfig, IConnectionLayerToolDimensionsConfig } from "../../types/tool/IConnectionLayerToolConfig";
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
-import { IChoroplethLayerToolDefaults } from "../../../../choropleth";
+import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
 
 /**
  * This class provide functions for using the state of the layer tool.
@@ -18,47 +17,45 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
 
     private centroids: unknown;
     private svgLayer: L.SVG | undefined;
-    private bucketData: { nodes: Set<string>, connections: Map<string, IMapAggregationBucket> };
+    private bucketData!: { nodes: Set<string>, connections: Map<string, IMapAggregationBucket> };
 
     /**
      * It creates a tool state.
      */
     public constructor(tool: IConnectionLayerTool) {
         super(tool);
-
-        const props: IConnectionLayerToolProps = <IConnectionLayerToolProps> this.getProps();
-        const defaults: IConnectionLayerToolDefaults = <IConnectionLayerToolDefaults> this.getDefaults();
-
-        // the layer tool properties
-        this.centroids = props.centroids; // default centroids are undefined since the map is undefined
-        this.bucketData = {
-            nodes: new Set<string>(),
-            connections: new Map<string, IMapAggregationBucket>()
-        };
     }
 
     /**
      * It resets state with respect to initial props.
+     * 
+     * @param defaults 
+     * @param props 
+     * @param initProps 
      */
-    public reset(): void {
-        super.reset();
-
-        const props: IConnectionLayerToolProps = <IConnectionLayerToolProps> this.getProps();
-        const defaults: IConnectionLayerToolDefaults = <IConnectionLayerToolDefaults> this.getDefaults();
-
+    public initialize(defaults: IConnectionLayerToolDefaults, props: IConnectionLayerToolProps, initProps: IMapToolInitProps<IConnectionLayerToolConfig>): void {
         // sets map dimensions
         if(props.dimensions) {
             this.setDimensions({
-                from: props.dimensions.from == undefined ? defaults.getFromDimension() : props.dimensions.from,
-                to: props.dimensions.to == undefined ? defaults.getToDimension() : props.dimensions.to
+                from: props.dimensions.from == undefined ? defaults.getFromDimension(initProps.map) : props.dimensions.from,
+                to: props.dimensions.to == undefined ? defaults.getToDimension(initProps.map) : props.dimensions.to
             });
         } else {
-            this.setDimensions(defaults.getDimensions());
+            this.setDimensions(defaults.getDimensions(initProps.map));
         }
 
         // the layer tool properties
-        this.setCentroids(props.centroids == undefined ? defaults.getCentroids() : props.centroids);
+        this.setCentroids(props.centroids == undefined ? defaults.getCentroids(initProps.map) : props.centroids);
         this.setBucketData({ nodes: new Set<string>(), connections: new Map<string, IMapAggregationBucket>() });
+        
+        // initialize bucket data
+        this.bucketData = {
+            nodes: new Set<string>(),
+            connections: new Map<string, IMapAggregationBucket>()
+        };
+
+        // set super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**
@@ -68,11 +65,6 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
      */
     public deserialize(config: IConnectionLayerToolConfig): void {
         super.deserialize(config);
-
-        // the layer tool config
-        if(config.data != undefined) {
-            this.deserializeDimensions(config.data.from, config.data.to);
-        }
     }
 
     /**
@@ -81,10 +73,10 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
      * @param from 
      * @param to
      */
-    public deserializeDimensions(from: string | undefined, to: string | undefined): void {
+    public deserializeDimensions(dimensionsConfig: IConnectionLayerToolDimensionsConfig): void {
         const dimensions = this.getDimensions();
-        if(from) dimensions.from.setDomain(dimensions.from.getDomainManager().getDomain(from));
-        if(to) dimensions.to.setDomain(dimensions.to.getDomainManager().getDomain(to));
+        if(dimensionsConfig.from) dimensions.from.setDomain(dimensions.from.getDomainManager().getDomain(dimensionsConfig.from));
+        if(dimensionsConfig.to) dimensions.to.setDomain(dimensions.to.getDomainManager().getDomain(dimensionsConfig.to));
     }
 
     /**
@@ -92,7 +84,7 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
      * 
      * @param defaults
      */
-    public serialize(defaults: IChoroplethLayerToolDefaults | undefined): IConnectionLayerToolConfig {
+    public serialize(defaults: IConnectionLayerToolDefaults | undefined): IConnectionLayerToolConfig {
         const config: IConnectionLayerToolConfig = <IConnectionLayerToolConfig> super.serialize(defaults);
 
         // serialize the layer tool properties
@@ -103,27 +95,6 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
         };
 
         return config;
-    }
-
-    /**
-     * It sets the map property of the tool state.
-     * 
-     * Also, it updates map-related properties.
-     * 
-     * @param map  
-     */
-    public setMap(map: IMap): void {
-        super.setMap(map);
-
-        // update dimensions' data domain managers
-        const dimensions = this.getDimensions();
-        dimensions.from.setDomainManager(map.getState().getMapData());
-        dimensions.to.setDomainManager(map.getState().getMapData());
-
-        // map centroids
-        if(!this.getCentroids()) {
-            this.setCentroids((<IConnectionLayerToolDefaults> this.getDefaults()).getCentroids());
-        }
     }
 
     /**

@@ -1,4 +1,4 @@
-import { AbstractSidebarTab, ISidebarTab, ISidebarTabDefaults, ISidebarTabProps } from "../../../../sidebar";
+import { AbstractSidebarTab, ISidebarTab, ISidebarTabDefaults, ISidebarTabProps, ISidebarTabConfig } from "../../../../sidebar";
 import FiltersToolSidebarTabDefaults from "./FiltersToolSidebarTabDefaults";
 import IMapFilterRule from "../../types/filter/IMapFilterRule";
 import IMapDataManager from "../../../../../model/types/data/IMapDataManager";
@@ -7,6 +7,7 @@ import IFiltersTool from "../../types/tool/IFiltersTool";
 import TabDOMUtil from "../../../../../util/TabDOMUtil";
 import FilterAutocompleteFormInput from "../../../../../model/internal/inputs/filter/autocomplete/FilterAutocompleteFormInput";
 import LabeledAutocompleteFormInput from "../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput";
+import { ISidebarTabInitProps } from "../../../../sidebar/model/types/tab/ISidebarTabProps";
 
 /**
  * This interface provides a help type which represents double (html element container, input).
@@ -29,16 +30,29 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
      * TODO: exclude class variables to the defaults and state.
      */
     private mapDataManager: IMapDataManager | undefined;
-    private dataDomainNames: string[];
-    private filterManager: IMapFiltersManager;
-    private operationNames: string[];
+    private dataDomainNames!: string[];
+    private filterManager!: IMapFiltersManager;
+    private operationNames!: string[];
     private htmlContent: HTMLElement | null;
     private btnGroup: HTMLDivElement | null;
     private inputs: InputItem[];
 
-    public constructor(tool: IFiltersTool, props: ISidebarTabProps | undefined) {
-        super(tool, props);
-        
+    public constructor(props: ISidebarTabProps | undefined) {
+        super(props);
+
+        this.htmlContent = null;
+        this.btnGroup = null;
+        this.inputs = [];
+    }
+
+    /**
+     * It overrides the super method.
+     * 
+     * @param initProps 
+     */
+    public initialize(initProps: ISidebarTabInitProps<ISidebarTabConfig, IFiltersTool>): this {
+        super.initialize(initProps);
+
         // help variables (TODO: move to the tab control state)
         this.mapDataManager = this.getTool().getMap()?.getState().getMapData();
         this.dataDomainNames = this.mapDataManager?.getDomainNames() ?? [];
@@ -46,9 +60,7 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
         this.filterManager = this.getTool().getState().getFiltersManager();
         this.operationNames = this.filterManager.getDomainNames();
 
-        this.htmlContent = null;
-        this.btnGroup = null;
-        this.inputs = [];
+        return this;
     }
     
     /**

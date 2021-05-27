@@ -14,11 +14,10 @@ class SelectionToolTabFragment extends AbstractSidebarFragment<ISelectionTool> i
     /**
      * It creates new sidebar fragment with respect to the given props.
      * 
-     * @param tool
      * @param props 
      */
-    public constructor(tool: ISelectionTool, props: ISidebarFragmentProps) {
-        super(tool, props);
+    public constructor(props: ISidebarFragmentProps) {
+        super(props);
     }
 
     /**

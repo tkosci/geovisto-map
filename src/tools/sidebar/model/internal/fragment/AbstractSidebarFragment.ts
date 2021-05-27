@@ -3,11 +3,11 @@ import SidebarFragmentDefaults from "./SidebarFragmentDefaults";
 import ISidebarFragmentDefaults from "../../types/fragment/ISidebarFragmentDefaults";
 import MapObject from "../../../../../model/internal/object/MapObject";
 import ISidebarFragment from "../../types/fragment/ISidebarFragment";
-import ISidebarFragmentProps from "../../types/fragment/ISidebarFragmentProps";
 import ISidebarFragmentState from "../../types/fragment/ISidebarFragmentState";
 import ISidebarTab from "../../types/tab/ISidebarTab";
 import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
+import { ISidebarFragmentProps, ISidebarFragmentInitProps } from "../../types/fragment/ISidebarFragmentProps";
 
 /**
  * This class provides tab fragment for a sidebar tab.
@@ -21,15 +21,10 @@ abstract class AbstractSidebarFragment<T extends IMapTool> extends MapObject imp
     /**
      * It creates abstract sidebar fragment with respect to the given props.
      * 
-     * @param tool
      * @param props 
      */
-    public constructor(tool: T, props: ISidebarFragmentProps | undefined) {
+    public constructor(props: ISidebarFragmentProps | undefined) {
         super(props);
-
-        // store the tool which provides this sidebar fragment
-        // the tool should not be undefined
-        this.getState().setTool(tool);
     }
 
     /**
@@ -82,18 +77,12 @@ abstract class AbstractSidebarFragment<T extends IMapTool> extends MapObject imp
     public abstract isChild(sidebarTab: ISidebarTab): boolean;
 
     /**
-     * It initializes the tab control.
+     * Overrides the super method.
      * 
-     * @param sidebarTab 
-     * @param config 
+     * @param initProps
      */
-    public initialize(sidebarTab: ISidebarTab, config: ISidebarFragmentConfig | undefined): void {
-        // the sidebar tab which stores the sidebar fragment
-        // the sidebar tab should not be undefined (this function is called only by tab control)
-        this.getState().setSidebarTab(sidebarTab);
-
-        // copy existing config if exists or use the default one
-        this.setConfig(config != undefined ? JSON.parse(JSON.stringify(config)) : this.getDefaults().getConfig());
+    public initialize(initProps: ISidebarFragmentInitProps<ISidebarFragmentConfig, T>): this {
+        return super.initialize(initProps);
     }
 
     /**
@@ -104,8 +93,8 @@ abstract class AbstractSidebarFragment<T extends IMapTool> extends MapObject imp
     /**
      * This function is called after the sidebar tab is rendered in sidebar.
      */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    public postCreate(): void {
+    public postCreate(): this {
+        return this;
     }
 
     /**

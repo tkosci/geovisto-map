@@ -102,7 +102,7 @@ class MapToolState extends MapObjectState implements IMapToolState {
      * 
      * @param map  
      */
-    public setMap(map: IMap): void {
+    protected setMap(map: IMap): void {
        this.map = map;
     }
 }

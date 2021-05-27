@@ -22,8 +22,8 @@ class ChoropolethLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IChorop
         aggregation: IMapFormInput
     } | undefined;
 
-    public constructor(tool: IChoroplethLayerTool, props: ILayerToolSidebarTabProps) {
-        super(tool, props);
+    public constructor(props: ILayerToolSidebarTabProps) {
+        super(props);
     }
 
     /**

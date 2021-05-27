@@ -18,11 +18,10 @@ class ThemesToolSidebarFragment extends AbstractSidebarFragment<IThemesTool> {
     /**
      * It creates a sidebar fragment with respect to the given props.
      * 
-     * @param tool
      * @param props 
      */
-    public constructor(tool: IThemesTool, props: ISidebarFragmentProps | undefined) {
-        super(tool, props);
+    public constructor(props: ISidebarFragmentProps | undefined) {
+        super(props);
     }
 
     /**

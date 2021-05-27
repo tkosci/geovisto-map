@@ -1,4 +1,4 @@
-import L, { marker, MarkerClusterGroup } from 'leaflet';
+import L, { MarkerClusterGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
@@ -24,6 +24,8 @@ import IMapDataManager from '../../../../../../model/types/data/IMapDataManager'
 import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMapAggregationBucket';
 import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapData from '../../../../../../model/types/data/IMapData';
+import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
+import { IMarkerLayerToolConfig } from '../../types/tool/IMarkerLayerToolConfig';
 
 /**
  * This class represents custom div icon which is used to mark center of countries.
@@ -253,7 +255,7 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
      * It creates new defaults of the tool.
      */
     protected createDefaults(): IMarkerLayerToolDefaults {
-        return new MarkerLayerToolDefaults(this);
+        return new MarkerLayerToolDefaults();
     }
 
     /**
@@ -297,7 +299,7 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
      * It creates new tab control.
      */
     protected createSidebarTabControl(): ILayerToolSidebarTab {
-        return new MarkerLayerToolSidebarTab(this, {
+        return new MarkerLayerToolSidebarTab({
             // defined by the sidebar tab defaults
             id: undefined,
             enabled: undefined,
@@ -305,6 +307,15 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
             icon: undefined,
             checkButton: undefined
         });
+    }
+
+    /**
+     * Overrides the super method.
+     * 
+     * @param initProps
+     */
+    public initialize(initProps: IMapToolInitProps<IMarkerLayerToolConfig>): this {
+        return super.initialize(initProps);
     }
 
     /**

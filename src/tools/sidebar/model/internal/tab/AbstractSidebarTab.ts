@@ -1,7 +1,7 @@
 import * as d3 from "d3";
 import MapObject from "../../../../../model/internal/object/MapObject";
 import ISidebarTab from "../../types/tab/ISidebarTab";
-import ISidebarTabProps from "../../types/tab/ISidebarTabProps";
+import { ISidebarTabProps, ISidebarTabInitProps } from "../../types/tab/ISidebarTabProps";
 import ISidebarTabDefaults from "../../types/tab/ISidebarTabDefaults";
 import SidebarTabDefaults from "./SidebarTabDefaults";
 import ISidebarTabState from "../../types/tab/ISidebarTabState";
@@ -10,6 +10,8 @@ import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
 import ISidebarFragment from "../../types/fragment/ISidebarFragment";
 import { Control } from "leaflet";
+import ISidebarFragmentControl from "../../types/fragment/ISidebarFragmentControl";
+import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
 
 const C_sidebar_header_class = "leaflet-sidebar-header";
 const C_sidebar_tab_content_class = "leaflet-sidebar-tab-content";
@@ -29,15 +31,10 @@ abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implemen
     /**
      * It creates abstract sidebar tab with respect to the given props.
      * 
-     * @param tool
      * @param props 
      */
-    public constructor(tool: T, props: ISidebarTabProps | undefined) {
+    public constructor(props: ISidebarTabProps | undefined) {
         super(props);
-
-        // store the tool which provides this sidebar tab
-        // props.tool should not be undefined
-        this.getState().setTool(tool);
     }
 
     /**
@@ -92,23 +89,79 @@ abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implemen
     /**
      * It initializes the sidebar tab.
      *
-     * @param sidebar
-     * @param config
+     * @param initProps
      */
-    public initialize(sidebar: Control.Sidebar, config: ISidebarTabConfig): void {
-        // the sidebar which stores the tab
-        // the sidebar should not be undefined (this function is called only by sidebar)
-        this.getState().setSidebar(sidebar);
+    public initialize(initProps: ISidebarTabInitProps): this {
+        super.initialize(initProps);
 
-        // copy existing config if exists or use the default one
-        this.setConfig(config != undefined ? JSON.parse(JSON.stringify(config)) : this.getDefaults().getConfig());
+        if(initProps.config) {
+            this.initializeFragments(initProps.config);
+        }
+
+        return this;
+    }
+
+    /**
+     * The function takes config and deserializes the tab fragments.
+     * 
+     * @param config 
+     */
+    protected initializeFragments(config: ISidebarTabConfig): void {
+        // poor JavaScript...
+        const instanceOfFragmentControl = function(tool: IMapTool | ISidebarFragmentControl): tool is ISidebarFragmentControl {
+            return (tool as ISidebarFragmentControl).getSidebarFragment !== undefined;
+        };
+
+        // init help variables
+        const fragments: ISidebarFragment[] = [];
+        let fragment: ISidebarFragment;
+        let fragmentTool: IMapTool | undefined;
+
+        const thisTool = this.getTool();
+        if(thisTool) {
+            const map = thisTool.getMap();
+            if(map) {
+                // process tab fragments
+                if(config.fragments) {
+                    let fragmentConfig: ISidebarFragmentConfig;
+                    for(let i = 0; i != config.fragments.length; i++) {
+                        fragmentConfig = config.fragments[i];
+                        if(fragmentConfig.tool) {
+                            fragmentTool = map.getState().getTools().getById(fragmentConfig.tool);
+                            if(fragmentTool && (instanceOfFragmentControl(fragmentTool))) {
+                                fragment = (fragmentTool as ISidebarFragmentControl).getSidebarFragment();
+                                if(fragment && fragment.isChild(this)) {
+                                    fragment.initialize({ tool: fragmentTool, sidebarTab: this, config: fragmentConfig });
+                                    fragments.push(fragment);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // try to look for fragments if not specified in config
+                    const tools: IMapTool[] = map.getState().getTools().getAll();
+                    for(let i = 0; i < tools.length; i++) {
+                        fragmentTool = tools[i];
+                        if(instanceOfFragmentControl(fragmentTool)) {
+                            fragment = (fragmentTool as ISidebarFragmentControl).getSidebarFragment();
+                            if(fragment && fragment.isChild(this)) {
+                                fragment.initialize({ tool: fragmentTool, sidebarTab: this, config: undefined });
+                                fragments.push(fragment);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        this.getState().setFragments(fragments);
     }
 
     /**
      * Creates sidebar tab.
      *
      */
-    public create(): void {
+    public create(): this {
         const state: ISidebarTabState = this.getState();
         const sidebar: Control.Sidebar | null = state.getSidebar();
         if(sidebar && state.isEnabled()) {
@@ -118,6 +171,7 @@ abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implemen
             // arrange DOM elements after they are rendered
             this.postCreate();
         }
+        return this;
     }
 
     /**

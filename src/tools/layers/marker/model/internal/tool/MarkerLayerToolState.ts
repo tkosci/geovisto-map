@@ -4,9 +4,9 @@ import IMarkerLayerTool from "../../types/tool/IMarkerLayerTool";
 import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";
 import IMarkerLayerToolProps from "../../types/tool/IMarkerLayerToolProps";
 import IMarkerLayerToolDefaults from "../../types/tool/IMarkerLayerToolDefaults";
-import IMarkerLayerToolConfig from "../../types/tool/IMarkerLayerToolConfig";
-import IMap from "../../../../../../model/types/map/IMap";
+import { IMarkerLayerToolConfig, IMarkerLayerToolDimensionsConfig } from "../../types/tool/IMarkerLayerToolConfig";
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
+import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
 
 /**
  * This class provide functions for using the state of the layer tool.
@@ -15,55 +15,33 @@ import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMa
  */
 class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolState {
 
-    private markers: L.Marker[];
+    private markers!: L.Marker[];
+    private bucketData!: Map<string, Map<string, IMapAggregationBucket>>;
     private layerGroup: L.LayerGroup | undefined;
     private centroids: unknown;
-    private bucketData: Map<string, Map<string, IMapAggregationBucket>>;
 
     /**
      * It creates a tool state.
      */
     public constructor(tool: IMarkerLayerTool) {
         super(tool);
-
-        const props: IMarkerLayerToolProps = <IMarkerLayerToolProps> this.getProps();
-        const defaults: IMarkerLayerToolDefaults = <IMarkerLayerToolDefaults> this.getDefaults();
-
-        // sets map dimensions
-        if(props.dimensions) {
-            this.setDimensions({
-                geo: props.dimensions.geo == undefined ? defaults.getGeoDimension() : props.dimensions.geo,
-                value: props.dimensions.value == undefined ? defaults.getValueDimension() : props.dimensions.value,
-                aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation,
-                category: props.dimensions.category == undefined ? defaults.getCategoryDimension() : props.dimensions.category
-            });
-        } else {
-            this.setDimensions(defaults.getDimensions());
-        }
-
-        // the layer tool properties
-        this.markers = [];
-        this.centroids = props.centroids; // default centroids are undefined since the map is undefined
-        this.layerGroup = undefined;
-        this.bucketData = new Map<string, Map<string, IMapAggregationBucket>>();
     }
 
     /**
      * It resets state with respect to initial props.
+     * 
+     * @param defaults 
+     * @param props 
+     * @param initProps 
      */
-    public reset(): void {
-        super.reset();
-
-        const props: IMarkerLayerToolProps = <IMarkerLayerToolProps> this.getProps();
-        const defaults: IMarkerLayerToolDefaults = <IMarkerLayerToolDefaults> this.getDefaults();
-
+    public initialize(defaults: IMarkerLayerToolDefaults, props: IMarkerLayerToolProps, initProps: IMapToolInitProps<IMarkerLayerToolConfig>): void {
         // sets map dimensions
         if(props.dimensions) {
             this.setDimensions({
-                geo: props.dimensions.geo == undefined ? defaults.getGeoDimension() : props.dimensions.geo,
-                value: props.dimensions.value == undefined ? defaults.getValueDimension() : props.dimensions.value,
+                geo: props.dimensions.geo == undefined ? defaults.getGeoDimension(initProps.map) : props.dimensions.geo,
+                value: props.dimensions.value == undefined ? defaults.getValueDimension(initProps.map) : props.dimensions.value,
                 aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation,
-                category: props.dimensions.category == undefined ? defaults.getCategoryDimension() : props.dimensions.category
+                category: props.dimensions.category == undefined ? defaults.getCategoryDimension(initProps.map) : props.dimensions.category
             });
         } else {
             this.setDimensions(defaults.getDimensions());
@@ -71,7 +49,7 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
 
         // the layer tool properties
         this.setMarkers([]);
-        this.setCentroids(props.centroids == undefined ? defaults.getCentroids() : props.centroids);
+        this.setCentroids(props.centroids == undefined ? defaults.getCentroids(initProps.map) : props.centroids);
         this.setBucketData(new Map<string, Map<string, IMapAggregationBucket>>());
     }
 
@@ -82,11 +60,6 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
      */
     public deserialize(config: IMarkerLayerToolConfig): void {
         super.deserialize(config);
-
-        // the layer tool config
-        if(config.data != undefined) {
-            this.deserializeDimensions(config.data.geo, config.data.value, config.data.aggregation, config.data.category);
-        }
     }
 
     /**
@@ -97,12 +70,12 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
      * @param aggregation
      * @param category
      */
-    public deserializeDimensions(geo: string | undefined, value: string | undefined, aggregation: string | undefined, category: string | undefined): void {
+    public deserializeDimensions(dimensionsConfig: IMarkerLayerToolDimensionsConfig): void {
         const dimensions = this.getDimensions();
-        if(geo) dimensions.geo.setDomain(dimensions.geo.getDomainManager().getDomain(geo));
-        if(value) dimensions.value.setDomain(dimensions.value.getDomainManager().getDomain(value));
-        if(aggregation) dimensions.aggregation.setDomain(dimensions.aggregation.getDomainManager().getDomain(aggregation));
-        if(category) dimensions.category.setDomain(dimensions.category.getDomainManager().getDomain(category));
+        if(dimensionsConfig.geo) dimensions.geo.setDomain(dimensions.geo.getDomainManager().getDomain(dimensionsConfig.geo));
+        if(dimensionsConfig.value) dimensions.value.setDomain(dimensions.value.getDomainManager().getDomain(dimensionsConfig.value));
+        if(dimensionsConfig.aggregation) dimensions.aggregation.setDomain(dimensions.aggregation.getDomainManager().getDomain(dimensionsConfig.aggregation));
+        if(dimensionsConfig.category) dimensions.category.setDomain(dimensions.category.getDomainManager().getDomain(dimensionsConfig.category));
     }
 
     /**
@@ -123,28 +96,6 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
         };
 
         return config;
-    }
-
-    /**
-     * It sets the map property of the tool state.
-     * 
-     * Also, it updates map-related properties.
-     * 
-     * @param map  
-     */
-    public setMap(map: IMap): void {
-        super.setMap(map);
-
-        // update dimensions' data domain managers
-        const dimensions = this.getDimensions();
-        dimensions.geo.setDomainManager(map.getState().getMapData());
-        dimensions.value.setDomainManager(map.getState().getMapData());
-        dimensions.category.setDomainManager(map.getState().getMapData());
-
-        // map centroids
-        if(!this.getCentroids()) {
-            this.setCentroids((<IMarkerLayerToolDefaults> this.getDefaults()).getCentroids());
-        }
     }
 
     /**

@@ -1,4 +1,4 @@
-import { ISidebarTabProps } from "../../../..";
+import { ISidebarTabProps } from "../ISidebarTabProps";
 
 /**
  * This interface provides specification of sidebar fragment props model.

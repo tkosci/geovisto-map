@@ -3,7 +3,7 @@ import ISidebarFragmentConfig from "./ISidebarFragmentConfig";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
 import ISidebarTab from "../tab/ISidebarTab";
 import ISidebarFragmentDefaults from "./ISidebarFragmentDefaults";
-import ISidebarFragmentProps from "./ISidebarFragmentProps";
+import { ISidebarFragmentProps } from "./ISidebarFragmentProps";
 
 /**
  * This interface declares the state of the sidebar fragment.
@@ -18,31 +18,9 @@ interface ISidebarFragmentState<
 > extends IMapObjectState<TProps, TDefaults, TConfig> {
 
     /**
-     * The metod takes config and deserializes the values.
-     * 
-     * @param config 
-     */
-    deserialize(config: ISidebarFragmentConfig): void;
-
-    /**
-     * The method serializes the sidebar tab fragment configuration.
-     * Optionally, a serialized value can be let undefined if it equals the default value.
-     * 
-     * @param defaults 
-     */
-    serialize(defaults: ISidebarFragmentDefaults | undefined): ISidebarFragmentConfig;
-
-    /**
      * It returns the tool property of the sidebar tab fragment state.
      */
     getTool(): IMapTool | null;
-
-    /**
-     * It sets the tool property of the sidebar tab fragment state.
-     * 
-     * @param tool 
-     */
-    setTool(tool: IMapTool): void;
 
     /**
      * It returns the enabled property of the sidebar tab fragment state.

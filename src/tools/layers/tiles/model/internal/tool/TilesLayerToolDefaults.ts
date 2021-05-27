@@ -1,6 +1,5 @@
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
 import ITilesLayerToolDefaults from "../../types/tool/ITilesLayerToolDefaults";
-import ITilesLayerTool from "../../types/tool/ITilesLayerTool";
 import { GeovistoTilesLayerTool } from "../../..";
 
 /**

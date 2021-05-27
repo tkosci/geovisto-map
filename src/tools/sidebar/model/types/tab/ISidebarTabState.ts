@@ -4,7 +4,7 @@ import IMapTool from "../../../../../model/types/tool/IMapTool";
 import ISidebarFragment from "../fragment/ISidebarFragment";
 import { Control } from "leaflet";
 import ISidebarTabDefaults from "./ISidebarTabDefaults";
-import ISidebarTabProps from "./ISidebarTabProps";
+import { ISidebarTabProps } from "./ISidebarTabProps";
 
 /**
  * This interface declares the state of the sidebar tab.

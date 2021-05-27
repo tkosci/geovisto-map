@@ -9,6 +9,8 @@ import IMap from "../../../../../model/types/map/IMap";
 import FiltersToolDefaults from "./FiltersToolDefaults";
 import FiltersToolState from "./FiltersToolState";
 import FiltersToolSidebarTab from "../sidebar/FiltersToolSidebarTab";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+import IFiltersToolConfig from "../../types/tool/IFiltersToolConfig";
 
 /**
  * This class wraps filters, sidebar tab and state. It provides methods for filters management.
@@ -74,11 +76,21 @@ class FiltersTool extends MapTool implements IFiltersTool, ISidebarTabControl {
     }
 
     /**
+     * Overrides the super method.
+     * 
+     * @param initProps
+     */
+    public initialize(initProps: IMapToolInitProps<IFiltersToolConfig>): this {
+        return super.initialize(initProps);
+    }
+
+    /**
      * It creates new filter tool.
      */
-    public create(): void {
+    public create(): this {
         // set filter rules
         this.setFilterRules(this.getState().getFilterRules());
+        return this;
     }
 
     /**
@@ -95,7 +107,7 @@ class FiltersTool extends MapTool implements IFiltersTool, ISidebarTabControl {
      * It creates new tab control.
      */
     protected createSidebarTab(): ISidebarTab {
-        return new FiltersToolSidebarTab(this, {
+        return new FiltersToolSidebarTab({
             // defined by the sidebar tab defaults
             id: undefined,
             enabled: undefined,

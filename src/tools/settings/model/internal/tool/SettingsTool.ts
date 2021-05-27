@@ -99,7 +99,7 @@ class SettingsTool extends MapTool implements ISettingsTool, ISidebarTabControl 
      */
     protected createSidebarTabControl(): ISidebarTab {
         // override if needed
-        return new SettingsToolSidebarTab(this, {
+        return new SettingsToolSidebarTab({
             // defined by the sidebar tab defaults
             id: undefined,
             enabled: undefined,

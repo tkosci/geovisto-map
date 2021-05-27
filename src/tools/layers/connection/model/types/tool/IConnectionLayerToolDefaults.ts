@@ -2,6 +2,7 @@ import ILayerToolDefaults from "../../../../../../model/types/layer/ILayerToolDe
 import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import IMap from "../../../../../../model/types/map/IMap";
 
 /**
  * This interface declares functions which return the default state values.
@@ -13,17 +14,17 @@ interface IConnectionLayerToolDefaults extends ILayerToolDefaults {
     /**
      * It returns the map of layer dimensions.
      */
-    getDimensions(): IConnectionLayerToolDimensions;
+    getDimensions(map?: IMap): IConnectionLayerToolDimensions;
 
     /**
      * It returns the default geo ID dimension.
      */
-    getFromDimension(): IMapDimension<IMapDataDomain>;
+    getFromDimension(map?: IMap): IMapDimension<IMapDataDomain>;
 
     /**
      * It returns the default value dimension.
      */
-    getToDimension(): IMapDimension<IMapDataDomain>;
+    getToDimension(map?: IMap): IMapDimension<IMapDataDomain>;
     
     /**
      * It returns optiomal zoom for D3 projections.
@@ -33,6 +34,6 @@ interface IConnectionLayerToolDefaults extends ILayerToolDefaults {
     /**
      * It returns default centroids.
      */
-    getCentroids(): unknown;
+    getCentroids(map?: IMap): unknown;
 }
 export default IConnectionLayerToolDefaults;

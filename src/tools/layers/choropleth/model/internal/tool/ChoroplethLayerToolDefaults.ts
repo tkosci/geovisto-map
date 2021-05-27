@@ -1,6 +1,5 @@
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
 import IChoroplethLayerToolDefaults from "../../types/tool/IChoroplethLayerToolDefaults";
-import IChoroplethLayerTool from "../../types/tool/IChoroplethLayerTool";
 import IChoroplethLayerToolDimensions from "../../types/tool/IChoroplethLayerToolDimensions";
 import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
@@ -10,6 +9,7 @@ import IMapAggregationFunction from "../../../../../../model/types/aggregation/I
 import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
 import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
 import { GeovistoChoroplethLayerTool } from "../../..";
+import IMap from "../../../../../../model/types/map/IMap";
 
 /**
  * This class provide functions which return the default state values.
@@ -17,13 +17,6 @@ import { GeovistoChoroplethLayerTool } from "../../..";
  * @author Jiri Hynek
  */
 class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChoroplethLayerToolDefaults {
-
-    /**
-     * It initializes tool defaults.
-     */
-    public constructor(tool: IChoroplethLayerTool) {
-        super(tool);
-    }
 
     /**
      * It returns a unique type string of the tool which is based on the layer it wraps.
@@ -42,10 +35,10 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
     /**
      * It returns the map of layer dimensions.
      */
-    public getDimensions(): IChoroplethLayerToolDimensions {
+    public getDimensions(map?: IMap): IChoroplethLayerToolDimensions {
         return {
-            geo: this.getGeoDimension(),
-            value: this.getValueDimension(),
+            geo: this.getGeoDimension(map),
+            value: this.getValueDimension(map),
             aggregation: this.getAggregationDimension()
         };
     }
@@ -53,10 +46,10 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
     /**
      * It returns the default geo ID dimension.
      */
-    public getGeoDimension(): IMapDimension<IMapDataDomain> {
+    public getGeoDimension(map?: IMap): IMapDimension<IMapDataDomain> {
         return new MapDimension(
             "geo",
-            this.getDataManager(),
+            map?.getState().getMapData() ?? this.getDataManager(),
             undefined
         );
     }
@@ -64,10 +57,10 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
     /**
      * It returns the default value dimension.
      */
-    public getValueDimension(): IMapDimension<IMapDataDomain> {
+    public getValueDimension(map?: IMap): IMapDimension<IMapDataDomain> {
         return new MapDimension(
             "value",
-            this.getDataManager(),
+            map?.getState().getMapData() ?? this.getDataManager(),
             undefined
         );
     }
@@ -95,8 +88,8 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
      * 
      * TODO: specify the type
      */
-    public getPolygons(): unknown {
-        return this.getMapObject().getMap()?.getState().getPolygons();
+    public getPolygons(map?: IMap): unknown {
+        return map?.getState().getPolygons() ?? {};
     }
 
     /**

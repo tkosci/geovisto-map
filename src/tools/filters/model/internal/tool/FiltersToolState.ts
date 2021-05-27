@@ -7,6 +7,7 @@ import IFiltersToolConfig from "../../types/tool/IFiltersToolConfig";
 import IFiltersToolProps from "../../types/tool/IFiltersToolProps";
 import IFiltersToolDefaults from "../../types/tool/IFiltersToolDefaults";
 import IMapDataDomain from "../../../../../model/types/data/IMapDataDomain";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 
 /**
  * This class provide functions for using filters.
@@ -15,8 +16,8 @@ import IMapDataDomain from "../../../../../model/types/data/IMapDataDomain";
  */
 class FiltersToolState extends MapToolState implements IFiltersToolState {
     
-    private rules: IMapFilterRule[];
-    private manager: IMapFiltersManager;
+    private rules!: IMapFilterRule[];
+    private manager!: IMapFiltersManager;
 
     /**
      * It creates a tool state.
@@ -25,31 +26,20 @@ class FiltersToolState extends MapToolState implements IFiltersToolState {
      */
     public constructor(tool: IFiltersTool) {
         super(tool);
-
-        const props: IFiltersToolProps = <IFiltersToolProps> this.getProps();
-        const defaults: IFiltersToolDefaults = <IFiltersToolDefaults> this.getDefaults();
-
-        // set filters manager - needs to be set before the filter rules
-        this.manager = props.manager == undefined ? defaults.getFiltersManager() : props.manager;
-
-        // set theme
-        this.rules = props.rules == undefined ? defaults.getFilterRules() : props.rules;
     }
 
     /**
      * It resets state with respect to initial props.
      */
-    public reset(): void {
-        super.reset();
-
-        const props: IFiltersToolProps = <IFiltersToolProps> this.getProps();
-        const defaults: IFiltersToolDefaults = <IFiltersToolDefaults> this.getDefaults();
-
+    public initialize(defaults: IFiltersToolDefaults, props: IFiltersToolProps, initProps: IMapToolInitProps<IFiltersToolConfig>): void {
         // set filter manager, which manages filter operations
         this.setFiltersManager(props.manager == undefined ? defaults.getFiltersManager() : props.manager);
 
         // set filter rules if specified in props explicitly
         this.setFilterRules(props.rules == undefined ? defaults.getFilterRules() : props.rules);
+
+        // set super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**

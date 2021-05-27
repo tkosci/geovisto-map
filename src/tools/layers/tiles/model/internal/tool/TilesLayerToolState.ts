@@ -4,6 +4,8 @@ import ITilesLayerTool from "../../types/tool/ITilesLayerTool";
 import ITilesLayerToolProps from "../../types/tool/ITilesLayerToolProps";
 import ITilesLayerToolDefaults from "../../types/tool/ITilesLayerToolDefaults";
 import ITilesLayerToolConfig from "../../types/tool/ITilesLayerToolConfig";
+import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
+import { IMarkerLayerToolConfig } from "../../../../marker";
 
 /**
  * This class provide functions for using the state of the tiles layer tool.
@@ -12,7 +14,7 @@ import ITilesLayerToolConfig from "../../types/tool/ITilesLayerToolConfig";
  */
 class TilesLayerToolState extends LayerToolState implements ITilesLayerToolState {
     
-    private baseMap: string;
+    private baseMap!: string;
     private layer: L.TileLayer | undefined;
 
     /**
@@ -20,24 +22,17 @@ class TilesLayerToolState extends LayerToolState implements ITilesLayerToolState
      */
     public constructor(tool: ITilesLayerTool) {
         super(tool);
-
-        const props = <ITilesLayerToolProps> this.getProps();
-        const defaults = <ITilesLayerToolDefaults> this.getDefaults();
-
-        this.baseMap = props.baseMap == undefined ? defaults.getBaseMap() : props.baseMap;
     }
 
     /**
      * It resets state with respect to initial props.
      */
-    public reset(): void {
-        super.reset();
-
-        const props = <ITilesLayerToolProps> this.getProps();
-        const defaults = <ITilesLayerToolDefaults> this.getDefaults();
-
+    public initialize(defaults: ITilesLayerToolDefaults, props: ITilesLayerToolProps, initProps: IMapToolInitProps<IMarkerLayerToolConfig>): void {
         // the map layer tool properties
         this.setBaseMap(props.baseMap == undefined ? defaults.getBaseMap() : props.baseMap);
+
+        // set super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**

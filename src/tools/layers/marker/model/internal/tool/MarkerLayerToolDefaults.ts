@@ -1,6 +1,5 @@
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
 import IMarkerLayerToolDefaults from "../../types/tool/IMarkerLayerToolDefaults";
-import IMarkerLayerTool from "../../types/tool/IMarkerLayerTool";
 import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
@@ -10,6 +9,7 @@ import MapDomainArrayManager from "../../../../../../model/internal/domain/gener
 import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
 import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
 import { GeovistoMarkerLayerTool } from "../../..";
+import IMap from "../../../../../../model/types/map/IMap";
 
 /**
  * This class provide functions which return the default state values.
@@ -17,13 +17,6 @@ import { GeovistoMarkerLayerTool } from "../../..";
  * @author Jiri Hynek
  */
 class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerToolDefaults {
-
-    /**
-     * It initializes tool defaults.
-     */
-    public constructor(tool: IMarkerLayerTool) {
-        super(tool);
-    }
 
     /**
      * It returns a unique type string of the tool which is based on the layer it wraps.
@@ -42,22 +35,22 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     /**
      * It returns the map of layer dimensions.
      */
-    public getDimensions(): IMarkerLayerToolDimensions {
+    public getDimensions(map?: IMap): IMarkerLayerToolDimensions {
         return {
-            geo: this.getGeoDimension(),
+            geo: this.getGeoDimension(map),
             value: this.getValueDimension(),
             aggregation: this.getAggregationDimension(),
-            category: this.getCategoryDimension()
+            category: this.getCategoryDimension(map)
         };
     }
 
     /**
      * It returns the default geo ID dimension.
      */
-    public getGeoDimension(): IMapDimension<IMapDataDomain> {
+    public getGeoDimension(map?: IMap): IMapDimension<IMapDataDomain> {
         return new MapDimension(
             "geo",
-            this.getDataManager(),
+            map?.getState().getMapData() ?? this.getDataManager(),
             undefined
         );
     }
@@ -65,10 +58,10 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     /**
      * It returns the default value dimension.
      */
-    public getValueDimension(): IMapDimension<IMapDataDomain> {
+    public getValueDimension(map?: IMap): IMapDimension<IMapDataDomain> {
         return new MapDimension(
             "value",
-            this.getDataManager(),
+            map?.getState().getMapData() ?? this.getDataManager(),
             undefined
         );
     }
@@ -94,10 +87,10 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     /**
      * It returns the default category dimension.
      */
-    public getCategoryDimension(): IMapDimension<IMapDataDomain> {
+    public getCategoryDimension(map?: IMap): IMapDimension<IMapDataDomain> {
         return new MapDimension(
             "category",
-            this.getDataManager(),
+            map?.getState().getMapData() ?? this.getDataManager(),
             undefined
         );
     }
@@ -107,8 +100,8 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
      * 
      * TODO: specify the type
      */
-    public getCentroids(): unknown {
-        return JSON.parse(JSON.stringify(this.getMapObject().getMap()?.getState().getCentroids()));
+    public getCentroids(map?: IMap): unknown {
+        return JSON.parse(JSON.stringify(map?.getState().getCentroids() ?? {}));
     }
 }
 export default MarkerLayerToolDefaults;

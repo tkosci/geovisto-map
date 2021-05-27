@@ -2,6 +2,7 @@ import AbstractLayerTool from "./AbstractLayerTool";
 import MapToolDefaults from "../tool/MapToolDefaults";
 import ILayerToolDefaults from "../../types/layer/ILayerToolDefaults";
 import ILayerToolDimensions from "../../types/layer/ILayerToolDimensions";
+import IMap from "../../types/map/IMap";
 
 /**
  * This class provide functions which return the default state values.
@@ -27,7 +28,8 @@ class LayerToolDefaults extends MapToolDefaults implements ILayerToolDefaults {
     /**
      * It returns the default layer tool dimensions.
      */
-    public getDimensions(): ILayerToolDimensions {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public getDimensions(map?: IMap): ILayerToolDimensions {
         return {};
     }
 }

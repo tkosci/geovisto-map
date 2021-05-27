@@ -42,12 +42,5 @@ interface IMapToolState<
      * It returns the map property of the tool state.
      */
     getMap(): IMap | undefined;
-
-    /**
-     * It sets the map property of the tool state.
-     * 
-     * @param map  
-     */
-    setMap(map: IMap): void;
 }
 export default IMapToolState;

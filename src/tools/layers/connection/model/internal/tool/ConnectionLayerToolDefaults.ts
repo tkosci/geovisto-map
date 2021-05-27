@@ -1,11 +1,11 @@
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
 import IConnectionLayerToolDefaults from "../../types/tool/IConnectionLayerToolDefaults";
-import IConnectionLayerTool from "../../types/tool/IConnectionLayerTool";
 import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToolDimensions";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
 import { GeovistoConnectionLayerTool } from "../../..";
+import IMap from "../../../../../../model/types/map/IMap";
 
 /**
  * This class provide functions which return the default state values.
@@ -31,20 +31,20 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
     /**
      * It returns the map of layer dimensions.
      */
-    public getDimensions(): IConnectionLayerToolDimensions {
+    public getDimensions(map?: IMap): IConnectionLayerToolDimensions {
         return {
-            from: this.getFromDimension(),
-            to: this.getToDimension(),
+            from: this.getFromDimension(map),
+            to: this.getToDimension(map),
         };
     }
 
     /**
      * It returns the source geo ID dimension.
      */
-    public getFromDimension(): IMapDimension<IMapDataDomain> {
+    public getFromDimension(map?: IMap): IMapDimension<IMapDataDomain> {
         return new MapDimension(
             "from",
-            this.getDataManager(),
+            map?.getState().getMapData() ?? this.getDataManager(),
             undefined
         );
     }
@@ -52,10 +52,10 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
     /**
      * It returns the target geo ID dimension.
      */
-    public getToDimension(): IMapDimension<IMapDataDomain> {
+    public getToDimension(map?: IMap): IMapDimension<IMapDataDomain> {
         return new MapDimension(
             "to",
-            this.getDataManager(),
+            map?.getState().getMapData() ?? this.getDataManager(),
             undefined
         );
     }
@@ -72,8 +72,8 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
      * 
      * TODO: specify the type
      */
-    public getCentroids(): unknown {
-        return {};
+    public getCentroids(map?: IMap): unknown {
+        return map?.getState().getCentroids() ?? {};
     }
 }
 export default ConnectionLayerToolDefaults;

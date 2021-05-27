@@ -3,6 +3,7 @@ import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
+import IMap from "../../../../../../model/types/map/IMap";
 
 /**
  * This interface provides functions which return the default state values.
@@ -14,17 +15,17 @@ interface IMarkerLayerToolDefaults extends ILayerToolDefaults {
     /**
      * It returns the map of layer dimensions.
      */
-    getDimensions(): IMarkerLayerToolDimensions;
+    getDimensions(map?: IMap): IMarkerLayerToolDimensions;
 
     /**
      * It returns the default geo ID dimension.
      */
-    getGeoDimension(): IMapDimension<IMapDataDomain>;
+    getGeoDimension(map?: IMap): IMapDimension<IMapDataDomain>;
 
     /**
      * It returns the default value dimension.
      */
-    getValueDimension(): IMapDimension<IMapDataDomain>;
+    getValueDimension(map?: IMap): IMapDimension<IMapDataDomain>;
 
     /**
      * It returns the default aggregation function dimension.
@@ -34,11 +35,11 @@ interface IMarkerLayerToolDefaults extends ILayerToolDefaults {
     /**
      * It returns the default category dimension.
      */
-    getCategoryDimension(): IMapDimension<IMapDataDomain>;
+    getCategoryDimension(map?: IMap): IMapDimension<IMapDataDomain>;
     
     /**
      * It returns the default centroids.
      */
-    getCentroids(): unknown;
+    getCentroids(map?: IMap): unknown;
 }
 export default IMarkerLayerToolDefaults;

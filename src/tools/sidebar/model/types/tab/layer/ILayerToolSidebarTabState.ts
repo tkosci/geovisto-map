@@ -1,5 +1,5 @@
 import { ISidebarTabState } from "../../../..";
-import ISidebarTabProps from "../ISidebarTabProps";
+import { ISidebarTabProps } from "../ISidebarTabProps";
 import ISidebarTabDefaults from "../ISidebarTabDefaults";
 import ISidebarTabConfig from "../ISidebarTabConfig";
 

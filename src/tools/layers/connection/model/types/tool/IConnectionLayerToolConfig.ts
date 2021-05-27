@@ -16,9 +16,7 @@ type IConnectionLayerToolConfig = ILayerToolConfig & {
  * @author Jiri Hynek
  */
 type IConnectionLayerToolDimensionsConfig = ILayerToolDimensionsConfig & {
-    data: {
-        from: string | undefined,
-        to: string | undefined,
-    };
+    from: string | undefined,
+    to: string | undefined,
 }
 export type { IConnectionLayerToolConfig, IConnectionLayerToolDimensionsConfig };

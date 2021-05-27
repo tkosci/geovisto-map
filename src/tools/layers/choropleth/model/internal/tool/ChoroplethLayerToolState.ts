@@ -4,9 +4,9 @@ import IChoroplethLayerToolState from "../../types/tool/IChoroplethLayerToolStat
 import IChoroplethLayerToolDimensions from "../../types/tool/IChoroplethLayerToolDimensions";
 import IChoroplethLayerToolProps from "../../types/tool/IChoroplethLayerToolProps";
 import IChoroplethLayerToolDefaults from "../../types/tool/IChoroplethLayerToolDefaults";
-import IMap from "../../../../../../model/types/map/IMap";
-import IChoroplethLayerToolConfig from "../../types/tool/IChoroplethLayerToolConfig";
+import { IChoroplethLayerToolConfig, IChoroplethLayerToolDimensionsConfig } from "../../types/tool/IChoroplethLayerToolConfig";
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
+import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
 
 /**
  * This class provide functions for using the state of the layer tool.
@@ -15,63 +15,45 @@ import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMa
  */
 class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLayerToolState {
 
+    private zindex!: number;
+    private bucketData!: Map<string, IMapAggregationBucket>;
     private geoJSONlayer: L.GeoJSON | undefined;
     private popup: L.Control | undefined;
     private polygons: unknown; // TODO: specify the type
     private hoveredItem: unknown; // TODO: specify the type
-    private zindex: number;
-    private bucketData: Map<string, IMapAggregationBucket>;
 
     /**
      * It creates a tool state.
      */
     public constructor(tool: IChoroplethLayerTool) {
         super(tool);
-
-        const props: IChoroplethLayerToolProps = <IChoroplethLayerToolProps> this.getProps();
-        const defaults: IChoroplethLayerToolDefaults = <IChoroplethLayerToolDefaults> this.getDefaults();
-
-        // sets map dimensions
-        if(props.dimensions) {
-            this.setDimensions({
-                geo: props.dimensions.geo == undefined ? defaults.getGeoDimension() : props.dimensions.geo,
-                value: props.dimensions.value == undefined ? defaults.getValueDimension() : props.dimensions.value,
-                aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation
-            });
-        } else {
-            this.setDimensions(defaults.getDimensions());
-        }
-
-        // set other state props
-        this.polygons = props.polygons; // default polygons are undefined since the map is undefined
-        this.hoveredItem = undefined;
-        this.zindex = defaults.getZIndex();
-        this.bucketData = new Map<string, IMapAggregationBucket>();
     }
 
     /**
      * It resets state with respect to initial props.
+     * 
+     * @param defaults 
+     * @param props 
+     * @param initProps 
      */
-    public reset(): void {
-        super.reset();
-
-        const props = <IChoroplethLayerToolProps> this.getProps();
-        const defaults = <IChoroplethLayerToolDefaults> this.getDefaults();
-
+    public initialize(defaults: IChoroplethLayerToolDefaults, props: IChoroplethLayerToolProps, initProps: IMapToolInitProps<IChoroplethLayerToolConfig>): void {
         // the choropleth layer tool properties
         if(props.dimensions) {
             this.setDimensions({
-                geo: props.dimensions.geo == undefined ? defaults.getGeoDimension() : props.dimensions.geo,
-                value: props.dimensions.value == undefined ? defaults.getValueDimension() : props.dimensions.value,
+                geo: props.dimensions.geo == undefined ? defaults.getGeoDimension(initProps.map) : props.dimensions.geo,
+                value: props.dimensions.value == undefined ? defaults.getValueDimension(initProps.map) : props.dimensions.value,
                 aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation
             });
         } else {
             this.setDimensions(defaults.getDimensions());
         }
-        this.setPolygons(props.polygons == undefined ? defaults.getPolygons() : props.polygons);
+        this.setPolygons(props.polygons == undefined ? defaults.getPolygons(initProps.map) : props.polygons);
         this.setHoveredItem(undefined);
         this.setZIndex(defaults.getZIndex());
         this.setBucketData(new Map<string, IMapAggregationBucket>());
+
+        // set super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**
@@ -81,11 +63,6 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
      */
     public deserialize(config: IChoroplethLayerToolConfig): void {
         super.deserialize(config);
-        
-        // the layer tool config
-        if(config.data != undefined) {
-            this.deserializeDimensions(config.data.geo, config.data.value, config.data.aggregation);
-        }
     }
 
     /**
@@ -95,11 +72,11 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
      * @param value
      * @param aggregation
      */
-    public deserializeDimensions(geo: string | undefined, value: string | undefined, aggregation: string | undefined): void {
+    public deserializeDimensions(dimensionsConfig: IChoroplethLayerToolDimensionsConfig): void {
         const dimensions = this.getDimensions();
-        if(geo) dimensions.geo.setDomain(dimensions.geo.getDomainManager().getDomain(geo));
-        if(value) dimensions.value.setDomain(dimensions.value.getDomainManager().getDomain(value));
-        if(aggregation) dimensions.aggregation.setDomain(dimensions.aggregation.getDomainManager().getDomain(aggregation));
+        if(dimensionsConfig.geo) dimensions.geo.setDomain(dimensions.geo.getDomainManager().getDomain(dimensionsConfig.geo));
+        if(dimensionsConfig.value) dimensions.value.setDomain(dimensions.value.getDomainManager().getDomain(dimensionsConfig.value));
+        if(dimensionsConfig.aggregation) dimensions.aggregation.setDomain(dimensions.aggregation.getDomainManager().getDomain(dimensionsConfig.aggregation));
     }
 
     /**
@@ -119,27 +96,6 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
         };
 
         return config;
-    }
-
-    /**
-     * It sets the map property of the tool state.
-     * 
-     * Also, it updates map-related properties.
-     * 
-     * @param map  
-     */
-    public setMap(map: IMap): void {
-        super.setMap(map);
-
-        // update dimensions' data domain managers
-        const dimensions = this.getDimensions();
-        dimensions.geo.setDomainManager(map.getState().getMapData());
-        dimensions.value.setDomainManager(map.getState().getMapData());
-
-        // map polygons
-        if(!this.getPolygons()) {
-            this.setPolygons((<IChoroplethLayerToolDefaults> this.getDefaults()).getPolygons());
-        }
     }
 
     /**

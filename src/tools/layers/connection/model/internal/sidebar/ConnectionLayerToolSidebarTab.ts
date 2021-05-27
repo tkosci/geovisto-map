@@ -21,8 +21,8 @@ class ConnectionLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IConnect
         to: IMapFormInput,
     } | undefined;
 
-    public constructor(tool: IConnectionLayerTool, props: ILayerToolSidebarTabProps) {
-        super(tool, props);
+    public constructor(props: ILayerToolSidebarTabProps) {
+        super(props);
     }
 
     /**

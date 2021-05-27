@@ -145,7 +145,7 @@ class ThemesTool extends MapTool implements IThemesTool, ISidebarFragmentControl
      */
     protected createSidebarTabFragment(): ISidebarFragment {
         // override if needed
-        return new ThemesToolSidebarFragment(this, {
+        return new ThemesToolSidebarFragment({
             // defined by the sidebar fragment defaults
             id: undefined,
             enabled: undefined
