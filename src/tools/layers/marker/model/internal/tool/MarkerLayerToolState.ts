@@ -44,13 +44,16 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
                 category: props.dimensions.category == undefined ? defaults.getCategoryDimension(initProps.map) : props.dimensions.category
             });
         } else {
-            this.setDimensions(defaults.getDimensions());
+            this.setDimensions(defaults.getDimensions(initProps.map));
         }
 
         // the layer tool properties
         this.setMarkers([]);
         this.setCentroids(props.centroids == undefined ? defaults.getCentroids(initProps.map) : props.centroids);
         this.setBucketData(new Map<string, Map<string, IMapAggregationBucket>>());
+
+        // set super props
+        super.initialize(defaults, props, initProps);
     }
 
     /**

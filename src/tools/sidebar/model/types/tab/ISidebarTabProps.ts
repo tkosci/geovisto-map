@@ -1,6 +1,4 @@
 import { IMapObjectProps, IMapObjectInitProps } from "../../../../../model/types/object/IMapObjectProps";
-import IMapObjectConfig from "../../../../../model/types/object/IMapObjectConfig";
-import IMapToolConfig from "../../../../../model/types/tool/IMapToolConfig";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
 import { Control } from "leaflet";
 import ISidebarTabConfig from "./ISidebarTabConfig";

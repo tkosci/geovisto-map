@@ -186,7 +186,7 @@ class SidebarTool extends MapTool implements ISidebarTool {
                 const sidebarTabControl = tool.getSidebarTab();
                 if(sidebarTabControl != undefined) {
                     // render sidebar
-                    sidebarTabControl.initialize({ tool: this, sidebar: sidebar, config: config });
+                    sidebarTabControl.initialize({ tool: tool, sidebar: sidebar, config: config });
                     sidebarTabControl.create();
                     // update state
                     this.getState().addTab(sidebarTabControl);

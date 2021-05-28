@@ -38,7 +38,7 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     public getDimensions(map?: IMap): IMarkerLayerToolDimensions {
         return {
             geo: this.getGeoDimension(map),
-            value: this.getValueDimension(),
+            value: this.getValueDimension(map),
             aggregation: this.getAggregationDimension(),
             category: this.getCategoryDimension(map)
         };

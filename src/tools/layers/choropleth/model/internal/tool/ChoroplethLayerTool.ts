@@ -154,7 +154,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
                 this.updateItemStyle(layerItem);
                 const popupText: string = "<b>" + e.target.feature.name + "</b><br>"
                                     + this.getState().getDimensions().aggregation.getDomain()?.getName() + ": "
-                                    + thousands_separator(e.target.feature.value ?? 0);
+                                    + thousands_separator(this.getState().getBucketData().get(layerItem.feature.id)?.getValue() ?? 0);
                 e.target.bindTooltip(popupText,{className: 'leaflet-popup-content', sticky: true}).openTooltip();
             
                 if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
@@ -255,7 +255,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
         const map = this.getMap();
 
         // test whether the dimension are set
-        if(geoDimension && valueDimension && aggregationDimension && map) {
+        if(geoDimension && aggregationDimension && map) {
             // and go through all data records
             const mapData: IMapDataManager = map.getState().getMapData();
             const data: IMapData = map.getState().getCurrentData();
@@ -274,7 +274,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
                         bucketMap.set(foundGeos[0], aggregationBucket);
                     }
                     // find the 'value' properties
-                    foundValues = mapData.getDataRecordValues(valueDimension, data[i]);
+                    foundValues = valueDimension ? mapData.getDataRecordValues(valueDimension, data[i]) : [ 1 ];
                     // since the data are flattened we can expect max one found item
                     aggregationBucket.addValue(foundValues.length == 1 ? (typeof foundValues[0] === "number" ? foundValues[0] : 1) : 0);
                 }   
@@ -290,7 +290,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
     /**
      * This function is called when layer items are rendered.
      */
-    public postCreateLayerItems(): void {
+    protected postProcessLayerItems(): void {
         if(this.getState().getGeoJSONLayer()) {
             this.updateStyle();
         }

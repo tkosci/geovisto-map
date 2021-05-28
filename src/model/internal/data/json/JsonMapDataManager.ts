@@ -18,12 +18,12 @@ class JsonMapDataManager extends AbstractMapDataManager implements IMapDataManag
     /**
      * The list is initialized when required.
      */
-    private dataRecords: IMapData;
+    private dataRecords?: IMapData;
 
     /**
      * The list is initialized when required.
      */
-    private dataDomains: IMapDataDomain[];
+    private dataDomains?: IMapDataDomain[];
 
     /**
      * It creates JSON data manager
@@ -32,8 +32,6 @@ class JsonMapDataManager extends AbstractMapDataManager implements IMapDataManag
      */
     public constructor(data: unknown) {
         super(data);
-        this.dataRecords = [];
-        this.dataDomains = [];
     }
 
     /**
@@ -300,7 +298,7 @@ class JsonMapDataManager extends AbstractMapDataManager implements IMapDataManag
                 if(typeof actRecord == "string") {
                     result.push(actRecord);
                 } else if(typeof actRecord != "object") {
-                    result.push(actRecord.toString());
+                    result.push(actRecord);
                 }
             } else {
                 // act value needs to be type of object

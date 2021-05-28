@@ -45,7 +45,7 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
                 aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation
             });
         } else {
-            this.setDimensions(defaults.getDimensions());
+            this.setDimensions(defaults.getDimensions(initProps.map));
         }
         this.setPolygons(props.polygons == undefined ? defaults.getPolygons(initProps.map) : props.polygons);
         this.setHoveredItem(undefined);

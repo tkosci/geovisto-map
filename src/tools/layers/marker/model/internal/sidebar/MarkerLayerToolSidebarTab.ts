@@ -44,7 +44,7 @@ class MarkerLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IMarkerLayer
         this.inputs?.geo.setValue((dimensions.geo.getDomain()?.getName())?? "");
         this.inputs?.value.setValue((dimensions.value.getDomain()?.getName())?? "");
         this.inputs?.aggregation.setValue((dimensions.aggregation.getDomain()?.getName())?? "");
-        this.inputs?.aggregation.setValue((dimensions.aggregation.getDomain()?.getName())?? "");
+        this.inputs?.category.setValue((dimensions.category.getDomain()?.getName())?? "");
     }
 
     /**
@@ -71,6 +71,7 @@ class MarkerLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IMarkerLayer
             elem.appendChild(this.inputs.geo.create());        
             elem.appendChild(this.inputs.value.create());            
             elem.appendChild(this.inputs.aggregation.create());
+            elem.appendChild(this.inputs.category.create());
     
             // set input values
             this.setInputValues(dimensions);

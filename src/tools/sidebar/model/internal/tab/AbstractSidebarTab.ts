@@ -265,18 +265,22 @@ abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implemen
      * @param checked
      */
     public setChecked(checked: boolean): void {
-        const tool: IMapTool | null = this.getState().getTool();
+        const tool: IMapTool = this.getState().getTool();
         if(tool && checked != tool.isEnabled()) {
             // enable/disable sidebar tab
             const sidebarTab = d3.select("#" + this.getState().getId());
-            if(sidebarTab != undefined) {
+            if(sidebarTab) {
                 // emhasize tab
                 sidebarTab.classed(C_enabled_class, checked);
                 sidebarTab.select("." + C_sidebar_header_class).classed(C_enabled_class, checked);
                 // enable sidebar inputs
-                sidebarTab.select("." + C_sidebar_tab_content_class).selectAll("input").attr("disabled", checked ? "false" : "true");
-                sidebarTab.select("." + C_sidebar_tab_content_class).selectAll("select").attr("disabled", checked ? "false" : "true");
-                sidebarTab.select("." + C_sidebar_tab_content_class).selectAll("button").attr("disabled", checked ? "false" : "true");
+                
+                // disable eslint - we use any to simplify the code (it is correct to use it this way)
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                const disabled = (checked ? null : "true") as any;
+                sidebarTab.select("." + C_sidebar_tab_content_class).selectAll("input").attr("disabled", disabled);
+                sidebarTab.select("." + C_sidebar_tab_content_class).selectAll("select").attr("disabled", disabled);
+                sidebarTab.select("." + C_sidebar_tab_content_class).selectAll("button").attr("disabled", disabled);
             }
 
             // switch state

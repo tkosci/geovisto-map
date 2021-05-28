@@ -77,7 +77,7 @@ class SidebarFragmentState extends MapObjectState implements ISidebarFragmentSta
     /**
      * It returns the tool property of the sidebar tab fragment state.
      */
-    public getTool(): IMapTool | null {
+    public getTool(): IMapTool {
         return this.tool;
     }
 

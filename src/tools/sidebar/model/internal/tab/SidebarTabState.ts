@@ -15,7 +15,7 @@ import { ISidebarTabProps, ISidebarTabInitProps } from "../../types/tab/ISidebar
  */
 class SidebarTabState extends MapObjectState implements ISidebarTabState {
     
-    private tool!: IMapTool | null;
+    private tool!: IMapTool;
     
     private enabled!: boolean;
 
@@ -25,7 +25,7 @@ class SidebarTabState extends MapObjectState implements ISidebarTabState {
 
     private checkButton!: boolean;
     
-    private sidebar: Control.Sidebar | null;
+    private sidebar!: Control.Sidebar;
     
     private fragments: ISidebarFragment[] | undefined;
     
@@ -39,7 +39,6 @@ class SidebarTabState extends MapObjectState implements ISidebarTabState {
     public constructor(sidebarTab: ISidebarTab) {
         super(sidebarTab);
 
-        this.sidebar = null;
         this.content = null;
     }
 
@@ -47,13 +46,15 @@ class SidebarTabState extends MapObjectState implements ISidebarTabState {
      * It resets state with respect to initial props.
      */
     public initialize(defaults: ISidebarTabDefaults, props: ISidebarTabProps, initProps: ISidebarTabInitProps<ISidebarTabConfig>): void {
+        this.setTool(initProps.tool);
+        this.setSidebar(initProps.sidebar);
+        
         // set remaining properties if not set
         this.setName(props.name == undefined ? defaults.getName() : props.name);
         this.setIcon(props.icon == undefined ? defaults.getIcon() : props.icon);
         this.setCheckButton(props.checkButton == undefined ? defaults.hasCheckButton() : props.checkButton);
         this.setEnabled(props.enabled == undefined ? defaults.isEnabled() : props.enabled);
 
-        this.sidebar = null;
         this.fragments = undefined;
         this.content = null;
 
@@ -108,7 +109,7 @@ class SidebarTabState extends MapObjectState implements ISidebarTabState {
     /**
      * It returns the tool property of the sidebar tab state.
      */
-    public getTool(): IMapTool | null {
+    public getTool(): IMapTool {
         return this.tool;
     }
 
@@ -188,7 +189,7 @@ class SidebarTabState extends MapObjectState implements ISidebarTabState {
     /**
      * It returns the sidebar property of the sidebar tab state.
      */
-    public getSidebar(): Control.Sidebar | null {
+    public getSidebar(): Control.Sidebar {
         return this.sidebar;
     }
 

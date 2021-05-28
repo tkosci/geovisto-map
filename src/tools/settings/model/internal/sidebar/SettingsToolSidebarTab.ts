@@ -24,7 +24,7 @@ class SettingsToolSidebarTab extends AbstractSidebarTab<ISettingsTool> implement
      * It creates new defaults of the sidebar tab.
      */
     protected createDefaults(): ISidebarTabDefaults {
-        return new SettingsToolSidebarTabDefaults(this);
+        return new SettingsToolSidebarTabDefaults();
     }
 
     /**

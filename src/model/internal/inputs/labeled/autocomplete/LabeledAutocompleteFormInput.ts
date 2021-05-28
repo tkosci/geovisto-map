@@ -103,7 +103,7 @@ class LabeledAutocompleteFormInput extends AbstractMapFormInput implements IMapF
      * It returns value of the input element.
      */
     public getValue(): string {
-        throw this.input.value;
+        return this.input.value;
     }
     
     /**
@@ -112,7 +112,7 @@ class LabeledAutocompleteFormInput extends AbstractMapFormInput implements IMapF
      * @param value 
      */
     public setValue(value: string): void {
-        throw this.input.value = value;
+        this.input.value = value;
     }
     
     /*

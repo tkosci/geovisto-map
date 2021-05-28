@@ -1,4 +1,5 @@
 import L, { MarkerClusterGroup } from 'leaflet';
+import 'leaflet.markercluster';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
@@ -165,32 +166,32 @@ const MarkerIcon = L.DivIcon.extend({
             // moved to css
             //.attr("fill", "white")
 
-        if(options.values.value != null && options.values.value != 0) {
-        //var values = { a: 0.5, b: 0.3, c: 0.2 };
-        // moved to css
-        //var color = d3.scaleOrdinal()
-        //    .domain(options.values.subvalues)
-        //    .range(this.donutColors);
-        // TODO specify the types
-        const pie = d3.pie().value(function(d) { return (d as any)[1]; });
-        const values_ready = pie(options.values.subvalues as any);
-        // donut chart
-        svg.append("g")
-            .attr("transform", "translate(" + size / 2 + "," + size / 2 + ")")
-            .selectAll("abc")
-            .data(values_ready)
-            .enter()
-            .append("path")
-            .attr("d", d3.arc()
-                .innerRadius(size/4+6)
-                .outerRadius(size/2) as any
-            )
+        if(options.values.value != null && options.values.value != 0 && options.useDonut) {
+            //var values = { a: 0.5, b: 0.3, c: 0.2 };
             // moved to css
-            .attr('class', function(d, i) { return "leaflet-marker-donut" + (i % 3 + 1); })
-            //.attr('fill', function(d) { return(color(d.data.key)) })
-            //.attr("stroke-width", "0px")
-            //.attr("opacity", 0.8)
-            ;
+            //var color = d3.scaleOrdinal()
+            //    .domain(options.values.subvalues)
+            //    .range(this.donutColors);
+            // TODO specify the types
+            const pie = d3.pie().value(function(d) { return (d as any)[1]; });
+            const values_ready = pie(options.values.subvalues);
+            // donut chart
+            svg.append("g")
+                .attr("transform", "translate(" + size / 2 + "," + size / 2 + ")")
+                .selectAll("abc")
+                .data(values_ready)
+                .enter()
+                .append("path")
+                .attr("d", d3.arc()
+                    .innerRadius(size/4+6)
+                    .outerRadius(size/2) as any
+                )
+                // moved to css
+                .attr('class', function(d, i) { return "leaflet-marker-donut" + (i % 3 + 1); })
+                //.attr('fill', function(d) { return(color(d.data.key)) })
+                //.attr("stroke-width", "0px")
+                //.attr("opacity", 0.8)
+                ;
         }
 
         /*const icon = <svg width={size} height={size}>
@@ -329,23 +330,23 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
             // create cluster icon
             iconCreateFunction: function (cluster) {
                 const markers: L.Marker[] = cluster.getAllChildMarkers();
-                const data = { id: "<Group>", value: 0, subvalues: {} };
+                const values = { id: "<Group>", value: 0, subvalues: new Map<string, number>() };
                 for (let i = 0; i < markers.length; i++) {
                     // TODO specify the types
-                    data.value += (markers[i].options.icon as any)?.options.values.value;
-                    for(const [key, value] of Object.entries((markers[i].options.icon as any)?.options.values.subvalues)) {
-                        if((data.subvalues as any)[key] == undefined) {
-                            (data.subvalues as any)[key] = value;
+                    values.value += (markers[i].options.icon as any)?.options.values.value;
+                    for(const [key, value] of (markers[i].options.icon as any)?.options.values.subvalues.entries()) {
+                        if(values.subvalues.get(key) == undefined) {
+                            values.subvalues.set(key, (value as any));
                         } else {
-                            (data.subvalues as any)[key] += value;
+                            values.subvalues.set(key, (value as any) + values.subvalues.get(key));
                         }
                     }
                 }
                 // create custom icon
                 const icon = new MarkerIcon();
-                icon.countryName = "<Group>";
-                icon.values = data;
-                icon.isGroup = true;
+                icon.options.values = values;
+                icon.options.isGroup = true;
+                icon.options.useDonut = (markers[0].options.icon as any)?.options.useDonut;
                 return icon;
             }
         });
@@ -392,11 +393,11 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
         const map = this.getMap();
 
         // test whether the dimension are set
-        if(geoDimension && valueDimension && aggregationDimension && categoryDimension && map) {
+        if(geoDimension && aggregationDimension && map) {
             const mapData: IMapDataManager = map.getState().getMapData();
             const data: IMapData = map.getState().getCurrentData();
             const dataLen: number = data.length;
-            let foundGeos: unknown[], foundValues: unknown[], foundCategories: unknown[];
+            let foundGeos: unknown[], foundValues: unknown[], foundCategories: unknown[], foundCategory: string;
             
             let bucketMap: Map<string, IMapAggregationBucket> | undefined;
             let aggregationBucket: IMapAggregationBucket | undefined;
@@ -412,17 +413,18 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
                         bucketMaps.set(foundGeos[0], bucketMap);
                     }
                     // find the 'category' properties
-                    foundCategories = mapData.getDataRecordValues(categoryDimension, data[i]);
+                    foundCategories = categoryDimension ? mapData.getDataRecordValues(categoryDimension, data[i]) : [ "" ];
                     // since the data are flattened we can expect max one found item
                     if(foundCategories.length == 1) {
+                        foundCategory = typeof foundCategories[0] === "string" ? foundCategories[0] : new String(foundCategories[0]).toString();
                         // get the aggregation bucket for the category or create a new one
-                        aggregationBucket = bucketMap.get(foundGeos[0]);
+                        aggregationBucket = bucketMap.get(foundCategory);
                         if(!aggregationBucket) {
                             aggregationBucket = aggregationDimension.getAggregationBucket();
-                            bucketMap.set(foundGeos[0], aggregationBucket);
+                            bucketMap.set(foundCategory, aggregationBucket);
                         }
                         // find the 'value' properties
-                        foundValues = mapData.getDataRecordValues(valueDimension, data[i]);
+                        foundValues = valueDimension ? mapData.getDataRecordValues(valueDimension, data[i]) : [ 1 ];
                         // since the data are flattened we can expect max one found item
                         aggregationBucket.addValue(foundValues.length == 1 ? (typeof foundValues[0] == "number" ? foundValues[0] : 1) : 0);
                     }
@@ -485,24 +487,27 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
         };
 
         // build categories popup messages
-        let popupMsg = "<b>" + centroid.name + "</b><br>";
-        let value, sumValue = 0;
+        let popupMsg = "";
+        let subValue, value = 0;
+        const subValuesMap = new Map<string, number>();
         for(const [category, bucket] of bucketMap) {
-            value = bucket.getValue();
-            popupMsg += category + ": " + formatPopUpNumber(value) + "<br>";
-            sumValue += value;
+            subValue = bucket.getValue();
+            popupMsg += category + ": " + formatPopUpNumber(subValue) + "<br>";
+            value += subValue;
+            subValuesMap.set(category, subValue);
         }
 
         // prepend title popup message
-        popupMsg = "<b>" + centroid.name + "</b><br>" + (sumValue != null ? formatPopUpNumber(sumValue) : "N/A") + "<br>"
+        popupMsg = "<b>" + centroid.name + "</b><br>" + (value != null ? formatPopUpNumber(value) : "N/A") + "<br><br>"
                     + popupMsg;
 
         // create marker with a icon
         const icon = new MarkerIcon();
-        icon.values = {
+        icon.options.useDonut = this.getState().getDimensions().category.getDomain() !== undefined;
+        icon.options.values = {
             id: centroid.name,
-            value: sumValue,
-            subvalues: bucketMap
+            value: value,
+            subvalues: subValuesMap
         };
         const marker = L.marker([centroid.lat, centroid.long], {
             icon: icon
@@ -519,13 +524,13 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
         if(this.getState().getMarkerLayerGroup()) {
             // delete actual items
             this.deleteLayerItems();
-
-            // prepare data
-            this.processData();
-
-            // update map
-            this.createMarkers();
         }
+
+        // prepare data
+        this.processData();
+
+        // update map
+        this.createMarkers();
     }
 
     /**

@@ -17,14 +17,14 @@ export type { default as ISidebarFragmentConfig } from './model/types/fragment/I
 export type { default as ISidebarFragmentControl } from './model/types/fragment/ISidebarFragmentControl';
 export type { default as ISidebarFragment } from './model/types/fragment/ISidebarFragment';
 export type { default as ISidebarFragmentDefaults } from './model/types/fragment/ISidebarFragmentDefaults';
-export type { default as ISidebarFragmentProps } from './model/types/fragment/ISidebarFragmentProps';
+export type { ISidebarFragmentProps, ISidebarFragmentInitProps } from './model/types/fragment/ISidebarFragmentProps';
 export type { default as ISidebarFragmentState } from './model/types/fragment/ISidebarFragmentState';
 
 export type { default as ISidebarTab } from './model/types/tab/ISidebarTab';
 export type { default as ISidebarTabConfig } from './model/types/tab/ISidebarTabConfig';
 export type { default as ISidebarTabControl } from './model/types/tab/ISidebarTabControl';
 export type { default as ISidebarTabDefaults } from './model/types/tab/ISidebarTabDefaults';
-export type { default as ISidebarTabProps } from './model/types/tab/ISidebarTabProps';
+export type { ISidebarTabProps, ISidebarTabInitProps } from './model/types/tab/ISidebarTabProps';
 export type { default as ISidebarTabState } from './model/types/tab/ISidebarTabState';
 
 export type { default as ILayerToolSidebarTab } from './model/types/tab/layer/ILayerToolSidebarTab';

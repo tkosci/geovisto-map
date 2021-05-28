@@ -1,4 +1,4 @@
-import { SidebarTabDefaults, ISidebarTabDefaults, ISidebarTab } from "../../../../sidebar";
+import { SidebarTabDefaults, ISidebarTabDefaults } from "../../../../sidebar";
 
 /**
  * This class provide functions which return the default state values.
@@ -6,13 +6,6 @@ import { SidebarTabDefaults, ISidebarTabDefaults, ISidebarTab } from "../../../.
  * @author Jiri Hynek
  */
 class SettingsToolSidebarTabDefaults extends SidebarTabDefaults implements ISidebarTabDefaults {
-
-    /**
-     * It creates tab control defaults.
-     */
-    public constructor(sidebarTab: ISidebarTab) {
-        super(sidebarTab);
-    }
 
     /**
      * It returns name of tab pane.

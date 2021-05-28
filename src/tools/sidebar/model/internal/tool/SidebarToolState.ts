@@ -8,7 +8,6 @@ import { Control } from "leaflet";
 import SidebarToolDefaults from "./SidebarToolDefaults";
 import ISidebarToolDefaults from "../../types/tool/ISidebarToolDefaults";
 import ISidebarToolProps from "../../types/tool/ISidebarToolProps";
-import IMap from "../../../../../model/types/map/IMap";
 import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 
 /**

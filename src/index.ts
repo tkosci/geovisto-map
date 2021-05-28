@@ -106,7 +106,7 @@ export type { default as IMap } from './model/types/map/IMap';
 export type { default as IMapConfig } from './model/types/map/IMapConfig';
 export type { default as IMapDefaults } from './model/types/map/IMapDefaults';
 export type { default as IMapGlobals } from './model/types/map/IMapGlobals';
-export type { default as IMapProps } from './model/types/map/IMapProps';
+export type { IMapProps, IMapInitProps } from './model/types/map/IMapProps';
 export type { default as IMapState } from './model/types/map/IMapState';
 export type { default as IMapTemplates } from './model/types/map/IMapTemplates';
 
@@ -114,7 +114,7 @@ export type { default as IMapTemplates } from './model/types/map/IMapTemplates';
 export type { default as IMapObject } from './model/types/object/IMapObject';
 export type { default as IMapObjectConfig } from './model/types/object/IMapObjectConfig';
 export type { default as IMapObjectDefaults } from './model/types/object/IMapObjectDefaults';
-export type { default as IMapObjectProps } from './model/types/object/IMapObjectProps';
+export type { IMapObjectProps, IMapObjectInitProps } from './model/types/object/IMapObjectProps';
 export type { default as IMapObjectsManager } from './model/types/object/IMapObjectsManager';
 export type { default as IMapObjectState } from './model/types/object/IMapObjectState';
 
@@ -122,7 +122,7 @@ export type { default as IMapObjectState } from './model/types/object/IMapObject
 export type { default as IMapTool } from './model/types/tool/IMapTool';
 export type { default as IMapToolConfig } from './model/types/tool/IMapToolConfig';
 export type { default as IMapToolDefaults } from './model/types/tool/IMapToolDefaults';
-export type { default as IMapToolProps } from './model/types/tool/IMapToolProps';
+export type { IMapToolProps, IMapToolInitProps } from './model/types/tool/IMapToolProps';
 export type { default as IMapToolsManager } from './model/types/tool/IMapToolsManager';
 export type { default as IMapToolState } from './model/types/tool/IMapToolState';
 

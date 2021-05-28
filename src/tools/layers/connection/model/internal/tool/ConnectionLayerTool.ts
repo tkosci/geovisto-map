@@ -225,7 +225,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
                     // since the data are flattened we can expect max one found item
                     if(foundFroms.length == 1 && typeof foundFroms[0] === "string") {
                         // find the 'to' properties of the data record
-                        foundTos = mapData.getDataRecordValues(fromDimension, data[i]);
+                        foundTos = mapData.getDataRecordValues(toDimension, data[i]);
                         // since the data are flattened we can expect max one found item
                         if(foundTos.length == 1 && typeof foundTos[0] === "string") {
                             // update the node set
@@ -259,7 +259,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
      * This function is called when layer items are rendered.
      * It use the D3 force layout simulation to arrange the connections.
      */
-    public postCreateLayerItems(): void {
+    protected postProcessLayerItems(): void {
         const svgLayer = this.getState().getSVGLayer();
         const leafletMap = this.getMap()?.getState().getLeafletMap();
 
@@ -289,7 +289,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
             for(const centroid of centroids as any) {
                 if(bucketData.nodes.has(centroid.id)) {
                     centroidCopy = clone(centroid);
-                    projectPoint(centroid);
+                    projectPoint(centroidCopy);
                     nodes.set(centroid.id, centroidCopy);
                 }
             }
@@ -317,6 +317,8 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
                 connections: connections,
                 segmentLength: undefined
             });
+
+            console.log(nodes, connections);
 
             // get projection path function
             // geographic locations [lat, lng] of nodes needs to be projected to leaflet map
@@ -376,7 +378,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
             this.processData();
 
             // update map
-            this.postCreateLayerItems();
+            this.postProcessLayerItems();
         }
     }
 

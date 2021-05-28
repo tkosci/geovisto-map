@@ -21,7 +21,7 @@ interface ISidebarTabState<
     /**
      * It returns the tool property of the sidebar tab state.
      */
-    getTool(): IMapTool | null;
+    getTool(): IMapTool;
 
     /**
      * It sets the tool property of the sidebar tab state.
@@ -81,7 +81,7 @@ interface ISidebarTabState<
     /**
      * It returns the sidebar property of the sidebar tab state.
      */
-    getSidebar(): Control.Sidebar | null;
+    getSidebar(): Control.Sidebar;
 
     /**
      * It sets the sidebar property of the sidebar tab state.

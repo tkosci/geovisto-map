@@ -20,7 +20,7 @@ interface ISidebarFragmentState<
     /**
      * It returns the tool property of the sidebar tab fragment state.
      */
-    getTool(): IMapTool | null;
+    getTool(): IMapTool;
 
     /**
      * It returns the enabled property of the sidebar tab fragment state.
@@ -37,7 +37,7 @@ interface ISidebarFragmentState<
     /**
      * It returns the sidenar tab property of the sidebar fragment state.
      */
-    getSidebarTab(): ISidebarTab | null;
+    getSidebarTab(): ISidebarTab;
 
     /**
      * It sets the sidebar tab property of the sidebar tab contrfragmentol state.

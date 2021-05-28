@@ -229,7 +229,6 @@ class D3PathForceSimulator {
 
         // go through all end nodes add them to the list
         const endNodes = this.props.nodes;
-        let node;
         for(const node of endNodes) {
             // setting the fx, fy fixed position
             // -> these nodes should not be moved by the D3 force simulation

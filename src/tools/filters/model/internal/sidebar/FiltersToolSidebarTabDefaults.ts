@@ -1,5 +1,4 @@
-import { ISidebarTab, ISidebarTabDefaults, SidebarTabDefaults } from "../../../../sidebar";
-import IMapObject from "../../../../../model/types/object/IMapObject";
+import { ISidebarTabDefaults, SidebarTabDefaults } from "../../../../sidebar";
 
 /**
  * This class provide functions which return the default state values.
