@@ -9,6 +9,7 @@ import {
     Light2Theme,
     Light3Theme
 } from '.';
+import { Dark1Theme, Dark2Theme, Dark3Theme } from '..';
 
 export const GeovistoThemesTool: {
     getType: () => string,
@@ -27,9 +28,9 @@ export const GeovistoThemesTool: {
     createThemeLight1: () => new Light1Theme(),
     createThemeLight2: () => new Light2Theme(),
     createThemeLight3: () => new Light3Theme(),
-    createThemeDark1: () => new Light1Theme(),
-    createThemeDark2: () => new Light2Theme(),
-    createThemeDark3: () => new Light3Theme()
+    createThemeDark1: () => new Dark1Theme(),
+    createThemeDark2: () => new Dark2Theme(),
+    createThemeDark3: () => new Dark3Theme()
 };
 
 // types

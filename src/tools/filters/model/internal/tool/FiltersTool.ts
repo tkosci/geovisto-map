@@ -128,7 +128,7 @@ class FiltersTool extends MapTool implements IFiltersTool, ISidebarTabControl {
             // if the filter tool is enabled, update map data
             if(this.isEnabled() && map) {
                 const mapDataManager = map.getState().getMapData();
-                map.updateData(
+                map.updateCurrentData(
                     this.getState().getFiltersManager().filterData(mapDataManager, mapDataManager.getDataRecords(), filterRules),
                     this);
             }
@@ -155,11 +155,11 @@ class FiltersTool extends MapTool implements IFiltersTool, ISidebarTabControl {
                 // apply filter rules if enabled, else use empty list of filters (use the initial data)
                 if(enabled) {
                     const mapData = map.getState().getMapData();
-                    map.updateData(
+                    map.updateCurrentData(
                         this.getState().getFiltersManager().filterData(mapData, mapData.getDataRecords(), this.getState().getFilterRules()),
                         this);
                 } else {
-                    map.updateData(map.getState().getMapData().getDataRecords(), this);
+                    map.updateCurrentData(map.getState().getMapData().getDataRecords(), this);
                 }
             }
         }

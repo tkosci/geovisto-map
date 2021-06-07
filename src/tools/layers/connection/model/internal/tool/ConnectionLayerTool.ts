@@ -279,18 +279,19 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
             // get bucket data and prepare nodes and connections for 
             const bucketData = this.getState().getBucketData();
 
-            // prepare nodes
+            // prepare centroids
             const clone = rfdc();
             const centroids = this.getState().getCentroids();
             const projectPoint = ProjectionUtil.getDataProjectionFunction(leafletMap, this.getDefaults().getProjectionZoom());
-            const nodes = new Map<string, unknown>();
+            const usedCentroids = new Map<string, unknown>();
             let centroidCopy;
             // TODO specify the type
             for(const centroid of centroids as any) {
                 if(bucketData.nodes.has(centroid.id)) {
                     centroidCopy = clone(centroid);
                     projectPoint(centroidCopy);
-                    nodes.set(centroid.id, centroidCopy);
+                    usedCentroids.set(centroid.id, centroidCopy);
+                    centroidCopy.use = false;
                 }
             }
 
@@ -300,14 +301,24 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
             let geos, source, target;
             for(const [hash, bucket] of bucketData.connections) {
                 geos = this.bucketHashToGeoIds(hash);
-                source = nodes.get(geos[0]);
-                target = nodes.get(geos[1]);
+                source = usedCentroids.get(geos[0]);
+                target = usedCentroids.get(geos[1]);
                 if(source && target) {
                     connections.push({
                         source: source,
                         target: target,
                         value: bucket.getValue()
                     });
+                    (usedCentroids.get((source as any).id) as any).use = true;
+                    (usedCentroids.get((target as any).id) as any).use = true;
+                }
+            }
+
+            // prepare nodes
+            const nodes: unknown[] = [];
+            for(const [ key, centroid ] of usedCentroids) {
+                if((centroid as any).use) {
+                    nodes.push(centroid);
                 }
             }
 
@@ -318,7 +329,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
                 segmentLength: undefined
             });
 
-            console.log(nodes, connections);
+            //console.log(nodes, connections);
 
             // get projection path function
             // geographic locations [lat, lng] of nodes needs to be projected to leaflet map

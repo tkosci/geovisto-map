@@ -60,16 +60,14 @@ class FiltersToolState extends MapToolState implements IFiltersToolState {
                 let configFilterRule;
                 let dataDomain: IMapDataDomain | undefined;
                 let filterRule: IMapFilterRule | null;
-                if(config.filterRules) {
-                    for(let i = 0; i < config.filterRules.length; i++) {
-                        configFilterRule = config.filterRules[i];
-                        // get data domain
-                        dataDomain = mapDataManager.getDomain(configFilterRule.domain);
-                        if(dataDomain && configFilterRule.operation && configFilterRule.pattern) {
-                            filterRule = filterManager.createRule(dataDomain, configFilterRule.operation, configFilterRule.pattern);
-                            if(filterRule) {
-                                filterRules.push();
-                            }
+                for(let i = 0; i < config.filterRules.length; i++) {
+                    configFilterRule = config.filterRules[i];
+                    // get data domain
+                    dataDomain = mapDataManager.getDomain(configFilterRule.domain);
+                    if(dataDomain && configFilterRule.operation && configFilterRule.pattern) {
+                        filterRule = filterManager.createRule(dataDomain, configFilterRule.operation, configFilterRule.pattern);
+                        if(filterRule) {
+                            filterRules.push(filterRule);
                         }
                     }
                 }
@@ -93,7 +91,7 @@ class FiltersToolState extends MapToolState implements IFiltersToolState {
             for(let i = 0; i < this.rules.length; i++) {
                 filterRule = this.rules[i];
                 config.filterRules.push({
-                    domain: filterRule.getDataDomain().toString(),
+                    domain: filterRule.getDataDomain().getName(),
                     operation: filterRule.getFilterOperation().toString(),
                     pattern: filterRule.getPattern()
                 });

@@ -16,7 +16,6 @@ import IMapToolsManager from '../../types/tool/IMapToolsManager';
 import IMapToolConfig from '../../types/tool/IMapToolConfig';
 import IMapTool from '../../types/tool/IMapTool';
 import IMap from '../../types/map/IMap';
-import IMapEvent from '../../types/event/IMapEvent';
 import IMapObject from '../../types/object/IMapObject';
 import IMapData from '../../types/data/IMapData';
 
@@ -87,7 +86,7 @@ class GeovistoMap extends MapObject implements IMap {
      */
     public redraw(configManager: IMapConfigManager, props: IMapProps): HTMLElement | null {
         // get map and remove map children
-        const mapContainer: HTMLElement | null = document.getElementById(this.getState().getId());
+        let mapContainer: HTMLElement | null = document.getElementById(this.getState().getId());
         if(mapContainer && mapContainer.childNodes.length > 0) {
             // remove old elements
             mapContainer.childNodes[0].remove();
@@ -105,7 +104,7 @@ class GeovistoMap extends MapObject implements IMap {
             this.initialize({ config: configManager.getMapConfig(), configManager: configManager});
 
             // render map and tools
-            return this.create();
+            mapContainer = this.create();
         }
         return mapContainer;
     }
@@ -202,9 +201,9 @@ class GeovistoMap extends MapObject implements IMap {
     protected createMapContainer(): HTMLElement | null {
         const mapContainer: HTMLElement | null = document.getElementById(this.getState().getId());
         if(mapContainer) {
-            mapContainer.appendChild(document.createElement("div"));
-            mapContainer.setAttribute("id", this.getContainerId());
-            mapContainer.setAttribute("class", this.getContainerClass());
+            const mapElement = mapContainer.appendChild(document.createElement("div"));
+            mapElement.setAttribute("id", this.getContainerId());
+            mapElement.setAttribute("class", this.getContainerClass());
         }
         
         return mapContainer;
@@ -267,31 +266,18 @@ class GeovistoMap extends MapObject implements IMap {
     }
 
     /**
-     * It updates data and invokes listeners.
+     * It updates data and invokes notifies listeners.
      * 
      * @param data
      * @param source of the change
      */
-    public updateData(data: IMapData, source: IMapObject): void {
-        // update state
-        this.getState().setCurrentData(data);
-
+    public updateCurrentData(data: IMapData, source: IMapObject): void {
         // create and dispatch event
-        this.dispatchEvent(new DataChangeEvent(source, data));
-    }
-    
-    /**
-     * It sends custom event to all listeners (tools)
-     * 
-     * @param event 
-     */
-    public dispatchEvent(event: IMapEvent): void {
-        console.log("event: " + event.getType(), event);
-        // notify listeners
-        const tools: IMapTool[] = this.getState().getTools().getAll();
-        for(let i = 0; i < tools.length; i++) {
-            tools[i].handleEvent(event);
-        }
+        this.getState().getEventManager().scheduleEvent(
+            new DataChangeEvent(source, data),
+            () => { this.getState().setCurrentData(data); }, // update current data in map state
+            undefined
+        );
     }
 }
 export default GeovistoMap;

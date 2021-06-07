@@ -8,13 +8,14 @@ import IMapToolConfig from "../../types/tool/IMapToolConfig";
 import MapObject from "../object/MapObject";
 import MapToolDefaults from "./MapToolDefaults";
 import MapToolState from "./MapToolState";
+import IMapEventListener from "../../types/event/IMapEventListener";
 
 /**
  * This class provides basic tools API.
  * 
  * @author Jiri Hynek
  */
-class MapTool extends MapObject implements IMapTool {
+class MapTool extends MapObject implements IMapTool, IMapEventListener {
 
     /**
      * It initializes the tool.
@@ -87,6 +88,8 @@ class MapTool extends MapObject implements IMapTool {
      */
     public initialize(initProps: IMapToolInitProps<IMapToolConfig>): this {
         super.initialize(initProps);
+        // register this tool as a listener to map events
+        this.getMap()?.getState().getEventManager().addEventListener(this);
         return this;
     }
 

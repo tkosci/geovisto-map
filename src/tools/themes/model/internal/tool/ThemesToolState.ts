@@ -6,7 +6,6 @@ import IThemesToolProps from "../../types/tool/IThemesToolProps";
 import IThemesToolDefaults from "../../types/tool/IThemesToolDefaults";
 import IMapThemesManager from "../../types/theme/IMapThemesManager";
 import IMapTheme from "../../types/theme/IMapTheme";
-import IMap from "../../../../../model/types/map/IMap";
 import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 
 /**

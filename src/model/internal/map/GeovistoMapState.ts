@@ -12,6 +12,7 @@ import IMapToolConfig from "../../types/tool/IMapToolConfig";
 import IMapDataManager from "../../types/data/IMapDataManager";
 import IMapConfigManager from "../../types/config/IMapConfigManager";
 import IMapData from "../../types/data/IMapData";
+import IMapEventManager from "../../types/event/IMapEventManager";
 
 /**
  * This class manages state of the map.
@@ -21,6 +22,7 @@ import IMapData from "../../types/data/IMapData";
  */
 class GeovistoMapState extends MapObjectState implements IMapState {
     
+    private eventManager: IMapEventManager;
     private leafletMap: L.Map | undefined;
     private tools!: IMapToolsManager;
     private toolTemplates!: IMapToolsManager;
@@ -40,6 +42,8 @@ class GeovistoMapState extends MapObjectState implements IMapState {
      */
     public constructor(map: IMap) {
         super(map);
+
+        this.eventManager = map.getDefaults().getEventManager();
     }
 
     /**
@@ -120,6 +124,22 @@ class GeovistoMapState extends MapObjectState implements IMapState {
         config.tools = toolsConfigs;
 
         return config;
+    }
+
+    /**
+     * It returns the map event manager.
+     */
+    public getEventManager(): IMapEventManager {
+        return this.eventManager;
+    }
+
+    /**
+     * It returns the map event manager.
+     * 
+     * @param eventManager 
+     */
+    public setEventManager(eventManager: IMapEventManager): void {
+        this.eventManager = eventManager;
     }
 
     /**

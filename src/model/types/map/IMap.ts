@@ -41,13 +41,6 @@ interface IMap<
      * @param data
      * @param source of the change
      */
-    updateData(data: IMapData, source: IMapObject): void;
-    
-    /**
-     * It sends custom event to all listeners (tools)
-     * 
-     * @param event 
-     */
-    dispatchEvent(event: IMapEvent): void;
+    updateCurrentData(data: IMapData, source: IMapObject): void;
 }
 export default IMap;

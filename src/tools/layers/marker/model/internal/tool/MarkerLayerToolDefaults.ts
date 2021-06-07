@@ -72,8 +72,8 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     public getAggregationDimension(): IMapDimension<IMapAggregationFunction> {
         const domainManager = new MapDomainArrayManager(
             [
-                new SumAggregationFunction(),
-                new CountAggregationFunction()
+                new CountAggregationFunction(),
+                new SumAggregationFunction()
             ]
         );
 

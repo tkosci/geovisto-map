@@ -5,6 +5,7 @@ import IMapDataManager from "../data/IMapDataManager";
 import IMapGlobals from "./IMapGlobals";
 import IMapConfig from "./IMapConfig";
 import IMapConfigManager from "../config/IMapConfigManager";
+import IMapEventManager from "../event/IMapEventManager";
 
 /**
  * This interface declares functions which return the default state values.
@@ -22,6 +23,11 @@ interface IMapDefaults extends IMapObjectDefaults {
      * It returns default map config.
      */
     getConfig(): IMapConfig;
+
+    /**
+     * It returns a default map event manager.
+     */
+    getEventManager(): IMapEventManager;
 
     /**
      * It returns default map templates.

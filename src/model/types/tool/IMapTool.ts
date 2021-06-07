@@ -3,7 +3,6 @@ import IMapToolDefaults from "./IMapToolDefaults";
 import IMapToolState from "./IMapToolState";
 import IMapToolConfig from "./IMapToolConfig";
 import IMap from "../map/IMap";
-import IMapEvent from "../event/IMapEvent";
 import { IMapToolProps, IMapToolInitProps } from "./IMapToolProps";
 
 /**
@@ -56,12 +55,5 @@ interface IMapTool<
      * Help function which switches the enabled state (enabled/disabled).
      */
     switchEnabled(): void;
-
-    /**
-     * This function is called when a custom event is invoked.
-     * 
-     * @param event
-     */
-    handleEvent(event: IMapEvent): void;
 }
 export default IMapTool;

@@ -64,11 +64,11 @@ abstract class AbstractMapConfigManager {
      */
     public getToolConfig(toolId: string): IMapToolConfig | undefined {
         const tools: IMapToolConfig[] | undefined = this.config.tools;
-        let tool: IMapToolConfig | undefined = undefined;
+        let toolConfig: IMapToolConfig | undefined = undefined;
         if(tools != undefined && Array.isArray(tools)) {
-            tool = tools.find(x => x.id == toolId);
+            toolConfig = tools.find(x => x.id == toolId);
         }
-        return tool;
+        return toolConfig;
     }
 }
 export default AbstractMapConfigManager;

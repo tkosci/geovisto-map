@@ -11,6 +11,9 @@ import ISelectionToolState from "../../types/tool/ISelectionToolState";
 import MapTool from "../../../../../model/internal/tool/MapTool";
 import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 import ISelectionToolConfig from "../../types/tool/ISelectionToolConfig";
+import IMapEvent from "../../../../../model/types/event/IMapEvent";
+import DataChangeEvent from "../../../../../model/internal/event/data/DataChangeEvent";
+import { GeovistoSelectionTool } from "../../..";
 
 /**
  * This class provides the selection tool.
@@ -110,7 +113,7 @@ class SelectionTool extends MapTool implements ISelectionTool, ISidebarFragmentC
             this.getState().setSelection(selection);
 
             // dispatch event
-            this.getMap()?.dispatchEvent(new SelectionToolEvent(this, selection));
+            this.getMap()?.getState().getEventManager().scheduleEvent(new SelectionToolEvent(this, selection), undefined, undefined);
         }
     }
 
@@ -133,6 +136,22 @@ class SelectionTool extends MapTool implements ISelectionTool, ISidebarFragmentC
             id: undefined,
             enabled: undefined
         });
+    }
+
+    /**
+     * This function is called when a custom event is invoked.
+     * 
+     * @param event
+     */
+    public handleEvent(event: IMapEvent): void {
+        if(event.getType() == DataChangeEvent.TYPE()) {
+            // if data has been changed reset the selection
+            const selection = this.getState().getSelection();
+            if(selection) {
+                this.setSelection(GeovistoSelectionTool.createSelection(selection.getTool(), selection.getSrcIds()));
+            }
+        }
+        return;
     }
 }
 export default SelectionTool;

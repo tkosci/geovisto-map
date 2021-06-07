@@ -6,6 +6,7 @@ import IMapConfigManager from "../config/IMapConfigManager";
 import IMapData from "../data/IMapData";
 import IMapDefaults from "./IMapDefaults";
 import { IMapProps, IMapInitProps } from "./IMapProps";
+import IMapEventManager from "../event/IMapEventManager";
 
 /**
  * This interface declares the state of the map.
@@ -34,11 +35,23 @@ interface IMapState<
     getLeafletMap(): L.Map | undefined;
 
     /**
-     * It returns the Leaflet map.
+     * It sets the Leaflet map.
      * 
      * @param map 
      */
     setLeafletMap(map: L.Map): void;
+
+    /**
+     * It returns the map event manager.
+     */
+    getEventManager(): IMapEventManager;
+
+    /**
+     * It returns the map event manager.
+     * 
+     * @param map 
+     */
+    setEventManager(eventManager: IMapEventManager): void;
 
     /**
      * It returns the tool manager providing tool templates.

@@ -14,14 +14,23 @@ class AbstractMapObjectState implements IMapObjectState {
     
     private mapObject: IMapObject;
 
-    private type!: string;
-    private id!: string;
+    private type: string;
+    private id: string;
 
     /**
      * It creates a map object state.
      */
     public constructor(mapObject : IMapObject) {
         this.mapObject = mapObject;
+
+        const props = mapObject.getProps();
+        const defaults = mapObject.getDefaults();
+
+        // sets the type of the object (can be set only once in the constructor)
+        this.type = defaults.getType();
+
+        // set the id of the object (can be set only once in the constructor)
+        this.id = props.id == undefined ? defaults.getId() : props.id;
     }
 
     /**
@@ -39,12 +48,6 @@ class AbstractMapObjectState implements IMapObjectState {
      * @param initProps 
      */
     public initialize(defaults: IMapObjectDefaults, props: IMapObjectProps, initProps: IMapObjectInitProps): void {
-        // sets the type of the object (can be set only once in constructor)
-        this.type = defaults.getType();
-
-        // set the id of the object (can be set only once in constructor)
-        this.setId(props.id == undefined ? defaults.getId() : props.id);
-
         // deserialize config which overrides the defined state props if defined
         this.deserialize(initProps.config == undefined ? defaults.getConfig() : initProps.config);
     }

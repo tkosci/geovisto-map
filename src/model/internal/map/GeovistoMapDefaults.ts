@@ -14,6 +14,8 @@ import JsonMapDataManager from "../data/json/JsonMapDataManager";
 import countryCentroids from '../../../../static/geo/country_centroids.json';
 import countryPolygons from '../../../../static/geo/country_polygons.json';
 import { Geovisto } from "../../..";
+import IMapEventManager from "../../types/event/IMapEventManager";
+import MapEventManager from "../event/MapEventManager";
 
 /**
  * This class provide functions which return the default state values.
@@ -53,6 +55,15 @@ class GeovistoMapDefaults extends MapObjectDefaults implements IMapDefaults {
      */
     public getType(): string {
         return Geovisto.getType();
+    }
+
+    /**
+     * It returns a default map event manager.
+     * 
+     * @returns event manager
+     */
+    public getEventManager(): IMapEventManager {
+        return new MapEventManager();
     }
 
     /**

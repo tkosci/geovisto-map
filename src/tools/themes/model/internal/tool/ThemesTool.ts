@@ -125,7 +125,7 @@ class ThemesTool extends MapTool implements IThemesTool, ISidebarFragmentControl
                 this.getState().setTheme(theme);
 
                 // dispatch event
-                map.dispatchEvent(new ThemesToolEvent(this, theme));
+                map.getState().getEventManager().scheduleEvent(new ThemesToolEvent(this, theme), undefined, undefined);
             }
         }
     }

@@ -81,9 +81,7 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
      * @param initProps
      */
     public initialize(initProps: IMapToolInitProps<ILayerToolConfig>): this {
-        // override state by the config if specified in argument
-        this.getState().initialize(this.getDefaults(), this.getProps(), initProps);
-        return this;
+        return super.initialize(initProps);
     }
 
     /**
@@ -162,6 +160,9 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
         let layerItems = this.getState().getLayerItems();
         if(layerItems == undefined) {
             layerItems = this.createLayerItems();
+
+            // update state
+            this.getState().setLayerItems(layerItems);
         }
         return layerItems;
     }

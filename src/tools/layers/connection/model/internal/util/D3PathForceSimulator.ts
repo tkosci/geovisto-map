@@ -37,7 +37,7 @@ class D3PathForceSimulator {
     /**
      * TODO: specify the types.
      */
-    private props: { nodes: Map<string, any>; connections: { source: any, target: any, value: number }[]; segmentLength: number | undefined; };
+    private props: { nodes: unknown[]; connections: { source: any, target: any, value: number }[]; segmentLength: number | undefined; };
     private paths: any;
     private forceProps: SimulationProps | undefined;
     private nodes: any;
@@ -47,7 +47,7 @@ class D3PathForceSimulator {
     /**
      * It initializes the object by setting the props.
      */
-    public constructor(props: { nodes: Map<string, any>, connections: { source: any, target: any, value: number }[], segmentLength: number | undefined } ){
+    public constructor(props: { nodes: unknown[], connections: { source: any, target: any, value: number }[], segmentLength: number | undefined } ){
         this.props = props;
 
         // maximum number of path items
