@@ -1,4 +1,3 @@
-import AbstractLayerTool from "./AbstractLayerTool";
 import MapToolDefaults from "../tool/MapToolDefaults";
 import ILayerToolDefaults from "../../types/layer/ILayerToolDefaults";
 import ILayerToolDimensions from "../../types/layer/ILayerToolDimensions";
@@ -12,10 +11,15 @@ import IMap from "../../types/map/IMap";
 class LayerToolDefaults extends MapToolDefaults implements ILayerToolDefaults {
 
     /**
+     * A unique string of the tool type.
+     */
+    public static TYPE = "geovisto-tool-layer-abstract";
+
+    /**
      * It returns a unique type string of the tool which is based on the layer it wraps.
      */
     public getType(): string {
-        return AbstractLayerTool.TYPE();
+        return LayerToolDefaults.TYPE;
     }
 
     /**

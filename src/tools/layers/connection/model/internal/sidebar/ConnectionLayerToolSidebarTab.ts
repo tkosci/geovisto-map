@@ -6,7 +6,6 @@ import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToo
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 
-
 /**
  * This class provides controls for management of the layer sidebar tab.
  * 

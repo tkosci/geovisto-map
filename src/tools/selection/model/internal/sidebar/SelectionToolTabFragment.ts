@@ -1,6 +1,6 @@
 import { ISidebarFragmentProps, ISidebarFragment, AbstractSidebarFragment, ISidebarTab } from '../../../../sidebar';
 import ISelectionTool from '../../types/tool/ISelectionTool';
-import { GeovistoSelectionTool } from '../../..';
+import SelectionToolDefaults from '../tool/SelectionToolDefaults';
 
 /**
  * This class represents tab fragment for Themes tool.
@@ -26,7 +26,7 @@ class SelectionToolTabFragment extends AbstractSidebarFragment<ISelectionTool> i
      * @paramControl 
      */
     public isChild(sidebarTab: ISidebarTab): boolean {
-        return sidebarTab.getTool().getType() == GeovistoSelectionTool.getType();
+        return sidebarTab.getTool().getType() == SelectionToolDefaults.TYPE;
     }
 
     /**

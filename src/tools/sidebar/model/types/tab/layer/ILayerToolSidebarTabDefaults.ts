@@ -1,4 +1,4 @@
-import { ISidebarTabDefaults } from "../../../..";
+import ISidebarTabDefaults from "../ISidebarTabDefaults";
 
 /**
  * This interface declares functions which return the default state values of a layer tool's sidebar tab.

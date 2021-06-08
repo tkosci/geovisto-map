@@ -1,5 +1,6 @@
 import IMapDomain from "../../../../../model/types/domain/IMapDomain";
 
+
 /**
  * This interface declares a map theme API.
  * 

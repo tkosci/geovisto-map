@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { Geovisto } from "../model/Geovisto";
+import IMap from "../model/types/map/IMap";
 import '../styles/common.scss';
-import { IMap, Geovisto } from "..";
 import IReactGeovistoMapProps from "./IReactGeovistoMapProps";
 
 /**

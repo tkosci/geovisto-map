@@ -1,37 +1,4 @@
-import { 
-    IThemesToolProps,
-    IThemesTool,
-    ThemesTool,
-    IMapTheme,
-    IMapThemesManager,
-    MapThemesManager,
-    Light1Theme,
-    Light2Theme,
-    Light3Theme
-} from '.';
-import { Dark1Theme, Dark2Theme, Dark3Theme } from '..';
-
-export const GeovistoThemesTool: {
-    getType: () => string,
-    createTool: (props: IThemesToolProps | undefined) => IThemesTool,
-    createThemesManager: (filterOperations: IMapTheme[]) => IMapThemesManager,
-    createThemeLight1: () => IMapTheme,
-    createThemeLight2: () => IMapTheme,
-    createThemeLight3: () => IMapTheme,
-    createThemeDark1: () => IMapTheme,
-    createThemeDark2: () => IMapTheme,
-    createThemeDark3: () => IMapTheme
-} = {
-    getType: () => "geovisto-tool-themes",
-    createTool: (props) => new ThemesTool(props),
-    createThemesManager: (filterOperations) => new MapThemesManager(filterOperations),
-    createThemeLight1: () => new Light1Theme(),
-    createThemeLight2: () => new Light2Theme(),
-    createThemeLight3: () => new Light3Theme(),
-    createThemeDark1: () => new Dark1Theme(),
-    createThemeDark2: () => new Dark2Theme(),
-    createThemeDark3: () => new Dark3Theme()
-};
+export { GeovistoThemesTool } from './model/GeovistoThemesTool';
 
 // types
 export type { default as IThemesToolEvent } from './model/types/event/IThemesToolEvent';

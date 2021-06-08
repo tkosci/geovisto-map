@@ -1,4 +1,4 @@
-import { AbstractSidebarTab, ISidebarTab, ISidebarTabDefaults, ISidebarTabProps, ISidebarTabConfig } from "../../../../sidebar";
+import { AbstractSidebarTab, ISidebarTab, ISidebarTabDefaults, ISidebarTabProps, ISidebarTabConfig, ISidebarTabInitProps } from "../../../../sidebar";
 import FiltersToolSidebarTabDefaults from "./FiltersToolSidebarTabDefaults";
 import IMapFilterRule from "../../types/filter/IMapFilterRule";
 import IMapDataManager from "../../../../../model/types/data/IMapDataManager";
@@ -7,7 +7,6 @@ import IFiltersTool from "../../types/tool/IFiltersTool";
 import TabDOMUtil from "../../../../../util/TabDOMUtil";
 import FilterAutocompleteFormInput from "../../../../../model/internal/inputs/filter/autocomplete/FilterAutocompleteFormInput";
 import LabeledAutocompleteFormInput from "../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput";
-import { ISidebarTabInitProps } from "../../../../sidebar/model/types/tab/ISidebarTabProps";
 
 /**
  * This interface provides a help type which represents double (html element container, input).

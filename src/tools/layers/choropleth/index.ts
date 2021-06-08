@@ -1,16 +1,4 @@
-import { 
-    IChoroplethLayerToolProps,
-    IChoroplethLayerTool,
-    ChoroplethLayerTool
-} from '.';
-
-export const GeovistoChoroplethLayerTool: {
-    getType: () => string,
-    createTool: (props: IChoroplethLayerToolProps | undefined) => IChoroplethLayerTool
-} = {
-    getType: () => "geovisto-tool-layer-choropleth",
-    createTool: (props) => new ChoroplethLayerTool(props),
-};
+export { GeovistoChoroplethLayerTool } from './model/GeovistoChoroplethLayerTool';
 
 // types
 export type { default as IChoroplethLayerTool } from './model/types/tool/IChoroplethLayerTool';

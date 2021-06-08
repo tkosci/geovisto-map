@@ -8,7 +8,6 @@ import IMapAggregationFunction from "../../../../../../model/types/aggregation/I
 import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
 import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
 import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
-import { GeovistoMarkerLayerTool } from "../../..";
 import IMap from "../../../../../../model/types/map/IMap";
 
 /**
@@ -19,10 +18,15 @@ import IMap from "../../../../../../model/types/map/IMap";
 class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerToolDefaults {
 
     /**
+     * Static tool type constant.
+     */
+    public static TYPE = "geovisto-tool-layer-marker";
+
+    /**
      * It returns a unique type string of the tool which is based on the layer it wraps.
      */
     public getType(): string {
-        return GeovistoMarkerLayerTool.getType();
+        return MarkerLayerToolDefaults.TYPE;
     }
 
     /**

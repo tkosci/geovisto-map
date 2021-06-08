@@ -8,7 +8,6 @@ import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
 import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
 import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
-import { GeovistoChoroplethLayerTool } from "../../..";
 import IMap from "../../../../../../model/types/map/IMap";
 
 /**
@@ -19,10 +18,15 @@ import IMap from "../../../../../../model/types/map/IMap";
 class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChoroplethLayerToolDefaults {
 
     /**
+     * Static tool type constant.
+     */
+    public static TYPE = "geovisto-tool-layer-choropleth";
+
+    /**
      * It returns a unique type string of the tool which is based on the layer it wraps.
      */
     public getType(): string {
-        return GeovistoChoroplethLayerTool.getType();
+        return ChoroplethLayerToolDefaults.TYPE;
     }
 
     /**

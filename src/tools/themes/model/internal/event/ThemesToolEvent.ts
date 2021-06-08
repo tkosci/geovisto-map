@@ -1,6 +1,6 @@
+import MapChangeEvent from "../../../../../model/internal/event/generic/MapChangeEvent";
 import IThemesTool from "../../types/tool/IThemesTool";
 import IMapTheme from "../../types/theme/IMapTheme";
-import MapChangeEvent from "../../../../../model/internal/event/generic/MapChangeEvent";
 import IThemesToolEvent from "../../types/event/IThemesToolEvent";
 
 /**

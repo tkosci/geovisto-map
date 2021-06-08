@@ -13,7 +13,7 @@ import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps
 import ISelectionToolConfig from "../../types/tool/ISelectionToolConfig";
 import IMapEvent from "../../../../../model/types/event/IMapEvent";
 import DataChangeEvent from "../../../../../model/internal/event/data/DataChangeEvent";
-import { GeovistoSelectionTool } from "../../..";
+import MapSelection from "../selection/MapSelection";
 
 /**
  * This class provides the selection tool.
@@ -148,7 +148,7 @@ class SelectionTool extends MapTool implements ISelectionTool, ISidebarFragmentC
             // if data has been changed reset the selection
             const selection = this.getState().getSelection();
             if(selection) {
-                this.setSelection(GeovistoSelectionTool.createSelection(selection.getTool(), selection.getSrcIds()));
+                this.setSelection(new MapSelection(selection.getTool(), selection.getSrcIds()));
             }
         }
         return;

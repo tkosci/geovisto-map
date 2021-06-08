@@ -1,7 +1,6 @@
-import MapTool from "../../../../../model/internal/tool/MapTool";
+import { ISidebarFragment, ISidebarFragmentControl } from "../../../../sidebar";
 import IThemesTool from "../../types/tool/IThemesTool";
 import IThemesToolProps from "../../types/tool/IThemesToolProps";
-import { ISidebarFragment, ISidebarFragmentControl } from "../../../../sidebar";
 import IThemesToolDefaults from "../../types/tool/IThemesToolDefaults";
 import ThemesToolDefaults from "./ThemesToolDefaults";
 import IThemesToolState from "../../types/tool/IThemesToolState";
@@ -9,8 +8,9 @@ import ThemesToolState from "./ThemesToolState";
 import IMapTheme from "../../types/theme/IMapTheme";
 import ThemesToolEvent from "../event/ThemesToolEvent";
 import ThemesToolSidebarFragment from "../sidebar/ThemesToolSidebarFragment";
-import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 import IThemesToolConfig from "../../types/tool/IThemesToolConfig";
+import MapTool from "../../../../../model/internal/tool/MapTool";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 
 /**
  * Attribute which is set to the map container.

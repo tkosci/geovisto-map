@@ -1,10 +1,9 @@
-import { ISidebarTab, ISidebarFragmentProps } from '../../../../sidebar';
-import AbstractSidebarFragment from '../../../../sidebar/model/internal/fragment/AbstractSidebarFragment';
+import LabeledAutocompleteFormInput from '../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput';
+import { ISidebarTab, ISidebarFragmentProps, AbstractSidebarFragment } from '../../../../sidebar';
+import { GeovistoSettingsTool } from '../../../../settings';
 import IMapTheme from '../../types/theme/IMapTheme';
 import IMapThemesManager from '../../types/theme/IMapThemesManager';
 import IThemesTool from '../../types/tool/IThemesTool';
-import LabeledAutocompleteFormInput from '../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput';
-import { GeovistoSettingsTool } from '../../../../settings';
 
 /**
  * This class represents tab fragment for Themes tool.

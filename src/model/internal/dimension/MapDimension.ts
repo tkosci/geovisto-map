@@ -37,7 +37,7 @@ class MapDimension<T extends IMapDomain> extends AbstractMapDomain implements IM
     /**
      * It sets the name of the dimension
      */
-    public setName(): void {
+    public setName(name: string): void {
         this.name = name;
     }
 

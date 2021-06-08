@@ -1,54 +1,3 @@
-import 'font-awesome/css/font-awesome.min.css';
-import {
-    IMap,
-    IMapAggregationFunctionFactory,
-    IMapConfigManagerFactory,
-    IMapDataManagerFactory,
-    IMapDimension,
-    IMapDomain,
-    IMapDomainManager,
-    IMapDomainManagerFactory,
-    IMapEventFactory,
-    IMapObject,
-    IMapObjectsManager,
-    IMapProps,
-    IMapTool,
-    IMapToolsManager,
-    GeovistoMap,
-    MapAggregationFunctionFactory,
-    MapConfigManagerFactory,
-    MapDataManagerFactory,
-    MapDomainManagerFactory,
-    MapDimension,
-    MapEventFactory,
-    MapObjectsManager,
-    MapToolsManager
-} from '.';
-
-export const Geovisto: {
-    getType: () => string,
-    getMapAggregationFunctionFactory: () => IMapAggregationFunctionFactory,
-    getMapConfigManagerFactory: () => IMapConfigManagerFactory,
-    getMapDataManagerFactory: () => IMapDataManagerFactory,
-    getMapDomainManagerFactory: () => IMapDomainManagerFactory,
-    getMapEventFactory: () => IMapEventFactory,
-    createMap: (props: IMapProps) => IMap,
-    createMapDimension: <T extends IMapDomain>(name: string, domainManager: IMapDomainManager<T>, dataDomain: T | undefined) => IMapDimension<T>,
-    createMapObjectsManager: <T extends IMapObject>(objects: T[] | undefined) => IMapObjectsManager<T>
-    createMapToolsManager: <T extends IMapTool>(tools: T[]) => IMapToolsManager
-} = {
-    getType: () => "geovisto-map",
-    getMapAggregationFunctionFactory: () => new MapAggregationFunctionFactory(),
-    getMapConfigManagerFactory: () => new MapConfigManagerFactory(),
-    getMapDataManagerFactory: () => new MapDataManagerFactory(),
-    getMapDomainManagerFactory: () => new MapDomainManagerFactory(),
-    getMapEventFactory: () => new MapEventFactory(),
-    createMap: (props) => new GeovistoMap(props),
-    createMapDimension: <T extends IMapDomain>(name: string, domainManager: IMapDomainManager<T>, dataDomain: T | undefined) => new MapDimension<T>(name, domainManager, dataDomain),
-    createMapObjectsManager: <T extends IMapObject>(objects: T[] | undefined) => new MapObjectsManager<T>(objects),
-    createMapToolsManager: (tools: IMapTool[]) => new MapToolsManager(tools),
-};
-
 // MODEL / TYPES
 
 // aggregation
@@ -127,6 +76,8 @@ export type { default as IMapToolsManager } from './model/types/tool/IMapToolsMa
 export type { default as IMapToolState } from './model/types/tool/IMapToolState';
 
 // MODEL / INTERNAL
+
+export { Geovisto } from './model/Geovisto';
 
 // aggregation
 export { default as MapAggregationFunctionFactory } from './model/internal/aggregation/MapAggregationFunctionFactory';

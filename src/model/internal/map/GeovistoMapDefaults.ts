@@ -13,7 +13,6 @@ import JsonMapDataManager from "../data/json/JsonMapDataManager";
 // TODO: remove
 import countryCentroids from '../../../../static/geo/country_centroids.json';
 import countryPolygons from '../../../../static/geo/country_polygons.json';
-import { Geovisto } from "../../..";
 import IMapEventManager from "../../types/event/IMapEventManager";
 import MapEventManager from "../event/MapEventManager";
 
@@ -50,11 +49,13 @@ class GeovistoMapDefaults extends MapObjectDefaults implements IMapDefaults {
         };
     }
 
+    public static TYPE = "geovisto-map";
+
     /**
      * It returns a unique type string of the object.
      */
     public getType(): string {
-        return Geovisto.getType();
+        return GeovistoMapDefaults.TYPE;
     }
 
     /**

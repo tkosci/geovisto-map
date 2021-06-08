@@ -4,7 +4,6 @@ import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToo
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
-import { GeovistoConnectionLayerTool } from "../../..";
 import IMap from "../../../../../../model/types/map/IMap";
 
 /**
@@ -15,10 +14,15 @@ import IMap from "../../../../../../model/types/map/IMap";
 class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnectionLayerToolDefaults {
 
     /**
+     * Static tool type constant.
+     */
+    public static TYPE = "geovisto-tool-layer-connection";
+
+    /**
      * It returns a unique type string of the tool which is based on the layer it wraps.
      */
     public getType(): string {
-        return GeovistoConnectionLayerTool.getType();
+        return ConnectionLayerToolDefaults.TYPE;
     }
 
     /**

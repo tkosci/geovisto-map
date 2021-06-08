@@ -2,7 +2,7 @@ import MapObjectDefaults from "../object/MapObjectDefaults";
 import IMapToolDefaults from "../../types/tool/IMapToolDefaults";
 import IMapToolConfig from "../../types/tool/IMapToolConfig";
 import IMapDataManager from "../../types/data/IMapDataManager";
-import { Geovisto } from "../../..";
+import MapDataManagerFactory from "../data/MapDataManagerFactory";
 
 /**
  * This class provide functions which return the default state values.
@@ -15,7 +15,7 @@ class MapToolDefaults extends MapObjectDefaults implements IMapToolDefaults {
      * It returns default map data manager.
      */
     public getDataManager(): IMapDataManager {
-        return Geovisto.getMapDataManagerFactory().json([]);
+        return (new MapDataManagerFactory).json([]);
     }
 
     /**

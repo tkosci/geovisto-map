@@ -1,6 +1,5 @@
 import LayerToolSidebarTabDefaults from "./LayerToolSidebarTabDefaults";
 import LayerToolSidebarTabState from "./LayerToolSidebarTabState";
-import { AbstractSidebarTab } from "../../../..";
 import ILayerTool from "../../../../../../model/types/layer/ILayerTool";
 import ILayerToolSidebarTabProps from "../../../types/tab/layer/ILayerToolSidebarTabProps";
 import ILayerToolSidebarTab from "../../../types/tab/layer/ILayerToolSidebarTab";
@@ -13,6 +12,7 @@ import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
 import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
 import { ISidebarTabInitProps } from "../../../types/tab/ISidebarTabProps";
 import ILayerToolSidebarTabConfig from "../../../types/tab/layer/ILayerToolSidebarTabConfig";
+import AbstractSidebarTab from "../AbstractSidebarTab";
 
 /**
  * This class provides controls for management of the layer sidebar tab.

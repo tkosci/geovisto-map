@@ -1,16 +1,4 @@
-import { 
-    ITilesLayerToolProps,
-    ITilesLayerTool,
-    TilesLayerTool
-} from '.';
-
-export const GeovistoTilesLayerTool: {
-    getType: () => string,
-    createTool: (props: ITilesLayerToolProps | undefined) => ITilesLayerTool
-} = {
-    getType: () => "geovisto-tool-layer-tiles",
-    createTool: (props) => new TilesLayerTool(props),
-};
+export { GeovistoTilesLayerTool } from './model/GeovistoTilesLayerTool';
 
 // types
 export type { default as ITilesLayerTool } from './model/types/tool/ITilesLayerTool';

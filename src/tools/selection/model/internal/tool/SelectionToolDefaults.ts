@@ -2,7 +2,6 @@ import IMapSelection from "../../types/selection/IMapSelection";
 import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
 import ISelectionToolDefaults from "../../types/tool/ISelectionToolDefaults";
 import ISelectionToolConfig from "../../types/tool/ISelectionToolConfig";
-import { GeovistoSelectionTool } from "../../..";
 
 /**
  * This class provide functions which return the default state values.
@@ -28,10 +27,15 @@ class SelectionToolDefaults extends MapToolDefaults implements ISelectionToolDef
     }
 
     /**
+     * Static tool type constant.
+     */
+    public static TYPE = "geovisto-tool-selection";
+
+    /**
      * It returns a unique string of the tool type.
      */
     public getType(): string {
-        return GeovistoSelectionTool.getType();
+        return SelectionToolDefaults.TYPE;
     }
 
     /**

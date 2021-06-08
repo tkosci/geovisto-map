@@ -7,7 +7,6 @@ import IMapFilterRule from "../../types/filter/IMapFilterRule";
 import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
 import IFiltersToolConfig from "../../types/tool/IFiltersToolConfig";
 import IFiltersToolDefaults from "../../types/tool/IFiltersToolDefaults";
-import { GeovistoFiltersTool } from "../../..";
 
 /**
  * This class provide functions which return the default state values.
@@ -33,10 +32,15 @@ class FiltersToolDefaults extends MapToolDefaults implements IFiltersToolDefault
     }
 
     /**
+     * Static tool type constant.
+     */
+    public static TYPE = "geovisto-tool-filters";
+
+    /**
      * It returns a unique string of the tool type.
      */
     public getType(): string {
-        return GeovistoFiltersTool.getType();
+        return FiltersToolDefaults.TYPE;
     }
 
     /**

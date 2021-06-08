@@ -11,7 +11,7 @@ interface IMapDimension<T extends IMapDomain> extends IMapDomain {
     /**
      * It sets the name of the dimension.
      */
-    setName(): void;
+    setName(name: string): void;
 
     /**
      * It returns the map domain manager which provides options to the map dimension.

@@ -1,6 +1,5 @@
 import { ILayerToolConfig, ILayerToolDimensionsConfig } from "../../../../../../model/types/layer/ILayerToolConfig";
 
-
 /**
  * This type provides specification of the connection layer tool config model.
  * 

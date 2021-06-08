@@ -1,16 +1,4 @@
-import { 
-    ISidebarToolProps,
-    ISidebarTool,
-    SidebarTool
-} from '.';
-
-export const GeovistoSidebarTool: {
-    getType: () => string,
-    createTool: (props: ISidebarToolProps | undefined) => ISidebarTool
-} = {
-    getType: () => "geovisto-tool-sidebar",
-    createTool: (props) => new SidebarTool(props),
-};
+export { GeovistoSidebarTool } from './model/GeovistoSidebarTool';
 
 // types
 export type { default as ISidebarFragmentConfig } from './model/types/fragment/ISidebarFragmentConfig';

@@ -1,7 +1,6 @@
 import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
 import ISettingsToolDefaults from "../../types/tool/ISettingsToolDefaults";
 import ISettingsToolConfig from "../../types/tool/ISettingsToolConfig";
-import { GeovistoSettingsTool } from "../../..";
 
 /**
  * This class provide functions which return the default state values.
@@ -25,10 +24,15 @@ class SettingsToolDefaults extends MapToolDefaults implements ISettingsToolDefau
     }
 
     /**
+     * Static tool type constant.
+     */
+    public static TYPE = "geovisto-tool-settings";
+
+    /**
      * It returns a unique string of the tool type.
      */
     public getType(): string {
-        return GeovistoSettingsTool.getType();
+        return SettingsToolDefaults.TYPE;
     }
 }
 export default SettingsToolDefaults;

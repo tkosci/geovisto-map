@@ -25,13 +25,6 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
     }
 
     /**
-     * A unique string of the tool type.
-     */
-    public static TYPE(): string {
-        return "geovisto-tool-layer-abstract";
-    }
-
-    /**
      * It creates a copy of the uninitialized layer tool.
      */
     public abstract copy(): ILayerTool;

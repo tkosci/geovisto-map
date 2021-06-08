@@ -1,6 +1,8 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+import 'font-awesome/css/font-awesome.min.css';
+
 // TODO - move to index.ts
 import '../../../styles/common.scss';
 

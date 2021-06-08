@@ -1,10 +1,10 @@
-import { ISidebarTab } from "../../../..";
 import ILayerToolSidebarTabDefaults from "./ILayerToolSidebarTabDefaults";
 import ILayerToolSidebarTabState from "./ILayerToolSidebarTabState";
 import ILayerTool from "../../../../../../model/types/layer/ILayerTool";
 import ILayerToolSidebarTabProps from "./ILayerToolSidebarTabProps";
 import ILayerToolSidebarTabConfig from "./ILayerToolSidebarTabConfig";
 import { ISidebarTabInitProps } from "../ISidebarTabProps";
+import ISidebarTab from "../ISidebarTab";
 
 /**
  * This interface declares functions for management of a layer sidebar tab.

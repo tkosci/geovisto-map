@@ -11,7 +11,6 @@ import IMapTheme from "../../types/theme/IMapTheme";
 import IThemesToolDefaults from "../../types/tool/IThemesToolDefaults";
 import IThemesToolConfig from "../../types/tool/IThemesToolConfig";
 import BasicTheme from "../theme/basic/BasicTheme";
-import { GeovistoThemesTool } from "../../..";
 
 /**
  * This class provide functions which return the default state values.
@@ -37,10 +36,15 @@ class ThemesToolDefaults extends MapToolDefaults implements IThemesToolDefaults 
     }
 
     /**
+     * Static tool type constant.
+     */
+    public static TYPE = "geovisto-tool-themes";
+
+    /**
      * It returns a unique string of the tool type.
      */
     public getType(): string {
-        return GeovistoThemesTool.getType();
+        return ThemesToolDefaults.TYPE;
     }
 
     /**

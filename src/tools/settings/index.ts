@@ -1,16 +1,4 @@
-import { 
-    ISettingsToolProps,
-    ISettingsTool,
-    SettingsTool
-} from '.';
-
-export const GeovistoSettingsTool: {
-    getType: () => string,
-    createTool: (props: ISettingsToolProps | undefined) => ISettingsTool
-} = {
-    getType: () => "geovisto-tool-settings",
-    createTool: (props) => new SettingsTool(props),
-};
+export { GeovistoSettingsTool } from './model/GeovistoSettingsTool';
 
 // types
 export type { default as ISettingsTool } from './model/types/tool/ISettingsTool';

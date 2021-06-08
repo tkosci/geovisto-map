@@ -1,16 +1,4 @@
-import { 
-    IMarkerLayerToolProps,
-    IMarkerLayerTool,
-    MarkerLayerTool
-} from '.';
-
-export const GeovistoMarkerLayerTool: {
-    getType: () => string,
-    createTool: (props: IMarkerLayerToolProps | undefined) => IMarkerLayerTool
-} = {
-    getType: () => "geovisto-tool-layer-marker",
-    createTool: (props) => new MarkerLayerTool(props),
-};
+export { GeovistoMarkerLayerTool } from './model/GeovistoMarkerLayerTool';
 
 // types
 export type { default as IMarkerLayerTool } from './model/types/tool/IMarkerLayerTool';

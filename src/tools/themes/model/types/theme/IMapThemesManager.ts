@@ -1,5 +1,5 @@
-import IMapTheme from "./IMapTheme";
 import IMapDomainArrayManager from "../../../../../model/types/domain/IMapDomainArrayManager";
+import IMapTheme from "./IMapTheme";
 
 /**
  * This interface declares a manager for using themes.

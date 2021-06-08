@@ -1,7 +1,7 @@
-import { ISidebarTabState } from "../../../..";
 import { ISidebarTabProps } from "../ISidebarTabProps";
 import ISidebarTabDefaults from "../ISidebarTabDefaults";
 import ISidebarTabConfig from "../ISidebarTabConfig";
+import ISidebarTabState from "../ISidebarTabState";
 
 /**
  * This interface declares the state of the sidebar tab.
