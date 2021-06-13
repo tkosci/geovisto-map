@@ -5,6 +5,7 @@ import IMapDataManager from "../data/IMapDataManager";
 import IMapToolsManager from "../tool/IMapToolsManager";
 import IMapConfig from "./IMapConfig";
 import IMapConfigManager from "../config/IMapConfigManager";
+import IGeoDataManager from "../geodata/IGeoDataManager";
 
 /**
  * This type provides the specification of the map props model.
@@ -15,10 +16,8 @@ type IMapProps = IMapObjectProps & {
     templates: IMapTemplates | undefined;
     globals: IMapGlobals | undefined;
     data: IMapDataManager | undefined;
+    geoData: IGeoDataManager | undefined;
     tools: IMapToolsManager | undefined;
-    // TODO: specify the types
-    centroids: unknown;
-    polygons: unknown;
 }
 
 /**

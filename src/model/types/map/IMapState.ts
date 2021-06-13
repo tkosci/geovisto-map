@@ -7,6 +7,7 @@ import IMapData from "../data/IMapData";
 import IMapDefaults from "./IMapDefaults";
 import { IMapProps, IMapInitProps } from "./IMapProps";
 import IMapEventManager from "../event/IMapEventManager";
+import IGeoDataManager from "../geodata/IGeoDataManager";
 
 /**
  * This interface declares the state of the map.
@@ -108,43 +109,23 @@ interface IMapState<
     getMapConfig(): IMapConfigManager;
 
     /**
-     * It sets the map config manager.
+     * It sets a map config manager.
      * 
      * @param mapConfigManager 
      */
     setMapConfig(mapConfigManager: IMapConfigManager): void;
 
     /**
-     * It returns polygons.
-     * 
-     * TODO: specify the type
+     * It returns the geo data manager.
      */
-    getPolygons(): unknown;
+    getGeoDataManager(): IGeoDataManager;
 
     /**
-     * It sets polygons.
+     * It sets a geo data manager.
      * 
-     * TODO: specify the type
-     * 
-     * @param polygons
+     * @param geoDataManager
      */
-    setPolygons(polygons: unknown): void;
-
-    /**
-     * It returns centroids.
-     * 
-     * TODO: specify the type
-     */
-    getCentroids(): unknown;
-
-    /**
-     * It sets centroids.
-     * 
-     * TODO: specify the type
-     * 
-     * @param centroids
-     */
-    setCentroids(centroids: unknown): void;
+    setGeoDataManager(geoDataManager: IGeoDataManager): void;
 
     /**
      * It returns the initial zoom level.

@@ -18,7 +18,6 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
     private markers!: L.Marker[];
     private bucketData!: Map<string, Map<string, IMapAggregationBucket>>;
     private layerGroup: L.LayerGroup | undefined;
-    private centroids: unknown;
 
     /**
      * It creates a tool state.
@@ -38,7 +37,8 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
         // sets map dimensions
         if(props.dimensions) {
             this.setDimensions({
-                geo: props.dimensions.geo == undefined ? defaults.getGeoDimension(initProps.map) : props.dimensions.geo,
+                geoData: props.dimensions.geoData == undefined ? defaults.getGeoDataDimension(initProps.map) : props.dimensions.geoData,
+                geoId: props.dimensions.geoId == undefined ? defaults.getGeoIdDimension(initProps.map) : props.dimensions.geoId,
                 value: props.dimensions.value == undefined ? defaults.getValueDimension(initProps.map) : props.dimensions.value,
                 aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation,
                 category: props.dimensions.category == undefined ? defaults.getCategoryDimension(initProps.map) : props.dimensions.category
@@ -49,7 +49,6 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
 
         // the layer tool properties
         this.setMarkers([]);
-        this.setCentroids(props.centroids == undefined ? defaults.getCentroids(initProps.map) : props.centroids);
         this.setBucketData(new Map<string, Map<string, IMapAggregationBucket>>());
 
         // set super props
@@ -75,7 +74,8 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
      */
     public deserializeDimensions(dimensionsConfig: IMarkerLayerToolDimensionsConfig): void {
         const dimensions = this.getDimensions();
-        if(dimensionsConfig.geo) dimensions.geo.setDomain(dimensions.geo.getDomainManager().getDomain(dimensionsConfig.geo));
+        if(dimensionsConfig.geoData) dimensions.geoData.setDomain(dimensions.geoData.getDomainManager().getDomain(dimensionsConfig.geoData));
+        if(dimensionsConfig.geoId) dimensions.geoId.setDomain(dimensions.geoId.getDomainManager().getDomain(dimensionsConfig.geoId));
         if(dimensionsConfig.value) dimensions.value.setDomain(dimensions.value.getDomainManager().getDomain(dimensionsConfig.value));
         if(dimensionsConfig.aggregation) dimensions.aggregation.setDomain(dimensions.aggregation.getDomainManager().getDomain(dimensionsConfig.aggregation));
         if(dimensionsConfig.category) dimensions.category.setDomain(dimensions.category.getDomainManager().getDomain(dimensionsConfig.category));
@@ -92,7 +92,8 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
         // serialize the layer tool properties
         const dimensions = this.getDimensions();
         config.data = {
-            geo: dimensions.geo.getDomain()?.getName(),
+            geoData: dimensions.geoData.getDomain()?.getName(),
+            geoId: dimensions.geoId.getDomain()?.getName(),
             value: dimensions.value.getDomain()?.getName(),
             aggregation: dimensions.aggregation.getDomain()?.getName(),
             category: dimensions.category.getDomain()?.getName(),
@@ -131,26 +132,6 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
      */
     public setMarkerLayerGroup(layerGroup: L.LayerGroup): void {
         this.layerGroup = layerGroup;
-    }
-
-    /**
-     * It returns the centroids.
-     * 
-     * TODO: specify the type
-     */
-    public getCentroids(): unknown {
-        return this.centroids;
-    }
-
-    /**
-     * It sets the centroids.
-     * 
-     * TODO: specify the type
-     * 
-     * @param centroids 
-     */
-    public setCentroids(centroids: unknown): void {
-        this.centroids = centroids;
     }
 
     /**

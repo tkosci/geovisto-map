@@ -31,22 +31,6 @@ interface IMarkerLayerToolState<
     setMarkerLayerGroup(layerGroup: L.LayerGroup): void;
 
     /**
-     * It returns the centroids.
-     * 
-     * TODO: specify the types
-     */
-    getCentroids(): unknown;
-
-    /**
-     * It sets the centroids.
-     * 
-     * TODO: specify the types
-     * 
-     * @param centroids 
-     */
-    setCentroids(centroids: unknown): void;
-
-    /**
      * It returns the markers.
      */
     getMarkers(): L.Marker[];

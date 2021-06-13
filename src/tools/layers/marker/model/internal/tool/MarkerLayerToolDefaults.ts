@@ -9,6 +9,12 @@ import MapDomainArrayManager from "../../../../../../model/internal/domain/gener
 import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
 import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
 import IMap from "../../../../../../model/types/map/IMap";
+import IGeoData from "../../../../../../model/types/geodata/IGeoData";
+import { MarkerIcon } from "../marker/MarkerIcon";
+import IMarkerIconOptions from "../../types/marker/IMarkerIconOptions";
+import { Icon, LatLngExpression, MarkerOptions } from "leaflet";
+import Marker from "../marker/Marker";
+import IMarker from "../../types/marker/IMarker";
 
 /**
  * This class provide functions which return the default state values.
@@ -41,7 +47,8 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
      */
     public getDimensions(map?: IMap): IMarkerLayerToolDimensions {
         return {
-            geo: this.getGeoDimension(map),
+            geoData: this.getGeoDataDimension(map),
+            geoId: this.getGeoIdDimension(map),
             value: this.getValueDimension(map),
             aggregation: this.getAggregationDimension(),
             category: this.getCategoryDimension(map)
@@ -51,7 +58,18 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     /**
      * It returns the default geo ID dimension.
      */
-    public getGeoDimension(map?: IMap): IMapDimension<IMapDataDomain> {
+    public getGeoDataDimension(map?: IMap): IMapDimension<IGeoData> {
+        return new MapDimension(
+            "geo-data",
+            map?.getState().getGeoDataManager() ?? this.getGeoDataManager(this.getGeoData()),
+            undefined
+        );
+    }
+
+    /**
+     * It returns the default geo ID dimension.
+     */
+    public getGeoIdDimension(map?: IMap): IMapDimension<IMapDataDomain> {
         return new MapDimension(
             "geo",
             map?.getState().getMapData() ?? this.getDataManager(),
@@ -100,12 +118,31 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     }
     
     /**
-     * It returns default centroids.
-     * 
-     * TODO: specify the type
+     * It returns the default geo data.
      */
-    public getCentroids(map?: IMap): unknown {
-        return JSON.parse(JSON.stringify(map?.getState().getCentroids() ?? {}));
+    public getGeoData(): IGeoData[] {
+        return [
+            // TODO: provide default geo data
+        ];
+    }
+
+    /**
+     * It returns new marker for the given options.
+     * 
+     * @param latlng 
+     * @param options
+     */
+    public getMarker(latlng: LatLngExpression, options?: MarkerOptions): IMarker<Icon<IMarkerIconOptions>> {
+        return new Marker<Icon<IMarkerIconOptions>>(latlng, options);
+    }
+
+    /**
+     * It returns new icon for the given options.
+     * 
+     * @param options 
+     */
+    public getMarkerIcon(options: IMarkerIconOptions): Icon<IMarkerIconOptions> {
+        return new MarkerIcon(options);
     }
 }
 export default MarkerLayerToolDefaults;

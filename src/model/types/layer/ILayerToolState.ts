@@ -50,8 +50,6 @@ interface ILayerToolState<
 
     /**
      * It returns the layer items property of the tool state.
-     * 
-     * TODO: specify the type
      */
     getLayerItems(): L.Layer[] | undefined;
 

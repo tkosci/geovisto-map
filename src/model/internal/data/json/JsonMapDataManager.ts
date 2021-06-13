@@ -281,9 +281,7 @@ class JsonMapDataManager extends AbstractMapDataManager implements IMapDataManag
     }
 
     /**
-     * Static help function represenets a step of recursive data processing searching data items.7
-     * 
-     * TODO: rewrite to typescript
+     * Static help function represents a step of recursive data processing searching data items.
      * 
      * @param result 
      * @param actRecord 

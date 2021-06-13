@@ -6,6 +6,7 @@ import IMapGlobals from "./IMapGlobals";
 import IMapConfig from "./IMapConfig";
 import IMapConfigManager from "../config/IMapConfigManager";
 import IMapEventManager from "../event/IMapEventManager";
+import IGeoDataManager from "../geodata/IGeoDataManager";
 
 /**
  * This interface declares functions which return the default state values.
@@ -50,18 +51,9 @@ interface IMapDefaults extends IMapObjectDefaults {
     getMapData(): IMapDataManager;
 
     /**
-     * It returns default geo polygons.
-     * 
-     * TODO: provide a GeoJSON manager.
+     * It returns a default geo data manager.
      */
-    getPolygons(): unknown;
-
-    /**
-     * It returns default geo centroids.
-     * 
-     * TODO: provide a GeoJSON manager.
-     */
-    getCentroids(): unknown;
+    getGeoDataManager(): IGeoDataManager;
 
     /**
      * It returns default global state variables.

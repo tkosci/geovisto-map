@@ -6,12 +6,7 @@ import { ILayerToolConfig, ILayerToolDimensionsConfig } from "../../../../../../
  * @author Jiri Hynek
  */
 type IMarkerLayerToolConfig = ILayerToolConfig & {
-    data: {
-        geo: string | undefined,
-        value: string | undefined,
-        aggregation: string | undefined,
-        category: string | undefined
-    };
+    data: IMarkerLayerToolDimensionsConfig;
 }
 
 /**
@@ -20,7 +15,8 @@ type IMarkerLayerToolConfig = ILayerToolConfig & {
  * @author Jiri Hynek
  */
 type IMarkerLayerToolDimensionsConfig = ILayerToolDimensionsConfig & {
-    geo: string | undefined,
+    geoData: string | undefined,
+    geoId: string | undefined,
     value: string | undefined,
     aggregation: string | undefined,
     category: string | undefined

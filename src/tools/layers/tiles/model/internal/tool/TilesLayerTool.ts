@@ -159,7 +159,8 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, ISide
         this.getState().setBaseMap(theme.getBaseMap());
 
         let layer: L.TileLayer | undefined = this.getState().getTileLayer();
-        // TODO: remove the any type
+        // TODO: use public API
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         if(layer && (layer as any)._url != theme.getBaseMap()) {
             // remove the old layer
             const leafltMap = this.getMap()?.getState().getLeafletMap();

@@ -50,14 +50,10 @@ class ThemesToolSidebarFragment extends AbstractSidebarFragment<IThemesTool> {
         const htmlContent: HTMLDivElement = document.createElement('div');
 
         // theme input
-        // TODO...
-        // eslint-disable-next-line no-var
-        var tool: IThemesTool = <IThemesTool> this.getState().getTool();
-        // eslint-disable-next-line no-var
-        var themesManager: IMapThemesManager = tool.getState().getThemesManager();
-        // TODO: define types
+        const tool: IThemesTool = <IThemesTool> this.getState().getTool();
+        const themesManager: IMapThemesManager = tool.getState().getThemesManager();
         const changeTheme = function(e: Event) {
-            const newTheme: IMapTheme | undefined = themesManager.getDomain((e.target as HTMLInputElement).value);
+            const newTheme: IMapTheme | undefined = themesManager.getDomain((e.target as HTMLInputElement)?.value);
             if(newTheme) {
                 tool.setTheme(newTheme);
             }

@@ -98,12 +98,7 @@ abstract class AbstractLayerToolSidebarTab<T extends ILayerTool> extends Abstrac
             label: dimension.getName(),
             options: dimension.getDomainManager().getDomainNames(),
             onChangeAction: function(ev: Event) {
-                // get selected values and update layer tool's dimension
-                const domain: IMapDomain | undefined = dimension.getDomainManager().getDomain((<HTMLInputElement> ev.target).value);
-                if(dimension.getDomain() !== domain) {
-                    dimension.setDomain(domain);
-                    _this.getTool().redraw(false);
-                }
+                _this.getTool().updateDimension(dimension, (<HTMLInputElement> ev.target).value, undefined);
             }
         });
     }

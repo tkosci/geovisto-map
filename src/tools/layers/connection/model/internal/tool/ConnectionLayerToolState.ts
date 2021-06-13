@@ -15,7 +15,6 @@ import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolPr
  */
 class ConnectionLayerToolState extends LayerToolState implements IConnectionLayerToolState {
 
-    private centroids: unknown;
     private svgLayer: L.SVG | undefined;
     private bucketData!: { nodes: Set<string>, connections: Map<string, IMapAggregationBucket> };
 
@@ -37,6 +36,7 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
         // sets map dimensions
         if(props.dimensions) {
             this.setDimensions({
+                geoData: props.dimensions.geoData == undefined ? defaults.getGeoDataDimension(initProps.map) : props.dimensions.geoData,
                 from: props.dimensions.from == undefined ? defaults.getFromDimension(initProps.map) : props.dimensions.from,
                 to: props.dimensions.to == undefined ? defaults.getToDimension(initProps.map) : props.dimensions.to
             });
@@ -45,7 +45,6 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
         }
 
         // the layer tool properties
-        this.setCentroids(props.centroids == undefined ? defaults.getCentroids(initProps.map) : props.centroids);
         this.setBucketData({ nodes: new Set<string>(), connections: new Map<string, IMapAggregationBucket>() });
         
         // initialize bucket data
@@ -75,6 +74,7 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
      */
     public deserializeDimensions(dimensionsConfig: IConnectionLayerToolDimensionsConfig): void {
         const dimensions = this.getDimensions();
+        if(dimensionsConfig.geoData) dimensions.geoData.setDomain(dimensions.geoData.getDomainManager().getDomain(dimensionsConfig.geoData));
         if(dimensionsConfig.from) dimensions.from.setDomain(dimensions.from.getDomainManager().getDomain(dimensionsConfig.from));
         if(dimensionsConfig.to) dimensions.to.setDomain(dimensions.to.getDomainManager().getDomain(dimensionsConfig.to));
     }
@@ -90,6 +90,7 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
         // serialize the layer tool properties
         const dimensions = this.getDimensions();
         config.data = {
+            geoData: dimensions.geoData.getDomain()?.getName(),
             from: dimensions.from.getDomain()?.getName(),
             to: dimensions.to.getDomain()?.getName()
         };
@@ -127,26 +128,6 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
      */
     public setSVGLayer(svgLayer: L.SVG): void {
         this.svgLayer = svgLayer;
-    }
-
-    /**
-     * It returns the centroids.
-     * 
-     * TODO: specify the type
-     */
-    public getCentroids(): unknown {
-        return this.centroids;
-    }
-
-    /**
-     * It sets the centroids.
-     * 
-     * TODO: specify the type
-     * 
-     * @param centroids 
-     */
-    public setCentroids(centroids: unknown): void {
-        this.centroids = centroids;
     }
 
     /**

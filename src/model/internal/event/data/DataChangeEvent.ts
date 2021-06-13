@@ -6,8 +6,6 @@ import IMapData from "../../../types/data/IMapData";
 /**
  * This class provides the data change event object.
  * 
- * TODO: define type of the data
- * 
  * @author Jiri Hynek
  */
 class DataChangeEvent<TSource extends IMapObject> extends MapChangeEvent<TSource, IMapData> implements IMapChangeEvent {

@@ -19,8 +19,7 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
     private bucketData!: Map<string, IMapAggregationBucket>;
     private geoJSONlayer: L.GeoJSON | undefined;
     private popup: L.Control | undefined;
-    private polygons: unknown; // TODO: specify the type
-    private hoveredItem: unknown; // TODO: specify the type
+    private hoveredItem?: string;
 
     /**
      * It creates a tool state.
@@ -40,14 +39,14 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
         // the choropleth layer tool properties
         if(props.dimensions) {
             this.setDimensions({
-                geo: props.dimensions.geo == undefined ? defaults.getGeoDimension(initProps.map) : props.dimensions.geo,
+                geoData: props.dimensions.geoData == undefined ? defaults.getGeoDataDimension(initProps.map) : props.dimensions.geoData,
+                geoId: props.dimensions.geoId == undefined ? defaults.getGeoIdDimension(initProps.map) : props.dimensions.geoId,
                 value: props.dimensions.value == undefined ? defaults.getValueDimension(initProps.map) : props.dimensions.value,
                 aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation
             });
         } else {
             this.setDimensions(defaults.getDimensions(initProps.map));
         }
-        this.setPolygons(props.polygons == undefined ? defaults.getPolygons(initProps.map) : props.polygons);
         this.setHoveredItem(undefined);
         this.setZIndex(defaults.getZIndex());
         this.setBucketData(new Map<string, IMapAggregationBucket>());
@@ -68,13 +67,12 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
     /**
      * It sets the map layer dimensions property of tool state.
      * 
-     * @param geo 
-     * @param value
-     * @param aggregation
+     * @param dimensionsConfig
      */
     public deserializeDimensions(dimensionsConfig: IChoroplethLayerToolDimensionsConfig): void {
         const dimensions = this.getDimensions();
-        if(dimensionsConfig.geo) dimensions.geo.setDomain(dimensions.geo.getDomainManager().getDomain(dimensionsConfig.geo));
+        if(dimensionsConfig.geoData) dimensions.geoData.setDomain(dimensions.geoData.getDomainManager().getDomain(dimensionsConfig.geoData));
+        if(dimensionsConfig.geoId) dimensions.geoId.setDomain(dimensions.geoId.getDomainManager().getDomain(dimensionsConfig.geoId));
         if(dimensionsConfig.value) dimensions.value.setDomain(dimensions.value.getDomainManager().getDomain(dimensionsConfig.value));
         if(dimensionsConfig.aggregation) dimensions.aggregation.setDomain(dimensions.aggregation.getDomainManager().getDomain(dimensionsConfig.aggregation));
     }
@@ -90,7 +88,8 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
         // serialize the layer tool properties
         const dimensions = this.getDimensions();
         config.data = {
-            geo: dimensions.geo.getDomain()?.getName(),
+            geoData: dimensions.geoData.getDomain()?.getName(),
+            geoId: dimensions.geoId.getDomain()?.getName(),
             value: dimensions.value.getDomain()?.getName(),
             aggregation: dimensions.aggregation.getDomain()?.getName(),
         };
@@ -147,42 +146,18 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
     }
 
     /**
-     * It returns the polygons.
-     * 
-     * TODO: specify the type
-     */
-    public getPolygons(): unknown {
-        return this.polygons;
-    }
-
-    /**
-     * It sets the polygons.
-     * 
-     * TODO: specify the type
-     * 
-     * @param polygons 
-     */
-    public setPolygons(polygons: unknown): void {
-        this.polygons = polygons;
-    }
-
-    /**
      * It returns the hovered item.
-     * 
-     * TODO: specify the type
      */
-    public getHoveredItem(): unknown {
+    public getHoveredItem(): string | undefined {
         return this.hoveredItem;
     }
 
     /**
      * It sets the hovered item.
      * 
-     * TODO: specify the type
-     * 
      * @param hoveredItem 
      */
-    public setHoveredItem(hoveredItem: unknown): void {
+    public setHoveredItem(hoveredItem: string | undefined): void {
         this.hoveredItem = hoveredItem;
     }
 

@@ -1,3 +1,4 @@
+import IGeoDataManager from "../../../../../../model/types/geodata/IGeoDataManager";
 import ILayerToolProps from "../../../../../../model/types/layer/ILayerToolProps";
 import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
 
@@ -8,6 +9,6 @@ import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
  */
 type IMarkerLayerToolProps = ILayerToolProps & {
     dimensions: IMarkerLayerToolDimensions | undefined;
-    centroids: unknown; // TODO: specify the type
+    geoData: IGeoDataManager;
 }
 export default IMarkerLayerToolProps;

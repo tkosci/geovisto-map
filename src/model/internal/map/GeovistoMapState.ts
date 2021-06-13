@@ -13,6 +13,7 @@ import IMapDataManager from "../../types/data/IMapDataManager";
 import IMapConfigManager from "../../types/config/IMapConfigManager";
 import IMapData from "../../types/data/IMapData";
 import IMapEventManager from "../../types/event/IMapEventManager";
+import IGeoDataManager from "../../types/geodata/IGeoDataManager";
 
 /**
  * This class manages state of the map.
@@ -29,8 +30,7 @@ class GeovistoMapState extends MapObjectState implements IMapState {
     private mapData!: IMapDataManager;
     private data!: IMapData;
     private mapConfig!: IMapConfigManager;
-    private polygons: unknown;
-    private centroids: unknown;
+    private geoDataManager!: IGeoDataManager;
     private zoom!: number;
     private mapCenter!: { lat: number; lng: number; };
     private mapStructure!: { maxZoom: number; maxBounds: [[number, number], [number, number]]; };
@@ -65,9 +65,8 @@ class GeovistoMapState extends MapObjectState implements IMapState {
         // data
         this.setMapData(props.data == undefined ? defaults.getMapData() : props.data);
 
-        // geo data - TODO convert to generic geo data
-        this.setPolygons(props.polygons == undefined ? defaults.getPolygons() : props.polygons);
-        this.setCentroids(props.centroids == undefined ? defaults.getCentroids() : props.centroids);
+        // geo data
+        this.setGeoDataManager(props.geoData == undefined ? defaults.getGeoDataManager() : props.geoData);
 
         // globals (state variables which are common for all geovisto tools) - can be undefined and set by initialize function
         const globals: IMapGlobals = props.globals == undefined ? defaults.getGlobals() : props.globals;
@@ -152,8 +151,6 @@ class GeovistoMapState extends MapObjectState implements IMapState {
     /**
      * It returns the Leaflet map.
      * 
-     * TODO: specify the type
-     * 
      * @param map 
      */
     public setLeafletMap(map: L.Map): void {
@@ -213,8 +210,6 @@ class GeovistoMapState extends MapObjectState implements IMapState {
 
     /**
      * It returns current data (might be filtered).
-     * 
-     * TODO: specify the type
      */
     public getCurrentData(): IMapData {
         return this.data;
@@ -222,8 +217,6 @@ class GeovistoMapState extends MapObjectState implements IMapState {
 
     /**
      * It sets current data.
-     * 
-     * TODO: specify the type
      * 
      * @param data
      */
@@ -248,43 +241,19 @@ class GeovistoMapState extends MapObjectState implements IMapState {
     }
 
     /**
-     * It returns polygons.
-     * 
-     * TODO: specify the type
+     * It returns the geo data manager.
      */
-    public getPolygons(): unknown {
-        return this.polygons;
+    public getGeoDataManager(): IGeoDataManager {
+        return this.geoDataManager;
     }
 
     /**
-     * It sets polygons.
+     * It sets a geo data manager.
      * 
-     * TODO: specify the type
-     * 
-     * @param polygons
+     * @param geoDataManager
      */
-    public setPolygons(polygons: unknown): void {
-        this.polygons = polygons;
-    }
-
-    /**
-     * It returns centroids.
-     * 
-     * TODO: specify the type
-     */
-    public getCentroids(): unknown {
-        return this.centroids;
-    }
-
-    /**
-     * It sets centroids.
-     * 
-     * TODO: specify the type
-     * 
-     * @param centroids
-     */
-    public setCentroids(centroids: unknown): void {
-        this.centroids = centroids;
+    public setGeoDataManager(geoDataManager: IGeoDataManager): void {
+        this.geoDataManager = geoDataManager;
     }
 
     /**

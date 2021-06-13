@@ -3,6 +3,9 @@ import IMapToolDefaults from "../../types/tool/IMapToolDefaults";
 import IMapToolConfig from "../../types/tool/IMapToolConfig";
 import IMapDataManager from "../../types/data/IMapDataManager";
 import MapDataManagerFactory from "../data/MapDataManagerFactory";
+import GeoDataManager from "../geodata/GeoDataManager";
+import IGeoDataManager from "../../types/geodata/IGeoDataManager";
+import IGeoData from "../../types/geodata/IGeoData";
 
 /**
  * This class provide functions which return the default state values.
@@ -16,6 +19,13 @@ class MapToolDefaults extends MapObjectDefaults implements IMapToolDefaults {
      */
     public getDataManager(): IMapDataManager {
         return (new MapDataManagerFactory).json([]);
+    }
+
+    /**
+     * It returns default geo data manager.
+     */
+     public getGeoDataManager(geoDataArray: IGeoData[] | undefined): IGeoDataManager {
+        return new GeoDataManager(geoDataArray ?? []);
     }
 
     /**

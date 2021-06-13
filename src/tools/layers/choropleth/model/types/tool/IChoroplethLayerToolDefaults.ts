@@ -4,6 +4,7 @@ import IMapDimension from "../../../../../../model/types/dimension/IMapDimension
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
 import IMap from "../../../../../../model/types/map/IMap";
+import IGeoData from "../../../../../../model/types/geodata/IGeoData";
 
 /**
  * This interface declares functions which return the default state values.
@@ -18,9 +19,14 @@ interface IChoroplethLayerToolDefaults extends ILayerToolDefaults {
     getDimensions(map?: IMap): IChoroplethLayerToolDimensions;
 
     /**
+     * It returns the default geo data dimension.
+     */
+    getGeoDataDimension(map?: IMap): IMapDimension<IGeoData>;
+
+    /**
      * It returns the default geo ID dimension.
      */
-    getGeoDimension(map?: IMap): IMapDimension<IMapDataDomain>;
+    getGeoIdDimension(map?: IMap): IMapDimension<IMapDataDomain>;
 
     /**
      * It returns the default value dimension.
@@ -33,11 +39,9 @@ interface IChoroplethLayerToolDefaults extends ILayerToolDefaults {
     getAggregationDimension(): IMapDimension<IMapAggregationFunction>;
     
     /**
-     * It returns the default polygons.
-     * 
-     * TODO: specify the type.
+     * It returns the default geo data.
      */
-    getPolygons(map?: IMap): unknown;
+    getGeoData(): IGeoData[];
 
     /**
      * It returns preferred z index for the choropoleth layer

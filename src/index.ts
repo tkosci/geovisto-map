@@ -31,6 +31,12 @@ export type { default as IMapEvent } from './model/types/event/IMapEvent';
 export type { default as IMapEventFactory } from './model/types/event/IMapEventFactory';
 export type { default as IMapChangeEvent } from './model/types/event/IMapChangeEvent';
 
+// geodata
+export type { default as IGeoData } from './model/types/geodata/IGeoData';
+export type { default as IGeoDataFactory } from './model/types/geodata/IGeoDataFactory';
+export type { default as IGeoDataManager } from './model/types/geodata/IGeoDataManager';
+export { default as GeoJSONTypes } from './model/types/geodata/GeoJSONTypes';
+
 // inputs
 export type { default as IMapFormInput } from './model/types/inputs/IMapFormInput';
 export type { default as IMapFormInputFactory } from './model/types/inputs/IMapFormInputFactory';
@@ -49,6 +55,7 @@ export type { ILayerToolConfig, ILayerToolDimensionsConfig } from './model/types
 export type { default as ILayerToolDefaults } from './model/types/layer/ILayerToolDefaults';
 export type { default as ILayerToolProps } from './model/types/layer/ILayerToolProps';
 export type { default as ILayerToolState } from './model/types/layer/ILayerToolState';
+export type { default as LayerToolRedrawEnum } from './model/types/layer/LayerToolRedrawEnum';
 
 // map
 export type { default as IMap } from './model/types/map/IMap';
@@ -112,6 +119,11 @@ export { default as DataChangeEvent } from './model/internal/event/data/DataChan
 export { default as MapEvent } from './model/internal/event/generic/MapEvent';
 export { default as MapChangeEvent } from './model/internal/event/generic/MapChangeEvent';
 
+// geodata
+export { default as GeoDataFactory } from './model/internal/geodata/GeoDataFactory';
+export { default as GeoDataManager } from './model/internal/geodata/GeoDataManager';
+export { default as GeoJsonData } from './model/internal/geodata/geojson/GeoJsonData';
+
 // inputs
 export { default as MapFormInputFactory } from './model/internal/inputs/MapFormInputFactory';
 export { default as AbstractMapFormInput } from './model/internal/inputs/abstract/AbstractMapFormInput';
@@ -124,9 +136,9 @@ export { default as LabeledSelectFormInput } from './model/internal/inputs/label
 export { default as LabeledTextFormInput } from './model/internal/inputs/labeled/text/LabeledTextFormInput';
 
 // layer
-export type { default as AbstractLayerTool } from './model/internal/layer/AbstractLayerTool';
-export type { default as LayerToolDefaults } from './model/internal/layer/LayerToolDefaults';
-export type { default as LayerToolState } from './model/internal/layer/LayerToolState';
+export { default as AbstractLayerTool } from './model/internal/layer/AbstractLayerTool';
+export { default as LayerToolDefaults } from './model/internal/layer/LayerToolDefaults';
+export { default as LayerToolState } from './model/internal/layer/LayerToolState';
 
 // map
 export { default as GeovistoMap } from './model/internal/map/GeovistoMap';

@@ -1,5 +1,15 @@
-import * as d3 from "d3";
-interface SimulationProps {
+import { SimulationLinkDatum, forceSimulation, forceManyBody, forceLink } from "d3";
+import IConnectionLayerConnection from "../../types/items/IConnectionLayerConnection";
+import IConnectionLayerNode from "../../types/items/IConnectionLayerNode";
+import IConnectionLayerPoint from "../../types/items/IConnectionLayerPoint";
+import IConnectionLayerPath from "../../types/items/IConnectionLayerPath";
+
+/**
+ * Help type which defines the simulation props.
+ * 
+ * @author Jiri Hynek
+ */
+type SimulationProps = {
     charge: {
         strength: number,
         distanceMin: number,
@@ -33,20 +43,22 @@ interface SimulationProps {
  */
 class D3PathForceSimulator {
     
-    /**
-     * TODO: specify the types.
-     */
-    private props: { nodes: unknown[]; connections: { source: any, target: any, value: number }[]; segmentLength: number | undefined; };
-    private paths: any;
+    private props: {
+        nodes: IConnectionLayerNode[];
+        connections: IConnectionLayerConnection[];
+        segmentLength: number | undefined;
+    };
+
     private forceProps: SimulationProps | undefined;
-    private nodes: any;
-    private links: any;
     private segmentLength: number;
+    private paths!: IConnectionLayerPath[];
+    private points!: IConnectionLayerPoint[];
+    private links!: SimulationLinkDatum<IConnectionLayerPoint>[];
 
     /**
      * It initializes the object by setting the props.
      */
-    public constructor(props: { nodes: unknown[], connections: { source: any, target: any, value: number }[], segmentLength: number | undefined } ){
+    public constructor(props: { nodes: IConnectionLayerNode[], connections: IConnectionLayerConnection[], segmentLength: number | undefined } ){
         this.props = props;
 
         // maximum number of path items
@@ -62,10 +74,8 @@ class D3PathForceSimulator {
 
     /**
      * It returns the paths.
-     * 
-     * TODO: specify the types
      */
-    public getPaths(): any {
+    public getPaths(): IConnectionLayerPath[] {
         if(this.paths == undefined) {
             this.paths = this.createPaths();
         }
@@ -74,11 +84,9 @@ class D3PathForceSimulator {
 
     /**
      * It creates paths (split connections into segments).
-     * 
-     * TODO: specify the types
      */
-    protected createPaths(): any {
-        const paths = [];
+    protected createPaths(): IConnectionLayerPath[] {
+        const paths: IConnectionLayerPath[] = [];
 
         // go through all map connections and create paths for every connection
         // connections represented by a path can be bent
@@ -93,16 +101,14 @@ class D3PathForceSimulator {
      * Help function which takes a connection and split the connection into segments.
      * The number of segments is based on the preferred maximal length of segment.
      * 
-     * TODO: specify the types
-     * 
      * @param connection 
      */
-    protected createPath(connection: any): any {
-        const path: any = [];
+    protected createPath(connection: IConnectionLayerConnection): IConnectionLayerPath {
+        const path: IConnectionLayerPath = [];
 
         // get connection's nodes
-        const source = connection.source;
-        const target = connection.target;
+        const source: IConnectionLayerNode = connection.source;
+        const target: IConnectionLayerNode = connection.target;
 
         // add the first point 
         path.push(source);
@@ -122,7 +128,7 @@ class D3PathForceSimulator {
 
             // add the middle points
             const numberOfPoints = numberOfSegments-1;
-            let point = source;
+            let point: IConnectionLayerPoint = source;
             for (let i = 0; i <= numberOfPoints; i++) {
                 point = {
                     x: point.x + dx,
@@ -158,18 +164,18 @@ class D3PathForceSimulator {
     /**
      * It returns the definition of D3 force simulation.
      */
-    protected getSimulation(): d3.Simulation<d3.SimulationNodeDatum, undefined> {
+    protected getSimulation(): d3.Simulation<IConnectionLayerPoint, undefined> {
         // usage of D3 force layout simulation
         const props = this.getForceProps();
         // TODO use dynamic props based on current situation
 
-        return d3.forceSimulation(this.getNodes())
-            .force("charge", d3.forceManyBody()
+        return forceSimulation(this.getPoints())
+            .force("charge", forceManyBody()
                 .strength(props.charge.strength)
                 .distanceMin(props.charge.distanceMin)
                 .distanceMax(props.charge.distanceMax)
             )
-            .force("link", d3.forceLink()
+            .force("link", forceLink()
                 .links(this.getLinks())
                 .strength(props.link.strength)
                 .distance(props.link.distance)
@@ -208,33 +214,29 @@ class D3PathForceSimulator {
 
     /**
      * It returns the nodes for D3 force layout simulator.
-     * 
-     * TODO: specify the types
      */
-    protected getNodes(): any {
-        if(this.nodes == undefined) {
-            this.nodes = this.createNodes();
+    protected getPoints(): IConnectionLayerPoint[] {
+        if(this.points == undefined) {
+            this.points = this.createPoints();
         }
-        return this.nodes;
+        return this.points;
     }
 
     /**
-     * It prepares the nodes for D3 force layout simulator.
-     * 
-     * TODO: specify the types
+     * It prepares the points for D3 force layout simulator.
      */
-    protected createNodes(): any {
-        const nodes = [];
+    protected createPoints(): IConnectionLayerPoint[] {
+        const points: IConnectionLayerPoint[] = [];
 
-        // go through all end nodes add them to the list
-        const endNodes = this.props.nodes;
-        for(const node of endNodes) {
+        // go through all end points add them to the list
+        const endPoints = this.props.nodes;
+        for(const endPoint of endPoints) {
             // setting the fx, fy fixed position
             // -> these nodes should not be moved by the D3 force simulation
-            (node as any).fx = (node as any).x;
-            (node as any).fy = (node as any).y;
+            endPoint.fx = endPoint.x;
+            endPoint.fy = endPoint.y;
 
-            nodes.push(node);
+            points.push(endPoint);
         }
         
         // go throught all paths and add the remaining points between the end nodes
@@ -245,18 +247,16 @@ class D3PathForceSimulator {
             // go through the middle points
             // the first and the last points have already been added
             for(let j = 1; j < path.length-1; j++) {
-                nodes.push(path[j]);
+                points.push(path[j]);
             }
         }
-        return nodes;
+        return points;
     }
 
     /**
      * It returns the links for D3 force layout simulator.
-     * 
-     * TODO: specify the types
      */
-    protected getLinks(): any {
+    protected getLinks(): SimulationLinkDatum<IConnectionLayerPoint>[] {
         if(this.links == undefined) {
             this.links = this.createLinks();
         }
@@ -265,14 +265,12 @@ class D3PathForceSimulator {
 
     /**
      * It creates the links for D3 force layout simulator.
-     * 
-     * TODO: specify the types
      */
-    protected createLinks(): any {
-        const links = [];
+    protected createLinks(): SimulationLinkDatum<IConnectionLayerPoint>[] {
+        const links: SimulationLinkDatum<IConnectionLayerPoint>[] = [];
 
         // go throught all paths and contruct links
-        const paths = this.getPaths();
+        const paths: IConnectionLayerPath[] = this.getPaths();
         let path;
         for(let i = 0; i < paths.length; i++) {
             path = paths[i];

@@ -7,6 +7,8 @@ import LayerToolDefaults from "./LayerToolDefaults";
 import LayerToolState from "./LayerToolState";
 import { IMapToolInitProps } from "../../types/tool/IMapToolProps";
 import { ILayerToolConfig } from "../../types/layer/ILayerToolConfig";
+import IMapDimension from "../../types/dimension/IMapDimension";
+import IMapDomain from "../../types/domain/IMapDomain";
 
 /**
  * This class wraps filter tool. It provides methods for layer management.
@@ -177,14 +179,34 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
     }
 
     /**
-     * It reloads data and redraw the layer.
+     * It updates the dimension.
      * 
-     * Override this function.
-     * 
-     * @param onlyStyle 
+     * @param dimension 
+     * @param value 
+     * @param redraw
      */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
-    public redraw(onlyStyle: boolean): void {
+    public updateDimension(dimension: IMapDimension<IMapDomain>, value: string, redraw: number | undefined = undefined): void {
+        // get selected values and update layer tool's dimension
+        const domain: IMapDomain | undefined = dimension.getDomainManager().getDomain(value);
+        if(dimension.getDomain() !== domain) {
+            dimension.setDomain(domain);
+        
+            if(redraw != undefined) {
+                this.redraw(redraw);
+            }
+        }
+    }
+
+    /**
+     * It reloads data and redraw the layer with respect to the type.
+     * 
+     * By default it works with LayerRedrawType
+     * 
+     * @param type 
+     */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    public redraw(type: number): void {
+        return;
     }
 }
 export default AbstractLayerTool;

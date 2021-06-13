@@ -1,3 +1,4 @@
+import IGeoDataManager from "../../../../../../model/types/geodata/IGeoDataManager";
 import ILayerToolProps from "../../../../../../model/types/layer/ILayerToolProps";
 import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
 
@@ -8,6 +9,6 @@ import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
  */
 type IConnectionLayerToolProps = ILayerToolProps & {
     dimensions: IConnectionLayerToolDimensions | undefined;
-    centroids: unknown; // TODO: specify the type
+    geoData: IGeoDataManager;
 }
 export default IConnectionLayerToolProps;

@@ -15,6 +15,7 @@ type IConnectionLayerToolConfig = ILayerToolConfig & {
  * @author Jiri Hynek
  */
 type IConnectionLayerToolDimensionsConfig = ILayerToolDimensionsConfig & {
+    geoData: string | undefined,
     from: string | undefined,
     to: string | undefined,
 }

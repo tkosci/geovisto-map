@@ -31,22 +31,6 @@ interface IConnectionLayerToolState<
     setSVGLayer(svgLayer: L.SVG): void;
 
     /**
-     * It returns the centroids.
-     * 
-     * TODO: specify the type.
-     */
-    getCentroids(): unknown;
-
-    /**
-     * It sets the centroids.
-     * 
-     * TODO: specify the type.
-     * 
-     * @param centroids 
-     */
-    setCentroids(centroids: unknown): void;
-
-    /**
      * It returns work data for the force layout algorithm.
      */
     getBucketData(): { nodes: Set<string>, connections: Map<string, IMapAggregationBucket> };

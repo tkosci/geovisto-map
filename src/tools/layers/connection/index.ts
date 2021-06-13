@@ -1,6 +1,10 @@
 export { GeovistoConnectionLayerTool } from './model/GeovistoConnectionLayerTool';
 
 // types
+export type { default as IConnectionLayerConnection } from './model/types/items/IConnectionLayerConnection';
+export type { default as IConnectionLayerNode } from './model/types/items/IConnectionLayerNode';
+export type { default as IConnectionLayerPath } from './model/types/items/IConnectionLayerPath';
+export type { default as IConnectionLayerPoint } from './model/types/items/IConnectionLayerPoint';
 export type { default as IConnectionLayerTool } from './model/types/tool/IConnectionLayerTool';
 export type { IConnectionLayerToolConfig, IConnectionLayerToolDimensionsConfig } from './model/types/tool/IConnectionLayerToolConfig';
 export type { default as IConnectionLayerToolDefaults } from './model/types/tool/IConnectionLayerToolDefaults';

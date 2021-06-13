@@ -9,6 +9,7 @@ import IMapAggregationFunction from "../../../../../../model/types/aggregation/I
 import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
 import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
 import IMap from "../../../../../../model/types/map/IMap";
+import IGeoData from "../../../../../../model/types/geodata/IGeoData";
 
 /**
  * This class provide functions which return the default state values.
@@ -41,7 +42,8 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
      */
     public getDimensions(map?: IMap): IChoroplethLayerToolDimensions {
         return {
-            geo: this.getGeoDimension(map),
+            geoData: this.getGeoDataDimension(map),
+            geoId: this.getGeoIdDimension(map),
             value: this.getValueDimension(map),
             aggregation: this.getAggregationDimension()
         };
@@ -50,9 +52,20 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
     /**
      * It returns the default geo ID dimension.
      */
-    public getGeoDimension(map?: IMap): IMapDimension<IMapDataDomain> {
+    public getGeoDataDimension(map?: IMap): IMapDimension<IGeoData> {
         return new MapDimension(
-            "geo",
+            "geo data",
+            map?.getState().getGeoDataManager() ?? this.getGeoDataManager(this.getGeoData()),
+            undefined
+        );
+    }
+
+    /**
+     * It returns the default geo ID dimension.
+     */
+    public getGeoIdDimension(map?: IMap): IMapDimension<IMapDataDomain> {
+        return new MapDimension(
+            "geo id",
             map?.getState().getMapData() ?? this.getDataManager(),
             undefined
         );
@@ -88,12 +101,12 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
     }
     
     /**
-     * It returns default centroids.
-     * 
-     * TODO: specify the type
+     * It returns the default geo data.
      */
-    public getPolygons(map?: IMap): unknown {
-        return map?.getState().getPolygons() ?? {};
+    public getGeoData(): IGeoData[] {
+        return [
+            // TODO: provide default geo data
+        ];
     }
 
     /**

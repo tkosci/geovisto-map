@@ -43,36 +43,16 @@ interface IChoroplethLayerToolState<
     setPopup(popup: L.Control): void;
 
     /**
-     * It returns the polygons.
-     * 
-     * TODO: specify the type
-     */
-    getPolygons(): unknown;
-
-    /**
-     * It sets the polygons.
-     * 
-     * TODO: specify the type
-     * 
-     * @param polygons 
-     */
-    setPolygons(polygons: unknown): void;
-
-    /**
      * It returns the hovered item.
-     * 
-     * TODO: specify the type
      */
-    getHoveredItem(): unknown;
+    getHoveredItem(): string | undefined;
 
     /**
      * It sets the hovered item.
      * 
-     * TODO: specify the type
-     * 
      * @param hoveredItem 
      */
-    setHoveredItem(hoveredItem: unknown): void;
+    setHoveredItem(hoveredItem: string | undefined): void;
 
     /**
      * It returns the z index.

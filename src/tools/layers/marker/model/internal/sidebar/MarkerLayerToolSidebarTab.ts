@@ -6,6 +6,7 @@ import IMapDimension from "../../../../../../model/types/dimension/IMapDimension
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
 import MarkerLayerToolSidebarTabDefaults from "./MarkerLayerToolSidebarTabDefaults";
+import IGeoData from "../../../../../../model/types/geodata/IGeoData";
 
 /**
  * This class provides controls for management of the layer sidebar tab.
@@ -17,7 +18,8 @@ class MarkerLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IMarkerLayer
     private htmlContent: HTMLDivElement | undefined;
     
     private inputs: {
-        geo: IMapFormInput,
+        geoData: IMapFormInput,
+        geoId: IMapFormInput,
         value: IMapFormInput,
         aggregation: IMapFormInput,
         category: IMapFormInput
@@ -41,7 +43,8 @@ class MarkerLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IMarkerLayer
      */
     public setInputValues(dimensions: IMarkerLayerToolDimensions): void {
         // update inputs
-        this.inputs?.geo.setValue((dimensions.geo.getDomain()?.getName())?? "");
+        this.inputs?.geoData.setValue((dimensions.geoData.getDomain()?.getName())?? "");
+        this.inputs?.geoId.setValue((dimensions.geoId.getDomain()?.getName())?? "");
         this.inputs?.value.setValue((dimensions.value.getDomain()?.getName())?? "");
         this.inputs?.aggregation.setValue((dimensions.aggregation.getDomain()?.getName())?? "");
         this.inputs?.category.setValue((dimensions.category.getDomain()?.getName())?? "");
@@ -61,14 +64,16 @@ class MarkerLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IMarkerLayer
 
             // create inputs
             this.inputs = {
-                geo: this.getInputGeo(dimensions.geo),
+                geoData: this.getInputGeoData(dimensions.geoData),
+                geoId: this.getInputGeoId(dimensions.geoId),
                 value: this.getInputValue(dimensions.value),
                 aggregation: this.getInputAggregation(dimensions.aggregation),
                 category: this.getInputCategory(dimensions.category)
             };
             
             // append to DOM
-            elem.appendChild(this.inputs.geo.create());        
+            elem.appendChild(this.inputs.geoData.create());  
+            elem.appendChild(this.inputs.geoId.create());        
             elem.appendChild(this.inputs.value.create());            
             elem.appendChild(this.inputs.aggregation.create());
             elem.appendChild(this.inputs.category.create());
@@ -81,11 +86,20 @@ class MarkerLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IMarkerLayer
     }
 
     /**
-     * It returns new input for the geo dimension.
+     * It returns new input for the geo data dimension.
      * 
      * @param dimension
      */
-    public getInputGeo(dimension: IMapDimension<IMapDataDomain>): IMapFormInput {
+    public getInputGeoData(dimension: IMapDimension<IGeoData>): IMapFormInput {
+        return this.getAutocompleteInput(dimension);
+    }
+
+    /**
+     * It returns new input for the geo id dimension.
+     * 
+     * @param dimension
+     */
+    public getInputGeoId(dimension: IMapDimension<IMapDataDomain>): IMapFormInput {
         return this.getAutocompleteInput(dimension);
     }
 

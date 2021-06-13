@@ -1,10 +1,10 @@
-import L, { MarkerClusterGroup } from 'leaflet';
+import { Feature, Point } from 'geojson';
+import { Icon, MarkerClusterGroup } from 'leaflet';
 import 'leaflet.markercluster';
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import '../../../style/markerLayer.scss'; 
-import * as d3 from "d3";
 import MarkerLayerToolSidebarTab from '../sidebar/MarkerLayerToolSidebarTab';
 import MarkerLayerToolDefaults from './MarkerLayerToolDefaults';
 import MarkerLayerToolState from './MarkerLayerToolState';
@@ -27,190 +27,13 @@ import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapData from '../../../../../../model/types/data/IMapData';
 import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
 import { IMarkerLayerToolConfig } from '../../types/tool/IMarkerLayerToolConfig';
-
-/**
- * This class represents custom div icon which is used to mark center of countries.
- * It overrides L.DivIcon.
- * 
- * TODO: specify the types
- * 
- * @author Jiri Hynek
- * @override {L.DivIcon}
- */
-const MarkerIcon = L.DivIcon.extend({
-
-    _LEVEL: 0,
-    _SUFFIX: 1,
-    _COLOR: 2,
-    levels: [
-        [-Infinity, "N/A", "#CCCCCC"],
-        [1, "", "#CCCCCC"],
-        [1e2, "K", "#AAAAAA"],
-        [1e5, "M", "#555555"],
-        [1e8, "B", "#222222"],
-        [1e11, "t", "#111111"],
-    ],
-
-    // moved to css
-    //donutColors: ["darkred", "goldenrod", "gray"],
-
-    options: {
-        sizeBasic: 32,
-        sizeGroup: 36,
-        sizeDonut: 48,
-
-        // It is derived
-        //iconSize: [32,32],
-        //iconAnchor: [32/2,32/2],
-
-        className: "div-country-icon",
-        values: {
-            id: "",
-            value: 0,
-            subvalues: {
-            }
-        },
-        isGroup: false,
-        useDonut: true
-    },
-
-    round: function(value: number, align: number): number {
-        return Math.round(value*align)/align;
-    },
-
-    formatValue: function(value: number, level: number): string {
-        if(level == undefined || level < 0) {
-            return this.levels[0][this._SUFFIX];
-        } else {
-            if(this.levels[level][this._LEVEL] == -Infinity) {
-                return this.levels[level][this._SUFFIX];
-            } else if(this.levels[level][this._LEVEL] == 1) {
-                return this.round(value, this.levels[level][this._LEVEL]);
-            } else {
-                value = value/(this.levels[level][this._LEVEL]*10);
-                const align = (value >= 10) ? 1 : 10;
-                return this.round(value, align) + this.levels[level][this._SUFFIX];
-            }
-        }
-    },
-
-    getColor: function(level: number): string {
-        if(level == null || level < 0) {
-            return this.levels[0][this._COLOR];
-        } else {
-            return this.levels[level][this._COLOR];
-        }
-    },
-
-    getLevel: function(value: number): number {
-        for(let i = this.levels.length-1; i >= 0; i--) {
-            if(value > this.levels[i][this._LEVEL]) {
-                return i;
-            }
-        }
-        return -1;
-    },
-
-    /**
-     * TODO specify the types
-     * 
-     * @param oldIcon 
-     */
-    createIcon: function (oldIcon: any): any {
-        const div = (oldIcon && oldIcon.tagName === 'DIV') ? oldIcon : document.createElement('div'),
-            options = this.options;
-
-        const size = options.useDonut ? options.sizeDonut : (options.isGroup ? options.sizeGroup : options.sizeBasic);
-        options.iconSize = [size,size];
-        options.iconAnchor = [size/2,size/2];
-        const rCircle = options.sizeBasic/2;
-        const center = size/2;
-        // moved to css
-        //var strokeWidth = options.isGroup ? ((options.sizeGroup-options.sizeBasic)/2) : 0;
-        const level = this.getLevel(options.values.value);
-
-        const divContent = div.appendChild(document.createElement('div'));
-        divContent.classList.value = 
-            "leaflet-marker-level" + level // level
-            + (options.isGroup ? " leaflet-marker-group" : "") // group of several markers
-        ;
-
-
-        //console.log(size);
-        const element = d3.select(divContent);
-        //console.log(element)
-        const svg = element.append("svg");
-        svg.attr("width", size).attr("height", size);
-        //svg.classList.add("leaflet-marker-item");
-
-        // circle
-        svg.append("circle")
-            .attr("cx", center)
-            .attr("cy", center)
-            .attr("r", rCircle);
-            // moved to css
-            //.attr("fill", this.getColor(level))
-            //.attr("fill-opacity", 0.9)
-            //.attr("stroke-width", strokeWidth)
-            //.attr("stroke", "black");
-
-        // value label
-        svg.append("text")
-            .html(this.formatValue(options.values.value, level))
-            .attr("x", "50%")
-            .attr("y", "50%")
-            .attr("text-anchor", "middle")
-            .attr("font-size", "12px")
-            .attr("dy", "0.3em")
-            .attr("font-family", "Arial");
-            // moved to css
-            //.attr("fill", "white")
-
-        if(options.values.value != null && options.values.value != 0 && options.useDonut) {
-            //var values = { a: 0.5, b: 0.3, c: 0.2 };
-            // moved to css
-            //var color = d3.scaleOrdinal()
-            //    .domain(options.values.subvalues)
-            //    .range(this.donutColors);
-            // TODO specify the types
-            const pie = d3.pie().value(function(d) { return (d as any)[1]; });
-            const values_ready = pie(options.values.subvalues);
-            // donut chart
-            svg.append("g")
-                .attr("transform", "translate(" + size / 2 + "," + size / 2 + ")")
-                .selectAll("abc")
-                .data(values_ready)
-                .enter()
-                .append("path")
-                .attr("d", d3.arc()
-                    .innerRadius(size/4+6)
-                    .outerRadius(size/2) as any
-                )
-                // moved to css
-                .attr('class', function(d, i) { return "leaflet-marker-donut" + (i % 3 + 1); })
-                //.attr('fill', function(d) { return(color(d.data.key)) })
-                //.attr("stroke-width", "0px")
-                //.attr("opacity", 0.8)
-                ;
-        }
-
-        /*const icon = <svg width={size} height={size}>
-            <circle cx={center} cy={center} r={rCircle} fill={this.getColor(level)} fillOpacity="0.8" strokeWidth={strokeWidth} stroke="black" />
-            <text x="50%" y="50%" textAnchor="middle" fill="white"
-                fontSize="12px" dy="0.3em" fontFamily="Arial">{this.formatValue(options.countryValue, level)}</text>
-        </svg>;
-        //div.innerHTML = "<b>1</b>";
-        ReactDOM.render(icon, divContent);*/
-
-        if (options.bgPos) {
-            const bgPos = L.point(options.bgPos);
-            div.style.backgroundPosition = (-bgPos.x) + 'px ' + (-bgPos.y) + 'px';
-        }
-        this._setIconStyles(div, 'icon');
-
-        return div;
-    },
-});
+import LayerToolRedrawEnum from '../../../../../../model/types/layer/LayerToolRedrawEnum';
+import IMapDimension from '../../../../../../model/types/dimension/IMapDimension';
+import IMapDomain from '../../../../../../model/types/domain/IMapDomain';
+import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
+import IMarker from '../../types/marker/IMarker';
+import IMarkerIconOptions from '../../types/marker/IMarkerIconOptions';
+import Marker from '../marker/Marker';
 
 /**
  * This class represents Marker layer tool. It works with geojson polygons representing countries.
@@ -325,36 +148,40 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
     protected createLayerItems(): L.Layer[] {
         // create layer which clusters points
         //let layer = L.layerGroup([]);
-        const markerLayerGroup: MarkerClusterGroup = L.markerClusterGroup({
-
+        const markerLayerGroup: MarkerClusterGroup = new MarkerClusterGroup({
             // create cluster icon
-            iconCreateFunction: function (cluster) {
-                const markers: L.Marker[] = cluster.getAllChildMarkers();
+            iconCreateFunction: (cluster) => {
+                // take child markers and construct options for the parent marker
+                const markers: Marker<Icon<IMarkerIconOptions>>[] = cluster.getAllChildMarkers() as Marker<Icon<IMarkerIconOptions>>[];
                 const values = { id: "<Group>", value: 0, subvalues: new Map<string, number>() };
+                let currentIcon: Icon<IMarkerIconOptions>;
+                let subvalue: number | undefined;
+                // go through all child markers and calculate sum of their values and subvalues
                 for (let i = 0; i < markers.length; i++) {
-                    // TODO specify the types
-                    values.value += (markers[i].options.icon as any)?.options.values.value;
-                    for(const [key, value] of (markers[i].options.icon as any)?.options.values.subvalues.entries()) {
-                        if(values.subvalues.get(key) == undefined) {
-                            values.subvalues.set(key, (value as any));
+                    currentIcon = markers[i].getIcon();
+                    values.value += (currentIcon)?.options.values.value;
+                    for(const [key, value] of (currentIcon)?.options.values.subvalues) {
+                        subvalue = values.subvalues.get(key);
+                        if(subvalue == undefined) {
+                            values.subvalues.set(key, value);
                         } else {
-                            values.subvalues.set(key, (value as any) + values.subvalues.get(key));
+                            values.subvalues.set(key, value + subvalue);
                         }
                     }
                 }
-                // create custom icon
-                const icon = new MarkerIcon();
-                icon.options.values = values;
-                icon.options.isGroup = true;
-                icon.options.useDonut = (markers[0].options.icon as any)?.options.useDonut;
+                // create icon for the parent marker
+                const icon = this.getDefaults().getMarkerIcon({
+                    values: values,
+                    isGroup: true,
+                    useDonut: markers[0].getIcon()?.options.useDonut
+                });
                 return icon;
             }
         });
 
-        // update state
+        // update state and redraw
         this.getState().setMarkerLayerGroup(markerLayerGroup);
-
-        this.redraw(false);
+        this.redraw(LayerToolRedrawEnum.DATA);
 
         return [ markerLayerGroup ];
     }
@@ -380,13 +207,13 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
     /**
      * It prepares data for markers.
      */
-    protected processData(): Map<string, Map<string, IMapAggregationBucket>> {
+    protected updateData(): Map<string, Map<string, IMapAggregationBucket>> {
         // initialize a hash map of aggreation buckets
         const bucketMaps = new Map<string, Map<string, IMapAggregationBucket>>();
 
         // get dimensions
         const dimensions: IMarkerLayerToolDimensions = this.getState().getDimensions();
-        const geoDimension: IMapDataDomain | undefined = dimensions.geo.getDomain();
+        const geoDimension: IMapDataDomain | undefined = dimensions.geoId.getDomain();
         const valueDimension: IMapDataDomain | undefined = dimensions.value.getDomain();
         const aggregationDimension: IMapAggregationFunction | undefined = dimensions.aggregation.getDomain();
         const categoryDimension: IMapDataDomain | undefined = dimensions.category.getDomain();
@@ -432,7 +259,7 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
             }
         }
 
-        // updates bucket data
+        // update bucket data
         this.getState().setBucketData(bucketMaps);
 
         return bucketMaps;
@@ -441,26 +268,31 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
     /**
      * It creates markers using bucket data
      */
-    protected createMarkers(): L.Marker[] {
+    protected createMarkers(): IMarker<Icon<IMarkerIconOptions>>[] {
         // create markers
-        const markers: L.Marker[] = [];
+        const markers: IMarker<Icon<IMarkerIconOptions>>[] = [];
 
         const bucketMaps: Map<string, Map<string, IMapAggregationBucket>> = this.getState().getBucketData();
         const layerGroup: L.LayerGroup | undefined = this.getState().getMarkerLayerGroup();
-        // TODO: specify the type
-        const centroids: any = this.getState().getCentroids();
+        const pointFeatures: Feature[] | undefined = this.getState().getDimensions().geoData.getDomain()?.getFeatures([ GeoJSONTypes.Point ]).features;
         const selectedIds: string[] | undefined = this.getSelectionTool()?.getState().getSelection()?.getIds();
 
-        // iterate over centroids
-        let centroid, bucketMap, marker;
-        for(let i = 0; i < centroids.length; i++) {
-            centroid = centroids[i];
-            bucketMap = bucketMaps.get(centroid.id);
-            if(bucketMap && (!selectedIds || selectedIds.includes(centroid.id))) {
-                // create marker
-                marker = this.createMarker(centroid, bucketMap);
-                layerGroup?.addLayer(marker);
-                markers.push(marker);
+        // iterate over point features
+        let pointFeature: Feature;
+        let bucketMap: Map<string, IMapAggregationBucket> | undefined;
+        let marker: IMarker<Icon<IMarkerIconOptions>>;
+        if(pointFeatures) {
+            for(let i = 0; i < pointFeatures.length; i++) {
+                pointFeature = pointFeatures[i];
+                if(pointFeature.id) {
+                    bucketMap = bucketMaps.get(pointFeature.id.toString());
+                    if(bucketMap && (!selectedIds || selectedIds.includes(pointFeature.id.toString()))) {
+                        // create marker
+                        marker = this.createMarker(pointFeature, bucketMap);
+                        layerGroup?.addLayer(marker);
+                        markers.push(marker);
+                    }
+                }
             }
         }
 
@@ -471,14 +303,12 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
     }
 
     /**
-     * It creates one marker with respect to the given centroid and data.
+     * It creates one marker with respect to the given GeoJSON point feature and data.
      * 
-     * TODO: specify the types
-     * 
-     * @param centroid 
+     * @param pointFeature 
      * @param data 
      */
-    protected createMarker(centroid: any, bucketMap: Map<string, IMapAggregationBucket>): L.Marker {
+    protected createMarker(pointFeature: Feature, bucketMap: Map<string, IMapAggregationBucket>): IMarker<Icon<IMarkerIconOptions>> {
         // help function for popup numbers
         const formatPopUpNumber = function(num: number) {
             const numParts = num.toString().split(".");
@@ -498,39 +328,77 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
         }
 
         // prepend title popup message
-        popupMsg = "<b>" + centroid.name + "</b><br>" + (value != null ? formatPopUpNumber(value) : "N/A") + "<br><br>"
+        popupMsg = "<b>" + pointFeature.properties?.name + "</b><br>" + (value != null ? formatPopUpNumber(value) : "N/A") + "<br><br>"
                     + popupMsg;
 
-        // create marker with a icon
-        const icon = new MarkerIcon();
-        icon.options.useDonut = this.getState().getDimensions().category.getDomain() !== undefined;
-        icon.options.values = {
-            id: centroid.name,
-            value: value,
-            subvalues: subValuesMap
-        };
-        const marker = L.marker([centroid.lat, centroid.long], {
+        // create icon
+        const icon = this.getDefaults().getMarkerIcon({
+            useDonut: this.getState().getDimensions().category.getDomain() !== undefined,
+            isGroup: false,
+            values: {
+                id: pointFeature.properties?.name,
+                value: value,
+                subvalues: subValuesMap
+            }
+        });
+
+        // create marker
+        const coordinates = (pointFeature.geometry as Point).coordinates;
+        const marker = this.getDefaults().getMarker([coordinates[0], coordinates[1]], {
             icon: icon
         });
-        (marker as any).id = centroid.name,
+
+        // create popop
         marker.bindPopup(popupMsg);
+
         return marker;
+    }
+
+    /**
+     * It updates the dimension.
+     * 
+     * @param dimension 
+     * @param value 
+     * @param redraw 
+     */
+    public updateDimension(dimension: IMapDimension<IMapDomain>, value: string, redraw: number | undefined): void {
+        if(!redraw) {
+            const dimensions = this.getState().getDimensions();
+            switch (dimension) {
+                case dimensions.geoData:
+                    redraw = LayerToolRedrawEnum.LAYER;
+                    break;
+                case dimensions.geoId:
+                case dimensions.value:
+                case dimensions.category:
+                case dimensions.aggregation:
+                    redraw = LayerToolRedrawEnum.DATA;
+                    break;
+                default:
+                    redraw = LayerToolRedrawEnum.STYLE;
+                    break;
+            }
+        }
+        super.updateDimension(dimension, value, redraw);
     }
 
     /**
      * It reloads data and redraw the layer.
      */
-    public redraw(onlyStyle: boolean): void {
-        if(this.getState().getMarkerLayerGroup()) {
-            // delete actual items
-            this.deleteLayerItems();
+    public redraw(type: number): void {
+        switch (type) {
+            case LayerToolRedrawEnum.LAYER:
+            case LayerToolRedrawEnum.DATA:
+                this.updateData();
+                this.deleteLayerItems();
+                this.createMarkers();
+                break;
+            default:
+                // update style
+                // TODO
+                //this.updateStyle();
+                break;
         }
-
-        // prepare data
-        this.processData();
-
-        // update map
-        this.createMarkers();
     }
 
     /**
@@ -539,15 +407,16 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
      * @param event 
      */
     public handleEvent(event: IMapEvent): void {
-        if(event.getType() == DataChangeEvent.TYPE()) {
-            // data change
-            this.redraw(false);
-        } else if(event.getType() == SelectionToolEvent.TYPE()) {
-            this.redraw(false);
-            // TODO
-        } else if(event.getType() == ThemesToolEvent.TYPE()) {
-            // theme change
-            // TODO
+        switch (event.getType()) {
+            case DataChangeEvent.TYPE():
+            case SelectionToolEvent.TYPE():
+                this.redraw(LayerToolRedrawEnum.DATA);
+                break;
+            case ThemesToolEvent.TYPE():
+                this.redraw(LayerToolRedrawEnum.STYLE);
+                break;
+            default:
+                break;
         }
     }
 }

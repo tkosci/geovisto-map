@@ -5,6 +5,7 @@ import IMapDimension from "../../../../../../model/types/dimension/IMapDimension
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
 import IMap from "../../../../../../model/types/map/IMap";
+import IGeoData from "../../../../../../model/types/geodata/IGeoData";
 
 /**
  * This class provide functions which return the default state values.
@@ -37,9 +38,21 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
      */
     public getDimensions(map?: IMap): IConnectionLayerToolDimensions {
         return {
+            geoData: this.getGeoDataDimension(map),
             from: this.getFromDimension(map),
             to: this.getToDimension(map),
         };
+    }
+
+    /**
+     * It returns the default geo ID dimension.
+     */
+    public getGeoDataDimension(map?: IMap): IMapDimension<IGeoData> {
+        return new MapDimension(
+            "geo data",
+            map?.getState().getGeoDataManager() ?? this.getGeoDataManager(this.getGeoData()),
+            undefined
+        );
     }
 
     /**
@@ -72,12 +85,12 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
     }
     
     /**
-     * It returns default centroids.
-     * 
-     * TODO: specify the type
+     * It returns the default geo data.
      */
-    public getCentroids(map?: IMap): unknown {
-        return map?.getState().getCentroids() ?? {};
+    public getGeoData(): IGeoData[] {
+        return [
+            // TODO: provide default geo data
+        ];
     }
 }
 export default ConnectionLayerToolDefaults;

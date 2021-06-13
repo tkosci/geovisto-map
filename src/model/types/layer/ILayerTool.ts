@@ -4,6 +4,8 @@ import ILayerToolProps from "./ILayerToolProps";
 import { ILayerToolConfig } from "./ILayerToolConfig";
 import { IMapToolInitProps } from "../tool/IMapToolProps";
 import IMapTool from "../tool/IMapTool";
+import IMapDimension from "../dimension/IMapDimension";
+import IMapDomain from "../domain/IMapDomain";
 
 /**
  * This class wraps filter tool. It provides methods for layer management.
@@ -29,10 +31,21 @@ interface ILayerTool<
     getLayerItems(): L.Layer[];
 
     /**
-     * It reloads data and redraw the layer.
+     * It updates the dimension.
      * 
-     * @param onlyStyle 
+     * @param dimension 
+     * @param value 
+     * @param redraw 
      */
-    redraw(onlyStyle: boolean): void;
+    updateDimension(dimension: IMapDimension<IMapDomain>, value: string, redraw: number | undefined): void;
+
+    /**
+     * It reloads data and redraw the layer with respect to the type.
+     * 
+     * By default it works with LayerRedrawType
+     * 
+     * @param type 
+     */
+    redraw(type: number): void;
 }
 export default ILayerTool;

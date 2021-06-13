@@ -198,9 +198,11 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
                     <ReactGeovistoMap
                         ref={this.map}
                         id="my-geovisto-map"
-                        polygons={this.polygons}
-                        centroids={this.centroids}
                         data={Geovisto.getMapDataManagerFactory().json(this.state.data)}
+                        geoData={Geovisto.getGeoDataManager([
+                            Geovisto.getGeoDataFactory().geojson("world polygons", this.polygons),
+                            Geovisto.getGeoDataFactory().geojson("world centroids", this.centroids)
+                        ])}
                         config={Geovisto.getMapConfigManagerFactory().default(this.state.config)}
                         globals={undefined}
                         templates={undefined}
@@ -260,14 +262,14 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
                                 id: "geovisto-tool-layer-marker",
                                 enabled: true,
                                 name: undefined,
-                                centroids: undefined,
+                                geoData: undefined,
                                 dimensions: undefined,
                             }),
                             GeovistoConnectionLayerTool.createTool({
                                 id: "geovisto-tool-layer-connection",
                                 enabled: true,
                                 name: undefined,
-                                centroids: undefined,
+                                geoData: undefined,
                                 dimensions: undefined,
                             }),
                         ])}

@@ -15,7 +15,8 @@ type IChoroplethLayerToolConfig = ILayerToolConfig & {
  * @author Jiri Hynek
  */
 type IChoroplethLayerToolDimensionsConfig = ILayerToolDimensionsConfig & {
-    geo: string | undefined,
+    geoData: string | undefined,
+    geoId: string | undefined,
     value: string | undefined,
     aggregation: string | undefined
 }

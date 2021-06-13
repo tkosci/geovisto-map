@@ -1,4 +1,6 @@
-[
+{
+  "type": "FeatureCollection",
+  "features": [
   {
     "type": "Feature",
     "name": "Afghanistan",
@@ -99637,4 +99639,5 @@
       ]
     }
   }
-]
+  ]
+}

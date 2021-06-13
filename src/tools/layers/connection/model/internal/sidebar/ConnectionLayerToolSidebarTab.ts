@@ -5,6 +5,7 @@ import ConnectionLayerToolSidebarTabDefaults from "./ConnectionLayerToolSidebarT
 import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToolDimensions";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import IGeoData from "../../../../../../model/types/geodata/IGeoData";
 
 /**
  * This class provides controls for management of the layer sidebar tab.
@@ -16,6 +17,7 @@ class ConnectionLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IConnect
     private htmlContent: HTMLDivElement | undefined;
     
     private inputs: {
+        geoData: IMapFormInput,
         from: IMapFormInput,
         to: IMapFormInput,
     } | undefined;
@@ -38,6 +40,7 @@ class ConnectionLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IConnect
      */
     public setInputValues(dimensions: IConnectionLayerToolDimensions): void {
         // update inputs
+        this.inputs?.geoData.setValue((dimensions.geoData.getDomain()?.getName())?? "");
         this.inputs?.from.setValue((dimensions.from.getDomain()?.getName())?? "");
         this.inputs?.to.setValue((dimensions.to.getDomain()?.getName())?? "");
     }
@@ -56,11 +59,13 @@ class ConnectionLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IConnect
 
             // create inputs
             this.inputs = {
+                geoData: this.getInputGeoData(dimensions.geoData),
                 from: this.getInputFrom(dimensions.from),
                 to: this.getInputTo(dimensions.to)
             };
             
             // append to DOM
+            elem.appendChild(this.inputs.geoData.create());
             elem.appendChild(this.inputs.from.create());        
             elem.appendChild(this.inputs.to.create());
     
@@ -69,6 +74,15 @@ class ConnectionLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IConnect
         }
         
         return this.htmlContent;
+    }
+
+    /**
+     * It returns new input for the geo data dimension.
+     * 
+     * @param dimension
+     */
+    public getInputGeoData(dimension: IMapDimension<IGeoData>): IMapFormInput {
+        return this.getAutocompleteInput(dimension);
     }
 
     /**
