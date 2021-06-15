@@ -48,6 +48,20 @@ class ThemesToolDefaults extends MapToolDefaults implements IThemesToolDefaults 
     }
 
     /**
+     * It returns the label of the tool.
+     */
+    public getLabel(): string {
+        return "Themes";
+    }
+
+    /**
+     * It returns the icon of the tool.
+     */
+    public getIcon(): string {
+        return '<i class="fa fa-file"></i>';
+    }
+
+    /**
      * It returns default themes manager.
      */
     public getThemesManager(): IMapThemesManager {

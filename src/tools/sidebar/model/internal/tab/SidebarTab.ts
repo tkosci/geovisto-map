@@ -5,13 +5,14 @@ import { ISidebarTabProps, ISidebarTabInitProps } from "../../types/tab/ISidebar
 import ISidebarTabDefaults from "../../types/tab/ISidebarTabDefaults";
 import SidebarTabDefaults from "./SidebarTabDefaults";
 import ISidebarTabState from "../../types/tab/ISidebarTabState";
+import { Control } from "leaflet";
 import SidebarTabState from "./SidebarTabState";
 import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
 import ISidebarFragment from "../../types/fragment/ISidebarFragment";
-import { Control } from "leaflet";
-import ISidebarFragmentControl from "../../types/fragment/ISidebarFragmentControl";
 import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
+import IMapFormControl, { instanceOfMapForm } from "../../../../../model/types/form/IMapFormControl";
+import SidebarFragment from "../fragment/SidebarFragment";
 
 const C_sidebar_header_class = "leaflet-sidebar-header";
 const C_sidebar_tab_content_class = "leaflet-sidebar-tab-content";
@@ -26,7 +27,7 @@ const C_checked_class = "checked";
  *
  * @author Jiri Hynek
  */
-abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implements ISidebarTab {
+class SidebarTab<T extends IMapTool & IMapFormControl> extends MapObject implements ISidebarTab {
 
     /**
      * It creates abstract sidebar tab with respect to the given props.
@@ -107,15 +108,12 @@ abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implemen
      * @param config 
      */
     protected initializeFragments(config: ISidebarTabConfig): void {
-        // poor JavaScript...
-        const instanceOfFragmentControl = function(tool: IMapTool | ISidebarFragmentControl): tool is ISidebarFragmentControl {
-            return (tool as ISidebarFragmentControl).getSidebarFragment !== undefined;
-        };
-
         // init help variables
         const fragments: ISidebarFragment[] = [];
         let fragment: ISidebarFragment;
         let fragmentTool: IMapTool | undefined;
+        
+        const propsFragments = this.getProps().fragments;
 
         const thisTool = this.getTool();
         if(thisTool) {
@@ -128,28 +126,24 @@ abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implemen
                         fragmentConfig = config.fragments[i];
                         if(fragmentConfig.tool) {
                             fragmentTool = map.getState().getTools().getById(fragmentConfig.tool);
-                            if(fragmentTool && (instanceOfFragmentControl(fragmentTool))) {
-                                fragment = (fragmentTool as ISidebarFragmentControl).getSidebarFragment();
-                                if(fragment && fragment.isChild(this)) {
-                                    fragment.initialize({ tool: fragmentTool, sidebarTab: this, config: fragmentConfig });
-                                    fragments.push(fragment);
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    // try to look for fragments if not specified in config
-                    const tools: IMapTool[] = map.getState().getTools().getAll();
-                    for(let i = 0; i < tools.length; i++) {
-                        fragmentTool = tools[i];
-                        if(instanceOfFragmentControl(fragmentTool)) {
-                            fragment = (fragmentTool as ISidebarFragmentControl).getSidebarFragment();
-                            if(fragment && fragment.isChild(this)) {
-                                fragment.initialize({ tool: fragmentTool, sidebarTab: this, config: undefined });
+                            if(fragmentTool && instanceOfMapForm<IMapTool>(fragmentTool)) {
+                                fragment = new SidebarFragment({
+                                    id: undefined,
+                                    enabled: undefined
+                                });
+                                fragment.initialize({ tool: fragmentTool, sidebarTab: this, config: fragmentConfig });
                                 fragments.push(fragment);
                             }
                         }
                     }
+                } else if(propsFragments) {
+                    for(const [ toolId, fragment ] of propsFragments) {
+                        fragmentTool = map.getState().getTools().getById(toolId);
+                        if(fragmentTool && instanceOfMapForm<IMapTool>(fragmentTool)) {
+                            fragment.initialize({ tool: fragmentTool, sidebarTab: this, config: undefined });
+                            fragments.push(fragment);
+                        }
+                     }
                 }
             }
         }
@@ -159,11 +153,10 @@ abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implemen
 
     /**
      * Creates sidebar tab.
-     *
      */
     public create(): this {
         const state: ISidebarTabState = this.getState();
-        const sidebar: Control.Sidebar | null = state.getSidebar();
+        const sidebar: Control.Sidebar | null = state.getSidebarTool().getState().getSidebar();
         if(sidebar && state.isEnabled()) {
             // render sidebar tab pane
             sidebar.addPanel(this.getTabStructure());
@@ -202,7 +195,7 @@ abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implemen
             const tabContentElements: HTMLCollectionOf<Element> = tabElement.getElementsByClassName(C_sidebar_tab_content_class);
             if(tabContentElements.length > 0) {
                 const tabContent: Element = tabContentElements[0];
-                tabContent.appendChild(this.getContent());
+                tabContent.appendChild(this.getTool().getMapForm().getContent());
 
                 // append tab fragments if defined
                 const tabFragments: ISidebarFragment[] | undefined = this.getState().getFragments();
@@ -253,13 +246,6 @@ abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implemen
     }
 
     /**
-     * It returns tab pane which will be placed in sidebar tab.
-     *
-     * This function needs to be extended.
-     */
-    protected abstract getContent(): HTMLElement;
-
-    /**
      * Functions changes layer state to enabled/disabled.
      *
      * @param checked
@@ -302,4 +288,4 @@ abstract class AbstractSidebarTab<T extends IMapTool> extends MapObject implemen
     public setTabContentChecked(checked: boolean): void {
     }
 }
-export default AbstractSidebarTab;
+export default SidebarTab;

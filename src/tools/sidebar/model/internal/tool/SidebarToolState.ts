@@ -17,7 +17,7 @@ import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps
  */
 class SidebarToolState extends MapToolState implements ISidebarToolState {
     
-    private tabsConfigs: ISidebarTabConfig[] | undefined;
+    private tabsConfigs?: ISidebarTabConfig[];
     
     private tabs: ISidebarTab[];
     

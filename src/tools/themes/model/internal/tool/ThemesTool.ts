@@ -1,4 +1,3 @@
-import { ISidebarFragment, ISidebarFragmentControl } from "../../../../sidebar";
 import IThemesTool from "../../types/tool/IThemesTool";
 import IThemesToolProps from "../../types/tool/IThemesToolProps";
 import IThemesToolDefaults from "../../types/tool/IThemesToolDefaults";
@@ -7,10 +6,12 @@ import IThemesToolState from "../../types/tool/IThemesToolState";
 import ThemesToolState from "./ThemesToolState";
 import IMapTheme from "../../types/theme/IMapTheme";
 import ThemesToolEvent from "../event/ThemesToolEvent";
-import ThemesToolSidebarFragment from "../sidebar/ThemesToolSidebarFragment";
+import ThemesToolMapForm from "../form/ThemesToolMapForm";
 import IThemesToolConfig from "../../types/tool/IThemesToolConfig";
 import MapTool from "../../../../../model/internal/tool/MapTool";
 import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
+import IMapForm from "../../../../../model/types/form/IMapForm";
 
 /**
  * Attribute which is set to the map container.
@@ -22,12 +23,12 @@ const THEME_ATTR_NAME = "data-theme";
  * 
  * @author Jiri Hynek
  */
-class ThemesTool extends MapTool implements IThemesTool, ISidebarFragmentControl {
+class ThemesTool extends MapTool implements IThemesTool, IMapFormControl {
     
     /**
      * TODO: move to the tool state.
      */
-    private sidebarFragment: ISidebarFragment | undefined;
+    private mapForm!: IMapForm;
 
     /**
      * It creates a new tool with respect to the props.
@@ -36,9 +37,6 @@ class ThemesTool extends MapTool implements IThemesTool, ISidebarFragmentControl
      */
     public constructor(props: IThemesToolProps | undefined) {
         super(props);
-
-        // the tab fragment for a sidebar tab will be created only if needed
-        this.sidebarFragment = undefined;
     }
 
     /**
@@ -133,23 +131,19 @@ class ThemesTool extends MapTool implements IThemesTool, ISidebarFragmentControl
     /**
      * It returns tab control with respect to the configuration
      */
-    public getSidebarFragment(): ISidebarFragment {
-        if(this.sidebarFragment == undefined) {
-            this.sidebarFragment = this.createSidebarTabFragment();
+    public getMapForm(): IMapForm {
+        if(this.mapForm == undefined) {
+            this.mapForm = this.createMapForm();
         }
-        return this.sidebarFragment;
+        return this.mapForm;
     }
 
     /**
      * It creates new tab fragment.
      */
-    protected createSidebarTabFragment(): ISidebarFragment {
+    protected createMapForm(): IMapForm {
         // override if needed
-        return new ThemesToolSidebarFragment({
-            // defined by the sidebar fragment defaults
-            id: undefined,
-            enabled: undefined
-        });
+        return new ThemesToolMapForm(this);
     }
 }
 export default ThemesTool;

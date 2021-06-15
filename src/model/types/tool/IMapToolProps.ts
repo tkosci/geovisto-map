@@ -8,7 +8,9 @@ import { IMap } from "../../..";
  * @author Jiri Hynek
  */
 type IMapToolProps = IMapObjectProps & {
-    enabled: boolean | undefined
+    enabled?: boolean,
+    label?: string,
+    icon?: string
 }
 
 /**

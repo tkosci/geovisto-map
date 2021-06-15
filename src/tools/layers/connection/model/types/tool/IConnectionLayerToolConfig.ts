@@ -6,7 +6,7 @@ import { ILayerToolConfig, ILayerToolDimensionsConfig } from "../../../../../../
  * @author Jiri Hynek
  */
 type IConnectionLayerToolConfig = ILayerToolConfig & {
-    data: IConnectionLayerToolDimensionsConfig | undefined;
+    data?: IConnectionLayerToolDimensionsConfig;
 }
 
 /**
@@ -15,8 +15,8 @@ type IConnectionLayerToolConfig = ILayerToolConfig & {
  * @author Jiri Hynek
  */
 type IConnectionLayerToolDimensionsConfig = ILayerToolDimensionsConfig & {
-    geoData: string | undefined,
-    from: string | undefined,
-    to: string | undefined,
+    geoData?: string,
+    from?: string,
+    to?: string,
 }
 export type { IConnectionLayerToolConfig, IConnectionLayerToolDimensionsConfig };

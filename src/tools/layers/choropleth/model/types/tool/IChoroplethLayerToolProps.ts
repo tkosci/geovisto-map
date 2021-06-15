@@ -8,7 +8,7 @@ import IChoroplethLayerToolDimensions from "./IChoroplethLayerToolDimensions";
  * @author Jiri Hynek
  */
 type IChoroplethLayerToolProps = ILayerToolProps & {
-    dimensions: IChoroplethLayerToolDimensions | undefined;
-    geoData: IGeoDataManager;
+    dimensions?: IChoroplethLayerToolDimensions;
+    geoData?: IGeoDataManager;
 }
 export default IChoroplethLayerToolProps;

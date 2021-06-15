@@ -6,7 +6,7 @@ import IMapObjectConfig from "./IMapObjectConfig";
  * @author Jiri Hynek
  */
 type IMapObjectProps = {
-    id : string | undefined;
+    id? : string;
 }
 
 /**
@@ -15,6 +15,6 @@ type IMapObjectProps = {
  * @author Jiri Hynek
  */
 type IMapObjectInitProps<TConfig extends IMapObjectConfig = IMapObjectConfig> = {
-    config : TConfig | undefined;
+    config? : TConfig;
 }
 export type { IMapObjectProps, IMapObjectInitProps };

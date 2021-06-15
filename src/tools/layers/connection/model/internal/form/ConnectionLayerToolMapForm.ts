@@ -1,36 +1,34 @@
-import { AbstractLayerToolSidebarTab, ILayerToolSidebarTab, ILayerToolSidebarTabProps, ILayerToolSidebarTabDefaults } from "../../../../../sidebar";
 import IConnectionLayerTool from "../../types/tool/IConnectionLayerTool";
 import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
-import ConnectionLayerToolSidebarTabDefaults from "./ConnectionLayerToolSidebarTabDefaults";
 import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToolDimensions";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import IGeoData from "../../../../../../model/types/geodata/IGeoData";
+import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
+import IMapForm from "../../../../../../model/types/form/IMapForm";
 
 /**
  * This class provides controls for management of the layer sidebar tab.
  * 
  * @author Jiri Hynek
  */
-class ConnectionLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IConnectionLayerTool> implements ILayerToolSidebarTab {
+class ConnectionLayerToolMapForm extends MapLayerToolForm<IConnectionLayerTool> implements IMapForm {
     
-    private htmlContent: HTMLDivElement | undefined;
+    private htmlContent!: HTMLDivElement;
     
-    private inputs: {
+    private inputs?: {
         geoData: IMapFormInput,
         from: IMapFormInput,
         to: IMapFormInput,
-    } | undefined;
-
-    public constructor(props: ILayerToolSidebarTabProps) {
-        super(props);
-    }
+    };
 
     /**
-     * It creates new defaults of the tab control.
+     * It creates new map form with respect to the given props.
+     * 
+     * @param tool 
      */
-    public createDefaults(): ILayerToolSidebarTabDefaults {
-        return new ConnectionLayerToolSidebarTabDefaults();
+    public constructor(tool: IConnectionLayerTool) {
+        super(tool);
     }
 
     /**
@@ -55,7 +53,7 @@ class ConnectionLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IConnect
             const elem = this.htmlContent.appendChild(document.createElement('div'));
     
             // get data mapping model
-            const dimensions: IConnectionLayerToolDimensions = this.getTool().getState().getDimensions();
+            const dimensions: IConnectionLayerToolDimensions = this.getMapObject().getState().getDimensions();
 
             // create inputs
             this.inputs = {
@@ -103,4 +101,4 @@ class ConnectionLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IConnect
         return this.getAutocompleteInput(dimension);
     }
 }
-export default ConnectionLayerToolSidebarTab;
+export default ConnectionLayerToolMapForm;

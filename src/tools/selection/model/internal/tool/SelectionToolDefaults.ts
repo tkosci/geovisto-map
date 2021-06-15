@@ -39,6 +39,20 @@ class SelectionToolDefaults extends MapToolDefaults implements ISelectionToolDef
     }
 
     /**
+     * It returns the label of the tool.
+     */
+    public getLabel(): string {
+        return "Selection";
+    }
+
+    /**
+     * It returns the icon of the tool.
+     */
+    public getIcon(): string {
+        return '<i class="fa fa-file"></i>';
+    }
+
+    /**
      * It returns default map selection.
      */
     public getSelection(): IMapSelection | null {

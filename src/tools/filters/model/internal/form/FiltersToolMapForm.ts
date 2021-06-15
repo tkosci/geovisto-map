@@ -1,5 +1,3 @@
-import { AbstractSidebarTab, ISidebarTab, ISidebarTabDefaults, ISidebarTabProps, ISidebarTabConfig, ISidebarTabInitProps } from "../../../../sidebar";
-import FiltersToolSidebarTabDefaults from "./FiltersToolSidebarTabDefaults";
 import IMapFilterRule from "../../types/filter/IMapFilterRule";
 import IMapDataManager from "../../../../../model/types/data/IMapDataManager";
 import IMapFiltersManager from "../../types/filter/IMapFilterManager";
@@ -7,6 +5,9 @@ import IFiltersTool from "../../types/tool/IFiltersTool";
 import TabDOMUtil from "../../../../../util/TabDOMUtil";
 import FilterAutocompleteFormInput from "../../../../../model/internal/inputs/filter/autocomplete/FilterAutocompleteFormInput";
 import LabeledAutocompleteFormInput from "../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput";
+import MapObjectForm from "../../../../../model/internal/form/MapObjectForm";
+import IMapForm from "../../../../../model/types/form/IMapForm";
+import IMapFilterManager from "../../types/filter/IMapFilterManager";
 
 /**
  * This interface provides a help type which represents double (html element container, input).
@@ -19,69 +20,67 @@ interface InputItem {
 }
 
 /**
- * This class provides controls for management of filters sidebar tabs.
+ * This class provides controls for management of filters map form inputs.
  * 
  * @author Jiri Hynek
  */
-class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements ISidebarTab {
+class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm {
     
     /**
      * TODO: exclude class variables to the defaults and state.
      */
-    private mapDataManager: IMapDataManager | undefined;
-    private dataDomainNames!: string[];
+    private mapDataManager?: IMapDataManager;
     private filterManager!: IMapFiltersManager;
-    private operationNames!: string[];
-    private htmlContent: HTMLElement | null;
+    private htmlContent!: HTMLDivElement;
     private btnGroup: HTMLDivElement | null;
     private inputs: InputItem[];
 
-    public constructor(props: ISidebarTabProps | undefined) {
-        super(props);
+    /**
+     * It creates new map form with respect to the given props.
+     * 
+     * @param tool 
+     */
+    public constructor(tool: IFiltersTool) {
+        super(tool);
 
-        this.htmlContent = null;
         this.btnGroup = null;
         this.inputs = [];
     }
 
     /**
-     * It overrides the super method.
-     * 
-     * @param initProps 
+     * A help function which returns data manager
      */
-    public initialize(initProps: ISidebarTabInitProps<ISidebarTabConfig, IFiltersTool>): this {
-        super.initialize(initProps);
-
-        // help variables (TODO: move to the tab control state)
-        this.mapDataManager = this.getTool().getMap()?.getState().getMapData();
-        this.dataDomainNames = this.mapDataManager?.getDomainNames() ?? [];
-
-        this.filterManager = this.getTool().getState().getFiltersManager();
-        this.operationNames = this.filterManager.getDomainNames();
-
-        return this;
-    }
-    
-    /**
-     * help function which returns default values of the sidebar tab
-     * casted as FiltersToolSidebarTabDefaults.
-     */
-    public getDefaults(): FiltersToolSidebarTabDefaults {
-        return <FiltersToolSidebarTabDefaults> super.getDefaults();
+     protected getDataManager(): IMapDataManager | undefined {
+        if(!this.mapDataManager) {
+            this.mapDataManager = this.getMapObject().getMap()?.getState().getMapData();
+        }
+        return this.mapDataManager;
     }
 
     /**
-     * It creates new defaults of the tab control.
+     * A help function which returns data manager
      */
-    public createDefaults(): ISidebarTabDefaults {
-        return new FiltersToolSidebarTabDefaults();
+     protected getFilterManager(): IMapFilterManager {
+        if(!this.filterManager) {
+            this.filterManager = this.getMapObject().getState().getFiltersManager();
+        }
+        return this.filterManager;
     }
 
     /**
-     * It returns tab content.
-     * 
+     * A help function which returns the element class.
      */
-    public getContent(): HTMLElement {
+    protected getFilterRuleElementClass(objectType: string | undefined): string {
+        if(objectType) {
+            return objectType + "-filter";
+        }
+        return "unknown-object-filter";
+    }
+
+    /**
+     * It returns a HTML div element conatining the form.
+     */
+    public getContent(): HTMLDivElement {
         if(this.htmlContent == undefined) {
             // tab pane
             this.htmlContent = document.createElement('div');
@@ -94,7 +93,7 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
             // TODO
             // eslint-disable-next-line no-var, @typescript-eslint/no-this-alias
             var _this = this;
-            this.btnGroup.appendChild(TabDOMUtil.createButton("<i class=\"fa fa-plus-circle\"></i>", function() { FiltersToolSidebarTab.addSelectItem(_this); }, "plusBtn" ));
+            this.btnGroup.appendChild(TabDOMUtil.createButton("<i class=\"fa fa-plus-circle\"></i>", function() { FiltersToolMapForm.addSelectItem(_this); }, "plusBtn" ));
 
             // append apply button
             this.btnGroup.appendChild(TabDOMUtil.createButton("Apply", function() {
@@ -102,26 +101,25 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
             },"applyBtn"));
 
             // import inputs according to configuration
-            this.setFilterRules(this.getTool().getState().getFilterRules());
+            this.setFilterRules(this.getMapObject().getState().getFilterRules());
         }
 
         return this.htmlContent;
     }
 
     /**
-     * Help static function which adds new select item to the filter sidebar tab.
+     * Help static function which adds new select item to the filter map form.
      * 
      * @param _this 
      */
-    private static addSelectItem(_this: FiltersToolSidebarTab): InputItem | null {
+    protected static addSelectItem(_this: FiltersToolMapForm): InputItem | null {
         // div container
         if(_this.htmlContent) {
-            const defaults: FiltersToolSidebarTabDefaults = <FiltersToolSidebarTabDefaults> _this.getDefaults();
             const div: HTMLDivElement = _this.htmlContent.insertBefore(document.createElement('div'), _this.btnGroup);
-            div.classList.add(defaults.getFilterRuleElementClass(_this.getType()));
+            div.classList.add(_this.getFilterRuleElementClass(_this.getMapObject().getType()));
             
             const minusButton = TabDOMUtil.createButton("<i class=\"fa fa-minus-circle\"></i>",
-                                                        function(e: MouseEvent) { FiltersToolSidebarTab.removeSelectItem(e, _this); }, "minusBtn");        
+                                                        function(e: MouseEvent) { FiltersToolMapForm.removeSelectItem(e, _this); }, "minusBtn");        
             div.appendChild(minusButton);
 
             /**
@@ -135,7 +133,7 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
             const updateValueOptions = function(e: Event) {
                 // find the input item
                 let input: FilterAutocompleteFormInput | null = null;
-                const div: HTMLElement | null = (e.target as HTMLInputElement).closest("." + defaults.getFilterRuleElementClass(_this.getType()));
+                const div: HTMLElement | null = (e.target as HTMLInputElement).closest("." + _this.getFilterRuleElementClass(_this.getMapObject().getType()));
                 for(let i = 0; i < _this.inputs.length; i++) {
                     if(_this.inputs[i].container == div) {
                         input = _this.inputs[i].input;
@@ -161,11 +159,11 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
                                 inputElement.val.setDisabled(false);
                                 
                                 // find possible values of selected data domain
-                                const dataDomain = _this.mapDataManager?.getDomain(dataDomainName);
+                                const dataDomain = _this.getDataManager()?.getDomain(dataDomainName);
                                 if(dataDomain) {
                                     // update options of the value input
                                     // TODO specify the type
-                                    inputElement.val.setOptions(_this.mapDataManager?.getValues(dataDomain) as any[] ?? []);
+                                    inputElement.val.setOptions(_this.getDataManager()?.getValues(dataDomain) as any[] ?? []);
                                 }
                             
                         } else {
@@ -179,21 +177,24 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
                 }
             };
 
-            const dataDomain = _this.mapDataManager?.getDomain(_this.dataDomainNames[0]);
+            const dataManager = _this.getDataManager();
+            const dataDomainNames = dataManager?.getDomainNames() ?? [ "" ];
+            const dataDomain = dataManager?.getDomain(dataDomainNames[0]);
+            const operationNames = _this.getFilterManager().getDomainNames();
 
             // inputs
             const input = new FilterAutocompleteFormInput({
                 data: {
-                    options: _this.dataDomainNames,
+                    options: dataDomainNames,
                     onChangeAction: updateValueOptions
                 },
                 ops: {
-                    options: _this.operationNames,
+                    options: operationNames,
                     onChangeAction: function() { /* do nothing; TODO: update operators with respect to the data domain */ }
                 },
                 vals: {
                     // TODO: specify the type
-                    options: dataDomain ? _this.mapDataManager?.getValues(dataDomain) as any ?? [] : [],
+                    options: dataDomain ? dataManager?.getValues(dataDomain) as any ?? [] : [],
                     onChangeAction: function() { /* do nothing */ }
                 }
             });
@@ -216,11 +217,11 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
     }
 
     /**
-     * Help static function which removes item from the filter sidebar tab.
+     * Help static function which removes item from the filter map form.
      * 
      * @param _this 
      */
-    private static removeSelectItem(e: MouseEvent, _this: FiltersToolSidebarTab): void {
+     protected static removeSelectItem(e: MouseEvent, _this: FiltersToolMapForm): void {
         if(e.target) {
             // get div
             const div = (<HTMLInputElement> e.target).closest("div");
@@ -239,21 +240,21 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
     /**
      * It updates rules according to the input values.
      */
-    private inputChangedAction(): void {
-        this.getTool().setFilterRules(this.getFilterRules());
+     protected inputChangedAction(): void {
+        this.getMapObject().setFilterRules(this.getFilterRules());
     }
 
     /**
      * It updates input values according to the selection.
      */
-    private dimensionInputChangedAction(): void {
+     protected dimensionInputChangedAction(): void {
         // TODO
     }
 
     /**
      * It returns selected values from input fields and constructs filter rules.
      */
-    public getFilterRules(): IMapFilterRule[] {
+    protected getFilterRules(): IMapFilterRule[] {
         const filterRules = [];
         let value;
         let dataDomain;
@@ -261,7 +262,7 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
             // get input value
             value = this.inputs[i].input.getValue();
             // get data domain
-            dataDomain = this.mapDataManager?.getDomain(value.data);
+            dataDomain = this.getDataManager()?.getDomain(value.data);
             if(dataDomain) {
                 // new filter rule
                 const filterRule: IMapFilterRule | null = this.filterManager.createRule(dataDomain, value.op, value.val);
@@ -278,7 +279,7 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
      * 
      * @param filterRules 
      */
-    public setFilterRules(filterRules: IMapFilterRule[]): void {
+     protected setFilterRules(filterRules: IMapFilterRule[]): void {
         // clear inputs
         for(let i = 0; i < this.inputs.length; i++) {
             this.inputs[i].container.remove();
@@ -287,12 +288,12 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
 
         if(filterRules == undefined || filterRules.length == 0) {
             // if filter rules are empty, initialize one empty input item
-            FiltersToolSidebarTab.addSelectItem(this);
+            FiltersToolMapForm.addSelectItem(this);
         } else {
             // import inputs according to given filter rules
             for(let i = 0; i < filterRules.length; i++) {
                 // create input for given filter rule
-                FiltersToolSidebarTab.addSelectItem(this)?.input.setValue({
+                FiltersToolMapForm.addSelectItem(this)?.input.setValue({
                     data: filterRules[i].getDataDomain().toString(),
                     op: filterRules[i].getFilterOperation().toString(),
                     val: filterRules[i].getPattern()
@@ -301,4 +302,4 @@ class FiltersToolSidebarTab extends AbstractSidebarTab<IFiltersTool> implements 
         }
     }
 }
-export default FiltersToolSidebarTab;
+export default FiltersToolMapForm;

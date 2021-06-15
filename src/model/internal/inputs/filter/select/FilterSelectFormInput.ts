@@ -16,15 +16,15 @@ class FilterSelectFormInput extends AbstractMapFormInput {
     /**
      * The input element is created when required.
      */
-    private inputDiv: HTMLDivElement | undefined;
+    private inputDiv?: HTMLDivElement;
     
     /**
      * Input element is composed of 3 HTML select elements
      */
     private input: { 
-        data: HTMLSelectElement | undefined,
-        op: HTMLSelectElement | undefined,
-        val: HTMLInputElement | undefined
+        data?: HTMLSelectElement,
+        op?: HTMLSelectElement,
+        val?: HTMLInputElement
     };
 
     public constructor(props: IFilterFormInputProps) {

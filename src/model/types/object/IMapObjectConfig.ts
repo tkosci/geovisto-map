@@ -4,7 +4,7 @@
  * @author Jiri Hynek
  */
 type IMapObjectConfig = {
-    type: string | undefined;
-    id : string | undefined;
+    type?: string;
+    id?: string;
 }
 export default IMapObjectConfig;

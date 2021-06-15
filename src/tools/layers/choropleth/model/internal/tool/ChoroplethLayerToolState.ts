@@ -17,8 +17,7 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
 
     private zindex!: number;
     private bucketData!: Map<string, IMapAggregationBucket>;
-    private geoJSONlayer: L.GeoJSON | undefined;
-    private popup: L.Control | undefined;
+    private geoJSONlayer?: L.GeoJSON;
     private hoveredItem?: string;
 
     /**
@@ -127,22 +126,6 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
      */
     public setGeoJSONLayer(geoJSONlayer: L.GeoJSON): void {
         this.geoJSONlayer = geoJSONlayer;
-    }
-
-    /**
-     * It returns a Leaflet popup control.
-     */
-    public getPopup(): L.Control | undefined {
-        return this.popup;
-    }
-
-    /**
-     * It sets a Leaflet popup control.
-     * 
-     * @param popup 
-     */
-    public setPopup(popup: L.Control): void {
-        this.popup = popup;
     }
 
     /**

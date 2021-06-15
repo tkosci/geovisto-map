@@ -8,8 +8,7 @@ export type { default as ITilesLayerToolProps } from './model/types/tool/ITilesL
 export type { default as ITilesLayerToolState } from './model/types/tool/ITilesLayerToolState';
 
 // internal
-export { default as TilesLayerToolSidebarTab } from './model/internal/sidebar/TilesLayerToolSidebarTab';
-export { default as TilesLayerToolSidebarTabDefaults } from './model/internal/sidebar/TilesLayerToolSidebarTabDefaults';
+export { default as TilesLayerToolMapForm } from './model/internal/form/TilesLayerToolMapForm';
 export { default as TilesLayerTool } from './model/internal/tool/TilesLayerTool';
 export { default as TilesLayerToolDefaults } from './model/internal/tool/TilesLayerToolDefaults';
 export { default as TilesLayerToolState } from './model/internal/tool/TilesLayerToolState';

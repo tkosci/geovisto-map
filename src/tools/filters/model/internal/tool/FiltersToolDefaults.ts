@@ -44,6 +44,20 @@ class FiltersToolDefaults extends MapToolDefaults implements IFiltersToolDefault
     }
 
     /**
+     * It returns the label of the tool.
+     */
+    public getLabel(): string {
+        return "Filters";
+    }
+
+    /**
+     * It returns the icon of the tool.
+     */
+    public getIcon(): string {
+        return '<i class="fa fa-filter"></i>';
+    }
+
+    /**
      * It returns default filters manager.
      */
     public getFiltersManager(): IMapFiltersManager {

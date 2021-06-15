@@ -14,7 +14,7 @@ class TextFormInput extends AbstractMapFormInput implements IMapFormInput {
     /**
      * Basic input is used.
      */
-    private input: HTMLInputElement | undefined;
+    private input?: HTMLInputElement;
 
     public constructor(props: ITextFormInputProps) {
         super(props);

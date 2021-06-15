@@ -15,7 +15,7 @@ import '../../../style/choroplethLayer.scss';
 import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
 import ChoroplethLayerToolState from './ChoroplethLayerToolState';
 import ChoroplethLayerToolDefaults from './ChoroplethLayerToolDefaults';
-import ChoropolethLayerToolSidebarTab from '../sidebar/ChoroplethLayerToolSidebarTab';
+import ChoropolethLayerToolMapForm from '../form/ChoroplethLayerToolMapForm';
 import ThemesToolEvent from '../../../../../themes/model/internal/event/ThemesToolEvent';
 import SelectionToolEvent from '../../../../../selection/model/internal/event/SelectionToolEvent';
 import DataChangeEvent from '../../../../../../model/internal/event/data/DataChangeEvent';
@@ -24,7 +24,6 @@ import IChoroplethLayerToolProps from '../../types/tool/IChoroplethLayerToolProp
 import IChoroplethLayerToolDefaults from '../../types/tool/IChoroplethLayerToolDefaults';
 import IChoroplethLayerToolState from '../../types/tool/IChoroplethLayerToolState';
 import { GeovistoSelectionTool, ISelectionTool, IMapSelection } from '../../../../../selection';
-import { ILayerToolSidebarTab, ISidebarTabControl } from '../../../../../sidebar';
 import IMapDataDomain from '../../../../../../model/types/data/IMapDataDomain';
 import IChoroplethLayerToolDimensions from '../../types/tool/IChoroplethLayerToolDimensions';
 import IMapAggregationFunction from '../../../../../../model/types/aggregation/IMapAggregationFunction';
@@ -38,16 +37,18 @@ import IMapDimension from '../../../../../../model/types/dimension/IMapDimension
 import IMapDomain from '../../../../../../model/types/domain/IMapDomain';
 import LayerToolRedrawEnum from '../../../../../../model/types/layer/LayerToolRedrawEnum';
 import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
+import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
+import IMapForm from '../../../../../../model/types/form/IMapForm';
 
 /**
  * This class represents Choropleth layer tool. It works with geojson polygons representing countries.
  * 
  * @author Jiri Hynek
  */
-class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerTool, ISidebarTabControl {
+class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerTool, IMapFormControl {
 
     private selectionTool: ISelectionTool | undefined;
-    private sidebarTab: ILayerToolSidebarTab | undefined;
+    private mapForm!: IMapForm;
 
     /**
      * It creates a new tool with respect to the props.
@@ -116,25 +117,18 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
     /**
      * It returns a sidebar tab with respect to the configuration.
      */
-    public getSidebarTab(): ILayerToolSidebarTab {
-        if(this.sidebarTab == undefined) {
-            this.sidebarTab = this.createSidebarTabControl();
+    public getMapForm(): IMapForm {
+        if(this.mapForm == undefined) {
+            this.mapForm = this.createMapForm();
         }
-        return this.sidebarTab;
+        return this.mapForm;
     }
     /**
      * It creates new tab control.
      */
-    protected createSidebarTabControl(): ILayerToolSidebarTab {
+    protected createMapForm(): IMapForm {
         // override if needed
-        return new ChoropolethLayerToolSidebarTab({
-            // defined by the sidebar tab defaults
-            id: undefined,
-            enabled: undefined,
-            name: undefined,
-            icon: undefined,
-            checkButton: undefined
-        });
+        return new ChoropolethLayerToolMapForm(this);
     }
 
     /**

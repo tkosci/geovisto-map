@@ -6,6 +6,6 @@ import ILayerToolProps from "../../../../../../model/types/layer/ILayerToolProps
  * @author Jiri Hynek
  */
 type ITilesLayerToolProps = ILayerToolProps & {
-    baseMap: string | undefined;
+    baseMap?: string;
 }
 export default ITilesLayerToolProps;

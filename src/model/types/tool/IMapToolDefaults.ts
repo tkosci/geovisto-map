@@ -24,5 +24,15 @@ interface IMapToolDefaults extends IMapObjectDefaults {
      * @param enabled 
      */
     isEnabled(): boolean;
+
+    /**
+     * It returns the label of the tool.
+     */
+    getLabel(): string;
+
+    /**
+     * It returns the icon of the tool.
+     */
+    getIcon(): string;
 }
 export default IMapToolDefaults;

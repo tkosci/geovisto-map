@@ -5,7 +5,7 @@ import 'leaflet/dist/leaflet.css';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 import '../../../style/markerLayer.scss'; 
-import MarkerLayerToolSidebarTab from '../sidebar/MarkerLayerToolSidebarTab';
+import MarkerLayerToolMapForm from '../form/MarkerLayerToolMapForm';
 import MarkerLayerToolDefaults from './MarkerLayerToolDefaults';
 import MarkerLayerToolState from './MarkerLayerToolState';
 import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
@@ -13,7 +13,6 @@ import ThemesToolEvent from '../../../../../themes/model/internal/event/ThemesTo
 import SelectionToolEvent from '../../../../../selection/model/internal/event/SelectionToolEvent';
 import DataChangeEvent from '../../../../../../model/internal/event/data/DataChangeEvent';
 import IMarkerLayerTool from '../../types/tool/IMarkerLayerTool';
-import { ISidebarTabControl, ILayerToolSidebarTab } from '../../../../../sidebar';
 import IMarkerLayerToolProps from '../../types/tool/IMarkerLayerToolProps';
 import IMarkerLayerToolDefaults from '../../types/tool/IMarkerLayerToolDefaults';
 import IMarkerLayerToolState from '../../types/tool/IMarkerLayerToolState';
@@ -34,16 +33,18 @@ import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
 import IMarker from '../../types/marker/IMarker';
 import IMarkerIconOptions from '../../types/marker/IMarkerIconOptions';
 import Marker from '../marker/Marker';
+import IMapForm from '../../../../../../model/types/form/IMapForm';
+import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
 
 /**
  * This class represents Marker layer tool. It works with geojson polygons representing countries.
  * 
  * @author Jiri Hynek
  */
-class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISidebarTabControl {
+class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMapFormControl {
 
     private selectionTool: ISelectionTool | undefined;
-    private sidebarTab: ILayerToolSidebarTab | undefined;
+    private mapForm!: IMapForm;
 
     /**
      * It creates a new tool with respect to the props.
@@ -112,25 +113,18 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, ISi
     /**
      * It returns a sidebar tab with respect to the configuration.
      */
-    public getSidebarTab(): ILayerToolSidebarTab {
-        if(this.sidebarTab == undefined) {
-            this.sidebarTab = this.createSidebarTabControl();
+    public getMapForm(): IMapForm {
+        if(this.mapForm == undefined) {
+            this.mapForm = this.createMapForm();
         }
-        return this.sidebarTab;
+        return this.mapForm;
     }
 
     /**
      * It creates new tab control.
      */
-    protected createSidebarTabControl(): ILayerToolSidebarTab {
-        return new MarkerLayerToolSidebarTab({
-            // defined by the sidebar tab defaults
-            id: undefined,
-            enabled: undefined,
-            name: undefined,
-            icon: undefined,
-            checkButton: undefined
-        });
+    protected createMapForm(): IMapForm {
+        return new MarkerLayerToolMapForm(this);
     }
 
     /**

@@ -10,6 +10,6 @@ import { RefObject } from "react";
  */
 type IReactGeovistoMapProps = IMapProps & {
     ref: RefObject<ReactGeovistoMap>,
-    config: IMapConfigManager | undefined
+    config?: IMapConfigManager
 }
 export default IReactGeovistoMapProps;

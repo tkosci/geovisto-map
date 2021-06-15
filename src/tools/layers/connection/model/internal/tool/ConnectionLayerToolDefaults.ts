@@ -34,6 +34,20 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
     }
 
     /**
+     * It returns the label of the tool.
+     */
+    public getLabel(): string {
+        return this.getLayerName();
+    }
+
+    /**
+     * It returns the icon of the tool.
+     */
+    public getIcon(): string {
+        return '<i class="fa fa-road"></i>';
+    }
+
+    /**
      * It returns the map of layer dimensions.
      */
     public getDimensions(map?: IMap): IConnectionLayerToolDimensions {

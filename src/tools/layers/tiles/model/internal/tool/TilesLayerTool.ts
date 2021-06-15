@@ -7,22 +7,23 @@ import ITilesLayerToolDefaults from '../../types/tool/ITilesLayerToolDefaults';
 import TilesLayerToolDefaults from './TilesLayerToolDefaults';
 import ITilesLayerToolState from '../../types/tool/ITilesLayerToolState';
 import TilesLayerToolState from './TilesLayerToolState';
-import { ISidebarTab, ILayerToolSidebarTab, ISidebarTabControl } from '../../../../../sidebar';
-import TilesLayerToolSidebarTab from '../sidebar/TilesLayerToolSidebarTab';
+import TilesLayerToolMapForm from '../form/TilesLayerToolMapForm';
 import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import { ThemesToolEvent, IMapTheme } from '../../../../../themes';
 import IMapChangeEvent from '../../../../../../model/types/event/IMapChangeEvent';
 import ITilesLayerToolConfig from '../../types/tool/ITilesLayerToolConfig';
 import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
+import IMapForm from '../../../../../../model/types/form/IMapForm';
+import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
 
 /**
  * This class represents Map layer tool. It use tile layer and OSM maps.
  * 
  * @author Jiri Hynek
  */
-class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, ISidebarTabControl {
+class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, IMapFormControl {
     
-    private sidebarTab: ILayerToolSidebarTab | undefined;
+    private mapForm!: IMapForm;
 
     /**
      * It creates a new tool with respect to the props.
@@ -78,26 +79,19 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, ISide
     /**
      * It returns a sidebar tab with respect to the configuration.
      */
-    public getSidebarTab(): ISidebarTab {
-        if(this.sidebarTab == undefined) {
-            this.sidebarTab = this.createSidebarTabControl();
+    public getMapForm(): IMapForm {
+        if(this.mapForm == undefined) {
+            this.mapForm = this.createMapForm();
         }
-        return this.sidebarTab;
+        return this.mapForm;
     }
 
     /**
      * It creates new tab control.
      */
-    protected createSidebarTabControl(): ILayerToolSidebarTab {
+    protected createMapForm(): IMapForm {
         // override if needed
-        return new TilesLayerToolSidebarTab({
-            // defined by the sidebar tab defaults
-            id: undefined,
-            enabled: undefined,
-            name: undefined,
-            icon: undefined,
-            checkButton: undefined
-        });
+        return new TilesLayerToolMapForm(this);
     }
 
     /**

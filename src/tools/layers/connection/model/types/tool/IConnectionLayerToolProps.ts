@@ -8,7 +8,7 @@ import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
  * @author Jiri Hynek
  */
 type IConnectionLayerToolProps = ILayerToolProps & {
-    dimensions: IConnectionLayerToolDimensions | undefined;
-    geoData: IGeoDataManager;
+    dimensions?: IConnectionLayerToolDimensions;
+    geoData?: IGeoDataManager;
 }
 export default IConnectionLayerToolProps;

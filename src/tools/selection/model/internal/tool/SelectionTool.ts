@@ -1,11 +1,10 @@
 import SelectionToolState from "./SelectionToolState";
 import SelectionToolEvent from "../event/SelectionToolEvent";
 import SelectionToolDefaults from "./SelectionToolDefaults";
-import SelectionToolTabFragment from "../sidebar/SelectionToolTabFragment";
+import SelectionToolMapForm from "../form/SelectionTooMapForm";
 import ISelectionToolProps from "../../types/tool/ISelectionToolProps";
 import IMapSelection from "../../types/selection/IMapSelection";
 import ISelectionTool from "../../types/tool/ISelectionTool";
-import { ISidebarFragment, ISidebarFragmentControl } from "../../../../sidebar";
 import ISelectionToolDefaults from "../../types/tool/ISelectionToolDefaults";
 import ISelectionToolState from "../../types/tool/ISelectionToolState";
 import MapTool from "../../../../../model/internal/tool/MapTool";
@@ -14,6 +13,8 @@ import ISelectionToolConfig from "../../types/tool/ISelectionToolConfig";
 import IMapEvent from "../../../../../model/types/event/IMapEvent";
 import DataChangeEvent from "../../../../../model/internal/event/data/DataChangeEvent";
 import MapSelection from "../selection/MapSelection";
+import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
+import IMapForm from "../../../../../model/types/form/IMapForm";
 
 /**
  * This class provides the selection tool.
@@ -22,12 +23,12 @@ import MapSelection from "../selection/MapSelection";
  * 
  * @author Jiri Hynek
  */
-class SelectionTool extends MapTool implements ISelectionTool, ISidebarFragmentControl {
+class SelectionTool extends MapTool implements ISelectionTool, IMapFormControl {
 
     /**
      * TODO: move to the tool state.
      */
-    private sidebarFragment: ISidebarFragment | undefined;
+    private mapForm!: IMapForm;
 
     /**
      * It creates a new tool with respect to the props.
@@ -36,9 +37,6 @@ class SelectionTool extends MapTool implements ISelectionTool, ISidebarFragmentC
      */
     public constructor(props: ISelectionToolProps | undefined) {
         super(props);
-
-        // the tab fragment for a sidebar tab will be created only if needed
-        this.sidebarFragment = undefined;
     }
 
     /**
@@ -120,22 +118,18 @@ class SelectionTool extends MapTool implements ISelectionTool, ISidebarFragmentC
     /**
      * It returns a tab fragment.
      */
-    public getSidebarFragment(): ISidebarFragment {
-        if(this.sidebarFragment == undefined) {
-            this.sidebarFragment = this.createSidebarFragment();
+    public getMapForm(): IMapForm {
+        if(this.mapForm == undefined) {
+            this.mapForm = this.createMapForm();
         }
-        return this.sidebarFragment;
+        return this.mapForm;
     }
 
     /**
      * It creates new tab control.
      */
-    protected createSidebarFragment(): ISidebarFragment {
-        return new SelectionToolTabFragment({
-            // defined by the sidebar fragment defaults
-            id: undefined,
-            enabled: undefined
-        });
+    protected createMapForm(): IMapForm {
+        return new SelectionToolMapForm(this);
     }
 
     /**

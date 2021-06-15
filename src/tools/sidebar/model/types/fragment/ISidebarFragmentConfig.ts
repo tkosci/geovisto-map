@@ -6,7 +6,7 @@ import IMapObjectConfig from "../../../../../model/types/object/IMapObjectConfig
  * @author Jiri Hynek
  */
 type ISidebarFragmentConfig = IMapObjectConfig & {
-    tool: string | undefined;
-    enabled: boolean | undefined;
+    tool?: string;
+    enabled?: boolean;
 }
 export default ISidebarFragmentConfig;

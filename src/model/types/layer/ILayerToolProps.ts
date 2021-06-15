@@ -6,6 +6,6 @@ import { IMapToolProps } from "../tool/IMapToolProps";
  * @author Jiri Hynek
  */
 type ILayerToolProps = IMapToolProps & {
-    name: string | undefined;
+    name?: string;
 }
 export default ILayerToolProps;

@@ -6,10 +6,10 @@ import IMapToolConfig from "../../../../../model/types/tool/IMapToolConfig";
  * @author Jiri Hynek
  */
 type IFiltersToolConfig = IMapToolConfig & {
-    filterRules: {
+    filterRules?: {
         domain: string,
         operation: string,
         pattern: string,
-    }[] | undefined;
+    }[];
 }
 export default IFiltersToolConfig;

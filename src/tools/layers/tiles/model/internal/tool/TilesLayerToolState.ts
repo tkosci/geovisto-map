@@ -15,7 +15,7 @@ import { IMarkerLayerToolConfig } from "../../../../marker";
 class TilesLayerToolState extends LayerToolState implements ITilesLayerToolState {
     
     private baseMap!: string;
-    private layer: L.TileLayer | undefined;
+    private layer?: L.TileLayer;
 
     /**
      * It creates a tool state.

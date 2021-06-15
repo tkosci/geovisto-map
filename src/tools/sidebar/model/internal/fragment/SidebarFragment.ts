@@ -4,10 +4,10 @@ import ISidebarFragmentDefaults from "../../types/fragment/ISidebarFragmentDefau
 import MapObject from "../../../../../model/internal/object/MapObject";
 import ISidebarFragment from "../../types/fragment/ISidebarFragment";
 import ISidebarFragmentState from "../../types/fragment/ISidebarFragmentState";
-import ISidebarTab from "../../types/tab/ISidebarTab";
 import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
 import { ISidebarFragmentProps, ISidebarFragmentInitProps } from "../../types/fragment/ISidebarFragmentProps";
+import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
 
 /**
  * This class provides tab fragment for a sidebar tab.
@@ -16,7 +16,7 @@ import { ISidebarFragmentProps, ISidebarFragmentInitProps } from "../../types/fr
  * 
  * @author Jiri Hynek
  */
-abstract class AbstractSidebarFragment<T extends IMapTool> extends MapObject implements ISidebarFragment {
+class SidebarFragment<T extends IMapTool & IMapFormControl> extends MapObject implements ISidebarFragment {
 
     /**
      * It creates abstract sidebar fragment with respect to the given props.
@@ -70,13 +70,6 @@ abstract class AbstractSidebarFragment<T extends IMapTool> extends MapObject imp
     }
 
     /**
-     * The function returns true if the sidebar fragment should be included in the sidebar tab.
-     * 
-     * @param sidebarTab 
-     */
-    public abstract isChild(sidebarTab: ISidebarTab): boolean;
-
-    /**
      * Overrides the super method.
      * 
      * @param initProps
@@ -88,7 +81,9 @@ abstract class AbstractSidebarFragment<T extends IMapTool> extends MapObject imp
     /**
      * It returns the HTML content of the sidebar fragment.
      */
-    public abstract getContent(): HTMLElement;
+    public getContent(): HTMLDivElement {
+        return this.getTool().getMapForm().getContent();
+    }
 
     /**
      * This function is called after the sidebar tab is rendered in sidebar.
@@ -106,4 +101,4 @@ abstract class AbstractSidebarFragment<T extends IMapTool> extends MapObject imp
     public setFragmentContentChecked(checked: boolean): void {
     }
 }
-export default AbstractSidebarFragment;
+export default SidebarFragment;

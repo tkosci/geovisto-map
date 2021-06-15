@@ -43,6 +43,20 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     }
 
     /**
+     * It returns the label of the tool.
+     */
+    public getLabel(): string {
+        return this.getLayerName();
+    }
+
+    /**
+     * It returns the icon of the tool.
+     */
+    public getIcon(): string {
+        return '<i class="fa fa-map-marker"></i>';
+    }
+
+    /**
      * It returns the map of layer dimensions.
      */
     public getDimensions(map?: IMap): IMarkerLayerToolDimensions {

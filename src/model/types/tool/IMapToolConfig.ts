@@ -6,6 +6,6 @@ import IMapObjectConfig from "../object/IMapObjectConfig";
  * @author Jiri Hynek
  */
 type IMapToolConfig = IMapObjectConfig & {
-    enabled: boolean | undefined;
+    enabled?: boolean;
 }
 export default IMapToolConfig;

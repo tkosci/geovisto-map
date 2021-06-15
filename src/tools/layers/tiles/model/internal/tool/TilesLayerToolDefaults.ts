@@ -28,6 +28,20 @@ class TilesLayerToolDefaults extends LayerToolDefaults implements ITilesLayerToo
     }
 
     /**
+     * It returns the label of the tool.
+     */
+    public getLabel(): string {
+        return this.getLayerName();
+    }
+
+    /**
+     * It returns the icon of the tool.
+     */
+    public getIcon(): string {
+        return '<i class="fa fa-globe"></i>';
+    }
+
+    /**
      * It returns the preferred base map.
      */
     public getBaseMap(): string {

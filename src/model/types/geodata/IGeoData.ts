@@ -2,7 +2,7 @@ import IMapDomain from "../domain/IMapDomain";
 import { FeatureCollection } from 'geojson';
 
 /**
- * The interface declares function for management of geographical data.
+ * The interface declares functions for management of geographical data.
  * 
  * @author Jiri Hynek
  */

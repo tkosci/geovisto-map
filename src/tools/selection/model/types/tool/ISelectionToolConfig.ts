@@ -6,9 +6,9 @@ import IMapToolConfig from "../../../../../model/types/tool/IMapToolConfig";
  * @author Jiri Hynek
  */
 type ISelectionToolConfig = IMapToolConfig & {
-    selection: { 
+    selection?: { 
         tool: string;
         ids: string[];
-    } | undefined;
+    };
 }
 export default ISelectionToolConfig;

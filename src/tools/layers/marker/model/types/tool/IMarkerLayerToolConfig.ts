@@ -15,10 +15,10 @@ type IMarkerLayerToolConfig = ILayerToolConfig & {
  * @author Jiri Hynek
  */
 type IMarkerLayerToolDimensionsConfig = ILayerToolDimensionsConfig & {
-    geoData: string | undefined,
-    geoId: string | undefined,
-    value: string | undefined,
-    aggregation: string | undefined,
-    category: string | undefined
+    geoData?: string,
+    geoId?: string,
+    value?: string,
+    aggregation?: string,
+    category?: string
 }
 export type { IMarkerLayerToolConfig, IMarkerLayerToolDimensionsConfig };

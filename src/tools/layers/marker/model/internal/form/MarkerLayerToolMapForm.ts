@@ -1,39 +1,37 @@
-import { AbstractLayerToolSidebarTab, ILayerToolSidebarTab, ILayerToolSidebarTabProps, ILayerToolSidebarTabDefaults } from "../../../../../sidebar";
 import IMarkerLayerTool from "../../types/tool/IMarkerLayerTool";
 import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";
 import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
-import MarkerLayerToolSidebarTabDefaults from "./MarkerLayerToolSidebarTabDefaults";
 import IGeoData from "../../../../../../model/types/geodata/IGeoData";
+import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
+import IMapForm from "../../../../../../model/types/form/IMapForm";
 
 /**
  * This class provides controls for management of the layer sidebar tab.
  * 
  * @author Jiri Hynek
  */
-class MarkerLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IMarkerLayerTool> implements ILayerToolSidebarTab {
+class MarkerLayerToolMapForm extends MapLayerToolForm<IMarkerLayerTool> implements IMapForm {
     
-    private htmlContent: HTMLDivElement | undefined;
+    private htmlContent!: HTMLDivElement;
     
-    private inputs: {
+    private inputs?: {
         geoData: IMapFormInput,
         geoId: IMapFormInput,
         value: IMapFormInput,
         aggregation: IMapFormInput,
         category: IMapFormInput
-    } | undefined;
-
-    public constructor(props: ILayerToolSidebarTabProps) {
-        super(props);
-    }
+    };
 
     /**
-     * It creates new defaults of the tab control.
+     * It creates new map form with respect to the given props.
+     * 
+     * @param tool 
      */
-    public createDefaults(): ILayerToolSidebarTabDefaults {
-        return new MarkerLayerToolSidebarTabDefaults();
+    public constructor(tool: IMarkerLayerTool) {
+        super(tool);
     }
 
     /**
@@ -60,7 +58,7 @@ class MarkerLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IMarkerLayer
             const elem = this.htmlContent.appendChild(document.createElement('div'));
     
             // get data mapping model
-            const dimensions: IMarkerLayerToolDimensions = this.getTool().getState().getDimensions();
+            const dimensions: IMarkerLayerToolDimensions = this.getMapObject().getState().getDimensions();
 
             // create inputs
             this.inputs = {
@@ -131,4 +129,4 @@ class MarkerLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IMarkerLayer
     }
 
 }
-export default MarkerLayerToolSidebarTab;
+export default MarkerLayerToolMapForm;

@@ -7,9 +7,9 @@ import IMapToolConfig from "../tool/IMapToolConfig";
  * @author Jiri Hynek
  */
 type IMapConfig = IMapObjectConfig & {
-    zoom: number | undefined;
-    mapCenter: { lat: number, lng: number } | undefined;
-    mapStructure: { maxZoom: number, maxBounds: [[ number, number ],[ number, number ]] } | undefined;
-    tools: IMapToolConfig[] | undefined;
+    zoom?: number;
+    mapCenter?: { lat: number, lng: number };
+    mapStructure?: { maxZoom: number, maxBounds: [[ number, number ],[ number, number ]] };
+    tools?: IMapToolConfig[];
 }
 export default IMapConfig;

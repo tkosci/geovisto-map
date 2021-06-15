@@ -7,6 +7,6 @@ import IMapSelection from "../selection/IMapSelection";
  * @author Jiri Hynek
  */
 type ISelectionToolProps = IMapToolProps & {
-    selection: IMapSelection | undefined;
+    selection?: IMapSelection;
 }
 export default ISelectionToolProps;

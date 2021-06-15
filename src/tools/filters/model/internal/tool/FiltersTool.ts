@@ -1,6 +1,5 @@
 import MapTool from "../../../../../model/internal/tool/MapTool";
 import IFiltersTool from "../../types/tool/IFiltersTool";
-import { ISidebarTabControl, ISidebarTab } from "../../../../sidebar";
 import IFiltersToolProps from "../../types/tool/IFiltersToolProps";
 import IFiltersToolDefaults from "../../types/tool/IFiltersToolDefaults";
 import IFiltersToolState from "../../types/tool/IFiltersToolState";
@@ -8,21 +7,23 @@ import IMapFilterRule from "../../types/filter/IMapFilterRule";
 import IMap from "../../../../../model/types/map/IMap";
 import FiltersToolDefaults from "./FiltersToolDefaults";
 import FiltersToolState from "./FiltersToolState";
-import FiltersToolSidebarTab from "../sidebar/FiltersToolSidebarTab";
+import FiltersToolMapForm from "../form/FiltersToolMapForm";
 import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 import IFiltersToolConfig from "../../types/tool/IFiltersToolConfig";
+import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
+import IMapForm from "../../../../../model/types/form/IMapForm";
 
 /**
  * This class wraps filters, sidebar tab and state. It provides methods for filters management.
  * 
  * @author Jiri Hynek
  */
-class FiltersTool extends MapTool implements IFiltersTool, ISidebarTabControl {
+class FiltersTool extends MapTool implements IFiltersTool, IMapFormControl {
 
     /**
      * TODO: move to the state
      */
-    private sidebarTab: ISidebarTab | undefined;
+    private mapForm!: IMapForm;
 
     /**
      * It creates a new tool with respect to the props.
@@ -94,27 +95,20 @@ class FiltersTool extends MapTool implements IFiltersTool, ISidebarTabControl {
     }
 
     /**
-     * It returns a tab control.
+     * It returns a map form.
      */
-    public getSidebarTab(): ISidebarTab {
-        if(this.sidebarTab == undefined) {
-            this.sidebarTab = this.createSidebarTab();
+    public getMapForm(): IMapForm {
+        if(this.mapForm == undefined) {
+            this.mapForm = this.createMapForm();
         }
-        return this.sidebarTab;
+        return this.mapForm;
     }
 
     /**
-     * It creates new tab control.
+     * It creates new map form.
      */
-    protected createSidebarTab(): ISidebarTab {
-        return new FiltersToolSidebarTab({
-            // defined by the sidebar tab defaults
-            id: undefined,
-            enabled: undefined,
-            name: undefined,
-            icon: undefined,
-            checkButton: undefined
-        });
+    protected createMapForm(): IMapForm {
+        return new FiltersToolMapForm(this);
     }
 
     /**

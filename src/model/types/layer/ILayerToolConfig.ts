@@ -6,8 +6,8 @@ import IMapToolConfig from "../tool/IMapToolConfig";
  * @author Jiri Hynek
  */
 type ILayerToolConfig = IMapToolConfig & {
-    name: string | undefined;
-    data: ILayerToolDimensionsConfig | undefined;
+    name?: string;
+    data?: ILayerToolDimensionsConfig;
 }
 
 /**

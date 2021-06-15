@@ -12,7 +12,7 @@ class MapDimension<T extends IMapDomain> extends AbstractMapDomain implements IM
     
     private name: string;
     private domainManager: IMapDomainManager<T>;
-    private domain: T | undefined;
+    private domain?: T;
 
     /**
      * It creates a new map dimension.
@@ -20,7 +20,7 @@ class MapDimension<T extends IMapDomain> extends AbstractMapDomain implements IM
      * @param name 
      * @param dataDomain 
      */
-    public constructor(name: string, domainManager: IMapDomainManager<T>, dataDomain: T | undefined) {
+    public constructor(name: string, domainManager: IMapDomainManager<T>, dataDomain?: T) {
         super();
         this.name = name;
         this.domainManager = domainManager;

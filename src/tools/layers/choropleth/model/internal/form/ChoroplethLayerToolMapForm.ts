@@ -1,38 +1,36 @@
-import ChoroplethLayerToolSidebarTabDefaults from "./ChoroplethLayerToolSidebarTabDefaults";
 import IChoroplethLayerTool from "../../types/tool/IChoroplethLayerTool";
-import { ILayerToolSidebarTabProps, AbstractLayerToolSidebarTab, ILayerToolSidebarTab, ILayerToolSidebarTabDefaults } from "../../../../../sidebar";
 import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
 import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import IChoroplethLayerToolDimensions from "../../types/tool/IChoroplethLayerToolDimensions";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
 import IGeoData from "../../../../../../model/types/geodata/IGeoData";
+import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
+import IMapForm from "../../../../../../model/types/form/IMapForm";
 
 /**
  * This class provides controls for management of the layer sidebar tab.
  * 
  * @author Jiri Hynek
  */
-class ChoropolethLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IChoroplethLayerTool> implements ILayerToolSidebarTab {
+class ChoropolethLayerToolMapForm extends MapLayerToolForm<IChoroplethLayerTool> implements IMapForm {
     
-    private htmlContent: HTMLDivElement | undefined;
+    private htmlContent!: HTMLDivElement;
     
-    private inputs: {
+    private inputs?: {
         geoData: IMapFormInput,
         geoId: IMapFormInput,
         value: IMapFormInput,
         aggregation: IMapFormInput
-    } | undefined;
-
-    public constructor(props: ILayerToolSidebarTabProps) {
-        super(props);
-    }
+    };
 
     /**
-     * It creates new defaults of the tab control.
+     * It creates new map form with respect to the given props.
+     * 
+     * @param tool 
      */
-    public createDefaults(): ILayerToolSidebarTabDefaults {
-        return new ChoroplethLayerToolSidebarTabDefaults();
+    public constructor(tool: IChoroplethLayerTool) {
+        super(tool);
     }
 
     /**
@@ -58,7 +56,7 @@ class ChoropolethLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IChorop
             const elem = this.htmlContent.appendChild(document.createElement('div'));
     
             // get data mapping model
-            const dimensions: IChoroplethLayerToolDimensions = this.getTool().getState().getDimensions();
+            const dimensions: IChoroplethLayerToolDimensions = this.getMapObject().getState().getDimensions();
 
             // create inputs
             this.inputs = {
@@ -117,4 +115,4 @@ class ChoropolethLayerToolSidebarTab extends AbstractLayerToolSidebarTab<IChorop
         return this.getAutocompleteInput(dimension);
     }
 }
-export default ChoropolethLayerToolSidebarTab;
+export default ChoropolethLayerToolMapForm;

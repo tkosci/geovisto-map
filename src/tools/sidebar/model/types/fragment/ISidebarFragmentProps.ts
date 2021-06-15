@@ -1,3 +1,4 @@
+import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
 import { IMapObjectProps, IMapObjectInitProps } from "../../../../../model/types/object/IMapObjectProps";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
 import ISidebarTab from "../tab/ISidebarTab";
@@ -9,7 +10,7 @@ import ISidebarFragmentConfig from "./ISidebarFragmentConfig";
  * @author Jiri Hynek
  */
 type ISidebarFragmentProps = IMapObjectProps & {
-    enabled: boolean | undefined;
+    enabled?: boolean;
 }
 
 /**
@@ -19,7 +20,7 @@ type ISidebarFragmentProps = IMapObjectProps & {
  */
 type ISidebarFragmnetInitProps<
     TConfig extends ISidebarFragmentConfig = ISidebarFragmentConfig,
-    TTool extends IMapTool = IMapTool
+    TTool extends (IMapTool & IMapFormControl) = IMapTool & IMapFormControl
 > = IMapObjectInitProps<TConfig> & {
     sidebarTab: ISidebarTab,
     tool: TTool

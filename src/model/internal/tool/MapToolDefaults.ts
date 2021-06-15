@@ -50,5 +50,19 @@ class MapToolDefaults extends MapObjectDefaults implements IMapToolDefaults {
     public isEnabled(): boolean {
         return true;
     }
+
+    /**
+     * It returns the label of the tool.
+     */
+     public getLabel(): string {
+        return "Tool";
+    }
+
+    /**
+     * It returns the icon of the tool.
+     */
+    public getIcon(): string {
+        return '<i class="fa fa-file"></i>';
+    }
 }
 export default MapToolDefaults;

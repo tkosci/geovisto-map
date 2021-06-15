@@ -31,18 +31,6 @@ interface IChoroplethLayerToolState<
     setGeoJSONLayer(layer: L.GeoJSON): void;
 
     /**
-     * It returns a Leaflet popup control.
-     */
-    getPopup(): L.Control | undefined;
-
-    /**
-     * It sets a Leaflet popup control.
-     * 
-     * @param popup 
-     */
-    setPopup(popup: L.Control): void;
-
-    /**
      * It returns the hovered item.
      */
     getHoveredItem(): string | undefined;

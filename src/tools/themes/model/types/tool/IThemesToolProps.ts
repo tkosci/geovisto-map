@@ -8,7 +8,7 @@ import IMapTheme from "../theme/IMapTheme";
  * @author Jiri Hynek
  */
 type IThemesToolProps = IMapToolProps & {
-    manager: IMapThemesManager | undefined;
-    theme: IMapTheme | undefined;
+    manager?: IMapThemesManager;
+    theme?: IMapTheme;
 }
 export default IThemesToolProps;

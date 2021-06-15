@@ -34,5 +34,19 @@ class SettingsToolDefaults extends MapToolDefaults implements ISettingsToolDefau
     public getType(): string {
         return SettingsToolDefaults.TYPE;
     }
+    
+    /**
+     * It returns the label of the tool.
+     */
+    public getLabel(): string {
+        return "General settings";
+    }
+
+    /**
+     * It returns the icon of the tool.
+     */
+    public getIcon(): string {
+        return '<i class="fa fa-gear"></i>';
+    }
 }
 export default SettingsToolDefaults;

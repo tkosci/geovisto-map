@@ -1,7 +1,9 @@
 import { IMapObjectProps, IMapObjectInitProps } from "../../../../../model/types/object/IMapObjectProps";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
-import { Control } from "leaflet";
 import ISidebarTabConfig from "./ISidebarTabConfig";
+import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
+import ISidebarTool from "../tool/ISidebarTool";
+import ISidebarFragment from "../fragment/ISidebarFragment";
 
 /**
  * This type provides specification of the sidebar tab props model.
@@ -9,10 +11,11 @@ import ISidebarTabConfig from "./ISidebarTabConfig";
  * @author Jiri Hynek
  */
 type ISidebarTabProps = IMapObjectProps & {
-    enabled: boolean | undefined;
-    name: string | undefined;
-    icon: string | undefined;
-    checkButton: boolean | undefined;
+    enabled?: boolean;
+    name?: string;
+    icon?: string;
+    checkButton?: boolean;
+    fragments?: [ string, ISidebarFragment ][]
 }
 
 /**
@@ -22,9 +25,9 @@ type ISidebarTabProps = IMapObjectProps & {
  */
 type ISidebarTabInitProps<
     TConfig extends ISidebarTabConfig = ISidebarTabConfig,
-    TTool extends IMapTool = IMapTool
+    TTool extends (IMapTool & IMapFormControl) = IMapTool & IMapFormControl
 > = IMapObjectInitProps<TConfig> & {
-    sidebar: Control.Sidebar,
-    tool: TTool
+    tool: TTool,
+    sidebarTool: ISidebarTool
 }
 export type { ISidebarTabProps, ISidebarTabInitProps };

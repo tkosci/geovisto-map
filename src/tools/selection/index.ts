@@ -12,7 +12,7 @@ export type { default as ISelectionToolState } from './model/types/tool/ISelecti
 // internal
 export { default as SelectionToolEvent } from './model/internal/event/SelectionToolEvent';
 export { default as MapSelection } from './model/internal/selection/MapSelection';
-export { default as SelectionToolTabFragment } from './model/internal/sidebar/SelectionToolTabFragment';
+export { default as SelectionToolMapForm } from './model/internal/form/SelectionTooMapForm';
 export { default as SelectionTool } from './model/internal/tool/SelectionTool';
 export { default as SelectionToolDefaults } from './model/internal/tool/SelectionToolDefaults';
 export { default as SelectionToolState } from './model/internal/tool/SelectionToolState';

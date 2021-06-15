@@ -9,8 +9,7 @@ export type { default as IMarkerLayerToolProps } from './model/types/tool/IMarke
 export type { default as IMarkerLayerToolState } from './model/types/tool/IMarkerLayerToolState';
 
 // internal
-export { default as MarkerLayerToolSidebarTab } from './model/internal/sidebar/MarkerLayerToolSidebarTab';
-export { default as MarkerLayerToolTabDefaults } from './model/internal/sidebar/MarkerLayerToolSidebarTabDefaults';
+export { default as MarkerLayerToolMapForm } from './model/internal/form/MarkerLayerToolMapForm';
 export { default as MarkerLayerTool } from './model/internal/tool/MarkerLayerTool';
 export { default as MarkerLayerToolDefaults } from './model/internal/tool/MarkerLayerToolDefaults';
 export { default as MarkerLayerToolState } from './model/internal/tool/MarkerLayerToolState';

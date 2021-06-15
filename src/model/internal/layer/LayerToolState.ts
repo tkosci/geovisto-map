@@ -16,7 +16,7 @@ class LayerToolState extends MapToolState implements ILayerToolState {
     
     private layerName!: string;
     private dimensions!: ILayerToolDimensions;
-    private layerItems: L.Layer[] | undefined;
+    private layerItems?: L.Layer[];
 
     /**
      * It creates a tool state.

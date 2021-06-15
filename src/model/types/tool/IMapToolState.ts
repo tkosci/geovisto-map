@@ -42,5 +42,29 @@ interface IMapToolState<
      * It returns the map property of the tool state.
      */
     getMap(): IMap | undefined;
+
+    /**
+     * It returns the label property of the tool state.
+     */
+    getLabel(): string;
+
+    /**
+     * It sets the label property of the tool state.
+     * 
+     * @param label 
+     */
+    setLabel(label: string): void;
+
+    /**
+     * It returns the icon property of the tool state.
+     */
+    getIcon(): string;
+
+    /**
+     * It sets the icon property of the tool state.
+     * 
+     * @param icon 
+     */
+    setIcon(icon: string): void;
 }
 export default IMapToolState;

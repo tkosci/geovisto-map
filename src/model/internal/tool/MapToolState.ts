@@ -15,6 +15,8 @@ import IMap from '../../types/map/IMap';
 class MapToolState extends MapObjectState implements IMapToolState {
     
     private enabled!: boolean;
+    private label!: string;
+    private icon!: string;
     
     /**
      * map is set during the tool initialization
@@ -43,6 +45,12 @@ class MapToolState extends MapObjectState implements IMapToolState {
 
         // set the enabled property 
         this.setEnabled(props.enabled == undefined ? defaults.isEnabled() : props.enabled);
+
+        // set the label property 
+        this.setLabel(props.label == undefined ? defaults.getLabel() : props.label);
+
+        // set the icon property 
+        this.setLabel(props.icon == undefined ? defaults.getIcon() : props.icon);
 
         // set super props
         super.initialize(defaults, props, initProps);
@@ -88,6 +96,38 @@ class MapToolState extends MapObjectState implements IMapToolState {
      */
     public setEnabled(enabled: boolean): void {
        this.enabled = enabled;
+    }
+
+    /**
+     * It returns the label property of the tool state.
+     */
+    public getLabel(): string {
+        return this.label;
+    }
+
+    /**
+     * It sets the label property of the tool state.
+     * 
+     * @param label 
+     */
+    public setLabel(label: string): void {
+       this.label = label;
+    }
+
+    /**
+     * It returns the icon property of the tool state.
+     */
+    public getIcon(): string {
+        return this.icon;
+    }
+
+    /**
+     * It sets the icon property of the tool state.
+     * 
+     * @param icon 
+     */
+    public setIcon(icon: string): void {
+       this.icon = icon;
     }
 
     /**

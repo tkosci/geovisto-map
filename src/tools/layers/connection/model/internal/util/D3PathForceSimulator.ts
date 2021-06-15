@@ -46,10 +46,10 @@ class D3PathForceSimulator {
     private props: {
         nodes: IConnectionLayerNode[];
         connections: IConnectionLayerConnection[];
-        segmentLength: number | undefined;
+        segmentLength?: number;
     };
 
-    private forceProps: SimulationProps | undefined;
+    private forceProps?: SimulationProps;
     private segmentLength: number;
     private paths!: IConnectionLayerPath[];
     private points!: IConnectionLayerPoint[];

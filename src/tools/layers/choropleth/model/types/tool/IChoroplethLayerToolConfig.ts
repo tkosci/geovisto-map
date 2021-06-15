@@ -6,7 +6,7 @@ import { ILayerToolConfig, ILayerToolDimensionsConfig } from "../../../../../../
  * @author Jiri Hynek
  */
 type IChoroplethLayerToolConfig = ILayerToolConfig & {
-    data: IChoroplethLayerToolDimensionsConfig | undefined;
+    data?: IChoroplethLayerToolDimensionsConfig;
 }
 
 /**
@@ -15,9 +15,9 @@ type IChoroplethLayerToolConfig = ILayerToolConfig & {
  * @author Jiri Hynek
  */
 type IChoroplethLayerToolDimensionsConfig = ILayerToolDimensionsConfig & {
-    geoData: string | undefined,
-    geoId: string | undefined,
-    value: string | undefined,
-    aggregation: string | undefined
+    geoData?: string,
+    geoId?: string,
+    value?: string,
+    aggregation?: string
 }
 export type { IChoroplethLayerToolConfig, IChoroplethLayerToolDimensionsConfig };

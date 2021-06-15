@@ -10,7 +10,7 @@ import IMapObjectConfig from "../../types/object/IMapObjectConfig";
 class MapObjectDefaults implements IMapObjectDefaults {
 
     protected static id: number;
-    protected idString : string | undefined;
+    protected idString?: string;
 
     /**
      * It returns default props if no props are given.

@@ -12,7 +12,7 @@ export type { default as IThemesToolState } from './model/types/tool/IThemesTool
 
 // internal
 export { default as ThemesToolEvent } from './model/internal/event/ThemesToolEvent';
-export { default as ThemesToolSidebarFragment } from './model/internal/sidebar/ThemesToolSidebarFragment';
+export { default as ThemesToolMapForm } from './model/internal/form/ThemesToolMapForm';
 export { default as BasicTheme } from './model/internal/theme/basic/BasicTheme';
 export { default as MapThemesManager } from './model/internal/theme/basic/MapThemesManager';
 export { default as Dark1Theme } from './model/internal/theme/custom/dark1/Dark1Theme';

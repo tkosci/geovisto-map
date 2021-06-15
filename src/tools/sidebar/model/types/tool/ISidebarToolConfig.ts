@@ -7,6 +7,6 @@ import ISidebarTabConfig from "../tab/ISidebarTabConfig";
  * @author Jiri Hynek
  */
 type ISidebarToolConfig = IMapToolConfig & {
-    tabs: ISidebarTabConfig[] | undefined;
+    tabs?: ISidebarTabConfig[];
 }
 export default ISidebarToolConfig;

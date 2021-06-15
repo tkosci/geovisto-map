@@ -24,7 +24,7 @@ import IGeoDataManager from "../../types/geodata/IGeoDataManager";
 class GeovistoMapState extends MapObjectState implements IMapState {
     
     private eventManager: IMapEventManager;
-    private leafletMap: L.Map | undefined;
+    private leafletMap?: L.Map;
     private tools!: IMapToolsManager;
     private toolTemplates!: IMapToolsManager;
     private mapData!: IMapDataManager;

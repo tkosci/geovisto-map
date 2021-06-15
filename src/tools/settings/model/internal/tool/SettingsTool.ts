@@ -1,25 +1,27 @@
 import MapTool from "../../../../../model/internal/tool/MapTool";
-import { ISidebarTabControl, ISidebarTab, ISidebarToolConfig } from "../../../../sidebar";
 import ISettingsTool from "../../types/tool/ISettingsTool";
 import ISettingsToolProps from "../../types/tool/ISettingsToolProps";
 import SettingsToolDefaults from "./SettingsToolDefaults";
 import SettingsToolState from "./SettingsToolState";
-import SettingsToolSidebarTab from "../sidebar/SettingsToolSidebarTab";
+import SettingsToolMapForm from "../form/SettingsToolMapForm";
 import ISettingsToolState from "../../types/tool/ISettingsToolState";
 import ISettingsToolDefaults from "../../types/tool/ISettingsToolDefaults";
 import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
+import IMapForm from "../../../../../model/types/form/IMapForm";
+import ISettingsToolConfig from "../../types/tool/ISettingsToolConfig";
 
 /**
  * This class represents settings tools. It provides empty sidebar which can be used be other tools via tab fragments.
  * 
  * @author Jiri Hynek
  */
-class SettingsTool extends MapTool implements ISettingsTool, ISidebarTabControl {
+class SettingsTool extends MapTool implements ISettingsTool, IMapFormControl {
     
     /**
      * TODO: move to the state
      */
-    private sidebarTab: ISidebarTab | undefined;
+    private sidebarTab!: IMapForm;
 
     /**
      * It creates a new tool with respect to the props.
@@ -28,9 +30,6 @@ class SettingsTool extends MapTool implements ISettingsTool, ISidebarTabControl 
      */
     public constructor(props: ISettingsToolProps | undefined) {
         super(props);
-
-        // the tab control for a sidebar will be created only if needed
-        this.sidebarTab = undefined;
     }
 
     /**
@@ -80,16 +79,16 @@ class SettingsTool extends MapTool implements ISettingsTool, ISidebarTabControl 
      * 
      * @param initProps
      */
-    public initialize(initProps: IMapToolInitProps<ISidebarToolConfig>): this {
+    public initialize(initProps: IMapToolInitProps<ISettingsToolConfig>): this {
         return super.initialize(initProps);
     }
 
     /**
      * It returns a sidebar tab with respect to the configuration.
      */
-    public getSidebarTab(): ISidebarTab {
+    public getMapForm(): IMapForm {
         if(this.sidebarTab == undefined) {
-            this.sidebarTab = this.createSidebarTabControl();
+            this.sidebarTab = this.createMapForm();
         }
         return this.sidebarTab;
     }
@@ -97,16 +96,9 @@ class SettingsTool extends MapTool implements ISettingsTool, ISidebarTabControl 
     /**
      * It creates new tab control.
      */
-    protected createSidebarTabControl(): ISidebarTab {
+    protected createMapForm(): IMapForm {
         // override if needed
-        return new SettingsToolSidebarTab({
-            // defined by the sidebar tab defaults
-            id: undefined,
-            enabled: undefined,
-            name: undefined,
-            icon: undefined,
-            checkButton: undefined
-        });
+        return new SettingsToolMapForm(this);
     }
 }
 export default SettingsTool;

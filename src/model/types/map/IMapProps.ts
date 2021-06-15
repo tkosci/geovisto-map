@@ -13,11 +13,11 @@ import IGeoDataManager from "../geodata/IGeoDataManager";
  * @author Jiri Hynek
  */
 type IMapProps = IMapObjectProps & {
-    templates: IMapTemplates | undefined;
-    globals: IMapGlobals | undefined;
-    data: IMapDataManager | undefined;
-    geoData: IGeoDataManager | undefined;
-    tools: IMapToolsManager | undefined;
+    templates?: IMapTemplates;
+    globals?: IMapGlobals;
+    data?: IMapDataManager;
+    geoData?: IGeoDataManager;
+    tools?: IMapToolsManager;
 }
 
 /**

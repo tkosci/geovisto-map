@@ -19,16 +19,10 @@ interface ISidebarFragment<
 > extends IMapObject<TProps, TDefaults, TState, TConfig, TInitProps> {
 
     /**
-     * The function returns true if the sidebar fragment should be included in the sidebar tab.
-     * 
-     * @param sidebarTab 
-     */
-    isChild(sidebarTab: ISidebarTab): boolean
-
-    /**
      * It returns the HTML content of the sidebar fragment.
      */
-    getContent(): HTMLElement;
+    getContent(): HTMLDivElement;
+    
     /**
      * This function is called after the sidebar tab is rendered in sidebar.
      */

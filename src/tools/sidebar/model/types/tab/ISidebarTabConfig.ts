@@ -7,11 +7,11 @@ import ISidebarFragmentConfig from "../fragment/ISidebarFragmentConfig";
  * @author Jiri Hynek
  */
 type ISidebarTabConfig = IMapObjectConfig & {
-    tool: string | undefined;
-    enabled: boolean | undefined;
-    name: string | undefined;
-    icon: string | undefined;
-    checkButton: boolean | undefined;
-    fragments: ISidebarFragmentConfig[] | undefined;
+    tool?: string;
+    enabled?: boolean;
+    name?: string;
+    icon?: string;
+    checkButton?: boolean;
+    fragments?: ISidebarFragmentConfig[];
 }
 export default ISidebarTabConfig;

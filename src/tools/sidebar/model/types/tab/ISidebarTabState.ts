@@ -5,6 +5,7 @@ import ISidebarFragment from "../fragment/ISidebarFragment";
 import { Control } from "leaflet";
 import ISidebarTabDefaults from "./ISidebarTabDefaults";
 import { ISidebarTabProps } from "./ISidebarTabProps";
+import ISidebarTool from "../tool/ISidebarTool";
 
 /**
  * This interface declares the state of the sidebar tab.
@@ -81,14 +82,14 @@ interface ISidebarTabState<
     /**
      * It returns the sidebar property of the sidebar tab state.
      */
-    getSidebar(): Control.Sidebar;
+    getSidebarTool(): ISidebarTool;
 
     /**
      * It sets the sidebar property of the sidebar tab state.
      * 
      * @param sidebar 
      */
-    setSidebar(sidebar: Control.Sidebar): void;
+    setSidebarTool(sidebar: ISidebarTool): void;
 
     /**
      * It returns the tabPane property of the sidebar tab state.

@@ -15,7 +15,7 @@ import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolPr
  */
 class ConnectionLayerToolState extends LayerToolState implements IConnectionLayerToolState {
 
-    private svgLayer: L.SVG | undefined;
+    private svgLayer?: L.SVG;
     private bucketData!: { nodes: Set<string>, connections: Map<string, IMapAggregationBucket> };
 
     /**

@@ -209,26 +209,21 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
                         tools={Geovisto.createMapToolsManager([
                             GeovistoSidebarTool.createTool({
                                 id: "geovisto-tool-sidebar",
-                                enabled: undefined
                             }),
                             GeovistoSettingsTool.createTool({
-                                id: "geovisto-tool-settings",
-                                enabled: undefined
+                                id: "geovisto-tool-settings"
                             }),
                             GeovistoFiltersTool.createTool({
                                 id: "geovisto-tool-filters",
-                                enabled: undefined,
                                 manager: GeovistoFiltersTool.createFiltersManager([
                                     // filter operations
                                     GeovistoFiltersTool.createFilterOperationEq(),
                                     GeovistoFiltersTool.createFilterOperationNeq(),
                                     GeovistoFiltersTool.createFilterOperationReg()
-                                ]),
-                                rules: undefined
+                                ])
                             }),
                             GeovistoThemesTool.createTool({
                                 id: "geovisto-tool-themes",
-                                enabled: undefined,
                                 manager: GeovistoThemesTool.createThemesManager([
                                     // style themes
                                     GeovistoThemesTool.createThemeLight1(),
@@ -237,40 +232,22 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
                                     GeovistoThemesTool.createThemeDark1(),
                                     GeovistoThemesTool.createThemeDark2(),
                                     GeovistoThemesTool.createThemeDark3(),
-                                ]),
-                                theme: undefined
+                                ])
                             }),
                             GeovistoSelectionTool.createTool({
-                                id: "geovisto-tool-selection",
-                                enabled: undefined,
-                                selection: undefined
+                                id: "geovisto-tool-selection"
                             }),
                             GeovistoTilesLayerTool.createTool({
-                                id: "geovisto-tool-layer-map",
-                                enabled: undefined,
-                                name: undefined,
-                                baseMap: undefined
+                                id: "geovisto-tool-layer-map"
                             }),
                             GeovistoChoroplethLayerTool.createTool({
-                                id: "geovisto-tool-layer-choropleth",
-                                enabled: true,
-                                name: undefined,
-                                polygons: undefined,
-                                dimensions: undefined,
+                                id: "geovisto-tool-layer-choropleth"
                             }),
                             GeovistoMarkerLayerTool.createTool({
-                                id: "geovisto-tool-layer-marker",
-                                enabled: true,
-                                name: undefined,
-                                geoData: undefined,
-                                dimensions: undefined,
+                                id: "geovisto-tool-layer-marker"
                             }),
                             GeovistoConnectionLayerTool.createTool({
-                                id: "geovisto-tool-layer-connection",
-                                enabled: true,
-                                name: undefined,
-                                geoData: undefined,
-                                dimensions: undefined,
+                                id: "geovisto-tool-layer-connection"
                             }),
                         ])}
                     />

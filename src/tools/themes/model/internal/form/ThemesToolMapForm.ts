@@ -1,6 +1,5 @@
+import MapObjectForm from '../../../../../model/internal/form/MapObjectForm';
 import LabeledAutocompleteFormInput from '../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput';
-import { ISidebarTab, ISidebarFragmentProps, AbstractSidebarFragment } from '../../../../sidebar';
-import { GeovistoSettingsTool } from '../../../../settings';
 import IMapTheme from '../../types/theme/IMapTheme';
 import IMapThemesManager from '../../types/theme/IMapThemesManager';
 import IThemesTool from '../../types/tool/IThemesTool';
@@ -10,32 +9,23 @@ import IThemesTool from '../../types/tool/IThemesTool';
  * 
  * @author Jiri Hynek
  */
-class ThemesToolSidebarFragment extends AbstractSidebarFragment<IThemesTool> {
+class ThemesToolMapForm extends MapObjectForm<IThemesTool> {
     
-    private htmlContent: HTMLElement | undefined;
+    private htmlContent!: HTMLDivElement;
 
     /**
      * It creates a sidebar fragment with respect to the given props.
      * 
-     * @param props 
+     * @param tool 
      */
-    public constructor(props: ISidebarFragmentProps | undefined) {
-        super(props);
-    }
-
-    /**
-     * The function returns true if the sidebar fragment should be included in the sidebar tab.
-     * 
-     * @param sidebarTab 
-     */
-    public isChild(sidebarTab: ISidebarTab): boolean {
-        return sidebarTab.getTool().getType() == GeovistoSettingsTool.getType();
+    public constructor(tool: IThemesTool) {
+        super(tool);
     }
 
     /**
      * It returns a HTML content of the sidebar fragment which will be placed in a sidebar tab.
      */
-    public getContent(): HTMLElement {
+    public getContent(): HTMLDivElement {
         if(this.htmlContent == undefined) {
             this.htmlContent = this.createContent();
         }
@@ -45,12 +35,12 @@ class ThemesToolSidebarFragment extends AbstractSidebarFragment<IThemesTool> {
     /**
      * Help function which creates the HTML content.
      */
-    protected createContent(): HTMLElement {
+    protected createContent(): HTMLDivElement {
         // tab pane
         const htmlContent: HTMLDivElement = document.createElement('div');
 
         // theme input
-        const tool: IThemesTool = <IThemesTool> this.getState().getTool();
+        const tool: IThemesTool = this.getMapObject();
         const themesManager: IMapThemesManager = tool.getState().getThemesManager();
         const changeTheme = function(e: Event) {
             const newTheme: IMapTheme | undefined = themesManager.getDomain((e.target as HTMLInputElement)?.value);
@@ -66,4 +56,4 @@ class ThemesToolSidebarFragment extends AbstractSidebarFragment<IThemesTool> {
     }
 
 }
-export default ThemesToolSidebarFragment;
+export default ThemesToolMapForm;

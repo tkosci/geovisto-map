@@ -8,7 +8,7 @@ import IMapFilterRule from "../filter/IMapFilterRule";
  * @author Jiri Hynek
  */
 type IFiltersToolProps = IMapToolProps & {
-    manager: IMapFiltersManager | undefined;
-    rules: IMapFilterRule[] | undefined;
+    manager?: IMapFiltersManager;
+    rules?: IMapFilterRule[];
 }
 export default IFiltersToolProps;

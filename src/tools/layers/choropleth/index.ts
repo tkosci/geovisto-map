@@ -9,8 +9,7 @@ export type { default as IChoroplethLayerToolProps } from './model/types/tool/IC
 export type { default as IChoroplethLayerToolState } from './model/types/tool/IChoroplethLayerToolState';
 
 // internal
-export { default as ChoroplethLayerToolSidebarTab } from './model/internal/sidebar/ChoroplethLayerToolSidebarTab';
-export { default as ChoroplethLayerToolSidebarTabDefaults } from './model/internal/sidebar/ChoroplethLayerToolSidebarTabDefaults';
+export { default as ChoroplethLayerToolSidebarTab } from './model/internal/form/ChoroplethLayerToolMapForm';
 export { default as ChoroplethLayerTool } from './model/internal/tool/ChoroplethLayerTool';
 export { default as ChoroplethLayerToolDefaults } from './model/internal/tool/ChoroplethLayerToolDefaults';
 export { default as ChoroplethLayerToolState } from './model/internal/tool/ChoroplethLayerToolState';

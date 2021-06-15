@@ -10,7 +10,7 @@ import { select as d3select } from "d3";
 
 import '../../../style/connectionLayer.scss';
 
-import ConnectionLayerToolSidebarTab from '../sidebar/ConnectionLayerToolSidebarTab';
+import ConnectionLayerToolMapForm from '../form/ConnectionLayerToolMapForm';
 import ConnectionLayerToolState from './ConnectionLayerToolState';
 import ConnectionLayerToolDefaults from './ConnectionLayerToolDefaults';
 import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
@@ -20,7 +20,6 @@ import ThemesToolEvent from '../../../../../themes/model/internal/event/ThemesTo
 import D3PathForceSimulator from '../util/D3PathForceSimulator';
 import ProjectionUtil from '../util/ProjectionUtil';
 import IConnectionLayerTool from '../../types/tool/IConnectionLayerTool';
-import { ISidebarTabControl, ILayerToolSidebarTab } from '../../../../../sidebar';
 import { GeovistoSelectionTool, ISelectionTool, IMapSelection } from '../../../../../selection';
 import IConnectionLayerToolProps from '../../types/tool/IConnectionLayerToolProps';
 import IConnectionLayerToolDefaults from '../../types/tool/IConnectionLayerToolDefaults';
@@ -42,16 +41,18 @@ import IMapDomain from '../../../../../../model/types/domain/IMapDomain';
 import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
 import IConnectionLayerNode from '../../types/items/IConnectionLayerNode';
 import IConnectionLayerConnection from '../../types/items/IConnectionLayerConnection';
+import IMapForm from '../../../../../../model/types/form/IMapForm';
+import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
 
 /**
  * This class represents Connection layer tool. It uses SVG layer and D3 to draw the lines.
  *
  * @author Jiri Hynek
  */
-class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerTool, ISidebarTabControl {
+class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerTool, IMapFormControl {
 
     private selectionTool: ISelectionTool | undefined;
-    private sidebarTab: ILayerToolSidebarTab | undefined;
+    private mapForm!: IMapForm;
 
     /**
      * It creates a new tool with respect to the props.
@@ -120,25 +121,18 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
     /**
      * It returns a sidebar tab with respect to the configuration.
      */
-    public getSidebarTab(): ILayerToolSidebarTab {
-        if(this.sidebarTab == undefined) {
-            this.sidebarTab = this.createSidebarTabControl();
+    public getMapForm(): IMapForm {
+        if(this.mapForm == undefined) {
+            this.mapForm = this.createMapForm();
         }
-        return this.sidebarTab;
+        return this.mapForm;
     }
 
     /**
      * It creates new tab control.
      */
-    protected createSidebarTabControl(): ILayerToolSidebarTab {
-        return new ConnectionLayerToolSidebarTab({
-            // defined by the sidebar tab defaults
-            id: undefined,
-            enabled: undefined,
-            name: undefined,
-            icon: undefined,
-            checkButton: undefined
-        });
+    protected createMapForm(): IMapForm {
+        return new ConnectionLayerToolMapForm(this);
     }
 
     /**

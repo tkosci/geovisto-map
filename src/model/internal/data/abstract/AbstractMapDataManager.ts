@@ -63,7 +63,7 @@ abstract class AbstractMapDataManager implements IMapDataManager {
      * 
      * @param name 
      */
-    public getDomain(name : string) : IMapDataDomain | undefined {
+    public getDomain(name : string): IMapDataDomain | undefined {
         const dataDomains: IMapDataDomain[] = this.getDomains();
         if(dataDomains != undefined) {
             for(let i = 0; i < dataDomains.length; i++) {

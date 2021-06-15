@@ -8,7 +8,7 @@ import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
  * @author Jiri Hynek
  */
 type IMarkerLayerToolProps = ILayerToolProps & {
-    dimensions: IMarkerLayerToolDimensions | undefined;
-    geoData: IGeoDataManager;
+    dimensions?: IMarkerLayerToolDimensions;
+    geoData?: IGeoDataManager;
 }
 export default IMarkerLayerToolProps;

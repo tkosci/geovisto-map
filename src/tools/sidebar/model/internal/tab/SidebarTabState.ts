@@ -5,8 +5,8 @@ import ISidebarTabDefaults from "../../types/tab/ISidebarTabDefaults";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
 import ISidebarFragment from "../../types/fragment/ISidebarFragment";
 import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
-import { Control } from "leaflet";
 import { ISidebarTabProps, ISidebarTabInitProps } from "../../types/tab/ISidebarTabProps";
+import ISidebarTool from "../../types/tool/ISidebarTool";
 /**
  * This class manages the state of the sidebar tab.
  * It wraps the state since the sidebar tab can work with state objects which needs to be explicitly serialized.
@@ -25,9 +25,9 @@ class SidebarTabState extends MapObjectState implements ISidebarTabState {
 
     private checkButton!: boolean;
     
-    private sidebar!: Control.Sidebar;
+    private sidebar!: ISidebarTool;
     
-    private fragments: ISidebarFragment[] | undefined;
+    private fragments?: ISidebarFragment[];
     
     private content: HTMLElement | null;
 
@@ -47,7 +47,7 @@ class SidebarTabState extends MapObjectState implements ISidebarTabState {
      */
     public initialize(defaults: ISidebarTabDefaults, props: ISidebarTabProps, initProps: ISidebarTabInitProps<ISidebarTabConfig>): void {
         this.setTool(initProps.tool);
-        this.setSidebar(initProps.sidebar);
+        this.setSidebarTool(initProps.sidebarTool);
         
         // set remaining properties if not set
         this.setName(props.name == undefined ? defaults.getName() : props.name);
@@ -189,7 +189,7 @@ class SidebarTabState extends MapObjectState implements ISidebarTabState {
     /**
      * It returns the sidebar property of the sidebar tab state.
      */
-    public getSidebar(): Control.Sidebar {
+    public getSidebarTool(): ISidebarTool {
         return this.sidebar;
     }
 
@@ -198,7 +198,7 @@ class SidebarTabState extends MapObjectState implements ISidebarTabState {
      * 
      * @param sidebar 
      */
-    public setSidebar(sidebar: Control.Sidebar): void {
+    public setSidebarTool(sidebar: ISidebarTool): void {
         this.sidebar = (this.sidebar == undefined) ? sidebar : this.sidebar;
     }
 

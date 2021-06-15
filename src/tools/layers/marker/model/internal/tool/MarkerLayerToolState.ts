@@ -17,7 +17,7 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
 
     private markers!: L.Marker[];
     private bucketData!: Map<string, Map<string, IMapAggregationBucket>>;
-    private layerGroup: L.LayerGroup | undefined;
+    private layerGroup?: L.LayerGroup;
 
     /**
      * It creates a tool state.

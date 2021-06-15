@@ -16,9 +16,10 @@ import ISidebarTool from '../../types/tool/ISidebarTool';
 import ISidebarTab from '../../types/tab/ISidebarTab';
 import ISidebarTabConfig from '../../types/tab/ISidebarTabConfig';
 import IMapTool from '../../../../../model/types/tool/IMapTool';
-import ISidebarTabControl from '../../types/tab/ISidebarTabControl';
 import ISidebarToolConfig from '../../types/tool/ISidebarToolConfig';
 import { IMapToolInitProps } from '../../../../../model/types/tool/IMapToolProps';
+import SidebarTab from '../tab/SidebarTab';
+import { instanceOfMapForm } from '../../../../../model/types/form/IMapFormControl';
 
 /**
  * This class provides the sidebar tool.
@@ -137,8 +138,9 @@ class SidebarTool extends MapTool implements ISidebarTool {
     /**
      * It returns sidebar tabs.
      */
-    private createTabs(): void {
+    protected createTabs(): void {
         const map = this.getMap();
+        const propsTabs = this.getProps().tabs;
         if(map) {
             // import tabs
             const tabsConfigs: ISidebarTabConfig[] | undefined = this.getState().getTabsConfigs();
@@ -149,27 +151,37 @@ class SidebarTool extends MapTool implements ISidebarTool {
                     tabConfig = tabsConfigs[i];
                     if(tabConfig.tool) {
                         tool = map.getState().getTools().getById(tabConfig.tool);
-                        this.createSidebarTab(tool, tabConfig);
+                        this.createSidebarTab(tool, tabConfig, undefined);
                     }
                 }
+            } else if(propsTabs) {
+                 for(const [ toolId, sidebarTab ] of propsTabs) {
+                    this.createSidebarTab(map.getState().getTools().getById(toolId), undefined, sidebarTab);
+                 }
             } else {
                 // based on the implicit order of the tools in the list of the tools
                 const tools: IMapTool[] = map.getState().getTools().getAll();
                 for(let i = 0; i < tools.length; i++) {
-                    this.createSidebarTab(tools[i], undefined);
+                    this.createSidebarTab(tools[i], undefined, undefined);
                 }
             }
         }
     }
 
     /**
-     * Help function which tests whether the tool implements
-     * getSidebarTab function of the ISidebarTabControl interface.
+     * Help function which loops up a sidebar tab in props
      * 
-     * @param tool 
+     * @param toolId
      */
-    private instanceOfTabControl(tool: IMapTool | ISidebarTabControl): tool is ISidebarTabControl {
-        return (tool as ISidebarTabControl).getSidebarTab !== undefined;
+    protected getPropsSidebarTab(toolId: string): ISidebarTab | undefined {
+        const propsTabs = this.getProps().tabs;
+        if(propsTabs) {
+            for(const [ id, sidebarTab ] of propsTabs) {
+                if(id === toolId) {
+                    return sidebarTab;
+                }
+            }
+        }
     }
 
     /**
@@ -178,19 +190,21 @@ class SidebarTool extends MapTool implements ISidebarTool {
      * @param tool
      * @param config
      */
-    private createSidebarTab(tool: IMapTool | undefined, config: ISidebarTabConfig | undefined) {
-        if(tool && this.instanceOfTabControl(tool)) {
+    protected createSidebarTab(tool: IMapTool | undefined, config: ISidebarTabConfig | undefined, propsSidebarTab: ISidebarTab | undefined): void {
+        if(tool && instanceOfMapForm<IMapTool>(tool)) {
             const sidebar: L.Control.Sidebar | null = this.getState().getSidebar();
             if(sidebar) {
-                // the tool implements the getSidebarTab function
-                const sidebarTabControl = tool.getSidebarTab();
-                if(sidebarTabControl != undefined) {
-                    // render sidebar
-                    sidebarTabControl.initialize({ tool: tool, sidebar: sidebar, config: config });
-                    sidebarTabControl.create();
-                    // update state
-                    this.getState().addTab(sidebarTabControl);
-                }
+                // get the sidebar tab defined in props or create a new one
+                const sidebarTab = propsSidebarTab ?? this.getPropsSidebarTab(tool.getId()) ?? new SidebarTab({
+                    // defined by the sidebar tab defaults
+                    name: tool.getDefaults().getLabel(),
+                    icon: tool.getDefaults().getIcon()
+                });
+                // render sidebar
+                sidebarTab.initialize({ tool: tool, sidebarTool: this, config: config });
+                sidebarTab.create();
+                // update state
+                this.getState().addTab(sidebarTab);
             }
         }
     }
