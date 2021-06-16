@@ -28,9 +28,9 @@ class FiltersTool extends MapTool implements IFiltersTool, IMapFormControl {
     /**
      * It creates a new tool with respect to the props.
      * 
-     * @param props 
+     * @param props
      */
-    public constructor(props: IFiltersToolProps | undefined) {
+    public constructor(props?: IFiltersToolProps) {
         super(props);
     }
 

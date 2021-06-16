@@ -86,21 +86,12 @@ class GeovistoMap extends MapObject implements IMap {
     /**
      * This function redraws the current map.
      */
-    public redraw(configManager: IMapConfigManager, props: IMapProps): HTMLElement | null {
+    public redraw(configManager: IMapConfigManager): HTMLElement | null {
         // get map and remove map children
         let mapContainer: HTMLElement | null = document.getElementById(this.getState().getId());
         if(mapContainer && mapContainer.childNodes.length > 0) {
             // remove old elements
             mapContainer.childNodes[0].remove();
-
-            // creates a new state with a new props
-            // TODO remove the props argument
-            /*if(props) {
-                this.state = this.createState();
-                this.getState().initialize(props, this.getDefaults());
-            } else {
-                this.state.reset(this.getDefaults());
-            }*/
 
             // initialize map and tools
             this.initialize({ config: configManager.getMapConfig(), configManager: configManager});

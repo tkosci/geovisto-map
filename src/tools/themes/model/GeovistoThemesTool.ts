@@ -14,7 +14,7 @@ import IThemesToolProps from "./types/tool/IThemesToolProps";
 
 export const GeovistoThemesTool: {
     getType: () => string,
-    createTool: (props: IThemesToolProps | undefined) => IThemesTool,
+    createTool: (props?: IThemesToolProps) => IThemesTool,
     createThemesManager: (filterOperations: IMapTheme[]) => IMapThemesManager,
     createThemeLight1: () => IMapTheme,
     createThemeLight2: () => IMapTheme,

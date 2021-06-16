@@ -5,7 +5,7 @@ import IChoroplethLayerToolProps from "./types/tool/IChoroplethLayerToolProps";
 
 export const GeovistoChoroplethLayerTool: {
     getType: () => string,
-    createTool: (props: IChoroplethLayerToolProps | undefined) => IChoroplethLayerTool
+    createTool: (props?: IChoroplethLayerToolProps) => IChoroplethLayerTool
 } = {
     getType: () => ChoroplethLayerToolDefaults.TYPE,
     createTool: (props) => new ChoroplethLayerTool(props),

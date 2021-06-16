@@ -90,14 +90,14 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
             this.btnGroup.setAttribute("class", "filterButtons");
 
             // append add button
-            // TODO
-            // eslint-disable-next-line no-var, @typescript-eslint/no-this-alias
-            var _this = this;
-            this.btnGroup.appendChild(TabDOMUtil.createButton("<i class=\"fa fa-plus-circle\"></i>", function() { FiltersToolMapForm.addSelectItem(_this); }, "plusBtn" ));
+            this.btnGroup.appendChild(TabDOMUtil.createButton(
+                "<i class=\"fa fa-plus-circle\"></i>",
+                () => { this.addSelectItem(); }, "plusBtn"
+            ));
 
             // append apply button
-            this.btnGroup.appendChild(TabDOMUtil.createButton("Apply", function() {
-                _this.inputChangedAction();
+            this.btnGroup.appendChild(TabDOMUtil.createButton("Apply", () => {
+                this.inputChangedAction();
             },"applyBtn"));
 
             // import inputs according to configuration
@@ -108,18 +108,17 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
     }
 
     /**
-     * Help static function which adds new select item to the filter map form.
-     * 
-     * @param _this 
+     * Help static function which adds new select item to the filter map form. 
      */
-    protected static addSelectItem(_this: FiltersToolMapForm): InputItem | null {
+    protected addSelectItem(): InputItem | null {
         // div container
-        if(_this.htmlContent) {
-            const div: HTMLDivElement = _this.htmlContent.insertBefore(document.createElement('div'), _this.btnGroup);
-            div.classList.add(_this.getFilterRuleElementClass(_this.getMapObject().getType()));
+        if(this.htmlContent) {
+            const div: HTMLDivElement = this.htmlContent.insertBefore(document.createElement('div'), this.btnGroup);
+            div.classList.add(this.getFilterRuleElementClass(this.getMapObject().getType()));
             
-            const minusButton = TabDOMUtil.createButton("<i class=\"fa fa-minus-circle\"></i>",
-                                                        function(e: MouseEvent) { FiltersToolMapForm.removeSelectItem(e, _this); }, "minusBtn");        
+            const minusButton = TabDOMUtil.createButton(
+                "<i class=\"fa fa-minus-circle\"></i>",
+                (e: MouseEvent) => { this.removeSelectItem(e); }, "minusBtn");        
             div.appendChild(minusButton);
 
             /**
@@ -130,13 +129,13 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
              * 
              * @param e 
              */
-            const updateValueOptions = function(e: Event) {
+            const updateValueOptions = (e: Event) => {
                 // find the input item
                 let input: FilterAutocompleteFormInput | null = null;
-                const div: HTMLElement | null = (e.target as HTMLInputElement).closest("." + _this.getFilterRuleElementClass(_this.getMapObject().getType()));
-                for(let i = 0; i < _this.inputs.length; i++) {
-                    if(_this.inputs[i].container == div) {
-                        input = _this.inputs[i].input;
+                const div: HTMLElement | null = (e.target as HTMLInputElement).closest("." + this.getFilterRuleElementClass(this.getMapObject().getType()));
+                for(let i = 0; i < this.inputs.length; i++) {
+                    if(this.inputs[i].container == div) {
+                        input = this.inputs[i].input;
                         break;
                     }
                 }
@@ -159,11 +158,11 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
                                 inputElement.val.setDisabled(false);
                                 
                                 // find possible values of selected data domain
-                                const dataDomain = _this.getDataManager()?.getDomain(dataDomainName);
+                                const dataDomain = this.getDataManager()?.getDomain(dataDomainName);
                                 if(dataDomain) {
                                     // update options of the value input
                                     // TODO specify the type
-                                    inputElement.val.setOptions(_this.getDataManager()?.getValues(dataDomain) as any[] ?? []);
+                                    inputElement.val.setOptions(this.getDataManager()?.getValues(dataDomain) as any[] ?? []);
                                 }
                             
                         } else {
@@ -177,10 +176,10 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
                 }
             };
 
-            const dataManager = _this.getDataManager();
+            const dataManager = this.getDataManager();
             const dataDomainNames = dataManager?.getDomainNames() ?? [ "" ];
             const dataDomain = dataManager?.getDomain(dataDomainNames[0]);
-            const operationNames = _this.getFilterManager().getDomainNames();
+            const operationNames = this.getFilterManager().getDomainNames();
 
             // inputs
             const input = new FilterAutocompleteFormInput({
@@ -208,7 +207,7 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
             };
 
             // list of input items
-            _this.inputs.push(inputItem);
+            this.inputs.push(inputItem);
 
             return inputItem;
         }
@@ -217,20 +216,18 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
     }
 
     /**
-     * Help static function which removes item from the filter map form.
-     * 
-     * @param _this 
+     * Help function which removes item from the filter map form.
      */
-     protected static removeSelectItem(e: MouseEvent, _this: FiltersToolMapForm): void {
+     protected removeSelectItem(e: MouseEvent): void {
         if(e.target) {
             // get div
             const div = (<HTMLInputElement> e.target).closest("div");
 
             // find input item and remove it from DOM and list of input items
-            for(let i = 0; i < _this.inputs.length; i++) {
-                if(_this.inputs[i].container == div) {
+            for(let i = 0; i < this.inputs.length; i++) {
+                if(this.inputs[i].container == div) {
                     div.remove();
-                    _this.inputs.splice(i, 1);
+                    this.inputs.splice(i, 1);
                     break;
                 }
             }
@@ -288,12 +285,12 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
 
         if(filterRules == undefined || filterRules.length == 0) {
             // if filter rules are empty, initialize one empty input item
-            FiltersToolMapForm.addSelectItem(this);
+            this.addSelectItem();
         } else {
             // import inputs according to given filter rules
             for(let i = 0; i < filterRules.length; i++) {
                 // create input for given filter rule
-                FiltersToolMapForm.addSelectItem(this)?.input.setValue({
+                this.addSelectItem()?.input.setValue({
                     data: filterRules[i].getDataDomain().toString(),
                     op: filterRules[i].getFilterOperation().toString(),
                     val: filterRules[i].getPattern()

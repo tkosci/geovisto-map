@@ -5,7 +5,7 @@ import ISidebarToolProps from "./types/tool/ISidebarToolProps";
 
 export const GeovistoSidebarTool: {
     getType: () => string,
-    createTool: (props: ISidebarToolProps | undefined) => ISidebarTool
+    createTool: (props?: ISidebarToolProps) => ISidebarTool
 } = {
     getType: () => SidebarToolDefaults.TYPE,
     createTool: (props) => new SidebarTool(props),

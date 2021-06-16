@@ -35,7 +35,7 @@ class ThemesTool extends MapTool implements IThemesTool, IMapFormControl {
      * 
      * @param props 
      */
-    public constructor(props: IThemesToolProps | undefined) {
+    public constructor(props?: IThemesToolProps) {
         super(props);
     }
 

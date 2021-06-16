@@ -22,7 +22,7 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
      * 
      * @param props 
      */
-    public constructor(props: ILayerToolProps | undefined) {
+    public constructor(props?: ILayerToolProps) {
         super(props);
     }
 

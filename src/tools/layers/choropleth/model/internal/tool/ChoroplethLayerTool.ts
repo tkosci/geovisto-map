@@ -55,7 +55,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
      * 
      * @param props 
      */
-    public constructor(props: IChoroplethLayerToolProps | undefined) {
+    public constructor(props?: IChoroplethLayerToolProps) {
         super(props);
     }
 

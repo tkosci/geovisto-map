@@ -11,7 +11,7 @@ import IFiltersToolProps from "./types/tool/IFiltersToolProps";
 
 export const GeovistoFiltersTool: {
     getType: () => string,
-    createTool: (props: IFiltersToolProps | undefined) => IFiltersTool
+    createTool: (props?: IFiltersToolProps) => IFiltersTool
     createFiltersManager: (filterOperations: IMapFilterOperation[]) => IMapFiltersManager,
     createFilterOperationEq: () => IMapFilterOperation,
     createFilterOperationNeq: () => IMapFilterOperation,

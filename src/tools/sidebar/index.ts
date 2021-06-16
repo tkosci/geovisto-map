@@ -13,12 +13,6 @@ export type { default as ISidebarTabDefaults } from './model/types/tab/ISidebarT
 export type { ISidebarTabProps, ISidebarTabInitProps } from './model/types/tab/ISidebarTabProps';
 export type { default as ISidebarTabState } from './model/types/tab/ISidebarTabState';
 
-export type { default as ILayerToolSidebarTab } from './model/types/tab/layer/ILayerToolSidebarTab';
-export type { default as ILayerToolSidebarTabConfig } from './model/types/tab/layer/ILayerToolSidebarTabConfig';
-export type { default as ILayerToolSidebarTabDefaults } from './model/types/tab/layer/ILayerToolSidebarTabDefaults';
-export type { default as ILayerToolSidebarTabProps } from './model/types/tab/layer/ILayerToolSidebarTabProps';
-export type { default as ILayerToolSidebarTabState } from './model/types/tab/layer/ILayerToolSidebarTabState';
-
 export type { default as ISidebarTool } from './model/types/tool/ISidebarTool';
 export type { default as ISidebarToolConfig } from './model/types/tool/ISidebarToolConfig';
 export type { default as ISidebarToolDefaults } from './model/types/tool/ISidebarToolDefaults';

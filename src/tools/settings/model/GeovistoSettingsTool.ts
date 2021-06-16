@@ -5,7 +5,7 @@ import ISettingsToolProps from "./types/tool/ISettingsToolProps";
 
 export const GeovistoSettingsTool: {
     getType: () => string,
-    createTool: (props: ISettingsToolProps | undefined) => ISettingsTool
+    createTool: (props?: ISettingsToolProps) => ISettingsTool
 } = {
     getType: () => SettingsToolDefaults.TYPE,
     createTool: (props) => new SettingsTool(props),

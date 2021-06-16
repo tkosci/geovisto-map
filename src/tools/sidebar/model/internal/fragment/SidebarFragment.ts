@@ -23,7 +23,7 @@ class SidebarFragment<T extends IMapTool & IMapFormControl> extends MapObject im
      * 
      * @param props 
      */
-    public constructor(props: ISidebarFragmentProps | undefined) {
+    public constructor(props?: ISidebarFragmentProps) {
         super(props);
     }
 
@@ -97,8 +97,13 @@ class SidebarFragment<T extends IMapTool & IMapFormControl> extends MapObject im
      * 
      * @param checked 
      */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function, @typescript-eslint/no-unused-vars
     public setFragmentContentChecked(checked: boolean): void {
+        const tool: IMapTool = this.getState().getTool();
+        if(tool && checked != tool.isEnabled()) {
+
+            // update the tool state
+            tool.setEnabled(checked);
+        }
     }
 }
 export default SidebarFragment;

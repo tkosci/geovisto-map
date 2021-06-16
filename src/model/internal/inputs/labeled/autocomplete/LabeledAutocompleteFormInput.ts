@@ -164,67 +164,63 @@ class LabeledAutocompleteFormInput extends AbstractMapFormInput implements IMapF
      */
     protected createListeners(): void {
         if(this.input) {
-            // TODO
-            // eslint-disable-next-line no-var, @typescript-eslint/no-this-alias
-            var _this = this;
-
             // when input changed, notify listeners
             this.input.onchange = (<ILabeledAutocompleteFormInputProps> this.getProps()).onChangeAction;
 
             // input change listener: create autocomplete and find
-            this.input.addEventListener('input', function() {
-                _this.createMenu();
+            this.input.addEventListener('input', () => {
+                this.createMenu();
             });
 
             // focus-in listener: create autocomplete
-            this.input.addEventListener('focusin', function() {
-                _this.createMenu();
+            this.input.addEventListener('focusin', () => {
+                this.createMenu();
             });
 
             // key-up/down listener
-            this.input.addEventListener('keydown', function(e) {
-                if (_this.completionListDiv != undefined) {
-                    const completionItems = _this.completionListDiv.children;
+            this.input.addEventListener('keydown', (e: KeyboardEvent) => {
+                if (this.completionListDiv != undefined) {
+                    const completionItems = this.completionListDiv.children;
                     
                     // remove active completion item
-                    if(_this.selectedCompletionItem != -1 && completionItems[_this.selectedCompletionItem] != undefined){
-                        completionItems[_this.selectedCompletionItem].classList.remove(COMPONENT_COMPLETION_ACTIVE_ITEM_CLASS);
+                    if(this.selectedCompletionItem != -1 && completionItems[this.selectedCompletionItem] != undefined){
+                        completionItems[this.selectedCompletionItem].classList.remove(COMPONENT_COMPLETION_ACTIVE_ITEM_CLASS);
                     }
 
                     // process key codes
-                    if (e.keyCode == 40) {
+                    if (e.key === "ArrowDown" || e.keyCode === 40) {
                         // key Arrow down -> next item (checks array overflow)
-                        _this.selectedCompletionItem = (_this.selectedCompletionItem + 1) % completionItems.length;
+                        this.selectedCompletionItem = (this.selectedCompletionItem + 1) % completionItems.length;
                         e.preventDefault();
                     } 
 
-                    else if (e.keyCode == 38) {
+                    else if (e.key === "ArrowUp" || e.keyCode === 38) {
                         // key Arrow up -> previous item (checks array overflow)
-                        if(_this.selectedCompletionItem == -1) {
-                            _this.selectedCompletionItem = 0; // initial move
+                        if(this.selectedCompletionItem == -1) {
+                            this.selectedCompletionItem = 0; // initial move
                         }
-                        _this.selectedCompletionItem = (_this.selectedCompletionItem + completionItems.length - 1) % completionItems.length;
+                        this.selectedCompletionItem = (this.selectedCompletionItem + completionItems.length - 1) % completionItems.length;
                         e.preventDefault();
                     } 
 
-                    else if (e.keyCode == 13 && _this.selectedCompletionItem != -1) {
+                    else if ((e.key === "Enter" || e.keyCode === 13) && this.selectedCompletionItem !== -1) {
                         // key Enter
-                        //this.value = completionItems[_this.selectedCompletionItem].textContent;
-                        _this.completionListDiv.remove();
-                        _this.selectedCompletionItem != -1;
+                        this.input.value = completionItems[this.selectedCompletionItem].textContent ?? "";
+                        this.completionListDiv.remove();
+                        this.selectedCompletionItem != -1;
                         // input on change event needs to be invoked manualy in this case
-                        this.dispatchEvent(new Event("change"));
+                        this.input.dispatchEvent(new Event("change"));
                     } 
 
-                    else if(e.keyCode == 27 || e.keyCode == 9) {
+                    else if(e.key === "Escape" || e.key === "Backspace" || e.keyCode === 27 || e.keyCode === 9) {
                         // key Escape or Tab
-                        _this.completionListDiv.remove();
-                        _this.selectedCompletionItem != -1;
+                        this.completionListDiv.remove();
+                        this.selectedCompletionItem != -1;
                     }
 
                     // set new active item
-                    if(completionItems[_this.selectedCompletionItem] != undefined) {
-                        completionItems[_this.selectedCompletionItem].classList.add(COMPONENT_COMPLETION_ACTIVE_ITEM_CLASS);
+                    if(completionItems[this.selectedCompletionItem] != undefined) {
+                        completionItems[this.selectedCompletionItem].classList.add(COMPONENT_COMPLETION_ACTIVE_ITEM_CLASS);
                     }
 
                     return false;
@@ -232,11 +228,11 @@ class LabeledAutocompleteFormInput extends AbstractMapFormInput implements IMapF
             }, false);
 
             // click litener: click outside the input
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', (e: MouseEvent) => {
                 // note: there is one listener for every input
-                if(_this.completionListDiv != undefined && e.target != _this.input) {
-                    _this.completionListDiv.remove();
-                    _this.selectedCompletionItem != -1;
+                if(this.completionListDiv != undefined && e.target != this.input) {
+                    this.completionListDiv.remove();
+                    this.selectedCompletionItem !== -1;
                 }
             });
         }
@@ -246,10 +242,6 @@ class LabeledAutocompleteFormInput extends AbstractMapFormInput implements IMapF
      * Creates and open MatchItems in PopUpList and set value according chosen input.
      */
     protected createMenu(): void {
-        // TODO
-        // eslint-disable-next-line no-var, @typescript-eslint/no-this-alias
-        var _this = this;
-        
         // if PopUpList already exist delete old one
         if (this.completionListDiv != undefined) {
             this.completionListDiv.remove();
@@ -260,23 +252,23 @@ class LabeledAutocompleteFormInput extends AbstractMapFormInput implements IMapF
         this.completionListDiv.classList.add(COMPONENT_COMPLETION_LIST_CLASS);
 
         // help function which creates completion item
-        const createCompletionItem = function(label: string, className: string) {
+        const createCompletionItem = (label: string, className: string) => {
             // create item
             const completionItemDiv = document.createElement('div');
             completionItemDiv.innerHTML = label;
             completionItemDiv.classList.add(className);
 
              // add it to completion list div
-            _this.completionListDiv.appendChild(completionItemDiv);
+            this.completionListDiv.appendChild(completionItemDiv);
             
             // on click listener: the item has been selected
-            completionItemDiv.addEventListener('click', function() {
-                _this.input.value = completionItemDiv.textContent ? completionItemDiv.textContent : "";
+            completionItemDiv.addEventListener('click', () => {
+                this.input.value = completionItemDiv.textContent ? completionItemDiv.textContent : "";
                 if(completionItemDiv.parentElement) {
                     completionItemDiv.parentElement.remove();
                 }
                 // input on change event needs to be invoked manualy in this case
-                _this.input.dispatchEvent(new Event("change"));
+                this.input.dispatchEvent(new Event("change"));
             });
         };
 
@@ -289,7 +281,7 @@ class LabeledAutocompleteFormInput extends AbstractMapFormInput implements IMapF
         this.inputDiv.appendChild(this.completionListDiv);
 
         // reset selection
-        _this.selectedCompletionItem = -1;
+        this.selectedCompletionItem = -1;
     }
 }
 export default LabeledAutocompleteFormInput;

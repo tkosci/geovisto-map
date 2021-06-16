@@ -1,5 +1,4 @@
 import IMapObject from "../object/IMapObject";
-import IMapEvent from "../event/IMapEvent";
 import IMapConfigManager from "../config/IMapConfigManager";
 import IMapDefaults from "./IMapDefaults";
 import { IMapProps, IMapInitProps } from "./IMapProps";
@@ -28,7 +27,7 @@ interface IMap<
     /**
      * This function redraws the current map.
      */
-    redraw(mapConfig: IMapConfigManager, props: IMapProps): HTMLElement | null;
+    redraw(mapConfig: IMapConfigManager): HTMLElement | null;
 
     /**
      * It exports the serialized representation of the current state of the map.

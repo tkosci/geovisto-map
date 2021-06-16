@@ -59,7 +59,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
      *
      * @param props
      */
-    public constructor(props: IConnectionLayerToolProps | undefined) {
+    public constructor(props?: IConnectionLayerToolProps) {
         super(props);
     }
 

@@ -7,6 +7,6 @@ import ISidebarTab from "../tab/ISidebarTab";
  * @author Jiri Hynek
  */
 type ISidebarToolProps = IMapToolProps & {
-    tabs?: [ string, ISidebarTab ][];
+    tabs?: [ string | undefined, ISidebarTab ][];
 }
 export default ISidebarToolProps;

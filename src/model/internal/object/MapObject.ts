@@ -19,7 +19,7 @@ class MapObject implements IMapObject {
     /**
      * It creates a map object.
      */
-    public constructor(props : IMapObjectProps | undefined) {
+    public constructor(props?: IMapObjectProps) {
         // create defaults of the object
         this.defaults = this.createDefaults();
 

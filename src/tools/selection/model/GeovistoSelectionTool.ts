@@ -8,7 +8,7 @@ import ISelectionToolProps from "./types/tool/ISelectionToolProps";
 
 export const GeovistoSelectionTool: {
     getType: () => string,
-    createTool: (props: ISelectionToolProps | undefined) => ISelectionTool
+    createTool: (props?: ISelectionToolProps) => ISelectionTool
     createSelection: (source: IMapTool, ids: string[]) => IMapSelection
 } = {
     getType: () => SelectionToolDefaults.TYPE,

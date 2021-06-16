@@ -20,7 +20,7 @@ class MapTool extends MapObject implements IMapTool, IMapEventListener {
     /**
      * It initializes the tool.
      */
-    public constructor(props: IMapToolProps | undefined) {
+    public constructor(props?: IMapToolProps) {
         super(props);
     }
 

@@ -5,7 +5,7 @@ import IMarkerLayerToolProps from "./types/tool/IMarkerLayerToolProps";
 
 export const GeovistoMarkerLayerTool: {
     getType: () => string,
-    createTool: (props: IMarkerLayerToolProps | undefined) => IMarkerLayerTool
+    createTool: (props?: IMarkerLayerToolProps) => IMarkerLayerTool
 } = {
     getType: () => MarkerLayerToolDefaults.TYPE,
     createTool: (props) => new MarkerLayerTool(props),

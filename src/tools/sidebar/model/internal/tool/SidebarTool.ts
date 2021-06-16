@@ -20,6 +20,7 @@ import ISidebarToolConfig from '../../types/tool/ISidebarToolConfig';
 import { IMapToolInitProps } from '../../../../../model/types/tool/IMapToolProps';
 import SidebarTab from '../tab/SidebarTab';
 import { instanceOfMapForm } from '../../../../../model/types/form/IMapFormControl';
+import DummyTabTool from '../dummy/DummyTabTool';
 
 /**
  * This class provides the sidebar tool.
@@ -33,7 +34,7 @@ class SidebarTool extends MapTool implements ISidebarTool {
      *
      * @param props
      */
-    public constructor(props: ISidebarToolProps | undefined) {
+    public constructor(props?: ISidebarToolProps) {
         super(props);
     }
 
@@ -149,14 +150,18 @@ class SidebarTool extends MapTool implements ISidebarTool {
                 let tabConfig: ISidebarTabConfig, tool: IMapTool | undefined;
                 for(let i = 0; i < tabsConfigs.length; i++) {
                     tabConfig = tabsConfigs[i];
-                    if(tabConfig.tool) {
-                        tool = map.getState().getTools().getById(tabConfig.tool);
-                        this.createSidebarTab(tool, tabConfig, undefined);
-                    }
+                    // if the tool id is undefined a dummy tab tool is created and initialized
+                    tool = tabConfig.tool ? map.getState().getTools().getById(tabConfig.tool) : new DummyTabTool().initialize({
+                        map: map
+                    });
+                    this.createSidebarTab(tool, tabConfig, undefined);
                 }
             } else if(propsTabs) {
                  for(const [ toolId, sidebarTab ] of propsTabs) {
-                    this.createSidebarTab(map.getState().getTools().getById(toolId), undefined, sidebarTab);
+                    // if the tool id is undefined a dummy tab tool is created and initialized
+                    this.createSidebarTab(toolId ? map.getState().getTools().getById(toolId) : new DummyTabTool().initialize({
+                        map: map
+                    }), undefined, sidebarTab);
                  }
             } else {
                 // based on the implicit order of the tools in the list of the tools

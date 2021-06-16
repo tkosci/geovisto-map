@@ -28,7 +28,7 @@ class SettingsTool extends MapTool implements ISettingsTool, IMapFormControl {
      * 
      * @param props 
      */
-    public constructor(props: ISettingsToolProps | undefined) {
+    public constructor(props?: ISettingsToolProps) {
         super(props);
     }
 

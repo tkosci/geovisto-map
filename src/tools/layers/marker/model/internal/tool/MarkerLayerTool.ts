@@ -51,7 +51,7 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
      * 
      * @param props 
      */
-    public constructor(props: IMarkerLayerToolProps | undefined) {
+    public constructor(props?: IMarkerLayerToolProps) {
         super(props);
     }
 

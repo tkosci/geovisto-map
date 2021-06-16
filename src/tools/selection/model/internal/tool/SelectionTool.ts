@@ -35,7 +35,7 @@ class SelectionTool extends MapTool implements ISelectionTool, IMapFormControl {
      * 
      * @paramps 
      */
-    public constructor(props: ISelectionToolProps | undefined) {
+    public constructor(props?: ISelectionToolProps) {
         super(props);
     }
 

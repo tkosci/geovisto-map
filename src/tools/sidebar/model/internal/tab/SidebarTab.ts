@@ -34,7 +34,7 @@ class SidebarTab<T extends IMapTool & IMapFormControl> extends MapObject impleme
      * 
      * @param props 
      */
-    public constructor(props: ISidebarTabProps | undefined) {
+    public constructor(props?: ISidebarTabProps) {
         super(props);
     }
 
@@ -216,12 +216,9 @@ class SidebarTab<T extends IMapTool & IMapFormControl> extends MapObject impleme
                         const tabEnableBtn: HTMLInputElement = document.createElement("input");
                         tabEnableBtn.setAttribute("type", "checkbox");
                         tabEnableBtn.setAttribute("id", this.getState().getId() + '-enable-btn');
-                        // TODO
-                        // eslint-disable-next-line no-var, @typescript-eslint/no-this-alias
-                        var _this = this;
-                        tabEnableBtn.onclick = function() {
+                        tabEnableBtn.onclick = () => {
                             // onclick event handler enables/disables its items
-                            _this.setChecked(tabEnableBtn.checked);
+                            this.setChecked(tabEnableBtn.checked);
                         };
                         tabHeader.insertBefore(tabEnableBtn, tabHeader.firstChild);
 
@@ -269,11 +266,19 @@ class SidebarTab<T extends IMapTool & IMapFormControl> extends MapObject impleme
                 sidebarTab.select("." + C_sidebar_tab_content_class).selectAll("button").attr("disabled", disabled);
             }
 
-            // switch state
+            // notify extended tab
             this.setTabContentChecked(checked);
 
             // update the tool state
             tool.setEnabled(checked);
+
+            // notify fragments
+            const fragments = this.getFragments();
+            if(fragments) {
+                for(const fragment of fragments) {
+                    fragment.setFragmentContentChecked(checked);
+                }
+            }
         }
     }
 

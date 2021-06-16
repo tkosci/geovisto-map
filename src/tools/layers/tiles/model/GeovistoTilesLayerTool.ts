@@ -5,7 +5,7 @@ import TilesLayerToolDefaults from "./internal/tool/TilesLayerToolDefaults";
 
 export const GeovistoTilesLayerTool: {
     getType: () => string,
-    createTool: (props: ITilesLayerToolProps | undefined) => ITilesLayerTool
+    createTool: (props?: ITilesLayerToolProps) => ITilesLayerTool
 } = {
     getType: () => TilesLayerToolDefaults.TYPE,
     createTool: (props) => new TilesLayerTool(props),

@@ -30,7 +30,7 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, IMapF
      * 
      * @param props 
      */
-    public constructor(props: ITilesLayerToolProps | undefined) {
+    public constructor(props?: ITilesLayerToolProps) {
         super(props);
     }
 
