@@ -1,5 +1,10 @@
+// Geovisto core
 import ILayerTool from "../../../../../../model/types/layer/ILayerTool";
+import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
+
+import { IMarkerLayerToolConfig } from "./IMarkerLayerToolConfig";
 import IMarkerLayerToolDefaults from "./IMarkerLayerToolDefaults";
+import IMarkerLayerToolProps from "./IMarkerLayerToolProps";
 import IMarkerLayerToolState from "./IMarkerLayerToolState";
 
 /**
@@ -7,22 +12,18 @@ import IMarkerLayerToolState from "./IMarkerLayerToolState";
  * 
  * @author Jiri Hynek
  */
-interface IMarkerLayerTool extends ILayerTool {
+interface IMarkerLayerTool<
+    TProps extends IMarkerLayerToolProps = IMarkerLayerToolProps,
+    TDefaults extends IMarkerLayerToolDefaults = IMarkerLayerToolDefaults,
+    TState extends IMarkerLayerToolState = IMarkerLayerToolState,
+    TConfig extends IMarkerLayerToolConfig = IMarkerLayerToolConfig,
+    TInitProps extends IMapToolInitProps<TConfig> = IMapToolInitProps<TConfig>
+> extends ILayerTool<TProps, TDefaults, TState, TConfig, TInitProps> {
 
     /**
      * It creates a copy of the uninitialized tool.
      */
     copy(): IMarkerLayerTool;
-
-    /**
-     * It creates new defaults of the tool.
-     */
-    getDefaults(): IMarkerLayerToolDefaults;
-
-    /**
-     * It returns default tool state.
-     */
-    getState(): IMarkerLayerToolState;
 }
 
 export default IMarkerLayerTool;

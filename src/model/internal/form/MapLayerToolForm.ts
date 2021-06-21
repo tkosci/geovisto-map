@@ -1,6 +1,6 @@
+import IMapFormInput from "../../types/inputs/IMapFormInput";
 import IMapDimension from "../../types/dimension/IMapDimension";
 import IMapDomain from "../../types/domain/IMapDomain";
-import IMapFormInput from "../../types/inputs/IMapFormInput";
 import ILayerTool from "../../types/layer/ILayerTool";
 import ILayerToolDimensions from "../../types/layer/ILayerToolDimensions";
 import LabeledAutocompleteFormInput from "../inputs/labeled/autocomplete/LabeledAutocompleteFormInput";

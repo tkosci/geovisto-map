@@ -1,7 +1,7 @@
 import IMapDimension from "../../types/dimension/IMapDimension";
-import AbstractMapDomain from "../domain/abstract/AbstractMapDomain";
-import IMapDomainManager from "../../types/domain/IMapDomainManager";
 import IMapDomain from "../../types/domain/IMapDomain";
+import IMapDomainManager from "../../types/domain/IMapDomainManager";
+import AbstractMapDomain from "../domain/abstract/AbstractMapDomain";
 
 /**
  * The class wraps a map dimension and its properties.

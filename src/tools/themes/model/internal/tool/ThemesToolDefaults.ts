@@ -1,16 +1,18 @@
-import MapThemesManager from "../theme/basic/MapThemesManager";
-import Light1Theme from "../theme/custom/light1/Light1Theme";
-import Light2Theme from "../theme/custom/light2/Light2Theme";
-import Light3Theme from "../theme/custom/light3/Light3Theme";
+// Geovisto core
+import IMapThemesManager from "../../types/theme/IMapThemesManager";
+
+import BasicTheme from "../theme/basic/BasicTheme";
 import Dark1Theme from "../theme/custom/dark1/Dark1Theme";
 import Dark2Theme from "../theme/custom/dark2/Dark2Theme";
 import Dark3Theme from "../theme/custom/dark3/Dark3Theme";
-import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
-import IMapThemesManager from "../../types/theme/IMapThemesManager";
 import IMapTheme from "../../types/theme/IMapTheme";
-import IThemesToolDefaults from "../../types/tool/IThemesToolDefaults";
 import IThemesToolConfig from "../../types/tool/IThemesToolConfig";
-import BasicTheme from "../theme/basic/BasicTheme";
+import IThemesToolDefaults from "../../types/tool/IThemesToolDefaults";
+import Light1Theme from "../theme/custom/light1/Light1Theme";
+import Light2Theme from "../theme/custom/light2/Light2Theme";
+import Light3Theme from "../theme/custom/light3/Light3Theme";
+import MapThemesManager from "../theme/basic/MapThemesManager";
+import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
 
 /**
  * This class provide functions which return the default state values.

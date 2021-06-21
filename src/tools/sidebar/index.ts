@@ -1,4 +1,4 @@
-export { GeovistoSidebarTool } from './model/GeovistoSidebarTool';
+export { GeovistoSidebarTool } from './GeovistoSidebarTool';
 
 // types
 export type { default as ISidebarFragmentConfig } from './model/types/fragment/ISidebarFragmentConfig';

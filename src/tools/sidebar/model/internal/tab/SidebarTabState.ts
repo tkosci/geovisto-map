@@ -1,12 +1,15 @@
-import MapObjectState from "../../../../../model/internal/object/MapObjectState";
-import ISidebarTabState from "../../types/tab/ISidebarTabState";
-import ISidebarTab from "../../types/tab/ISidebarTab";
-import ISidebarTabDefaults from "../../types/tab/ISidebarTabDefaults";
+// Geovisto core
 import IMapTool from "../../../../../model/types/tool/IMapTool";
+import MapObjectState from "../../../../../model/internal/object/MapObjectState";
+
 import ISidebarFragment from "../../types/fragment/ISidebarFragment";
+import ISidebarTab from "../../types/tab/ISidebarTab";
 import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
+import ISidebarTabDefaults from "../../types/tab/ISidebarTabDefaults";
 import { ISidebarTabProps, ISidebarTabInitProps } from "../../types/tab/ISidebarTabProps";
+import ISidebarTabState from "../../types/tab/ISidebarTabState";
 import ISidebarTool from "../../types/tool/ISidebarTool";
+
 /**
  * This class manages the state of the sidebar tab.
  * It wraps the state since the sidebar tab can work with state objects which needs to be explicitly serialized.

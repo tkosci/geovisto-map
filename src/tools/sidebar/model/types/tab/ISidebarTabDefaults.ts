@@ -1,4 +1,6 @@
+// Geovisto core
 import IMapObjectDefaults from "../../../../../model/types/object/IMapObjectDefaults";
+
 import ISidebarTabConfig from "./ISidebarTabConfig";
 
 /**

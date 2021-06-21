@@ -1,7 +1,9 @@
-import ISelectionToolEvent from "../../types/event/ISelectionToolEvent";
-import IMapSelection from "../../types/selection/IMapSelection";
-import MapChangeEvent from "../../../../../model/internal/event/generic/MapChangeEvent";
+// Geovisto core
 import IMapTool from "../../../../../model/types/tool/IMapTool";
+import MapChangeEvent from "../../../../../model/internal/event/generic/MapChangeEvent";
+
+import IMapSelection from "../../types/selection/IMapSelection";
+import ISelectionToolEvent from "../../types/event/ISelectionToolEvent";
 
 /**
  * This class provides the map selection change event.

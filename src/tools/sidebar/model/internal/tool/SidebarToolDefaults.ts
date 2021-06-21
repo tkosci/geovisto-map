@@ -1,6 +1,8 @@
-import ISidebarToolDefaults from "../../types/tool/ISidebarToolDefaults";
+// Geovisto core
 import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
+
 import ISidebarToolConfig from "../../types/tool/ISidebarToolConfig";
+import ISidebarToolDefaults from "../../types/tool/ISidebarToolDefaults";
 
 /**
  * This class provide functions which return the default state values.

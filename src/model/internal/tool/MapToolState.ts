@@ -1,10 +1,10 @@
-import MapObjectState from '../object/MapObjectState';
-import IMapTool from '../../types/tool/IMapTool';
-import IMapToolDefaults from '../../types/tool/IMapToolDefaults';
-import { IMapToolProps, IMapToolInitProps } from '../../types/tool/IMapToolProps';
-import IMapToolConfig from '../../types/tool/IMapToolConfig';
-import IMapToolState from '../../types/tool/IMapToolState';
 import IMap from '../../types/map/IMap';
+import IMapTool from '../../types/tool/IMapTool';
+import IMapToolConfig from '../../types/tool/IMapToolConfig';
+import IMapToolDefaults from '../../types/tool/IMapToolDefaults';
+import IMapToolState from '../../types/tool/IMapToolState';
+import { IMapToolProps, IMapToolInitProps } from '../../types/tool/IMapToolProps';
+import MapObjectState from '../object/MapObjectState';
 
 /**
  * This class manages state of the tool.

@@ -1,9 +1,10 @@
-import ISidebarFragmentDefaults from "./ISidebarFragmentDefaults";
+// Geovisto core
 import IMapObject from "../../../../../model/types/object/IMapObject";
+
+import ISidebarFragmentConfig from "./ISidebarFragmentConfig";
+import ISidebarFragmentDefaults from "./ISidebarFragmentDefaults";
 import { ISidebarFragmentProps, ISidebarFragmentInitProps } from "./ISidebarFragmentProps";
 import ISidebarFragmentState from "./ISidebarFragmentState";
-import ISidebarTab from "../tab/ISidebarTab";
-import ISidebarFragmentConfig from "./ISidebarFragmentConfig";
 
 /**
  * This interface declares a sidebar fragment for a sidebar tab.

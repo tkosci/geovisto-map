@@ -5,6 +5,11 @@ export type { default as IMapAggregationBucket } from './model/types/aggregation
 export type { default as IMapAggregationFunction } from './model/types/aggregation/IMapAggregationFunction';
 export type { default as IMapAggregationFunctionFactory } from './model/types/aggregation/IMapAggregationFunctionFactory';
 
+// api
+export type { default as IMapAPI } from './model/types/api/IMapAPI';
+export type { default as IMapToolAPI } from './model/types/api/IMapToolAPI';
+export type { default as IMapToolAPIGetter } from './model/types/api/IMapToolAPIGetter';
+
 // config
 export type { default as IMapConfigManager } from './model/types/config/IMapConfigManager';
 export type { default as IMapConfigManagerFactory } from './model/types/config/IMapConfigManagerFactory';
@@ -84,13 +89,14 @@ export type { default as IMapToolState } from './model/types/tool/IMapToolState'
 
 // MODEL / INTERNAL
 
-export { Geovisto } from './model/Geovisto';
-
 // aggregation
 export { default as MapAggregationFunctionFactory } from './model/internal/aggregation/MapAggregationFunctionFactory';
 export { default as CountAggregationFunction } from './model/internal/aggregation/basic/CountAggregationFunction';
 export { default as SumAggregationFunction } from './model/internal/aggregation/basic/SumAggregationFunction';
 export { default as MapAggregationFunction } from './model/internal/aggregation/generic/MapAggregationFunction';
+
+// api
+export { Geovisto } from './model/internal/api/Geovisto';
 
 // config
 export { default as MapConfigManagerFactory } from './model/internal/config/MapConfigManagerFactory';

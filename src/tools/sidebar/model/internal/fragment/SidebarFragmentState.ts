@@ -1,12 +1,13 @@
-import MapObjectState from "../../../../../model/internal/object/MapObjectState";
+// Geovisto core
+import IMapTool from "../../../../../model/types/tool/IMapTool";
 import ISidebarFragment from "../../types/fragment/ISidebarFragment";
 import { ISidebarFragmentProps, ISidebarFragmentInitProps } from "../../types/fragment/ISidebarFragmentProps";
-import IMapTool from "../../../../../model/types/tool/IMapTool";
+import MapObjectState from "../../../../../model/internal/object/MapObjectState";
+
+import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
 import ISidebarFragmentDefaults from "../../types/fragment/ISidebarFragmentDefaults";
 import ISidebarFragmentState from "../../types/fragment/ISidebarFragmentState";
-import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
 import ISidebarTab from "../../types/tab/ISidebarTab";
-
 /**
  * This class manages the state of the sidebar fragment.
  * It wraps the state since the sidebar fragment can work with state objects which needs to be explicitly serialized.

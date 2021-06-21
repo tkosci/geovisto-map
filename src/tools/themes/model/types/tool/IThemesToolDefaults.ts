@@ -1,7 +1,9 @@
+// Geovisto core
 import IMapToolDefaults from "../../../../../model/types/tool/IMapToolDefaults";
-import IThemesToolConfig from "./IThemesToolConfig";
+
 import IMapTheme from "../theme/IMapTheme";
 import IMapThemesManager from "../theme/IMapThemesManager";
+import IThemesToolConfig from "./IThemesToolConfig";
 
 /**
  * This interface declares functions which return the default state values.

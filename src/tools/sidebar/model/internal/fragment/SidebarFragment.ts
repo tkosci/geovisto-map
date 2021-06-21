@@ -1,14 +1,15 @@
-import SidebarFragmentState from "./SidebarFragmentState";
-import SidebarFragmentDefaults from "./SidebarFragmentDefaults";
-import ISidebarFragmentDefaults from "../../types/fragment/ISidebarFragmentDefaults";
-import MapObject from "../../../../../model/internal/object/MapObject";
-import ISidebarFragment from "../../types/fragment/ISidebarFragment";
-import ISidebarFragmentState from "../../types/fragment/ISidebarFragmentState";
-import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
-import IMapTool from "../../../../../model/types/tool/IMapTool";
-import { ISidebarFragmentProps, ISidebarFragmentInitProps } from "../../types/fragment/ISidebarFragmentProps";
+// Geovisto core
 import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
+import IMapTool from "../../../../../model/types/tool/IMapTool";
+import ISidebarFragmentDefaults from "../../types/fragment/ISidebarFragmentDefaults";
+import { ISidebarFragmentProps, ISidebarFragmentInitProps } from "../../types/fragment/ISidebarFragmentProps";
+import MapObject from "../../../../../model/internal/object/MapObject";
 
+import ISidebarFragment from "../../types/fragment/ISidebarFragment";
+import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
+import ISidebarFragmentState from "../../types/fragment/ISidebarFragmentState";
+import SidebarFragmentDefaults from "./SidebarFragmentDefaults";
+import SidebarFragmentState from "./SidebarFragmentState";
 /**
  * This class provides tab fragment for a sidebar tab.
  * 

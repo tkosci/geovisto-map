@@ -1,11 +1,12 @@
+// Geovisto core
 import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
+import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
+
 import ITilesLayerToolState from "../../types/tool/ITilesLayerToolState";
 import ITilesLayerTool from "../../types/tool/ITilesLayerTool";
 import ITilesLayerToolProps from "../../types/tool/ITilesLayerToolProps";
 import ITilesLayerToolDefaults from "../../types/tool/ITilesLayerToolDefaults";
 import ITilesLayerToolConfig from "../../types/tool/ITilesLayerToolConfig";
-import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
-import { IMarkerLayerToolConfig } from "../../../../marker";
 
 /**
  * This class provide functions for using the state of the tiles layer tool.
@@ -27,7 +28,7 @@ class TilesLayerToolState extends LayerToolState implements ITilesLayerToolState
     /**
      * It resets state with respect to initial props.
      */
-    public initialize(defaults: ITilesLayerToolDefaults, props: ITilesLayerToolProps, initProps: IMapToolInitProps<IMarkerLayerToolConfig>): void {
+    public initialize(defaults: ITilesLayerToolDefaults, props: ITilesLayerToolProps, initProps: IMapToolInitProps<ITilesLayerToolConfig>): void {
         // the map layer tool properties
         this.setBaseMap(props.baseMap == undefined ? defaults.getBaseMap() : props.baseMap);
 

@@ -1,13 +1,14 @@
-import IMapObjectState from "../object/IMapObjectState";
+import IGeoDataManager from "../geodata/IGeoDataManager";
 import IMapConfig from "./IMapConfig";
-import IMapToolsManager from "../tool/IMapToolsManager";
-import IMapDataManager from "../data/IMapDataManager";
 import IMapConfigManager from "../config/IMapConfigManager";
 import IMapData from "../data/IMapData";
+import IMapDataManager from "../data/IMapDataManager";
 import IMapDefaults from "./IMapDefaults";
-import { IMapProps, IMapInitProps } from "./IMapProps";
 import IMapEventManager from "../event/IMapEventManager";
-import IGeoDataManager from "../geodata/IGeoDataManager";
+import IMapObjectState from "../object/IMapObjectState";
+import { IMapProps, IMapInitProps } from "./IMapProps";
+import IMapToolAPI from "../api/IMapToolAPI";
+import IMapToolsManager from "../tool/IMapToolsManager";
 
 /**
  * This interface declares the state of the map.
@@ -53,6 +54,11 @@ interface IMapState<
      * @param map 
      */
     setEventManager(eventManager: IMapEventManager): void;
+
+    /**
+     * It returns the map tools API.
+     */
+    getToolsAPI(): Record<string, () => IMapToolAPI>;
 
     /**
      * It returns the tool manager providing tool templates.

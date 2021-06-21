@@ -1,8 +1,10 @@
+import IMap from "../map/IMap";
 import IMapObject from "../object/IMapObject";
+import IMapToolAPI from "../api/IMapToolAPI";
+import IMapToolAPIGetter from "../api/IMapToolAPIGetter";
+import IMapToolConfig from "./IMapToolConfig";
 import IMapToolDefaults from "./IMapToolDefaults";
 import IMapToolState from "./IMapToolState";
-import IMapToolConfig from "./IMapToolConfig";
-import IMap from "../map/IMap";
 import { IMapToolProps, IMapToolInitProps } from "./IMapToolProps";
 
 /**
@@ -15,13 +17,19 @@ interface IMapTool<
     TDefaults extends IMapToolDefaults = IMapToolDefaults,
     TState extends IMapToolState = IMapToolState,
     TConfig extends IMapToolConfig = IMapToolConfig,
-    TInitProps extends IMapToolInitProps<TConfig> = IMapToolInitProps<TConfig>
+    TInitProps extends IMapToolInitProps<TConfig> = IMapToolInitProps<TConfig>,
+    TAPI extends IMapToolAPI = IMapToolAPI
 > extends IMapObject<TProps, TDefaults, TState, TConfig, TInitProps> {
 
     /**
      * It creates copy of the uninitialized tool.
      */
     copy(): IMapTool;
+
+    /**
+     * It returns the tool API.
+     */
+    getAPIGetter(): IMapToolAPIGetter<TAPI> | undefined;
 
     /**
      * It returns a logical value whether the tool type is singleton.

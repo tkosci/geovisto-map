@@ -1,6 +1,7 @@
+
+import IMap from "../map/IMap";
 import { IMapObjectProps, IMapObjectInitProps } from "../object/IMapObjectProps";
 import IMapToolConfig from "./IMapToolConfig";
-import { IMap } from "../../..";
 
 /**
  * This type provides the specification of the map tool props model.

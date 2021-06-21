@@ -1,5 +1,7 @@
+// Geovisto core
 import { IMapToolProps } from "../../../../../model/types/tool/IMapToolProps";
-import IMapFiltersManager from "../filter/IMapFilterManager";
+
+import IMapFilterManager from "../filter/IMapFilterManager";
 import IMapFilterRule from "../filter/IMapFilterRule";
 
 /**
@@ -8,7 +10,7 @@ import IMapFilterRule from "../filter/IMapFilterRule";
  * @author Jiri Hynek
  */
 type IFiltersToolProps = IMapToolProps & {
-    manager?: IMapFiltersManager;
+    manager?: IMapFilterManager;
     rules?: IMapFilterRule[];
 }
 export default IFiltersToolProps;

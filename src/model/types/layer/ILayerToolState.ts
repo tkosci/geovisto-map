@@ -1,8 +1,8 @@
-import IMapToolState from "../tool/IMapToolState";
 import { ILayerToolConfig, ILayerToolDimensionsConfig } from "./ILayerToolConfig";
 import ILayerToolDimensions from "./ILayerToolDimensions";
 import ILayerToolDefaults from "./ILayerToolDefaults";
 import ILayerToolProps from "./ILayerToolProps";
+import IMapToolState from "../tool/IMapToolState";
 
 /**
  * This interface declares functions for using the state of the layer tool.

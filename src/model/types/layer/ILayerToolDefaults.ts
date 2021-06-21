@@ -1,6 +1,6 @@
-import IMapToolDefaults from "../tool/IMapToolDefaults";
 import ILayerToolDimensions from "./ILayerToolDimensions";
 import IMap from "../map/IMap";
+import IMapToolDefaults from "../tool/IMapToolDefaults";
 
 /**
  * This interface declares functions which return the default state values.

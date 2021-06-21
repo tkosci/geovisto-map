@@ -1,40 +1,65 @@
-import { Feature, Point } from 'geojson';
-import { Icon, MarkerClusterGroup } from 'leaflet';
-import 'leaflet.markercluster';
+// geojson
+import {
+    Feature,
+    Point
+} from 'geojson';
+
+// leaflet
+import {
+    Icon,
+    MarkerClusterGroup
+} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+
+// Leaflet markercluster plugin
+import 'leaflet.markercluster';
 import 'leaflet.markercluster/dist/MarkerCluster.css';
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
-import '../../../style/markerLayer.scss'; 
-import MarkerLayerToolMapForm from '../form/MarkerLayerToolMapForm';
-import MarkerLayerToolDefaults from './MarkerLayerToolDefaults';
-import MarkerLayerToolState from './MarkerLayerToolState';
+
+// own styles
+import '../../../style/markerLayer.scss';
+
+// Geovisto Selection Tool API
+import {
+    ISelectionToolAPI,
+    ISelectionToolAPIGetter
+} from '../../../../../selection';
+
+// Geovisto Themes Tool API
+import {
+    IThemesToolAPI,
+    IThemesToolAPIGetter
+} from '../../../../../themes';
+
+// Geovisto core
 import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
-import ThemesToolEvent from '../../../../../themes/model/internal/event/ThemesToolEvent';
-import SelectionToolEvent from '../../../../../selection/model/internal/event/SelectionToolEvent';
 import DataChangeEvent from '../../../../../../model/internal/event/data/DataChangeEvent';
-import IMarkerLayerTool from '../../types/tool/IMarkerLayerTool';
-import IMarkerLayerToolProps from '../../types/tool/IMarkerLayerToolProps';
-import IMarkerLayerToolDefaults from '../../types/tool/IMarkerLayerToolDefaults';
-import IMarkerLayerToolState from '../../types/tool/IMarkerLayerToolState';
-import { GeovistoSelectionTool, ISelectionTool } from '../../../../../selection';
-import IMarkerLayerToolDimensions from '../../types/tool/IMarkerLayerToolDimensions';
+import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
 import IMapDataDomain from '../../../../../../model/types/data/IMapDataDomain';
-import IMapAggregationFunction from '../../../../../../model/types/aggregation/IMapAggregationFunction';
-import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
 import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMapAggregationBucket';
-import IMapEvent from '../../../../../../model/types/event/IMapEvent';
+import IMapAggregationFunction from '../../../../../../model/types/aggregation/IMapAggregationFunction';
 import IMapData from '../../../../../../model/types/data/IMapData';
-import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
-import { IMarkerLayerToolConfig } from '../../types/tool/IMarkerLayerToolConfig';
-import LayerToolRedrawEnum from '../../../../../../model/types/layer/LayerToolRedrawEnum';
+import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
 import IMapDimension from '../../../../../../model/types/dimension/IMapDimension';
 import IMapDomain from '../../../../../../model/types/domain/IMapDomain';
-import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
-import IMarker from '../../types/marker/IMarker';
-import IMarkerIconOptions from '../../types/marker/IMarkerIconOptions';
-import Marker from '../marker/Marker';
+import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapForm from '../../../../../../model/types/form/IMapForm';
 import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
+import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
+import LayerToolRedrawEnum from '../../../../../../model/types/layer/LayerToolRedrawEnum';
+
+import IMarker from '../../types/marker/IMarker';
+import IMarkerIconOptions from '../../types/marker/IMarkerIconOptions';
+import IMarkerLayerTool from '../../types/tool/IMarkerLayerTool';
+import { IMarkerLayerToolConfig } from '../../types/tool/IMarkerLayerToolConfig';
+import IMarkerLayerToolDefaults from '../../types/tool/IMarkerLayerToolDefaults';
+import IMarkerLayerToolDimensions from '../../types/tool/IMarkerLayerToolDimensions';
+import IMarkerLayerToolState from '../../types/tool/IMarkerLayerToolState';
+import IMarkerLayerToolProps from '../../types/tool/IMarkerLayerToolProps';
+import Marker from '../marker/Marker';
+import MarkerLayerToolDefaults from './MarkerLayerToolDefaults';
+import MarkerLayerToolMapForm from '../form/MarkerLayerToolMapForm';
+import MarkerLayerToolState from './MarkerLayerToolState';
 
 /**
  * This class represents Marker layer tool. It works with geojson polygons representing countries.
@@ -43,7 +68,8 @@ import IMapFormControl from '../../../../../../model/types/form/IMapFormControl'
  */
 class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMapFormControl {
 
-    private selectionTool: ISelectionTool | undefined;
+    private selectionToolAPI: ISelectionToolAPI | undefined;
+    private themesToolAPI: IThemesToolAPI | undefined;
     private mapForm!: IMapForm;
 
     /**
@@ -100,14 +126,27 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
     /**
      * Help function which acquires and returns the selection tool if available.
      */
-    private getSelectionTool(): ISelectionTool | undefined {
-        if(this.selectionTool == undefined) {
-            const tools = this.getMap()?.getState().getTools().getByType(GeovistoSelectionTool.getType());
-            if(tools && tools.length > 0) {
-                this.selectionTool = <ISelectionTool> tools[0];
+    private getSelectionTool(): ISelectionToolAPI | undefined {
+        if(this.selectionToolAPI == undefined) {
+            const api = this.getMap()?.getState().getToolsAPI() as ISelectionToolAPIGetter;
+            if(api.getGeovistoSelectionTool) {
+                this.selectionToolAPI = api.getGeovistoSelectionTool();
             }
         }
-        return this.selectionTool;
+        return this.selectionToolAPI;
+    }
+
+    /**
+     * Help function which acquires and returns the themes tool if available.
+     */
+    private getThemesTool(): IThemesToolAPI | undefined {
+        if(this.themesToolAPI == undefined) {
+            const api = this.getMap()?.getState().getToolsAPI() as IThemesToolAPIGetter;
+            if(api.getGeovistoThemesTool) {
+                this.themesToolAPI = api.getGeovistoThemesTool();
+            }
+        }
+        return this.themesToolAPI;
     }
 
     /**
@@ -269,7 +308,7 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
         const bucketMaps: Map<string, Map<string, IMapAggregationBucket>> = this.getState().getBucketData();
         const layerGroup: L.LayerGroup | undefined = this.getState().getMarkerLayerGroup();
         const pointFeatures: Feature[] | undefined = this.getState().getDimensions().geoData.getDomain()?.getFeatures([ GeoJSONTypes.Point ]).features;
-        const selectedIds: string[] | undefined = this.getSelectionTool()?.getState().getSelection()?.getIds();
+        const selectedIds: string[] | undefined = this.getSelectionTool()?.getSelection()?.getIds();
 
         // iterate over point features
         let pointFeature: Feature;
@@ -403,10 +442,10 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
     public handleEvent(event: IMapEvent): void {
         switch (event.getType()) {
             case DataChangeEvent.TYPE():
-            case SelectionToolEvent.TYPE():
+            case this.getSelectionTool()?.getChangeEventType():
                 this.redraw(LayerToolRedrawEnum.DATA);
                 break;
-            case ThemesToolEvent.TYPE():
+            case this.getThemesTool()?.getChangeEventType():
                 this.redraw(LayerToolRedrawEnum.STYLE);
                 break;
             default:

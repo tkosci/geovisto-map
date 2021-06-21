@@ -1,12 +1,14 @@
-import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
-import IConnectionLayerToolState from "../../types/tool/IConnectionLayerToolState";
-import IConnectionLayerTool from "../../types/tool/IConnectionLayerTool";
-import IConnectionLayerToolProps from "../../types/tool/IConnectionLayerToolProps";
-import IConnectionLayerToolDefaults from "../../types/tool/IConnectionLayerToolDefaults";
-import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToolDimensions";
-import { IConnectionLayerToolConfig, IConnectionLayerToolDimensionsConfig } from "../../types/tool/IConnectionLayerToolConfig";
+// Geovisto core
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
 import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
+import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
+
+import IConnectionLayerTool from "../../types/tool/IConnectionLayerTool";
+import { IConnectionLayerToolConfig, IConnectionLayerToolDimensionsConfig } from "../../types/tool/IConnectionLayerToolConfig";
+import IConnectionLayerToolDefaults from "../../types/tool/IConnectionLayerToolDefaults";
+import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToolDimensions";
+import IConnectionLayerToolProps from "../../types/tool/IConnectionLayerToolProps";
+import IConnectionLayerToolState from "../../types/tool/IConnectionLayerToolState";
 
 /**
  * This class provide functions for using the state of the layer tool.

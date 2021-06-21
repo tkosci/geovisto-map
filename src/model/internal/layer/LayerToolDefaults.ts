@@ -1,7 +1,7 @@
-import MapToolDefaults from "../tool/MapToolDefaults";
 import ILayerToolDefaults from "../../types/layer/ILayerToolDefaults";
 import ILayerToolDimensions from "../../types/layer/ILayerToolDimensions";
 import IMap from "../../types/map/IMap";
+import MapToolDefaults from "../tool/MapToolDefaults";
 
 /**
  * This class provide functions which return the default state values.

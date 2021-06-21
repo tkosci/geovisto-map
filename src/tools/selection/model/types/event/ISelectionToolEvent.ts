@@ -1,3 +1,4 @@
+// Geovisto core
 import IMapChangeEvent from "../../../../../model/types/event/IMapChangeEvent";
 
 /**

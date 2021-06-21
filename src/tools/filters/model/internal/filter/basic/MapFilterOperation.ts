@@ -1,4 +1,6 @@
+// Geovisto core
 import AbstractMapDomain from "../../../../../../model/internal/domain/abstract/AbstractMapDomain";
+
 import IMapFilterOperation from "../../../types/filter/IMapFilterOperation";
 
 /**

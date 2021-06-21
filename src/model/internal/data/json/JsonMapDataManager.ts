@@ -1,12 +1,13 @@
 import rfdc from 'rfdc';
-import FlattenedMapDataDomain from './JsonMapDataDomain';
-import IMapDataDomain from '../../../types/data/IMapDataDomain';
-import JsonMapDataDomain from './JsonMapDataDomain';
-import AbstractMapDataManager from '../abstract/AbstractMapDataManager';
-import IMapDataManager from '../../../types/data/IMapDataManager';
+
 import IMapData from '../../../types/data/IMapData';
+import IMapDataDomain from '../../../types/data/IMapDataDomain';
+import IMapDataManager from '../../../types/data/IMapDataManager';
 import IMapDataRecord from '../../../types/data/IMapDataRecord';
 import IMapDataRecordItem from '../../../types/data/IMapDataRecordItem';
+import AbstractMapDataManager from '../abstract/AbstractMapDataManager';
+import FlattenedMapDataDomain from './JsonMapDataDomain';
+import JsonMapDataDomain from './JsonMapDataDomain';
 
 /**
  * A data wrapper which provides a basic flattening of JSON data structure.

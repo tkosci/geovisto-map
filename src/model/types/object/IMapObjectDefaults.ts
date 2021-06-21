@@ -1,5 +1,5 @@
-import { IMapObjectProps } from "./IMapObjectProps";
 import IMapObjectConfig from "./IMapObjectConfig";
+import { IMapObjectProps } from "./IMapObjectProps";
 
 /**
  * This interface declares functions which return the default state values.

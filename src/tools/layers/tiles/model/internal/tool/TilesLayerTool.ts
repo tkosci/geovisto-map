@@ -1,20 +1,30 @@
+// leaflet
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+
+// Geovisto Themes Tool API
+import {
+    IMapTheme,
+    IThemesToolAPI,
+    IThemesToolAPIGetter
+} from '../../../../../themes';
+
+// Geovisto core
 import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
-import ITilesLayerTool from '../../types/tool/ITilesLayerTool';
-import ITilesLayerToolProps from '../../types/tool/ITilesLayerToolProps';
-import ITilesLayerToolDefaults from '../../types/tool/ITilesLayerToolDefaults';
-import TilesLayerToolDefaults from './TilesLayerToolDefaults';
-import ITilesLayerToolState from '../../types/tool/ITilesLayerToolState';
-import TilesLayerToolState from './TilesLayerToolState';
-import TilesLayerToolMapForm from '../form/TilesLayerToolMapForm';
-import IMapEvent from '../../../../../../model/types/event/IMapEvent';
-import { ThemesToolEvent, IMapTheme } from '../../../../../themes';
 import IMapChangeEvent from '../../../../../../model/types/event/IMapChangeEvent';
-import ITilesLayerToolConfig from '../../types/tool/ITilesLayerToolConfig';
-import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
+import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapForm from '../../../../../../model/types/form/IMapForm';
 import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
+import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
+
+import ITilesLayerTool from '../../types/tool/ITilesLayerTool';
+import ITilesLayerToolConfig from '../../types/tool/ITilesLayerToolConfig';
+import ITilesLayerToolDefaults from '../../types/tool/ITilesLayerToolDefaults';
+import ITilesLayerToolState from '../../types/tool/ITilesLayerToolState';
+import ITilesLayerToolProps from '../../types/tool/ITilesLayerToolProps';
+import TilesLayerToolDefaults from './TilesLayerToolDefaults';
+import TilesLayerToolMapForm from '../form/TilesLayerToolMapForm';
+import TilesLayerToolState from './TilesLayerToolState';
 
 /**
  * This class represents Map layer tool. It use tile layer and OSM maps.
@@ -23,6 +33,7 @@ import IMapFormControl from '../../../../../../model/types/form/IMapFormControl'
  */
 class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, IMapFormControl {
     
+    private themesToolAPI: IThemesToolAPI | undefined;
     private mapForm!: IMapForm;
 
     /**
@@ -95,6 +106,19 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, IMapF
     }
 
     /**
+     * Help function which acquires and returns the themes tool if available.
+     */
+    private getThemesTool(): IThemesToolAPI | undefined {
+        if(this.themesToolAPI == undefined) {
+            const api = this.getMap()?.getState().getToolsAPI() as IThemesToolAPIGetter;
+            if(api.getGeovistoThemesTool) {
+                this.themesToolAPI = api.getGeovistoThemesTool();
+            }
+        }
+        return this.themesToolAPI;
+    }
+
+    /**
      * Overrides the super method.
      * 
      * @param initProps
@@ -140,7 +164,7 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, IMapF
      * @param event 
      */
     public handleEvent(event: IMapEvent): void {
-        if(event.getType() == ThemesToolEvent.TYPE()) {
+        if(event.getType() == this.getThemesTool()?.getChangeEventType()) {
             this.onThemeChange(<IMapTheme> (<IMapChangeEvent> event).getChangedObject());
         }
     }

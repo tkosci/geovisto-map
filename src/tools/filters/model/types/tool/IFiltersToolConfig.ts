@@ -1,3 +1,4 @@
+// Geovisto core
 import IMapToolConfig from "../../../../../model/types/tool/IMapToolConfig";
 
 /**

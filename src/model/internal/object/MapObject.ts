@@ -1,9 +1,9 @@
-import MapObjectDefaults from "./MapObjectDefaults";
 import IMapObject from "../../types/object/IMapObject";
+import IMapObjectDefaults from "../../types/object/IMapObjectDefaults";
 import { IMapObjectProps, IMapObjectInitProps } from "../../types/object/IMapObjectProps";
 import IMapObjectState from "../../types/object/IMapObjectState";
-import IMapObjectDefaults from "../../types/object/IMapObjectDefaults";
 import AbstractMapObjectState from "./MapObjectState";
+import MapObjectDefaults from "./MapObjectDefaults";
 
 /**
  * This class provide functions for using map object which can be identified by uniquie string.

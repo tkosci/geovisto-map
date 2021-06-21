@@ -1,13 +1,14 @@
-import IMapFilterRule from "../../types/filter/IMapFilterRule";
+// Geovisto core
+import IMapForm from "../../../../../model/types/form/IMapForm";
 import IMapDataManager from "../../../../../model/types/data/IMapDataManager";
-import IMapFiltersManager from "../../types/filter/IMapFilterManager";
-import IFiltersTool from "../../types/tool/IFiltersTool";
-import TabDOMUtil from "../../../../../util/TabDOMUtil";
 import FilterAutocompleteFormInput from "../../../../../model/internal/inputs/filter/autocomplete/FilterAutocompleteFormInput";
 import LabeledAutocompleteFormInput from "../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput";
 import MapObjectForm from "../../../../../model/internal/form/MapObjectForm";
-import IMapForm from "../../../../../model/types/form/IMapForm";
+import TabDOMUtil from "../../../../../util/TabDOMUtil";
+
+import IFiltersTool from "../../types/tool/IFiltersTool";
 import IMapFilterManager from "../../types/filter/IMapFilterManager";
+import IMapFilterRule from "../../types/filter/IMapFilterRule";
 
 /**
  * This interface provides a help type which represents double (html element container, input).
@@ -30,7 +31,7 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
      * TODO: exclude class variables to the defaults and state.
      */
     private mapDataManager?: IMapDataManager;
-    private filterManager!: IMapFiltersManager;
+    private filterManager!: IMapFilterManager;
     private htmlContent!: HTMLDivElement;
     private btnGroup: HTMLDivElement | null;
     private inputs: InputItem[];
@@ -291,8 +292,8 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
             for(let i = 0; i < filterRules.length; i++) {
                 // create input for given filter rule
                 this.addSelectItem()?.input.setValue({
-                    data: filterRules[i].getDataDomain().toString(),
-                    op: filterRules[i].getFilterOperation().toString(),
+                    data: filterRules[i].getDataDomain().getName().toString(),
+                    op: filterRules[i].getFilterOperation().getName().toString(),
                     val: filterRules[i].getPattern()
                 });
             }

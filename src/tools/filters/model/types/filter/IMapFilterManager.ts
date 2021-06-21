@@ -1,16 +1,18 @@
-import IMapDomainArrayManager from "../../../../../model/types/domain/IMapDomainArrayManager";
+// Geovisto core
+import IMapData from "../../../../../model/types/data/IMapData";
 import IMapDataDomain from "../../../../../model/types/data/IMapDataDomain";
+import IMapDataManager from "../../../../../model/types/data/IMapDataManager";
+import IMapDomainArrayManager from "../../../../../model/types/domain/IMapDomainArrayManager";
+
 import IMapFilterOperation from "./IMapFilterOperation";
 import IMapFilterRule from "./IMapFilterRule";
-import IMapDataManager from "../../../../../model/types/data/IMapDataManager";
-import IMapData from "../../../../../model/types/data/IMapData";
 
 /**
  * This interface declares functions for using filters.
  * 
  * @author Jiri Hynek
  */
-interface IMapFiltersManager extends IMapDomainArrayManager<IMapFilterOperation> {
+interface IMapFilterManager extends IMapDomainArrayManager<IMapFilterOperation> {
 
     /**
      * The function creates a new filter rule using given operation label.
@@ -33,4 +35,4 @@ interface IMapFiltersManager extends IMapDomainArrayManager<IMapFilterOperation>
      */
     filterData(dataManager: IMapDataManager, dataRecords: IMapData, filterRules: IMapFilterRule[]): IMapData;
 }
-export default IMapFiltersManager;
+export default IMapFilterManager;

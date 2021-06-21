@@ -1,11 +1,11 @@
-import ILayerToolDefaults from "./ILayerToolDefaults";
-import ILayerToolState from "./ILayerToolState";
-import ILayerToolProps from "./ILayerToolProps";
 import { ILayerToolConfig } from "./ILayerToolConfig";
+import ILayerToolDefaults from "./ILayerToolDefaults";
 import { IMapToolInitProps } from "../tool/IMapToolProps";
-import IMapTool from "../tool/IMapTool";
+import ILayerToolProps from "./ILayerToolProps";
+import ILayerToolState from "./ILayerToolState";
 import IMapDimension from "../dimension/IMapDimension";
 import IMapDomain from "../domain/IMapDomain";
+import IMapTool from "../tool/IMapTool";
 
 /**
  * This class wraps filter tool. It provides methods for layer management.

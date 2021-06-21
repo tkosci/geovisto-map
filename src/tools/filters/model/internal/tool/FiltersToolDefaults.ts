@@ -1,12 +1,14 @@
-import MapFiltersManager from "../filter/basic/MapFiltersManager";
+// Geovisto core
+import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
+
+import IFiltersToolConfig from "../../types/tool/IFiltersToolConfig";
+import IFiltersToolDefaults from "../../types/tool/IFiltersToolDefaults";
+import IMapFilterManager from "../../types/filter/IMapFilterManager";
+import IMapFilterRule from "../../types/filter/IMapFilterRule";
 import EqFilterOperation from "../filter/custom/EqFilterOperation";
 import NeqFilterOperation from "../filter/custom/NeqFilterOperation";
 import RegFilterOperation from "../filter/custom/RegFilterOperation";
-import IMapFiltersManager from "../../types/filter/IMapFilterManager";
-import IMapFilterRule from "../../types/filter/IMapFilterRule";
-import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
-import IFiltersToolConfig from "../../types/tool/IFiltersToolConfig";
-import IFiltersToolDefaults from "../../types/tool/IFiltersToolDefaults";
+import MapFiltersManager from "../filter/basic/MapFiltersManager";
 
 /**
  * This class provide functions which return the default state values.
@@ -60,7 +62,7 @@ class FiltersToolDefaults extends MapToolDefaults implements IFiltersToolDefault
     /**
      * It returns default filters manager.
      */
-    public getFiltersManager(): IMapFiltersManager {
+    public getFiltersManager(): IMapFilterManager {
         return new MapFiltersManager([
             new EqFilterOperation(),
             new NeqFilterOperation(),

@@ -1,8 +1,8 @@
-import IMapObjectState from "../../types/object/IMapObjectState";
+import IMapObject from "../../types/object/IMapObject";
+import IMapObjectConfig from "../../types/object/IMapObjectConfig";
 import IMapObjectDefaults from "../../types/object/IMapObjectDefaults";
 import { IMapObjectProps, IMapObjectInitProps } from "../../types/object/IMapObjectProps";
-import IMapObjectConfig from "../../types/object/IMapObjectConfig";
-import IMapObject from "../../types/object/IMapObject";
+import IMapObjectState from "../../types/object/IMapObjectState";
 
 /**
  * This class manages state of the tool.

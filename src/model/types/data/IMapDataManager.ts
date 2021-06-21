@@ -1,7 +1,7 @@
-import IMapDataDomain from "./IMapDataDomain";
-import IMapDomainManager from "../domain/IMapDomainManager";
 import IMapData from "./IMapData";
+import IMapDataDomain from "./IMapDataDomain";
 import IMapDataRecord from "./IMapDataRecord";
+import IMapDomainManager from "../domain/IMapDomainManager";
 
 /**
  * The interface declares map data domain manager which and data wrapper.

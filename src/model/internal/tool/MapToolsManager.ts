@@ -1,6 +1,6 @@
-import MapObjectsManager from "../object/MapObjectsManager";
-import IMapToolsManager from "../../types/tool/IMapToolsManager";
 import IMapTool from "../../types/tool/IMapTool";
+import IMapToolsManager from "../../types/tool/IMapToolsManager";
+import MapObjectsManager from "../object/MapObjectsManager";
 
 /**
  * This class provide functions for using tools.

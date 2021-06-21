@@ -1,12 +1,14 @@
+// Geovisto core
+import IGeoData from "../../../../../../model/types/geodata/IGeoData";
+import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
+import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
+import IMapForm from "../../../../../../model/types/form/IMapForm";
+import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
+import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
+
 import IMarkerLayerTool from "../../types/tool/IMarkerLayerTool";
 import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";
-import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
-import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
-import IMapForm from "../../../../../../model/types/form/IMapForm";
 
 /**
  * This class provides controls for management of the layer sidebar tab.

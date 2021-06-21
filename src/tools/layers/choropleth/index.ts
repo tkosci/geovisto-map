@@ -1,4 +1,4 @@
-export { GeovistoChoroplethLayerTool } from './model/GeovistoChoroplethLayerTool';
+export { GeovistoChoroplethLayerTool } from './GeovistoChoroplethLayerTool';
 
 // types
 export type { default as IChoroplethLayerTool } from './model/types/tool/IChoroplethLayerTool';

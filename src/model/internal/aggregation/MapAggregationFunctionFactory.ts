@@ -1,9 +1,9 @@
-import IMapAggregationFunction from "../../types/aggregation/IMapAggregationFunction";
-import SumAggregationFunction from "./basic/SumAggregationFunction";
-import CountAggregationFunction from "./basic/CountAggregationFunction";
-import MapAggregationFunction from "./generic/MapAggregationFunction";
 import IMapAggregationBucket from "../../types/aggregation/IMapAggregationBucket";
+import IMapAggregationFunction from "../../types/aggregation/IMapAggregationFunction";
 import IMapAggregationFunctionFactory from "../../types/aggregation/IMapAggregationFunctionFactory";
+import CountAggregationFunction from "./basic/CountAggregationFunction";
+import SumAggregationFunction from "./basic/SumAggregationFunction";
+import MapAggregationFunction from "./generic/MapAggregationFunction";
 
 /**
  * This class provides a factory for aggregation functions.

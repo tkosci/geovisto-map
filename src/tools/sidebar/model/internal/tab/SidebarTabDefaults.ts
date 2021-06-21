@@ -1,7 +1,8 @@
-import ISidebarTabDefaults from "../../types/tab/ISidebarTabDefaults";
-import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
+// Geovisto core
 import MapObjectDefaults from "../../../../../model/internal/object/MapObjectDefaults";
 
+import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
+import ISidebarTabDefaults from "../../types/tab/ISidebarTabDefaults";
 /**
  * This class provide functions which return the default state values.
  * 

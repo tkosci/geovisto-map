@@ -1,3 +1,4 @@
+// Geovisto core
 import ILayerToolProps from "../../../../../../model/types/layer/ILayerToolProps";
 
 /**

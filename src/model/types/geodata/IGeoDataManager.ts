@@ -1,5 +1,5 @@
-import IMapDomainArrayManager from "../domain/IMapDomainArrayManager";
 import IGeoData from "./IGeoData";
+import IMapDomainArrayManager from "../domain/IMapDomainArrayManager";
 
 /**
  * The type represents geographical data manager.

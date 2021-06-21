@@ -1,17 +1,21 @@
-import IThemesTool from "../../types/tool/IThemesTool";
-import IThemesToolProps from "../../types/tool/IThemesToolProps";
-import IThemesToolDefaults from "../../types/tool/IThemesToolDefaults";
-import ThemesToolDefaults from "./ThemesToolDefaults";
-import IThemesToolState from "../../types/tool/IThemesToolState";
-import ThemesToolState from "./ThemesToolState";
+// Geovisto core
+import IMapForm from "../../../../../model/types/form/IMapForm";
+import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+import MapTool from "../../../../../model/internal/tool/MapTool";
+
 import IMapTheme from "../../types/theme/IMapTheme";
-import ThemesToolEvent from "../event/ThemesToolEvent";
+import IThemesTool from "../../types/tool/IThemesTool";
+import { IThemesToolAPI, IThemesToolAPIGetter } from "../../types/tool/IThemesToolAPI";
+import IThemesToolDefaults from "../../types/tool/IThemesToolDefaults";
+import IThemesToolProps from "../../types/tool/IThemesToolProps";
+import IThemesToolState from "../../types/tool/IThemesToolState";
 import ThemesToolMapForm from "../form/ThemesToolMapForm";
 import IThemesToolConfig from "../../types/tool/IThemesToolConfig";
-import MapTool from "../../../../../model/internal/tool/MapTool";
-import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
-import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
-import IMapForm from "../../../../../model/types/form/IMapForm";
+import ThemesToolAPI from "./ThemesToolAPI";
+import ThemesToolDefaults from "./ThemesToolDefaults";
+import ThemesToolEvent from "../event/ThemesToolEvent";
+import ThemesToolState from "./ThemesToolState";
 
 /**
  * Attribute which is set to the map container.
@@ -24,6 +28,11 @@ const THEME_ATTR_NAME = "data-theme";
  * @author Jiri Hynek
  */
 class ThemesTool extends MapTool implements IThemesTool, IMapFormControl {
+
+    /**
+     * tool api
+     */
+    private static api: IThemesToolAPI = ThemesToolAPI;
     
     /**
      * TODO: move to the tool state.
@@ -82,12 +91,31 @@ class ThemesTool extends MapTool implements IThemesTool, IMapFormControl {
     }
 
     /**
+     * It returns the tool API
+     */
+    public getAPIGetter(): IThemesToolAPIGetter | undefined {
+        return {
+            getGeovistoThemesTool: () => ThemesTool.api
+        };
+    }
+
+    /**
      * Overrides the super method.
      * 
      * @param initProps
      */
     public initialize(initProps: IMapToolInitProps<IThemesToolConfig>): this {
+        this.initializeAPI();
         return super.initialize(initProps);
+    }
+
+    /**
+     * Help method which initializes the API.
+     */
+    protected initializeAPI(): void {
+        // use this tool reference in API (this tool should be used as a singleton)
+        ThemesTool.api.getTheme = () => this.getState().getTheme();
+        ThemesTool.api.setTheme = (theme: IMapTheme) => this.setTheme(theme);
     }
 
     /**

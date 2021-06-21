@@ -1,15 +1,15 @@
-import IMapFormInput from "../../types/inputs/IMapFormInput";
-import TextFormInput from "./basic/text/TextFormInput";
-import ITextFormInputProps from "../../types/inputs/basic/text/ITextFormInputProps";
-import ISelectFormInputProps from "../../types/inputs/basic/select/ISelectFormInputProps";
-import ILabeledMapFormInputProps from "../../types/inputs/labeled/text/ILabeledTextFormInputProps";
-import SelectFormInput from "./basic/select/SelectFormInput";
-import ILabeledSelectFormInputProps from "../../types/inputs/labeled/select/ILabeledSelectFormInputProps";
-import ILabeledAutocompleteFormInputProps from "../../types/inputs/labeled/autocomplete/ILabeledAutocompleteFormInputProps";
 import IFilterFormInputProps from "../../types/inputs/filter/IFilterFormInputProps";
+import ILabeledAutocompleteFormInputProps from "../../types/inputs/labeled/autocomplete/ILabeledAutocompleteFormInputProps";
+import ILabeledMapFormInputProps from "../../types/inputs/labeled/text/ILabeledTextFormInputProps";
+import ILabeledSelectFormInputProps from "../../types/inputs/labeled/select/ILabeledSelectFormInputProps";
+import IMapFormInput from "../../types/inputs/IMapFormInput";
+import ISelectFormInputProps from "../../types/inputs/basic/select/ISelectFormInputProps";
+import ITextFormInputProps from "../../types/inputs/basic/text/ITextFormInputProps";
+import FilterAutocompleteFormInput from "./filter/autocomplete/FilterAutocompleteFormInput";
 import FilterSelectFormInput from "./filter/select/FilterSelectFormInput";
 import LabeledAutocompleteFormInput from "./labeled/autocomplete/LabeledAutocompleteFormInput";
-import FilterAutocompleteFormInput from "./filter/autocomplete/FilterAutocompleteFormInput";
+import SelectFormInput from "./basic/select/SelectFormInput";
+import TextFormInput from "./basic/text/TextFormInput";
 
 /**
  * This class provides a factory for form inputs.

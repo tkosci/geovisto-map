@@ -1,5 +1,7 @@
-import MapObjectForm from '../../../../../model/internal/form/MapObjectForm';
+// Geovisto core
 import IMapForm from '../../../../../model/types/form/IMapForm';
+import MapObjectForm from '../../../../../model/internal/form/MapObjectForm';
+
 import ISelectionTool from '../../types/tool/ISelectionTool';
 
 /**

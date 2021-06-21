@@ -1,4 +1,4 @@
-export { GeovistoTilesLayerTool } from './model/GeovistoTilesLayerTool';
+export { GeovistoTilesLayerTool } from './GeovistoTilesLayerTool';
 
 // types
 export type { default as ITilesLayerTool } from './model/types/tool/ITilesLayerTool';

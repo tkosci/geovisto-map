@@ -1,3 +1,4 @@
+// Geovisto core
 import { ILayerToolConfig, ILayerToolDimensionsConfig } from "../../../../../../model/types/layer/ILayerToolConfig";
 
 /**

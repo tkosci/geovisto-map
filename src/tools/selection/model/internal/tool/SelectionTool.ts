@@ -1,29 +1,37 @@
-import SelectionToolState from "./SelectionToolState";
-import SelectionToolEvent from "../event/SelectionToolEvent";
-import SelectionToolDefaults from "./SelectionToolDefaults";
-import SelectionToolMapForm from "../form/SelectionTooMapForm";
-import ISelectionToolProps from "../../types/tool/ISelectionToolProps";
+// Geovisto core
+import DataChangeEvent from "../../../../../model/internal/event/data/DataChangeEvent";
+import IMapEvent from "../../../../../model/types/event/IMapEvent";
+import IMapForm from "../../../../../model/types/form/IMapForm";
+import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
+import IMapTool from "../../../../../model/types/tool/IMapTool";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+import MapTool from "../../../../../model/internal/tool/MapTool";
+
 import IMapSelection from "../../types/selection/IMapSelection";
 import ISelectionTool from "../../types/tool/ISelectionTool";
-import ISelectionToolDefaults from "../../types/tool/ISelectionToolDefaults";
-import ISelectionToolState from "../../types/tool/ISelectionToolState";
-import MapTool from "../../../../../model/internal/tool/MapTool";
-import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+import { ISelectionToolAPI, ISelectionToolAPIGetter } from "../../types/tool/ISelectionToolAPI";
 import ISelectionToolConfig from "../../types/tool/ISelectionToolConfig";
-import IMapEvent from "../../../../../model/types/event/IMapEvent";
-import DataChangeEvent from "../../../../../model/internal/event/data/DataChangeEvent";
+import ISelectionToolDefaults from "../../types/tool/ISelectionToolDefaults";
+import ISelectionToolProps from "../../types/tool/ISelectionToolProps";
+import ISelectionToolState from "../../types/tool/ISelectionToolState";
 import MapSelection from "../selection/MapSelection";
-import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
-import IMapForm from "../../../../../model/types/form/IMapForm";
+import SelectionToolAPI from "./SelectionToolAPI";
+import SelectionToolDefaults from "./SelectionToolDefaults";
+import SelectionToolEvent from "../event/SelectionToolEvent";
+import SelectionToolMapForm from "../form/SelectionTooMapForm";
+import SelectionToolState from "./SelectionToolState";
 
 /**
  * This class provides the selection tool.
  * 
- * TODO: exclude defaults and state variables
- * 
  * @author Jiri Hynek
  */
 class SelectionTool extends MapTool implements ISelectionTool, IMapFormControl {
+
+    /**
+     * tool api
+     */
+    private static api: ISelectionToolAPI = SelectionToolAPI;
 
     /**
      * TODO: move to the tool state.
@@ -82,12 +90,32 @@ class SelectionTool extends MapTool implements ISelectionTool, IMapFormControl {
     }
 
     /**
+     * It returns the tool API
+     */
+    public getAPIGetter(): ISelectionToolAPIGetter | undefined {
+        return {
+            getGeovistoSelectionTool: () => SelectionTool.api
+        };
+    }
+
+    /**
      * Overrides the super method.
      * 
      * @param initProps
      */
     public initialize(initProps: IMapToolInitProps<ISelectionToolConfig>): this {
+        this.initializeAPI();
         return super.initialize(initProps);
+    }
+
+    /**
+     * Help method which initializes the API.
+     */
+    protected initializeAPI(): void {
+        // use this tool reference in API (this tool should be used as a singleton)
+        SelectionTool.api.getSelection = () => this.getState().getSelection();
+        SelectionTool.api.createSelection = (source: IMapTool, ids: string[]) => new MapSelection(source, ids);
+        SelectionTool.api.setSelection = (selection: IMapSelection | null) => this.setSelection(selection);
     }
 
     /**

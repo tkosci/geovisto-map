@@ -1,19 +1,20 @@
-import MapObjectState from "../object/MapObjectState";
-import IMapState from "../../types/map/IMapState";
+import IGeoDataManager from "../../types/geodata/IGeoDataManager";
 import IMap from "../../types/map/IMap";
-import { IMapProps, IMapInitProps } from "../../types/map/IMapProps";
-import IMapDefaults from "../../types/map/IMapDefaults";
-import IMapTemplates from "../../types/map/IMapTemplates";
-import IMapGlobals from "../../types/map/IMapGlobals";
 import IMapConfig from "../../types/map/IMapConfig";
-import IMapToolsManager from "../../types/tool/IMapToolsManager";
-import IMapTool from "../../types/tool/IMapTool";
-import IMapToolConfig from "../../types/tool/IMapToolConfig";
-import IMapDataManager from "../../types/data/IMapDataManager";
 import IMapConfigManager from "../../types/config/IMapConfigManager";
 import IMapData from "../../types/data/IMapData";
+import IMapDataManager from "../../types/data/IMapDataManager";
+import IMapDefaults from "../../types/map/IMapDefaults";
 import IMapEventManager from "../../types/event/IMapEventManager";
-import IGeoDataManager from "../../types/geodata/IGeoDataManager";
+import IMapGlobals from "../../types/map/IMapGlobals";
+import { IMapProps, IMapInitProps } from "../../types/map/IMapProps";
+import IMapToolsManager from "../../types/tool/IMapToolsManager";
+import IMapTool from "../../types/tool/IMapTool";
+import IMapToolAPI from "../../types/api/IMapToolAPI";
+import IMapToolConfig from "../../types/tool/IMapToolConfig";
+import IMapTemplates from "../../types/map/IMapTemplates";
+import IMapState from "../../types/map/IMapState";
+import MapObjectState from "../object/MapObjectState";
 
 /**
  * This class manages state of the map.
@@ -34,6 +35,7 @@ class GeovistoMapState extends MapObjectState implements IMapState {
     private zoom!: number;
     private mapCenter!: { lat: number; lng: number; };
     private mapStructure!: { maxZoom: number; maxBounds: [[number, number], [number, number]]; };
+    private toolsAPI: Record<string, () => IMapToolAPI>
 
     /**
      * It initializes a map state.
@@ -44,6 +46,7 @@ class GeovistoMapState extends MapObjectState implements IMapState {
         super(map);
 
         this.eventManager = map.getDefaults().getEventManager();
+        this.toolsAPI = {};
     }
 
     /**
@@ -139,6 +142,13 @@ class GeovistoMapState extends MapObjectState implements IMapState {
      */
     public setEventManager(eventManager: IMapEventManager): void {
         this.eventManager = eventManager;
+    }
+
+    /**
+     * It returns the map tools API.
+     */
+    public getToolsAPI(): Record<string, () => IMapToolAPI> {
+        return this.toolsAPI;
     }
 
     /**

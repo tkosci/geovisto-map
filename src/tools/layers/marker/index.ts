@@ -1,4 +1,4 @@
-export { GeovistoMarkerLayerTool } from './model/GeovistoMarkerLayerTool';
+export { GeovistoMarkerLayerTool } from './GeovistoMarkerLayerTool';
 
 // types
 export type { default as IMarkerLayerTool } from './model/types/tool/IMarkerLayerTool';

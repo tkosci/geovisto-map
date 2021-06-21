@@ -1,7 +1,7 @@
-import AbstractMapFormInput from "../../abstract/AbstractMapFormInput";
-import LabeledAutocompleteFormInput from "../../labeled/autocomplete/LabeledAutocompleteFormInput";
 import IFilterFormInputProps from "../../../../types/inputs/filter/IFilterFormInputProps";
 import IFilterFormInputValue from "../../../../types/inputs/filter/IFilterFormInputValue";
+import AbstractMapFormInput from "../../abstract/AbstractMapFormInput";
+import LabeledAutocompleteFormInput from "../../labeled/autocomplete/LabeledAutocompleteFormInput";
 
 const ID = "geovisto-input-filter-autocomplete";
 

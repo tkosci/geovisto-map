@@ -1,13 +1,21 @@
-import { Story, Meta } from '@storybook/react/types-6-0';
+// Storybook
+import {
+    Story,
+    Meta
+} from '@storybook/react/types-6-0';
+
+// React
 import React, { Component } from "react";
+
+// React-Geovisto
 import ReactGeovistoMap from "../react/ReactGeovistoMap";
 
 import 'font-awesome/css/font-awesome.min.css';
 import './Demo.scss';
 
+// Geovisto Tools
 import {
     GeovistoSidebarTool,
-    GeovistoSettingsTool,
     GeovistoFiltersTool,
     GeovistoThemesTool,
     GeovistoSelectionTool,
@@ -93,6 +101,7 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
                     }
                 } catch(ex) {
                     console.log("unable to read file");
+                    console.log(ex);
                     // TODO: notify user
                 }
             };
@@ -209,9 +218,6 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
                         tools={Geovisto.createMapToolsManager([
                             GeovistoSidebarTool.createTool({
                                 id: "geovisto-tool-sidebar",
-                            }),
-                            GeovistoSettingsTool.createTool({
-                                id: "geovisto-tool-settings"
                             }),
                             GeovistoFiltersTool.createTool({
                                 id: "geovisto-tool-filters",

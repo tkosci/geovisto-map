@@ -1,12 +1,14 @@
-import IChoroplethLayerTool from "../../types/tool/IChoroplethLayerTool";
-import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IChoroplethLayerToolDimensions from "../../types/tool/IChoroplethLayerToolDimensions";
-import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
+// Geovisto core
 import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
+import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
+import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapForm from "../../../../../../model/types/form/IMapForm";
+import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
+import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
+
+import IChoroplethLayerTool from "../../types/tool/IChoroplethLayerTool";
+import IChoroplethLayerToolDimensions from "../../types/tool/IChoroplethLayerToolDimensions";
 
 /**
  * This class provides controls for management of the layer sidebar tab.

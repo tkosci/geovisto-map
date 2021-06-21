@@ -1,6 +1,6 @@
-import AbstractMapFormInput from "../../abstract/AbstractMapFormInput";
 import IMapFormInput from "../../../../types/inputs/IMapFormInput";
 import ITextFormInputProps from "../../../../types/inputs/basic/text/ITextFormInputProps";
+import AbstractMapFormInput from "../../abstract/AbstractMapFormInput";
 
 const ID = "geovisto-input-text";
 

@@ -1,7 +1,7 @@
 // styles
 import "./styles/style.scss";
 
-export { GeovistoFiltersTool } from './model/GeovistoFiltersTool';
+export { GeovistoFiltersTool } from './GeovistoFiltersTool';
 
 // types
 export type { default as IMapFilterManager } from './model/types/filter/IMapFilterManager';

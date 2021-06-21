@@ -1,13 +1,22 @@
-import ILayerToolDefaults from "../../../../../../model/types/layer/ILayerToolDefaults";
-import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
-import IMap from "../../../../../../model/types/map/IMap";
+// Leaflet
+import {
+    Icon,
+    LatLngExpression,
+    MarkerOptions
+} from "leaflet";
+
+// Geovisto core
 import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import IMarkerIconOptions from "../marker/IMarkerIconOptions";
-import { Icon, LatLngExpression, MarkerOptions } from "leaflet";
+import ILayerToolDefaults from "../../../../../../model/types/layer/ILayerToolDefaults";
+import IMap from "../../../../../../model/types/map/IMap";
+import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
+import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
+
 import IMarker from "../marker/IMarker";
+import IMarkerIconOptions from "../marker/IMarkerIconOptions";
+import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
+
 
 /**
  * This interface provides functions which return the default state values.

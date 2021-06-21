@@ -1,4 +1,4 @@
-export { GeovistoConnectionLayerTool } from './model/GeovistoConnectionLayerTool';
+export { GeovistoConnectionLayerTool } from './GeovistoConnectionLayerTool';
 
 // types
 export type { default as IConnectionLayerConnection } from './model/types/items/IConnectionLayerConnection';

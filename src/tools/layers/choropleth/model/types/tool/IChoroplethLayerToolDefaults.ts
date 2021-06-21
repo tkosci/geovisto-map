@@ -1,10 +1,12 @@
-import ILayerToolDefaults from "../../../../../../model/types/layer/ILayerToolDefaults";
-import IChoroplethLayerToolDimensions from "./IChoroplethLayerToolDimensions";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
-import IMap from "../../../../../../model/types/map/IMap";
+// Geovisto core
 import IGeoData from "../../../../../../model/types/geodata/IGeoData";
+import ILayerToolDefaults from "../../../../../../model/types/layer/ILayerToolDefaults";
+import IMap from "../../../../../../model/types/map/IMap";
+import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
+import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
+
+import IChoroplethLayerToolDimensions from "./IChoroplethLayerToolDimensions";
 
 /**
  * This interface declares functions which return the default state values.

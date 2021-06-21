@@ -1,18 +1,28 @@
-import * as d3 from "d3";
-import MapObject from "../../../../../model/internal/object/MapObject";
-import ISidebarTab from "../../types/tab/ISidebarTab";
-import { ISidebarTabProps, ISidebarTabInitProps } from "../../types/tab/ISidebarTabProps";
-import ISidebarTabDefaults from "../../types/tab/ISidebarTabDefaults";
-import SidebarTabDefaults from "./SidebarTabDefaults";
-import ISidebarTabState from "../../types/tab/ISidebarTabState";
-import { Control } from "leaflet";
-import SidebarTabState from "./SidebarTabState";
-import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
+// d3
+import {
+    select as d3select
+} from "d3";
+
+//Leaflet
+import {
+    Control
+} from "leaflet";
+
+// Geovisto core
+import IMapFormControl, { instanceOfMapForm } from "../../../../../model/types/form/IMapFormControl";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
+import MapObject from "../../../../../model/internal/object/MapObject";
+
+import ISidebarTab from "../../types/tab/ISidebarTab";
 import ISidebarFragment from "../../types/fragment/ISidebarFragment";
 import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
-import IMapFormControl, { instanceOfMapForm } from "../../../../../model/types/form/IMapFormControl";
+import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
+import ISidebarTabDefaults from "../../types/tab/ISidebarTabDefaults";
+import ISidebarTabState from "../../types/tab/ISidebarTabState";
+import { ISidebarTabProps, ISidebarTabInitProps } from "../../types/tab/ISidebarTabProps";
 import SidebarFragment from "../fragment/SidebarFragment";
+import SidebarTabDefaults from "./SidebarTabDefaults";
+import SidebarTabState from "./SidebarTabState";
 
 const C_sidebar_header_class = "leaflet-sidebar-header";
 const C_sidebar_tab_content_class = "leaflet-sidebar-tab-content";
@@ -233,9 +243,9 @@ class SidebarTab<T extends IMapTool & IMapFormControl> extends MapObject impleme
                         tabElement.classList.add(C_enabled_class);
                     } else {
                         // disable inputs
-                        d3.select(tabContent).selectAll("input").attr("disabled", "true");
-                        d3.select(tabContent).selectAll("select").attr("disabled", "true");
-                        d3.select(tabContent).selectAll("button").attr("disabled", "true");
+                        d3select(tabContent).selectAll("input").attr("disabled", "true");
+                        d3select(tabContent).selectAll("select").attr("disabled", "true");
+                        d3select(tabContent).selectAll("button").attr("disabled", "true");
                     }
                 }
             }
@@ -251,7 +261,7 @@ class SidebarTab<T extends IMapTool & IMapFormControl> extends MapObject impleme
         const tool: IMapTool = this.getState().getTool();
         if(tool && checked != tool.isEnabled()) {
             // enable/disable sidebar tab
-            const sidebarTab = d3.select("#" + this.getState().getId());
+            const sidebarTab = d3select("#" + this.getState().getId());
             if(sidebarTab) {
                 // emhasize tab
                 sidebarTab.classed(C_enabled_class, checked);

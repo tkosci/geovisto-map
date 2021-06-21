@@ -1,5 +1,12 @@
-import { line as d3line, curveBundle as d3curveBundle } from "d3";
+// d3
+import {
+    line as d3line,
+    curveBundle as d3curveBundle
+} from "d3";
+
+// Leaflet
 import L from "leaflet";
+
 import IConnectionLayerNode from "../../types/items/IConnectionLayerNode";
 
 /**

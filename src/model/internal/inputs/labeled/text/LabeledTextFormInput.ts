@@ -1,6 +1,6 @@
-import TextFormInput from "../../basic/text/TextFormInput";
 import ILabeledMapFormInputProps from "../../../../types/inputs/labeled/text/ILabeledTextFormInputProps";
 import IMapFormInput from "../../../../types/inputs/IMapFormInput";
+import TextFormInput from "../../basic/text/TextFormInput";
 
 const ID = "geovisto-input-text-labeled";
 

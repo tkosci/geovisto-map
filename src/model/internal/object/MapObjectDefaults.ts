@@ -1,6 +1,6 @@
+import IMapObjectConfig from "../../types/object/IMapObjectConfig";
 import IMapObjectDefaults from "../../types/object/IMapObjectDefaults";
 import { IMapObjectProps } from "../../types/object/IMapObjectProps";
-import IMapObjectConfig from "../../types/object/IMapObjectConfig";
 
 /**
  * This class provide functions which return the default state values.

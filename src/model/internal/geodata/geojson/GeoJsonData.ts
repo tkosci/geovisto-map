@@ -1,8 +1,8 @@
 
-import { FeatureCollection } from 'geojson';
 import IGeoData from '../../../types/geodata/IGeoData';
-import MapDomain from '../../domain/generic/MapDomain';
 import GeoJSONTypes from '../../../types/geodata/GeoJSONTypes';
+import { FeatureCollection } from 'geojson';
+import MapDomain from '../../domain/generic/MapDomain';
 
 /**
  * The interface declares function for management of geographical data.

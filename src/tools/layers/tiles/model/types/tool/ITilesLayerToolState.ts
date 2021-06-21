@@ -1,9 +1,11 @@
-import ITilesLayerToolProps from "./ITilesLayerToolProps";
-import ITilesLayerToolDefaults from "./ITilesLayerToolDefaults";
-import ITilesLayerToolConfig from "./ITilesLayerToolConfig";
-import { ILayerToolDimensionsConfig } from "../../../../../../model/types/layer/ILayerToolConfig";
+// Geovisto core
 import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
+import { ILayerToolDimensionsConfig } from "../../../../../../model/types/layer/ILayerToolConfig";
 import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
+
+import ITilesLayerToolConfig from "./ITilesLayerToolConfig";
+import ITilesLayerToolDefaults from "./ITilesLayerToolDefaults";
+import ITilesLayerToolProps from "./ITilesLayerToolProps";
 
 /**
  * This interface declares functions for using the state of the layer tool.

@@ -6,20 +6,22 @@ import 'font-awesome/css/font-awesome.min.css';
 // TODO - move to index.ts
 import '../../../styles/common.scss';
 
+import IMap from '../../types/map/IMap';
+import IMapToolAPI from '../../types/api/IMapToolAPI';
+import IMapConfigManager from '../../types/config/IMapConfigManager';
+import IMapDefaults from '../../types/map/IMapDefaults';
+import IMapObject from '../../types/object/IMapObject';
+import { IMapProps, IMapInitProps } from '../../types/map/IMapProps';
+import IMapState from '../../types/map/IMapState';
+import IMapTool from '../../types/tool/IMapTool';
+import IMapToolConfig from '../../types/tool/IMapToolConfig';
+import IMapToolsManager from '../../types/tool/IMapToolsManager';
+import IMapData from '../../types/data/IMapData';
+import IMapToolAPIGetter from '../../types/api/IMapToolAPIGetter';
 import DataChangeEvent from '../event/data/DataChangeEvent';
 import GeovistoMapDefaults from './GeovistoMapDefaults';
 import GeovistoMapState from './GeovistoMapState';
 import MapObject from '../object/MapObject';
-import { IMapProps, IMapInitProps } from '../../types/map/IMapProps';
-import IMapDefaults from '../../types/map/IMapDefaults';
-import IMapState from '../../types/map/IMapState';
-import IMapConfigManager from '../../types/config/IMapConfigManager';
-import IMapToolsManager from '../../types/tool/IMapToolsManager';
-import IMapToolConfig from '../../types/tool/IMapToolConfig';
-import IMapTool from '../../types/tool/IMapTool';
-import IMap from '../../types/map/IMap';
-import IMapObject from '../../types/object/IMapObject';
-import IMapData from '../../types/data/IMapData';
 
 /**
  * Representation of map wrapper which handles map layers, sidebar and other tools
@@ -119,6 +121,8 @@ class GeovistoMap extends MapObject implements IMap {
             for(let i = 0; i < tools.length; i++) {
                 // initialize tool (provide map and config)
                 tools[i].initialize({ config: initProps.configManager.getToolConfig(tools[i].getId()), map: this });
+                // register API if available
+                this.registerToolAPI(tools[i]);
             }
         }
         
@@ -151,6 +155,8 @@ class GeovistoMap extends MapObject implements IMap {
                         tool = toolTemplates[0].copy();
                         // initialize tool
                         tool.initialize({ config: toolConfig, map: this });
+                        // register API if available
+                        this.registerToolAPI(tool);
                         // add to the list of tools
                         toolsManager.add(tool);
                     }
@@ -161,6 +167,24 @@ class GeovistoMap extends MapObject implements IMap {
         }
         
         return this;
+    }
+
+    /**
+     * Help function which register a generic tool API.
+     * 
+     * @param tool
+     */
+    protected registerToolAPI(tool: IMapTool): IMapToolAPI | null {
+        const apiGetter: IMapToolAPIGetter | undefined = tool.getAPIGetter();
+        if(apiGetter) {
+            const api = this.getState().getToolsAPI();
+            for(const method in apiGetter) {
+                if(!api[method]) {
+                    api[method] = apiGetter[method];
+                }
+            }
+        }
+        return null;
     }
 
     /**

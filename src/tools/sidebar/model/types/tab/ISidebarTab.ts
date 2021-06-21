@@ -1,11 +1,12 @@
+// Geovisto core
 import IMapObject from "../../../../../model/types/object/IMapObject";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
+
+import ISidebarFragment from "../fragment/ISidebarFragment";
 import ISidebarTabConfig from "./ISidebarTabConfig";
 import ISidebarTabDefaults from "./ISidebarTabDefaults";
 import { ISidebarTabProps, ISidebarTabInitProps } from "./ISidebarTabProps";
 import ISidebarTabState from "./ISidebarTabState";
-import ISidebarFragment from "../fragment/ISidebarFragment";
-
 /**
  * This interface declares functions for the sidebar tab.
  * It contains enable button which enables the sidebar and tool.

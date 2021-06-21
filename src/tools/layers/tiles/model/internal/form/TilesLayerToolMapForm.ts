@@ -1,6 +1,8 @@
-import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
-import IMapForm from "../../../../../../model/types/form/IMapForm";
+// Geovisto core
 import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
+import IMapForm from "../../../../../../model/types/form/IMapForm";
+import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
+
 import ITilesLayerTool from "../../types/tool/ITilesLayerTool";
 
 /**

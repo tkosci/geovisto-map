@@ -1,6 +1,6 @@
-import SelectFormInput from "../../basic/select/SelectFormInput";
 import ILabeledSelectFormInputProps from "../../../../types/inputs/labeled/select/ILabeledSelectFormInputProps";
 import IMapFormInput from "../../../../types/inputs/IMapFormInput";
+import SelectFormInput from "../../basic/select/SelectFormInput";
 
 const ID = "geovisto-input-select-labeled";
 

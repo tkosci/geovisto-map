@@ -1,8 +1,10 @@
-import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
-import { IMarkerLayerToolConfig, IMarkerLayerToolDimensionsConfig } from "./IMarkerLayerToolConfig";
-import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
+// Geovisto core
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
+import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
+
+import { IMarkerLayerToolConfig, IMarkerLayerToolDimensionsConfig } from "./IMarkerLayerToolConfig";
 import IMarkerLayerToolDefaults from "./IMarkerLayerToolDefaults";
+import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
 import IMarkerLayerToolProps from "./IMarkerLayerToolProps";
 
 /**

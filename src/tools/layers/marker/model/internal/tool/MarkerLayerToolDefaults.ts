@@ -1,20 +1,28 @@
-import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
-import IMarkerLayerToolDefaults from "../../types/tool/IMarkerLayerToolDefaults";
-import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
+// Leaflet
+import {
+    Icon,
+    LatLngExpression,
+    MarkerOptions
+} from "leaflet";
+
+// Geovisto core
+import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
+import IGeoData from "../../../../../../model/types/geodata/IGeoData";
+import IMap from "../../../../../../model/types/map/IMap";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
+import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
+import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
+import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
 import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
 import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
-import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
-import IMap from "../../../../../../model/types/map/IMap";
-import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import { MarkerIcon } from "../marker/MarkerIcon";
-import IMarkerIconOptions from "../../types/marker/IMarkerIconOptions";
-import { Icon, LatLngExpression, MarkerOptions } from "leaflet";
-import Marker from "../marker/Marker";
+
 import IMarker from "../../types/marker/IMarker";
+import IMarkerIconOptions from "../../types/marker/IMarkerIconOptions";
+import IMarkerLayerToolDefaults from "../../types/tool/IMarkerLayerToolDefaults";
+import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";
+import Marker from "../marker/Marker";
+import { MarkerIcon } from "../marker/MarkerIcon";
 
 /**
  * This class provide functions which return the default state values.

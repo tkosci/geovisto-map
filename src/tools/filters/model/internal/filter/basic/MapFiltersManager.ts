@@ -1,18 +1,20 @@
+// Geovisto core
+import IMapData from "../../../../../../model/types/data/IMapData";
+import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import IMapDataManager from "../../../../../../model/types/data/IMapDataManager";
 import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
-import IMapFiltersManager from "../../../types/filter/IMapFilterManager";
+
+import IMapFilterManager from "../../../types/filter/IMapFilterManager";
 import IMapFilterOperation from "../../../types/filter/IMapFilterOperation";
 import IMapFilterRule from "../../../types/filter/IMapFilterRule";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import MapFilterRule from "./MapFilterRule";
-import IMapDataManager from "../../../../../../model/types/data/IMapDataManager";
-import IMapData from "../../../../../../model/types/data/IMapData";
 
 /**
  * This class provide functions for using filters.
  * 
  * @author Jiri Hynek
  */
-class MapFiltersManager extends MapDomainArrayManager<IMapFilterOperation> implements IMapFiltersManager {
+class MapFiltersManager extends MapDomainArrayManager<IMapFilterOperation> implements IMapFilterManager {
 
     public constructor(filterOperations: IMapFilterOperation[]) {
         super(filterOperations);

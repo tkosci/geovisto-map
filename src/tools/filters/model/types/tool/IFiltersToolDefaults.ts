@@ -1,6 +1,8 @@
+// Geovisto core
 import IMapToolDefaults from "../../../../../model/types/tool/IMapToolDefaults";
+
 import IFiltersToolConfig from "./IFiltersToolConfig";
-import IMapFiltersManager from "../filter/IMapFilterManager";
+import IMapFilterManager from "../filter/IMapFilterManager";
 import IMapFilterRule from "../filter/IMapFilterRule";
 
 /**
@@ -18,7 +20,7 @@ interface IFiltersToolDefaults extends IMapToolDefaults {
     /**
      * It returns default filters manager.
      */
-    getFiltersManager(): IMapFiltersManager;
+    getFiltersManager(): IMapFilterManager;
 
     /**
      * It returns default filter rules.

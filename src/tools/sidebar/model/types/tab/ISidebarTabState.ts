@@ -1,8 +1,9 @@
+// Geovisto core
 import IMapObjectState from "../../../../../model/types/object/IMapObjectState";
-import ISidebarTabConfig from "./ISidebarTabConfig";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
+
 import ISidebarFragment from "../fragment/ISidebarFragment";
-import { Control } from "leaflet";
+import ISidebarTabConfig from "./ISidebarTabConfig";
 import ISidebarTabDefaults from "./ISidebarTabDefaults";
 import { ISidebarTabProps } from "./ISidebarTabProps";
 import ISidebarTool from "../tool/ISidebarTool";

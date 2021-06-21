@@ -1,11 +1,11 @@
-import MapToolState from "../tool/MapToolState";
 import ILayerToolState from "../../types/layer/ILayerToolState";
 import ILayerTool from "../../types/layer/ILayerTool";
-import ILayerToolProps from "../../types/layer/ILayerToolProps";
-import ILayerToolDefaults from "../../types/layer/ILayerToolDefaults";
 import { ILayerToolConfig, ILayerToolDimensionsConfig } from "../../types/layer/ILayerToolConfig";
+import ILayerToolDefaults from "../../types/layer/ILayerToolDefaults";
 import ILayerToolDimensions from "../../types/layer/ILayerToolDimensions";
 import { IMapToolInitProps } from "../../types/tool/IMapToolProps";
+import ILayerToolProps from "../../types/layer/ILayerToolProps";
+import MapToolState from "../tool/MapToolState";
 
 /**
  * This class provide functions for using the state of the layer tool.

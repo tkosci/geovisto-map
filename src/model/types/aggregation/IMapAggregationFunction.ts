@@ -1,5 +1,5 @@
-import IMapDomain from "../domain/IMapDomain";
 import IMapAggregationBucket from "./IMapAggregationBucket";
+import IMapDomain from "../domain/IMapDomain";
 
 /**
  * This interface declares functions for using map aggregation function.

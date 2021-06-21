@@ -10,35 +10,48 @@ import {
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+// own styles
 import '../../../style/choroplethLayer.scss';
 
+// Geovisto Selection Tool API
+import {
+    ISelectionToolAPI,
+    ISelectionToolAPIGetter,
+    IMapSelection
+} from '../../../../../selection';
+
+// Geovisto Themes Tool API
+import {
+    IThemesToolAPI,
+    IThemesToolAPIGetter
+} from '../../../../../themes';
+
+// Geovisto core
 import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
-import ChoroplethLayerToolState from './ChoroplethLayerToolState';
-import ChoroplethLayerToolDefaults from './ChoroplethLayerToolDefaults';
-import ChoropolethLayerToolMapForm from '../form/ChoroplethLayerToolMapForm';
-import ThemesToolEvent from '../../../../../themes/model/internal/event/ThemesToolEvent';
-import SelectionToolEvent from '../../../../../selection/model/internal/event/SelectionToolEvent';
 import DataChangeEvent from '../../../../../../model/internal/event/data/DataChangeEvent';
-import IChoroplethLayerTool from '../../types/tool/IChoroplethLayerTool';
-import IChoroplethLayerToolProps from '../../types/tool/IChoroplethLayerToolProps';
-import IChoroplethLayerToolDefaults from '../../types/tool/IChoroplethLayerToolDefaults';
-import IChoroplethLayerToolState from '../../types/tool/IChoroplethLayerToolState';
-import { GeovistoSelectionTool, ISelectionTool, IMapSelection } from '../../../../../selection';
-import IMapDataDomain from '../../../../../../model/types/data/IMapDataDomain';
-import IChoroplethLayerToolDimensions from '../../types/tool/IChoroplethLayerToolDimensions';
-import IMapAggregationFunction from '../../../../../../model/types/aggregation/IMapAggregationFunction';
+import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
 import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMapAggregationBucket';
-import IMapEvent from '../../../../../../model/types/event/IMapEvent';
-import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
+import IMapAggregationFunction from '../../../../../../model/types/aggregation/IMapAggregationFunction';
 import IMapData from '../../../../../../model/types/data/IMapData';
-import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
-import { IChoroplethLayerToolConfig } from '../../types/tool/IChoroplethLayerToolConfig';
+import IMapDataDomain from '../../../../../../model/types/data/IMapDataDomain';
+import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
 import IMapDimension from '../../../../../../model/types/dimension/IMapDimension';
 import IMapDomain from '../../../../../../model/types/domain/IMapDomain';
-import LayerToolRedrawEnum from '../../../../../../model/types/layer/LayerToolRedrawEnum';
-import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
-import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
+import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapForm from '../../../../../../model/types/form/IMapForm';
+import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
+import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
+import LayerToolRedrawEnum from '../../../../../../model/types/layer/LayerToolRedrawEnum';
+
+import IChoroplethLayerTool from '../../types/tool/IChoroplethLayerTool';
+import { IChoroplethLayerToolConfig } from '../../types/tool/IChoroplethLayerToolConfig';
+import IChoroplethLayerToolDefaults from '../../types/tool/IChoroplethLayerToolDefaults';
+import IChoroplethLayerToolDimensions from '../../types/tool/IChoroplethLayerToolDimensions';
+import ChoropolethLayerToolMapForm from '../form/ChoroplethLayerToolMapForm';
+import IChoroplethLayerToolProps from '../../types/tool/IChoroplethLayerToolProps';
+import IChoroplethLayerToolState from '../../types/tool/IChoroplethLayerToolState';
+import ChoroplethLayerToolDefaults from './ChoroplethLayerToolDefaults';
+import ChoroplethLayerToolState from './ChoroplethLayerToolState';
 
 /**
  * This class represents Choropleth layer tool. It works with geojson polygons representing countries.
@@ -47,7 +60,8 @@ import IMapForm from '../../../../../../model/types/form/IMapForm';
  */
 class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerTool, IMapFormControl {
 
-    private selectionTool: ISelectionTool | undefined;
+    private selectionToolAPI: ISelectionToolAPI | undefined;
+    private themesToolAPI: IThemesToolAPI | undefined;
     private mapForm!: IMapForm;
 
     /**
@@ -104,14 +118,27 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
     /**
      * Help function which acquires and returns the selection tool if available.
      */
-    private getSelectionTool(): ISelectionTool | undefined {
-        if(this.selectionTool == undefined) {
-            const tools = this.getMap()?.getState().getTools().getByType(GeovistoSelectionTool.getType());
-            if(tools && tools.length > 0) {
-                this.selectionTool = <ISelectionTool> tools[0];
+    private getSelectionTool(): ISelectionToolAPI | undefined {
+        if(this.selectionToolAPI == undefined) {
+            const api = this.getMap()?.getState().getToolsAPI() as ISelectionToolAPIGetter;
+            if(api.getGeovistoSelectionTool) {
+                this.selectionToolAPI = api.getGeovistoSelectionTool();
             }
         }
-        return this.selectionTool;
+        return this.selectionToolAPI;
+    }
+
+    /**
+     * Help function which acquires and returns the themes tool if available.
+     */
+    private getThemesTool(): IThemesToolAPI | undefined {
+        if(this.themesToolAPI == undefined) {
+            const api = this.getMap()?.getState().getToolsAPI() as IThemesToolAPIGetter;
+            if(api.getGeovistoThemesTool) {
+                this.themesToolAPI = api.getGeovistoThemesTool();
+            }
+        }
+        return this.themesToolAPI;
     }
 
     /**
@@ -235,12 +262,12 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
     protected getClickFunction(): (e: L.LeafletMouseEvent) => void {
         return (e: L.LeafletMouseEvent): void => {
             // notify selection tool
-            const selectionTool: ISelectionTool | undefined = this.getSelectionTool();
-            if(selectionTool) {
+            const selectionToolAPI: ISelectionToolAPI | undefined = this.getSelectionTool();
+            if(selectionToolAPI) {
                 const id: string | undefined = (e.target as L.Polygon).feature?.id?.toString();
                 if(id) {
-                    const selection: IMapSelection = GeovistoSelectionTool.createSelection(this, [ id ]);
-                    if(selection.equals(selectionTool.getState().getSelection())) {
+                    const selection: IMapSelection = selectionToolAPI.createSelection(this, [ id ]);
+                    if(selection.equals(selectionToolAPI.getSelection())) {
                         this.getSelectionTool()?.setSelection(null);
                     } else {
                         this.getSelectionTool()?.setSelection(selection);
@@ -385,8 +412,8 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
             case DataChangeEvent.TYPE():
                 this.redraw(LayerToolRedrawEnum.DATA);
                 break;
-            case SelectionToolEvent.TYPE():
-            case ThemesToolEvent.TYPE():
+            case this.getSelectionTool()?.getChangeEventType():
+            case this.getThemesTool()?.getChangeEventType():
                 this.redraw(LayerToolRedrawEnum.STYLE);
                 break;
             default:
@@ -435,7 +462,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
         }
 
         // selected / highlighted
-        const selection: IMapSelection | null | undefined = this.getSelectionTool()?.getState().getSelection() ?? undefined;
+        const selection: IMapSelection | null | undefined = this.getSelectionTool()?.getSelection() ?? undefined;
         const selectedIds: string[] = selection?.getIds() ?? [];
         if(selection && selectedIds.length > 0) {
             if(selectedIds.includes(id)) {

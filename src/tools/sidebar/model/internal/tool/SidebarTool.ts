@@ -1,26 +1,28 @@
-// external libs
+// Leaflet
 import L from 'leaflet';
 import "leaflet-sidebar-v2";
 import "leaflet-sidebar-v2/css/leaflet-sidebar.min.css";
 
-// styles - TODO: move to index.ts
+// styles
 import "../../../styles/style.scss";
 
-import SidebarToolState from "./SidebarToolState";
-import SidebarToolDefaults from "./SidebarToolDefaults";
-import ISidebarToolProps from '../../types/tool/ISidebarToolProps';
-import ISidebarToolDefaults from '../../types/tool/ISidebarToolDefaults';
-import ISidebarToolState from '../../types/tool/ISidebarToolState';
+// Geovisto core
 import MapTool from '../../../../../model/internal/tool/MapTool';
-import ISidebarTool from '../../types/tool/ISidebarTool';
+import { IMapToolInitProps } from '../../../../../model/types/tool/IMapToolProps';
+import { instanceOfMapForm } from '../../../../../model/types/form/IMapFormControl';
+
+import DummyTabTool from '../dummy/DummyTabTool';
+import IMapTool from '../../../../../model/types/tool/IMapTool';
 import ISidebarTab from '../../types/tab/ISidebarTab';
 import ISidebarTabConfig from '../../types/tab/ISidebarTabConfig';
-import IMapTool from '../../../../../model/types/tool/IMapTool';
+import ISidebarTool from '../../types/tool/ISidebarTool';
 import ISidebarToolConfig from '../../types/tool/ISidebarToolConfig';
-import { IMapToolInitProps } from '../../../../../model/types/tool/IMapToolProps';
+import ISidebarToolDefaults from '../../types/tool/ISidebarToolDefaults';
+import ISidebarToolProps from '../../types/tool/ISidebarToolProps';
+import ISidebarToolState from '../../types/tool/ISidebarToolState';
 import SidebarTab from '../tab/SidebarTab';
-import { instanceOfMapForm } from '../../../../../model/types/form/IMapFormControl';
-import DummyTabTool from '../dummy/DummyTabTool';
+import SidebarToolDefaults from "./SidebarToolDefaults";
+import SidebarToolState from "./SidebarToolState";
 
 /**
  * This class provides the sidebar tool.

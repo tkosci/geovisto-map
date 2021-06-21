@@ -1,7 +1,9 @@
+// Geovisto core
 import IMapToolState from "../../../../../model/types/tool/IMapToolState";
-import IFiltersToolConfig from "./IFiltersToolConfig";
-import IMapFiltersManager from "../filter/IMapFilterManager";
+
+import IMapFilterManager from "../filter/IMapFilterManager";
 import IMapFilterRule from "../filter/IMapFilterRule";
+import IFiltersToolConfig from "./IFiltersToolConfig";
 import IFiltersToolDefaults from "./IFiltersToolDefaults";
 import IFiltersToolProps from "./IFiltersToolProps";
 
@@ -19,14 +21,14 @@ interface IFiltersToolState<
     /**
      * It returns filter manager
      */
-    getFiltersManager(): IMapFiltersManager;
+    getFiltersManager(): IMapFilterManager;
 
     /**
      * It updates filter manager.
      * 
      * @param manager 
      */
-    setFiltersManager(manager: IMapFiltersManager): void;
+    setFiltersManager(manager: IMapFilterManager): void;
 
     /**
      * It returns the filterRules property of the tool state.

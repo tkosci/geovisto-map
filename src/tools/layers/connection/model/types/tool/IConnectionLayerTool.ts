@@ -1,5 +1,10 @@
+// Geovisto core
 import ILayerTool from "../../../../../../model/types/layer/ILayerTool";
+import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
+
+import { IConnectionLayerToolConfig } from "./IConnectionLayerToolConfig";
 import IConnectionLayerToolDefaults from "./IConnectionLayerToolDefaults";
+import IConnectionLayerToolProps from "./IConnectionLayerToolProps";
 import IConnectionLayerToolState from "./IConnectionLayerToolState";
 
 /**
@@ -7,21 +12,17 @@ import IConnectionLayerToolState from "./IConnectionLayerToolState";
  *
  * @author Jiri Hynek
  */
-interface IConnectionLayerTool extends ILayerTool {
+interface IConnectionLayerTool<
+    TProps extends IConnectionLayerToolProps = IConnectionLayerToolProps,
+    TDefaults extends IConnectionLayerToolDefaults = IConnectionLayerToolDefaults,
+    TState extends IConnectionLayerToolState = IConnectionLayerToolState,
+    TConfig extends IConnectionLayerToolConfig = IConnectionLayerToolConfig,
+    TInitProps extends IMapToolInitProps<TConfig> = IMapToolInitProps<TConfig>
+> extends ILayerTool<TProps, TDefaults, TState, TConfig, TInitProps> {
 
     /**
      * It creates a copy of the uninitialized tool.
      */
     copy(): IConnectionLayerTool;
-
-    /**
-     * It creates new defaults of the tool.
-     */
-    getDefaults(): IConnectionLayerToolDefaults;
-
-    /**
-     * It returns default tool state.
-     */
-    getState(): IConnectionLayerToolState;
 }
 export default IConnectionLayerTool;

@@ -1,3 +1,4 @@
+// Geovisto core
 import IMapObjectConfig from "../../../../../model/types/object/IMapObjectConfig";
 
 /**

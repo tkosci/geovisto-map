@@ -1,6 +1,6 @@
 import IMapConfig from "../../../types/map/IMapConfig";
-import AbstractMapConfigManager from "../abstract/AbstractMapConfigManager";
 import IMapConfigManager from "../../../types/config/IMapConfigManager";
+import AbstractMapConfigManager from "../abstract/AbstractMapConfigManager";
 
 /**
  * The class wraps config used by the map and functions to acquire config items.

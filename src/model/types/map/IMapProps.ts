@@ -1,11 +1,11 @@
-import { IMapObjectProps, IMapObjectInitProps } from "../object/IMapObjectProps";
-import IMapTemplates from "./IMapTemplates";
-import IMapGlobals from "./IMapGlobals";
-import IMapDataManager from "../data/IMapDataManager";
-import IMapToolsManager from "../tool/IMapToolsManager";
+import IGeoDataManager from "../geodata/IGeoDataManager";
 import IMapConfig from "./IMapConfig";
 import IMapConfigManager from "../config/IMapConfigManager";
-import IGeoDataManager from "../geodata/IGeoDataManager";
+import IMapDataManager from "../data/IMapDataManager";
+import IMapGlobals from "./IMapGlobals";
+import { IMapObjectProps, IMapObjectInitProps } from "../object/IMapObjectProps";
+import IMapTemplates from "./IMapTemplates";
+import IMapToolsManager from "../tool/IMapToolsManager";
 
 /**
  * This type provides the specification of the map props model.

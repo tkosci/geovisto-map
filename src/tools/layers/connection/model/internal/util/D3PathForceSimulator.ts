@@ -1,8 +1,15 @@
-import { SimulationLinkDatum, forceSimulation, forceManyBody, forceLink } from "d3";
+// d3
+import {
+    SimulationLinkDatum,
+    forceSimulation,
+    forceManyBody,
+    forceLink
+} from "d3";
+
 import IConnectionLayerConnection from "../../types/items/IConnectionLayerConnection";
 import IConnectionLayerNode from "../../types/items/IConnectionLayerNode";
-import IConnectionLayerPoint from "../../types/items/IConnectionLayerPoint";
 import IConnectionLayerPath from "../../types/items/IConnectionLayerPath";
+import IConnectionLayerPoint from "../../types/items/IConnectionLayerPoint";
 
 /**
  * Help type which defines the simulation props.

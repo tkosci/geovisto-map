@@ -1,12 +1,14 @@
-import IThemesToolState from "../../types/tool/IThemesToolState";
+// Geovisto core
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+import MapToolState from "../../../../../model/internal/tool/MapToolState";
+
+import IMapTheme from "../../types/theme/IMapTheme";
+import IMapThemesManager from "../../types/theme/IMapThemesManager";
 import IThemesTool from "../../types/tool/IThemesTool";
 import IThemesToolConfig from "../../types/tool/IThemesToolConfig";
-import IThemesToolProps from "../../types/tool/IThemesToolProps";
 import IThemesToolDefaults from "../../types/tool/IThemesToolDefaults";
-import IMapThemesManager from "../../types/theme/IMapThemesManager";
-import IMapTheme from "../../types/theme/IMapTheme";
-import MapToolState from "../../../../../model/internal/tool/MapToolState";
-import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+import IThemesToolProps from "../../types/tool/IThemesToolProps";
+import IThemesToolState from "../../types/tool/IThemesToolState";
 
 /**
  * This class provide functions for using themes.

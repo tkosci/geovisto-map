@@ -1,8 +1,10 @@
+// Geovisto core
 import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
 import { IMapObjectProps, IMapObjectInitProps } from "../../../../../model/types/object/IMapObjectProps";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
-import ISidebarTab from "../tab/ISidebarTab";
+
 import ISidebarFragmentConfig from "./ISidebarFragmentConfig";
+import ISidebarTab from "../tab/ISidebarTab";
 
 /**
  * This type provides specification of the sidebar fragment props model.

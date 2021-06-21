@@ -1,6 +1,6 @@
+import IMapData from "../../../types/data/IMapData";
 import IMapDataDomain from "../../../types/data/IMapDataDomain";
 import IMapDataManager from "../../../types/data/IMapDataManager";
-import IMapData from "../../../types/data/IMapData";
 import IMapDataRecord from "../../../types/data/IMapDataRecord";
 
 /**

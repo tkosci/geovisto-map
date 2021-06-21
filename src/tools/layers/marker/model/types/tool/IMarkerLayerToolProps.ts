@@ -1,5 +1,7 @@
+// Geovisto core
 import IGeoDataManager from "../../../../../../model/types/geodata/IGeoDataManager";
 import ILayerToolProps from "../../../../../../model/types/layer/ILayerToolProps";
+
 import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
 
 /**

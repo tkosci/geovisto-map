@@ -1,14 +1,20 @@
-import MapToolState from "../../../../../model/internal/tool/MapToolState";
-import ISidebarToolState from "../../types/tool/ISidebarToolState";
+// Leaflet
+import {
+    Control
+} from "leaflet";
+
+// Geovisto core
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+
 import ISidebarTab from "../../types/tab/ISidebarTab";
+import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
 import ISidebarTool from "../../types/tool/ISidebarTool";
 import ISidebarToolConfig from "../../types/tool/ISidebarToolConfig";
-import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
-import { Control } from "leaflet";
-import SidebarToolDefaults from "./SidebarToolDefaults";
 import ISidebarToolDefaults from "../../types/tool/ISidebarToolDefaults";
 import ISidebarToolProps from "../../types/tool/ISidebarToolProps";
-import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+import ISidebarToolState from "../../types/tool/ISidebarToolState";
+import MapToolState from "../../../../../model/internal/tool/MapToolState";
+import SidebarToolDefaults from "./SidebarToolDefaults";
 
 /**
  * This class provide sidebar tool model.

@@ -1,12 +1,13 @@
-import IConnectionLayerTool from "../../types/tool/IConnectionLayerTool";
-import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
-import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToolDimensions";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+// Geovisto core
 import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
+import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import IMapForm from "../../../../../../model/types/form/IMapForm";
+import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
+import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
 
+import IConnectionLayerTool from "../../types/tool/IConnectionLayerTool";
+import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToolDimensions";
 /**
  * This class provides controls for management of the layer sidebar tab.
  * 

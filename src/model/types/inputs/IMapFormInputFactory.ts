@@ -1,10 +1,10 @@
-import IMapFormInput from "./IMapFormInput";
-import ITextFormInputProps from "./basic/text/ITextFormInputProps";
-import ISelectFormInputProps from "./basic/select/ISelectFormInputProps";
+import IFilterFormInputProps from "./filter/IFilterFormInputProps";
+import ILabeledAutocompleteFormInputProps from "./labeled/autocomplete/ILabeledAutocompleteFormInputProps";
 import ILabeledMapFormInputProps from "./labeled/text/ILabeledTextFormInputProps";
 import ILabeledSelectFormInputProps from "./labeled/select/ILabeledSelectFormInputProps";
-import ILabeledAutocompleteFormInputProps from "./labeled/autocomplete/ILabeledAutocompleteFormInputProps";
-import IFilterFormInputProps from "./filter/IFilterFormInputProps";
+import IMapFormInput from "./IMapFormInput";
+import ISelectFormInputProps from "./basic/select/ISelectFormInputProps";
+import ITextFormInputProps from "./basic/text/ITextFormInputProps";
 
 /**
  * This interface declares a factory for form inputs.

@@ -1,12 +1,12 @@
+import IGeoDataManager from "../geodata/IGeoDataManager";
+import IMapConfig from "./IMapConfig";
+import IMapConfigManager from "../config/IMapConfigManager";
+import IMapDataManager from "../data/IMapDataManager";
+import IMapEventManager from "../event/IMapEventManager";
+import IMapGlobals from "./IMapGlobals";
 import IMapObjectDefaults from "../object/IMapObjectDefaults";
 import IMapTemplates from "./IMapTemplates";
 import IMapToolsManager from "../tool/IMapToolsManager";
-import IMapDataManager from "../data/IMapDataManager";
-import IMapGlobals from "./IMapGlobals";
-import IMapConfig from "./IMapConfig";
-import IMapConfigManager from "../config/IMapConfigManager";
-import IMapEventManager from "../event/IMapEventManager";
-import IGeoDataManager from "../geodata/IGeoDataManager";
 
 /**
  * This interface declares functions which return the default state values.

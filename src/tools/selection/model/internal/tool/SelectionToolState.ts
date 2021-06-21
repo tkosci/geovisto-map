@@ -1,13 +1,15 @@
+// Geovisto core
+import IMapTool from "../../../../../model/types/tool/IMapTool";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 import MapToolState from "../../../../../model/internal/tool/MapToolState";
-import ISelectionToolState from "../../types/tool/ISelectionToolState";
+
+import IMapSelection from "../../types/selection/IMapSelection";
 import ISelectionTool from "../../types/tool/ISelectionTool";
 import ISelectionToolConfig from "../../types/tool/ISelectionToolConfig";
-import IMapSelection from "../../types/selection/IMapSelection";
-import ISelectionToolProps from "../../types/tool/ISelectionToolProps";
 import ISelectionToolDefaults from "../../types/tool/ISelectionToolDefaults";
-import IMapTool from "../../../../../model/types/tool/IMapTool";
+import ISelectionToolProps from "../../types/tool/ISelectionToolProps";
+import ISelectionToolState from "../../types/tool/ISelectionToolState";
 import MapSelection from "../selection/MapSelection";
-import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 
 /**
  * This class provide functions for using selections.

@@ -1,35 +1,30 @@
+// Geovisto core
 import IMapTool from '../../../../../model/types/tool/IMapTool';
+import { IMapToolInitProps } from '../../../../../model/types/tool/IMapToolProps';
+
+import ISidebarTab from '../tab/ISidebarTab';
+import ISidebarToolConfig from './ISidebarToolConfig';
 import ISidebarToolDefaults from './ISidebarToolDefaults';
 import ISidebarToolProps from './ISidebarToolProps';
 import ISidebarToolState from "./ISidebarToolState";
-import ISidebarTab from '../tab/ISidebarTab';
 
 /**
  * This class provides the sidebar tool.
  *
  * @author Jiri Hynek
  */
-interface ISidebarTool extends IMapTool {
+interface ISidebarTool<
+    TProps extends ISidebarToolProps = ISidebarToolProps,
+    TDefaults extends ISidebarToolDefaults = ISidebarToolDefaults,
+    TState extends ISidebarToolState = ISidebarToolState,
+    TConfig extends ISidebarToolConfig = ISidebarToolConfig,
+    TInitProps extends IMapToolInitProps<TConfig> = IMapToolInitProps<TConfig>
+> extends IMapTool<TProps, TDefaults, TState, TConfig, TInitProps> {
 
     /**
      * It creates a copy of the uninitialized tool.
      */
     copy(): ISidebarTool;
-
-    /**
-     * It returns the props given by the programmer.
-     */
-    getProps(): ISidebarToolProps;
-
-    /**
-     * It returns default values of the state properties.
-     */
-    getDefaults(): ISidebarToolDefaults;
-
-    /**
-     * It returns the sidebar tool state.
-     */
-    getState(): ISidebarToolState;
 
     /**
      * Help function which returns sidebar tabs of the tool state.

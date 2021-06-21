@@ -1,5 +1,5 @@
-import AbstractFormInput from "../text/TextFormInput";
 import ISelectFormInputProps from "../../../../types/inputs/basic/select/ISelectFormInputProps";
+import AbstractFormInput from "../text/TextFormInput";
 
 const ID = "geovisto-input-select";
 

@@ -1,6 +1,6 @@
 import IMapConfigManager from "../../types/config/IMapConfigManager";
-import MapConfigManager from "./basic/MapConfigManager";
 import IMapConfigManagerFactory from "../../types/config/IMapConfigManagerFactory";
+import MapConfigManager from "./basic/MapConfigManager";
 
 /**
  * This class provides a factory for config managers.

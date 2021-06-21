@@ -1,7 +1,7 @@
+import IMapObjectConfig from "./IMapObjectConfig";
 import IMapObjectDefaults from "./IMapObjectDefaults";
 import IMapObjectState from "./IMapObjectState";
 import { IMapObjectProps, IMapObjectInitProps } from "./IMapObjectProps";
-import IMapObjectConfig from "./IMapObjectConfig";
 
 /**
  * This interface declares functions for using map object which can be identified by uniquie string.

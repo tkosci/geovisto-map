@@ -1,10 +1,11 @@
-import ILayerToolDefaults from "../../../../../../model/types/layer/ILayerToolDefaults";
-import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMap from "../../../../../../model/types/map/IMap";
+// Geovisto core
 import IGeoData from "../../../../../../model/types/geodata/IGeoData";
+import ILayerToolDefaults from "../../../../../../model/types/layer/ILayerToolDefaults";
+import IMap from "../../../../../../model/types/map/IMap";
+import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 
+import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
 /**
  * This interface declares functions which return the default state values.
  * 

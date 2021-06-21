@@ -1,6 +1,6 @@
+import IMap from "../map/IMap";
 import IMapObjectState from "../object/IMapObjectState";
 import IMapToolConfig from "./IMapToolConfig";
-import IMap from "../map/IMap";
 import IMapToolDefaults from "./IMapToolDefaults";
 import { IMapToolProps, IMapToolInitProps } from "./IMapToolProps";
 

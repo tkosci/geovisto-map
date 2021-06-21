@@ -1,5 +1,5 @@
-import IMapAggregationFunction from "./IMapAggregationFunction";
 import IMapAggregationBucket from "./IMapAggregationBucket";
+import IMapAggregationFunction from "./IMapAggregationFunction";
 
 /**
  * This interface declares a factory for aggregation functions.

@@ -1,6 +1,10 @@
+// Geovisto core
 import IMapTool from "../../../../../model/types/tool/IMapTool";
-import IFiltersToolProps from "./IFiltersToolProps";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+
+import IFiltersToolConfig from "./IFiltersToolConfig";
 import IFiltersToolDefaults from "./IFiltersToolDefaults";
+import IFiltersToolProps from "./IFiltersToolProps";
 import IFiltersToolState from "./IFiltersToolState";
 import IMapFilterRule from "../filter/IMapFilterRule";
 
@@ -10,27 +14,18 @@ import IMapFilterRule from "../filter/IMapFilterRule";
  * 
  * @author Jiri Hynek
  */
-interface IFiltersTool extends IMapTool {
+interface IFiltersTool<
+    TProps extends IFiltersToolProps = IFiltersToolProps,
+    TDefaults extends IFiltersToolDefaults = IFiltersToolDefaults,
+    TState extends IFiltersToolState = IFiltersToolState,
+    TConfig extends IFiltersToolConfig = IFiltersToolConfig,
+    TInitProps extends IMapToolInitProps<TConfig> = IMapToolInitProps<TConfig>
+> extends IMapTool<TProps, TDefaults, TState, TConfig, TInitProps>  {
 
     /**
      * It creates a copy of the uninitialized tool.
      */
     copy(): IFiltersTool;
-
-    /**
-     * It returns the props given by the programmer.
-     */
-    getProps(): IFiltersToolProps;
-
-    /**
-     * It returns default values of the state properties.
-     */
-    getDefaults(): IFiltersToolDefaults;
-
-    /**
-     * It returns the sidebar tool state.
-     */
-    getState(): IFiltersToolState;
 
     /**
      * It updates filter rules and notifies listeners.

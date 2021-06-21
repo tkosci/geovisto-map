@@ -1,5 +1,10 @@
+// Geovisto core
 import ILayerTool from "../../../../../../model/types/layer/ILayerTool";
+import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
+
+import ITilesLayerToolConfig from "./ITilesLayerToolConfig";
 import ITilesLayerToolDefaults from "./ITilesLayerToolDefaults";
+import ITilesLayerToolProps from "./ITilesLayerToolProps";
 import ITilesLayerToolState from "./ITilesLayerToolState";
 
 /**
@@ -7,22 +12,18 @@ import ITilesLayerToolState from "./ITilesLayerToolState";
  * 
  * @author Jiri Hynek
  */
-interface ITilesLayerTool extends ILayerTool {
+interface ITilesLayerTool<
+    TProps extends ITilesLayerToolProps = ITilesLayerToolProps,
+    TDefaults extends ITilesLayerToolDefaults = ITilesLayerToolDefaults,
+    TState extends ITilesLayerToolState = ITilesLayerToolState,
+    TConfig extends ITilesLayerToolConfig = ITilesLayerToolConfig,
+    TInitProps extends IMapToolInitProps<TConfig> = IMapToolInitProps<TConfig>
+> extends ILayerTool<TProps, TDefaults, TState, TConfig, TInitProps> {
 
     /**
      * It creates a copy of the uninitialized tool.
      */
     copy(): ILayerTool;
-
-    /**
-     * It creates new defaults of the tool.
-     */
-    getDefaults(): ITilesLayerToolDefaults;
-
-    /**
-     * It returns default tool state.
-     */
-    getState(): ITilesLayerToolState;
 }
 
 export default ITilesLayerTool;

@@ -1,13 +1,15 @@
+// Geovisto core
+import IMapDataDomain from "../../../../../model/types/data/IMapDataDomain";
+import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 import MapToolState from "../../../../../model/internal/tool/MapToolState";
+
 import IFiltersToolState from "../../types/tool/IFiltersToolState";
 import IFiltersTool from "../../types/tool/IFiltersTool";
 import IMapFilterRule from "../../types/filter/IMapFilterRule";
-import IMapFiltersManager from "../../types/filter/IMapFilterManager";
+import IMapFilterManager from "../../types/filter/IMapFilterManager";
 import IFiltersToolConfig from "../../types/tool/IFiltersToolConfig";
 import IFiltersToolProps from "../../types/tool/IFiltersToolProps";
 import IFiltersToolDefaults from "../../types/tool/IFiltersToolDefaults";
-import IMapDataDomain from "../../../../../model/types/data/IMapDataDomain";
-import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
 
 /**
  * This class provide functions for using filters.
@@ -17,7 +19,7 @@ import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps
 class FiltersToolState extends MapToolState implements IFiltersToolState {
     
     private rules!: IMapFilterRule[];
-    private manager!: IMapFiltersManager;
+    private manager!: IMapFilterManager;
 
     /**
      * It creates a tool state.
@@ -104,7 +106,7 @@ class FiltersToolState extends MapToolState implements IFiltersToolState {
     /**
      * It returns filter manager
      */
-    public getFiltersManager(): IMapFiltersManager {
+    public getFiltersManager(): IMapFilterManager {
         return this.manager;
     }
 
@@ -113,7 +115,7 @@ class FiltersToolState extends MapToolState implements IFiltersToolState {
      * 
      * @param manager
      */
-    public setFiltersManager(manager: IMapFiltersManager): void {
+    public setFiltersManager(manager: IMapFilterManager): void {
         this.manager = manager;
     }
 

@@ -1,9 +1,15 @@
+// d3
 import {
     pie as d3pie,
     arc as d3arc,
     select as d3select
 } from "d3";
-import { Icon } from "leaflet";
+
+// Leaflet
+import {
+    Icon
+} from "leaflet";
+
 import IMarkerIconOptions from "../../types/marker/IMarkerIconOptions";
 
 /**

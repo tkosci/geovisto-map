@@ -8,41 +8,54 @@ import 'leaflet/dist/leaflet.css';
 // d3
 import { select as d3select } from "d3";
 
+// own styles
 import '../../../style/connectionLayer.scss';
+
+// Geovisto Selection Tool API
+import {
+    ISelectionToolAPI,
+    ISelectionToolAPIGetter,
+    IMapSelection
+} from '../../../../../selection';
+
+// Geovisto Themes Tool API
+import {
+    IThemesToolAPI,
+    IThemesToolAPIGetter
+} from '../../../../../themes';
+
+// Geovisto core
+import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
+import CountAggregationFunction from '../../../../../../model/internal/aggregation/basic/CountAggregationFunction';
+import DataChangeEvent from '../../../../../../model/internal/event/data/DataChangeEvent';
+import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
+import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMapAggregationBucket';
+import IMapAggregationFunction from '../../../../../../model/types/aggregation/IMapAggregationFunction';
+import IMapChangeEvent from '../../../../../../model/types/event/IMapChangeEvent';
+import IMapData from '../../../../../../model/types/data/IMapData';
+import IMapDataDomain from '../../../../../../model/types/data/IMapDataDomain';
+import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
+import IMapDimension from '../../../../../../model/types/dimension/IMapDimension';
+import IMapDomain from '../../../../../../model/types/domain/IMapDomain';
+import IMapEvent from '../../../../../../model/types/event/IMapEvent';
+import IMapForm from '../../../../../../model/types/form/IMapForm';
+import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
+import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
+import LayerToolRedrawEnum from '../../../../../../model/types/layer/LayerToolRedrawEnum';
 
 import ConnectionLayerToolMapForm from '../form/ConnectionLayerToolMapForm';
 import ConnectionLayerToolState from './ConnectionLayerToolState';
 import ConnectionLayerToolDefaults from './ConnectionLayerToolDefaults';
-import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
-import DataChangeEvent from '../../../../../../model/internal/event/data/DataChangeEvent';
-import SelectionToolEvent from '../../../../../selection/model/internal/event/SelectionToolEvent';
-import ThemesToolEvent from '../../../../../themes/model/internal/event/ThemesToolEvent';
 import D3PathForceSimulator from '../util/D3PathForceSimulator';
-import ProjectionUtil from '../util/ProjectionUtil';
-import IConnectionLayerTool from '../../types/tool/IConnectionLayerTool';
-import { GeovistoSelectionTool, ISelectionTool, IMapSelection } from '../../../../../selection';
-import IConnectionLayerToolProps from '../../types/tool/IConnectionLayerToolProps';
-import IConnectionLayerToolDefaults from '../../types/tool/IConnectionLayerToolDefaults';
-import IConnectionLayerToolState from '../../types/tool/IConnectionLayerToolState';
-import IConnectionLayerToolDimensions from '../../types/tool/IConnectionLayerToolDimensions';
-import IMapDataDomain from '../../../../../../model/types/data/IMapDataDomain';
-import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
-import IMapAggregationFunction from '../../../../../../model/types/aggregation/IMapAggregationFunction';
-import CountAggregationFunction from '../../../../../../model/internal/aggregation/basic/CountAggregationFunction';
-import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMapAggregationBucket';
-import IMapEvent from '../../../../../../model/types/event/IMapEvent';
-import IMapChangeEvent from '../../../../../../model/types/event/IMapChangeEvent';
-import IMapData from '../../../../../../model/types/data/IMapData';
-import { IConnectionLayerToolConfig } from '../../types/tool/IConnectionLayerToolConfig';
-import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
-import LayerToolRedrawEnum from '../../../../../../model/types/layer/LayerToolRedrawEnum';
-import IMapDimension from '../../../../../../model/types/dimension/IMapDimension';
-import IMapDomain from '../../../../../../model/types/domain/IMapDomain';
-import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
-import IConnectionLayerNode from '../../types/items/IConnectionLayerNode';
 import IConnectionLayerConnection from '../../types/items/IConnectionLayerConnection';
-import IMapForm from '../../../../../../model/types/form/IMapForm';
-import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
+import IConnectionLayerNode from '../../types/items/IConnectionLayerNode';
+import IConnectionLayerTool from '../../types/tool/IConnectionLayerTool';
+import { IConnectionLayerToolConfig } from '../../types/tool/IConnectionLayerToolConfig';
+import IConnectionLayerToolDimensions from '../../types/tool/IConnectionLayerToolDimensions';
+import IConnectionLayerToolDefaults from '../../types/tool/IConnectionLayerToolDefaults';
+import IConnectionLayerToolProps from '../../types/tool/IConnectionLayerToolProps';
+import IConnectionLayerToolState from '../../types/tool/IConnectionLayerToolState';
+import ProjectionUtil from '../util/ProjectionUtil';
 
 /**
  * This class represents Connection layer tool. It uses SVG layer and D3 to draw the lines.
@@ -51,7 +64,8 @@ import IMapFormControl from '../../../../../../model/types/form/IMapFormControl'
  */
 class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerTool, IMapFormControl {
 
-    private selectionTool: ISelectionTool | undefined;
+    private selectionToolAPI: ISelectionToolAPI | undefined;
+    private themesToolAPI: IThemesToolAPI | undefined;
     private mapForm!: IMapForm;
 
     /**
@@ -108,14 +122,27 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
     /**
      * Help function which acquires and returns the selection tool if available.
      */
-    private getSelectionTool(): ISelectionTool | undefined {
-        if(this.selectionTool == undefined) {
-            const tools = this.getMap()?.getState().getTools().getByType(GeovistoSelectionTool.getType());
-            if(tools && tools.length > 0) {
-                this.selectionTool = <ISelectionTool> tools[0];
+    private getSelectionTool(): ISelectionToolAPI | undefined {
+        if(this.selectionToolAPI == undefined) {
+            const api = this.getMap()?.getState().getToolsAPI() as ISelectionToolAPIGetter;
+            if(api.getGeovistoSelectionTool) {
+                this.selectionToolAPI = api.getGeovistoSelectionTool();
             }
         }
-        return this.selectionTool;
+        return this.selectionToolAPI;
+    }
+
+    /**
+     * Help function which acquires and returns the themes tool if available.
+     */
+    private getThemesTool(): IThemesToolAPI | undefined {
+        if(this.themesToolAPI == undefined) {
+            const api = this.getMap()?.getState().getToolsAPI() as IThemesToolAPIGetter;
+            if(api.getGeovistoThemesTool) {
+                this.themesToolAPI = api.getGeovistoThemesTool();
+            }
+        }
+        return this.themesToolAPI;
     }
 
     /**
@@ -357,7 +384,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
                 };
     
                 // highlight connections with respect to the selection of the selection tool if available
-                const selection = this.getSelectionTool()?.getState().getSelection();
+                const selection = this.getSelectionTool()?.getSelection();
                 if(selection) {
                     this.onSelectionUpdate(selection);
                 }
@@ -439,10 +466,10 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
             case DataChangeEvent.TYPE():
                 this.redraw(LayerToolRedrawEnum.DATA);
                 break;
-            case SelectionToolEvent.TYPE():
+            case this.getSelectionTool()?.getChangeEventType():
                 this.onSelectionUpdate(<IMapSelection> (<IMapChangeEvent> event).getChangedObject());
                 break;
-            case ThemesToolEvent.TYPE():
+            case this.getThemesTool()?.getChangeEventType():
                 // TODO
                 break;
             default:

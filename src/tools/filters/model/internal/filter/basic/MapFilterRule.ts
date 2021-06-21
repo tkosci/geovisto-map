@@ -1,6 +1,8 @@
-import IMapFilterRule from "../../../types/filter/IMapFilterRule";
+// Geovisto core
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+
 import IMapFilterOperation from "../../../types/filter/IMapFilterOperation";
+import IMapFilterRule from "../../../types/filter/IMapFilterRule";
 
 /**
  * This class wraps dataDomain, filterOperation, pattern which represents a filter rule.

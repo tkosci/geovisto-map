@@ -1,6 +1,6 @@
-import MapEvent from "./MapEvent";
 import IMapObject from "../../../types/object/IMapObject";
 import IMapChangeEvent from "../../../types/event/IMapChangeEvent";
+import MapEvent from "./MapEvent";
 
 /**
  * This class provides generic map change event object.

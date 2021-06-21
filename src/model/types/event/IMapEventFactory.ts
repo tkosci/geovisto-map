@@ -1,7 +1,7 @@
-import IMapObject from "../object/IMapObject";
-import IMapEvent from "./IMapEvent";
 import IMapChangeEvent from "./IMapChangeEvent";
 import IMapData from "../data/IMapData";
+import IMapEvent from "./IMapEvent";
+import IMapObject from "../object/IMapObject";
 
 /**
  * This interface declares a factory for map events.

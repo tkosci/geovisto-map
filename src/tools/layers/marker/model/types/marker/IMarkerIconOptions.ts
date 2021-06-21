@@ -1,4 +1,7 @@
-import { BaseIconOptions } from "leaflet";
+// Leaflet
+import {
+    BaseIconOptions
+} from "leaflet";
 
 /**
  * The definition of type describing marker icon options.

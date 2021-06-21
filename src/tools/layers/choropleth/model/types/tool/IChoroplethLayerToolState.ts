@@ -1,9 +1,11 @@
-import IChoroplethLayerToolDimensions from "./IChoroplethLayerToolDimensions";
+// Geovisto core
 import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
-import IChoroplethLayerToolDefaults from "./IChoroplethLayerToolDefaults";
-import IChoroplethLayerToolProps from "./IChoroplethLayerToolProps";
+
 import { IChoroplethLayerToolConfig, IChoroplethLayerToolDimensionsConfig } from "./IChoroplethLayerToolConfig";
+import IChoroplethLayerToolDefaults from "./IChoroplethLayerToolDefaults";
+import IChoroplethLayerToolDimensions from "./IChoroplethLayerToolDimensions";
+import IChoroplethLayerToolProps from "./IChoroplethLayerToolProps";
 
 /**
  * This interface declares functions for using the state of the layer tool.

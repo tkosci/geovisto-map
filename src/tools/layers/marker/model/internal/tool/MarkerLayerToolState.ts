@@ -1,12 +1,14 @@
-import IMarkerLayerToolState from "../../types/tool/IMarkerLayerToolState";
-import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
-import IMarkerLayerTool from "../../types/tool/IMarkerLayerTool";
-import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";
-import IMarkerLayerToolProps from "../../types/tool/IMarkerLayerToolProps";
-import IMarkerLayerToolDefaults from "../../types/tool/IMarkerLayerToolDefaults";
-import { IMarkerLayerToolConfig, IMarkerLayerToolDimensionsConfig } from "../../types/tool/IMarkerLayerToolConfig";
+// Geovisto core
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
 import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
+import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
+
+import IMarkerLayerTool from "../../types/tool/IMarkerLayerTool";
+import { IMarkerLayerToolConfig, IMarkerLayerToolDimensionsConfig } from "../../types/tool/IMarkerLayerToolConfig";
+import IMarkerLayerToolDefaults from "../../types/tool/IMarkerLayerToolDefaults";
+import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";
+import IMarkerLayerToolProps from "../../types/tool/IMarkerLayerToolProps";
+import IMarkerLayerToolState from "../../types/tool/IMarkerLayerToolState";
 
 /**
  * This class provide functions for using the state of the layer tool.

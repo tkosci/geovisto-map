@@ -1,20 +1,18 @@
+import IGeoDataManager from "../../types/geodata/IGeoDataManager";
+import IMapDataManager from "../../types/data/IMapDataManager";
 import IMapDefaults from "../../types/map/IMapDefaults";
+import IMapEventManager from "../../types/event/IMapEventManager";
 import IMapConfig from "../../types/map/IMapConfig";
 import IMapConfigManager from "../../types/config/IMapConfigManager";
 import IMapTemplates from "../../types/map/IMapTemplates";
 import IMapToolsManager from "../../types/tool/IMapToolsManager";
-import IMapDataManager from "../../types/data/IMapDataManager";
 import IMapGlobals from "../../types/map/IMapGlobals";
+import GeoDataManager from "../geodata/GeoDataManager";
+import JsonMapDataManager from "../data/json/JsonMapDataManager";
+import MapConfigManager from "../config/basic/MapConfigManager";
+import MapEventManager from "../event/MapEventManager";
 import MapObjectDefaults from "../object/MapObjectDefaults";
 import MapToolsManager from "../tool/MapToolsManager";
-import MapConfigManager from "../config/basic/MapConfigManager";
-import JsonMapDataManager from "../data/json/JsonMapDataManager";
-
-// TODO: remove
-import IMapEventManager from "../../types/event/IMapEventManager";
-import MapEventManager from "../event/MapEventManager";
-import IGeoDataManager from "../../types/geodata/IGeoDataManager";
-import GeoDataManager from "../geodata/GeoDataManager";
 
 /**
  * This class provide functions which return the default state values.

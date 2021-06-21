@@ -1,10 +1,10 @@
-import IMapObject from "../object/IMapObject";
 import IMapConfigManager from "../config/IMapConfigManager";
+import IMapConfig from "./IMapConfig";
+import IMapData from "../data/IMapData";
 import IMapDefaults from "./IMapDefaults";
+import IMapObject from "../object/IMapObject";
 import { IMapProps, IMapInitProps } from "./IMapProps";
 import IMapState from "./IMapState";
-import IMapData from "../data/IMapData";
-import IMapConfig from "./IMapConfig";
 
 /**
  * Declaration of map wrapper which handles map inputs (data, props, config), map tools and other map objects.

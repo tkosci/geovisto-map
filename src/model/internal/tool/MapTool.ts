@@ -1,14 +1,15 @@
-import { IMapToolProps, IMapToolInitProps } from "../../types/tool/IMapToolProps";
-import IMapEvent from "../../types/event/IMapEvent";
-import IMapToolDefaults from "../../types/tool/IMapToolDefaults";
-import IMapTool from "../../types/tool/IMapTool";
-import IMapToolState from "../../types/tool/IMapToolState";
 import IMap from "../../types/map/IMap";
+import IMapEvent from "../../types/event/IMapEvent";
+import IMapEventListener from "../../types/event/IMapEventListener";
+import IMapTool from "../../types/tool/IMapTool";
+import IMapToolAPIGetter from "../../types/api/IMapToolAPIGetter";
 import IMapToolConfig from "../../types/tool/IMapToolConfig";
+import IMapToolDefaults from "../../types/tool/IMapToolDefaults";
+import { IMapToolProps, IMapToolInitProps } from "../../types/tool/IMapToolProps";
+import IMapToolState from "../../types/tool/IMapToolState";
 import MapObject from "../object/MapObject";
 import MapToolDefaults from "./MapToolDefaults";
 import MapToolState from "./MapToolState";
-import IMapEventListener from "../../types/event/IMapEventListener";
 
 /**
  * This class provides basic tools API.
@@ -64,6 +65,13 @@ class MapTool extends MapObject implements IMapTool, IMapEventListener {
      */
     protected createState(): IMapToolState {
         return new MapToolState(this);
+    }
+
+    /**
+     * It returns the tool API
+     */
+    public getAPIGetter(): IMapToolAPIGetter | undefined {
+        return undefined;
     }
 
     /**

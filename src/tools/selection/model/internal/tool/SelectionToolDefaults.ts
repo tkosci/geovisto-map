@@ -1,7 +1,9 @@
-import IMapSelection from "../../types/selection/IMapSelection";
+// Geovisto core
 import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
-import ISelectionToolDefaults from "../../types/tool/ISelectionToolDefaults";
+
+import IMapSelection from "../../types/selection/IMapSelection";
 import ISelectionToolConfig from "../../types/tool/ISelectionToolConfig";
+import ISelectionToolDefaults from "../../types/tool/ISelectionToolDefaults";
 
 /**
  * This class provide functions which return the default state values.

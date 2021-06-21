@@ -1,5 +1,8 @@
+import {
+    FeatureCollection
+} from 'geojson';
+
 import IMapDomain from "../domain/IMapDomain";
-import { FeatureCollection } from 'geojson';
 
 /**
  * The interface declares functions for management of geographical data.

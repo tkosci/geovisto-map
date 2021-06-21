@@ -1,7 +1,8 @@
-import IMapTheme from '../../../../types/theme/IMapTheme';
 import BasicTheme from '../../basic/BasicTheme';
+import IMapTheme from '../../../../types/theme/IMapTheme';
 
 import './style.scss';
+
 
 /**
  * This class defines a custom theme.

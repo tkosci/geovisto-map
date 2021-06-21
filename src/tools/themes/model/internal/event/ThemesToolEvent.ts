@@ -1,8 +1,9 @@
+// Geovisto core
 import MapChangeEvent from "../../../../../model/internal/event/generic/MapChangeEvent";
-import IThemesTool from "../../types/tool/IThemesTool";
-import IMapTheme from "../../types/theme/IMapTheme";
-import IThemesToolEvent from "../../types/event/IThemesToolEvent";
 
+import IMapTheme from "../../types/theme/IMapTheme";
+import IThemesTool from "../../types/tool/IThemesTool";
+import IThemesToolEvent from "../../types/event/IThemesToolEvent";
 /**
  * This class provides the theme change event.
  * 

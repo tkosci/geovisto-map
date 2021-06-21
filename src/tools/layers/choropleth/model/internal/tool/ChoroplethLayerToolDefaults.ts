@@ -1,15 +1,17 @@
+// Geovisto core
+import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
+import IGeoData from "../../../../../../model/types/geodata/IGeoData";
+import IMap from "../../../../../../model/types/map/IMap";
+import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
+import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
+import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
+import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
+import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
+
 import IChoroplethLayerToolDefaults from "../../types/tool/IChoroplethLayerToolDefaults";
 import IChoroplethLayerToolDimensions from "../../types/tool/IChoroplethLayerToolDimensions";
-import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
-import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
-import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
-import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
-import IMap from "../../../../../../model/types/map/IMap";
-import IGeoData from "../../../../../../model/types/geodata/IGeoData";
 
 /**
  * This class provide functions which return the default state values.

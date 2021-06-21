@@ -1,3 +1,4 @@
+// Geovisto core
 import IMapDomain from "../../../../../model/types/domain/IMapDomain";
 
 /**

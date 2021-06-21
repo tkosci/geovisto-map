@@ -1,9 +1,11 @@
+// Geovisto core
 import IMapObjectState from "../../../../../model/types/object/IMapObjectState";
-import ISidebarFragmentConfig from "./ISidebarFragmentConfig";
 import IMapTool from "../../../../../model/types/tool/IMapTool";
-import ISidebarTab from "../tab/ISidebarTab";
+
+import ISidebarFragmentConfig from "./ISidebarFragmentConfig";
 import ISidebarFragmentDefaults from "./ISidebarFragmentDefaults";
 import { ISidebarFragmentProps } from "./ISidebarFragmentProps";
+import ISidebarTab from "../tab/ISidebarTab";
 
 /**
  * This interface declares the state of the sidebar fragment.

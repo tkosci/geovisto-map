@@ -1,12 +1,13 @@
+// Geovisto core
+import IGeoData from "../../../../../../model/types/geodata/IGeoData";
+import IMap from "../../../../../../model/types/map/IMap";
+import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
+import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
+import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
+
 import IConnectionLayerToolDefaults from "../../types/tool/IConnectionLayerToolDefaults";
 import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToolDimensions";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
-import IMap from "../../../../../../model/types/map/IMap";
-import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-
 /**
  * This class provide functions which return the default state values.
  * 

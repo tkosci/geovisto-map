@@ -1,6 +1,6 @@
+import IMapAggregationBucket from "../../../types/aggregation/IMapAggregationBucket";
 import IMapAggregationFunction from "../../../types/aggregation/IMapAggregationFunction";
 import MapDomain from "../../domain/generic/MapDomain";
-import IMapAggregationBucket from "../../../types/aggregation/IMapAggregationBucket";
 
 /**
  * This class provides the sum aggregation function.

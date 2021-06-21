@@ -1,6 +1,6 @@
 
-import IMapObject from "../object/IMapObject";
 import IMapForm from "./IMapForm";
+import IMapObject from "../object/IMapObject";
 
 /**
  * This interface declares functions which needs to be implemented when

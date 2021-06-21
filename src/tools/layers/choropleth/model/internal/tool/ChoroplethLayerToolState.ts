@@ -1,12 +1,14 @@
-import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
-import IChoroplethLayerTool from "../../types/tool/IChoroplethLayerTool";
-import IChoroplethLayerToolState from "../../types/tool/IChoroplethLayerToolState";
-import IChoroplethLayerToolDimensions from "../../types/tool/IChoroplethLayerToolDimensions";
-import IChoroplethLayerToolProps from "../../types/tool/IChoroplethLayerToolProps";
-import IChoroplethLayerToolDefaults from "../../types/tool/IChoroplethLayerToolDefaults";
-import { IChoroplethLayerToolConfig, IChoroplethLayerToolDimensionsConfig } from "../../types/tool/IChoroplethLayerToolConfig";
+// Geovisto core
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
 import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
+import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
+
+import IChoroplethLayerTool from "../../types/tool/IChoroplethLayerTool";
+import { IChoroplethLayerToolConfig, IChoroplethLayerToolDimensionsConfig } from "../../types/tool/IChoroplethLayerToolConfig";
+import IChoroplethLayerToolDefaults from "../../types/tool/IChoroplethLayerToolDefaults";
+import IChoroplethLayerToolDimensions from "../../types/tool/IChoroplethLayerToolDimensions";
+import IChoroplethLayerToolProps from "../../types/tool/IChoroplethLayerToolProps";
+import IChoroplethLayerToolState from "../../types/tool/IChoroplethLayerToolState";
 
 /**
  * This class provide functions for using the state of the layer tool.

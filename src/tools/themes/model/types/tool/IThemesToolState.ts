@@ -1,7 +1,9 @@
+// Geovisto core
 import IMapToolState from "../../../../../model/types/tool/IMapToolState";
-import IThemesToolConfig from "./IThemesToolConfig";
-import IMapThemesManager from "../theme/IMapThemesManager";
+
 import IMapTheme from "../theme/IMapTheme";
+import IMapThemesManager from "../theme/IMapThemesManager";
+import IThemesToolConfig from "./IThemesToolConfig";
 import IThemesToolDefaults from "./IThemesToolDefaults";
 import IThemesToolProps from "./IThemesToolProps";
 

@@ -1,4 +1,6 @@
+// Geovisto core
 import IMapToolState from "../../../../../model/types/tool/IMapToolState";
+
 import IMapSelection from "../selection/IMapSelection";
 import ISelectionToolConfig from "./ISelectionToolConfig";
 import ISelectionToolDefaults from "./ISelectionToolDefaults";

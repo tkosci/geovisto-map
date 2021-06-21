@@ -1,11 +1,11 @@
-import MapObjectDefaults from "../object/MapObjectDefaults";
-import IMapToolDefaults from "../../types/tool/IMapToolDefaults";
-import IMapToolConfig from "../../types/tool/IMapToolConfig";
-import IMapDataManager from "../../types/data/IMapDataManager";
-import MapDataManagerFactory from "../data/MapDataManagerFactory";
-import GeoDataManager from "../geodata/GeoDataManager";
-import IGeoDataManager from "../../types/geodata/IGeoDataManager";
 import IGeoData from "../../types/geodata/IGeoData";
+import IGeoDataManager from "../../types/geodata/IGeoDataManager";
+import IMapDataManager from "../../types/data/IMapDataManager";
+import IMapToolConfig from "../../types/tool/IMapToolConfig";
+import IMapToolDefaults from "../../types/tool/IMapToolDefaults";
+import GeoDataManager from "../geodata/GeoDataManager";
+import MapDataManagerFactory from "../data/MapDataManagerFactory";
+import MapObjectDefaults from "../object/MapObjectDefaults";
 
 /**
  * This class provide functions which return the default state values.

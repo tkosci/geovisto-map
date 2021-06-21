@@ -1,4 +1,9 @@
-import { Marker as LMarker,  Icon } from "leaflet";
+// Leaflet
+import {
+    Marker as LMarker,
+    Icon }
+from "leaflet";
+
 import IMarker from "../../types/marker/IMarker";
 import IMarkerIconOptions from "../../types/marker/IMarkerIconOptions";
 

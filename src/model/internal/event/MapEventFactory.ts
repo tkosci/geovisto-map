@@ -1,10 +1,10 @@
+import IMapData from "../../types/data/IMapData";
 import IMapObject from "../../types/object/IMapObject";
 import IMapEvent from "../../types/event/IMapEvent";
-import MapEvent from "./generic/MapEvent";
 import IMapChangeEvent from "../../types/event/IMapChangeEvent";
-import MapChangeEvent from "./generic/MapChangeEvent";
 import DataChangeEvent from "./data/DataChangeEvent";
-import IMapData from "../../types/data/IMapData";
+import MapChangeEvent from "./generic/MapChangeEvent";
+import MapEvent from "./generic/MapEvent";
 
 /**
  * This class provides a factory for map events.

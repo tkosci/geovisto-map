@@ -1,7 +1,8 @@
+// Geovisto core
 import MapObjectDefaults from "../../../../../model/internal/object/MapObjectDefaults";
-import ISidebarFragmentDefaults from "../../types/fragment/ISidebarFragmentDefaults";
-import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
 
+import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
+import ISidebarFragmentDefaults from "../../types/fragment/ISidebarFragmentDefaults";
 /**
  * This class provide functions which return the default state values.
  * 

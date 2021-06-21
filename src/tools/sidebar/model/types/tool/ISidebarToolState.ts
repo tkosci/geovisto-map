@@ -1,9 +1,14 @@
+import {
+    Control
+} from "leaflet";
+
+// Geovisto core
 import IMapToolState from "../../../../../model/types/tool/IMapToolState";
-import ISidebarToolConfig from "./ISidebarToolConfig";
+
 import ISidebarTab from "../tab/ISidebarTab";
 import ISidebarTabConfig from "../tab/ISidebarTabConfig";
-import { Control } from "leaflet";
 import ISidebarToolDefaults from "./ISidebarToolDefaults";
+import ISidebarToolConfig from "./ISidebarToolConfig";
 import ISidebarToolProps from "./ISidebarToolProps";
 
 /**
