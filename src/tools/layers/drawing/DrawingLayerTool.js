@@ -39,6 +39,7 @@ import Pather from 'leaflet-pather';
 import { isEmpty, sortReverseAlpha, sortAlpha } from './util/functionUtils';
 import { FIRST, NOT_FOUND, SPACE_BAR } from './util/constants';
 import { getCoords } from '@turf/turf';
+import LineTool from './tools/LineTool';
 
 // ! pather throws errors without this line
 window.d3 = d33;
@@ -63,7 +64,6 @@ class DrawingLayerTool extends AbstractLayerTool {
    */
   constructor(props) {
     super(props);
-    useDrawingToolbar();
   }
 
   /**
@@ -591,12 +591,23 @@ class DrawingLayerTool extends AbstractLayerTool {
     if (knifeBtn) knifeBtn.classList.add('hide');
   };
 
+  initializeDrawingTools() {
+    const tools = {};
+
+    tools[LineTool.NAME()] = new LineTool({ drawingTool: this });
+
+    this.drawingTools = tools;
+  }
+
   /**
    * It creates layer items.
    */
   createLayerItems() {
     console.log('%c ...creating', 'color: #ff5108');
     const map = this.getMap().getState().getLeafletMap();
+
+    this.initializeDrawingTools();
+    useDrawingToolbar();
 
     this.setGlobalSimplificationTolerance();
 

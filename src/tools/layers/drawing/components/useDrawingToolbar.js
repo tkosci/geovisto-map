@@ -54,111 +54,142 @@ export default function useDrawingToolbar() {
       const topContainer = L.DomUtil.create('div', 'drawingtoolbar');
       const toolContainer = L.DomUtil.create('div', 'leaflet-bar leaflet-control', topContainer);
       toolContainer.style.cursor = 'pointer';
+      const cancalables = [];
 
-      this.options.drawingBtns.lineBtn = this.createToolbarBtn(
-        'lineBtn',
-        toolContainer,
-        'Line',
-        'fa fa-minus',
-        true,
-      );
-      this.options.drawingBtns.markerBtn = this.createToolbarBtn(
-        'markerBtn',
-        toolContainer,
-        'Marker',
-        'fa fa-map-marker',
-        true,
-      );
-      this.options.drawingBtns.polygonBtn = this.createToolbarBtn(
-        'polygonBtn',
-        toolContainer,
-        'Polygon',
-        'fa fa-star',
-        true,
-      );
+      const toggleExtra = (e, tool) => {
+        cancalables.forEach((btn) => btn.lastChild.classList.add('hide'));
+        let extraBtn = e.target.lastChild;
+        if (!extraBtn) extraBtn = e.target.nextSibling;
+        extraBtn.classList.toggle('hide');
+        L.DomEvent.on(extraBtn, 'click', (e) => this._disableDrawing(e, tool), this);
+      };
 
-      this.options.drawingBtns.deselectBtn = this.createToolbarBtn(
-        'deselectBtn',
-        toolContainer,
-        'Deselect',
-        'fa fa-star-half-o',
-      );
+      const drawingTools = this.options.tool.drawingTools;
 
-      this.options.drawingBtns.transformBtn = this.createToolbarBtn(
-        'transformBtn',
-        toolContainer,
-        'Transform',
-        'fa fa-arrows-alt',
-      );
+      Object.keys(drawingTools).forEach((key) => {
+        let tool = drawingTools[key];
+        let canBeCanceled = tool.canBeCanceled();
 
-      this.options.drawingBtns.editBtn = this.createToolbarBtn(
-        'editBtn',
-        toolContainer,
-        'Edit',
-        'fa fa-square',
-      );
+        let btn = this.createToolbarBtn(
+          tool.getName(),
+          toolContainer,
+          tool.getTitle(),
+          tool.getIconName(),
+          canBeCanceled,
+        );
 
-      this.options.drawingBtns.joinBtn = this.createToolbarBtn(
-        'joinBtn',
-        toolContainer,
-        'Join',
-        'fa fa-plus-circle',
-        true,
-      );
+        if (canBeCanceled) cancalables.push(btn);
 
-      this.options.drawingBtns.sliceBtn = this.createToolbarBtn(
-        'sliceBtn',
-        toolContainer,
-        'Slice polygon',
-        'fa fa-cutlery',
-        true,
-      );
+        L.DomEvent.on(btn, 'click', tool.enable, this);
+        L.DomEvent.on(btn, 'click', (e) => toggleExtra(e, tool), this);
 
-      this.options.drawingBtns.divideBtn = this.createToolbarBtn(
-        'divideBtn',
-        toolContainer,
-        'Divide polygon',
-        'fa fa-scissors',
-        true,
-      );
+        this.options.drawingBtns[key] = btn;
+      });
 
-      this.options.drawingBtns.connectBtn = this.createToolbarBtn(
-        'connectBtn',
-        toolContainer,
-        'Connect',
-        'fa fa-sitemap',
-        true,
-      );
+      // this.options.drawingBtns.lineBtn = this.createToolbarBtn(
+      //   'lineBtn',
+      //   toolContainer,
+      //   'Line',
+      //   'fa fa-minus',
+      //   true,
+      // );
+      // this.options.drawingBtns.markerBtn = this.createToolbarBtn(
+      //   'markerBtn',
+      //   toolContainer,
+      //   'Marker',
+      //   'fa fa-map-marker',
+      //   true,
+      // );
+      // this.options.drawingBtns.polygonBtn = this.createToolbarBtn(
+      //   'polygonBtn',
+      //   toolContainer,
+      //   'Polygon',
+      //   'fa fa-star',
+      //   true,
+      // );
 
-      this.options.drawingBtns.searchBtn = this.createToolbarBtn(
-        'searchBtn',
-        toolContainer,
-        'Search',
-        'fa fa-search',
-      );
+      // this.options.drawingBtns.deselectBtn = this.createToolbarBtn(
+      //   'deselectBtn',
+      //   toolContainer,
+      //   'Deselect',
+      //   'fa fa-star-half-o',
+      // );
 
-      this.options.drawingBtns.paintBtn = this.createToolbarBtn(
-        'paintBtn',
-        toolContainer,
-        'Paint',
-        'fa fa-paint-brush',
-        true,
-      );
+      // this.options.drawingBtns.transformBtn = this.createToolbarBtn(
+      //   'transformBtn',
+      //   toolContainer,
+      //   'Transform',
+      //   'fa fa-arrows-alt',
+      // );
 
-      this.options.drawingBtns.eraserBtn = this.createToolbarBtn(
-        'eraseBtn',
-        toolContainer,
-        'Erase',
-        'fa fa-eraser',
-        true,
-      );
+      // this.options.drawingBtns.editBtn = this.createToolbarBtn(
+      //   'editBtn',
+      //   toolContainer,
+      //   'Edit',
+      //   'fa fa-square',
+      // );
 
-      this.options.drawingBtns.removeBtn = this.createToolbarBtn(
-        'removeBtn',
-        toolContainer,
-        'Remove',
-        'fa fa-times',
-      );
+      // this.options.drawingBtns.joinBtn = this.createToolbarBtn(
+      //   'joinBtn',
+      //   toolContainer,
+      //   'Join',
+      //   'fa fa-plus-circle',
+      //   true,
+      // );
+
+      // this.options.drawingBtns.sliceBtn = this.createToolbarBtn(
+      //   'sliceBtn',
+      //   toolContainer,
+      //   'Slice polygon',
+      //   'fa fa-cutlery',
+      //   true,
+      // );
+
+      // this.options.drawingBtns.divideBtn = this.createToolbarBtn(
+      //   'divideBtn',
+      //   toolContainer,
+      //   'Divide polygon',
+      //   'fa fa-scissors',
+      //   true,
+      // );
+
+      // this.options.drawingBtns.connectBtn = this.createToolbarBtn(
+      //   'connectBtn',
+      //   toolContainer,
+      //   'Connect',
+      //   'fa fa-sitemap',
+      //   true,
+      // );
+
+      // this.options.drawingBtns.searchBtn = this.createToolbarBtn(
+      //   'searchBtn',
+      //   toolContainer,
+      //   'Search',
+      //   'fa fa-search',
+      // );
+
+      // this.options.drawingBtns.paintBtn = this.createToolbarBtn(
+      //   'paintBtn',
+      //   toolContainer,
+      //   'Paint',
+      //   'fa fa-paint-brush',
+      //   true,
+      // );
+
+      // this.options.drawingBtns.eraserBtn = this.createToolbarBtn(
+      //   'eraseBtn',
+      //   toolContainer,
+      //   'Erase',
+      //   'fa fa-eraser',
+      //   true,
+      // );
+
+      // this.options.drawingBtns.removeBtn = this.createToolbarBtn(
+      //   'removeBtn',
+      //   toolContainer,
+      //   'Remove',
+      //   'fa fa-times',
+      // );
 
       this.addEventListeners();
       L.DomEvent.disableClickPropagation(topContainer);
@@ -190,58 +221,58 @@ export default function useDrawingToolbar() {
       const map = this.options.map;
       const sidebar = this.getSidebar();
 
-      // * on click disable transform/node edit if is active
-      const btnsArr = Object.values(this.options.drawingBtns);
-      btnsArr.forEach((btn) => {
-        if (!btn.className.includes('transformBtn')) {
-          L.DomEvent.on(btn, 'click', this._disableTransform, this);
-        }
-        if (!btn.className.includes('editBtn')) {
-          L.DomEvent.on(btn, 'click', this._disableNodeEdit, this);
-        }
-      });
+      // // * on click disable transform/node edit if is active
+      // const btnsArr = Object.values(this.options.drawingBtns);
+      // btnsArr.forEach((btn) => {
+      //   if (!btn.className.includes('transformBtn')) {
+      //     L.DomEvent.on(btn, 'click', this._disableTransform, this);
+      //   }
+      //   if (!btn.className.includes('editBtn')) {
+      //     L.DomEvent.on(btn, 'click', this._disableNodeEdit, this);
+      //   }
+      // });
 
-      // * toggles extra button for deactivating tool
-      const toggleExtra = (e) => {
-        withExtra.forEach((btn) => btn.lastChild.classList.add('hide'));
-        let extraBtn = e.target.lastChild;
-        if (!extraBtn) extraBtn = e.target.nextSibling;
-        extraBtn.classList.toggle('hide');
-        L.DomEvent.on(extraBtn, 'click', this._disableDrawing, this);
-      };
-      const withExtra = [
-        lineBtn,
-        markerBtn,
-        polygonBtn,
-        connectBtn,
-        sliceBtn,
-        divideBtn,
-        paintBtn,
-        eraserBtn,
-        joinBtn,
-      ];
-      withExtra.forEach((btn) => {
-        L.DomEvent.on(btn, 'click', toggleExtra, this);
-      });
+      // // * toggles extra button for deactivating tool
+      // const toggleExtra = (e) => {
+      //   withExtra.forEach((btn) => btn.lastChild.classList.add('hide'));
+      //   let extraBtn = e.target.lastChild;
+      //   if (!extraBtn) extraBtn = e.target.nextSibling;
+      //   extraBtn.classList.toggle('hide');
+      //   L.DomEvent.on(extraBtn, 'click', this._disableDrawing, this);
+      // };
+      // const withExtra = [
+      //   lineBtn,
+      //   markerBtn,
+      //   polygonBtn,
+      //   connectBtn,
+      //   sliceBtn,
+      //   divideBtn,
+      //   paintBtn,
+      //   eraserBtn,
+      //   joinBtn,
+      // ];
+      // withExtra.forEach((btn) => {
+      //   L.DomEvent.on(btn, 'click', toggleExtra, this);
+      // });
 
-      L.DomEvent.on(lineBtn, 'click', () => this.initCreatePolyline(map, sidebar), this);
-      L.DomEvent.on(markerBtn, 'click', L.DomEvent.stopPropagation)
-        .on(markerBtn, 'click', L.DomEvent.preventDefault)
-        .on(markerBtn, 'click', () => this.initCreateMarker(map, sidebar), this);
-      L.DomEvent.on(polygonBtn, 'click', () => this.initCreatePolygon(map, sidebar), this);
-      L.DomEvent.on(transformBtn, 'click', this.initTransform, this);
-      L.DomEvent.on(editBtn, 'click', this.initNodeEdit, this);
-      L.DomEvent.on(sliceBtn, 'click', () => this.initSlicePoly(map, sidebar), this);
-      L.DomEvent.on(divideBtn, 'click', () => this.initDividePoly(map, sidebar), this);
-      L.DomEvent.on(deselectBtn, 'click', this.deselect, this);
-      L.DomEvent.on(joinBtn, 'click', this.initJoin, this);
-      L.DomEvent.on(connectBtn, 'click', L.DomEvent.stopPropagation)
-        .on(connectBtn, 'click', L.DomEvent.preventDefault)
-        .on(connectBtn, 'click', () => this.initConnect(map, sidebar), this);
-      L.DomEvent.on(searchBtn, 'click', this.initSearch, this);
-      L.DomEvent.on(paintBtn, 'click', this.initPainting, this);
-      L.DomEvent.on(eraserBtn, 'click', this.initErasing, this);
-      L.DomEvent.on(removeBtn, 'click', this.initRemove, this);
+      // L.DomEvent.on(lineBtn, 'click', () => this.initCreatePolyline(map, sidebar), this);
+      // L.DomEvent.on(markerBtn, 'click', L.DomEvent.stopPropagation)
+      //   .on(markerBtn, 'click', L.DomEvent.preventDefault)
+      //   .on(markerBtn, 'click', () => this.initCreateMarker(map, sidebar), this);
+      // L.DomEvent.on(polygonBtn, 'click', () => this.initCreatePolygon(map, sidebar), this);
+      // L.DomEvent.on(transformBtn, 'click', this.initTransform, this);
+      // L.DomEvent.on(editBtn, 'click', this.initNodeEdit, this);
+      // L.DomEvent.on(sliceBtn, 'click', () => this.initSlicePoly(map, sidebar), this);
+      // L.DomEvent.on(divideBtn, 'click', () => this.initDividePoly(map, sidebar), this);
+      // L.DomEvent.on(deselectBtn, 'click', this.deselect, this);
+      // L.DomEvent.on(joinBtn, 'click', this.initJoin, this);
+      // L.DomEvent.on(connectBtn, 'click', L.DomEvent.stopPropagation)
+      //   .on(connectBtn, 'click', L.DomEvent.preventDefault)
+      //   .on(connectBtn, 'click', () => this.initConnect(map, sidebar), this);
+      // L.DomEvent.on(searchBtn, 'click', this.initSearch, this);
+      // L.DomEvent.on(paintBtn, 'click', this.initPainting, this);
+      // L.DomEvent.on(eraserBtn, 'click', this.initErasing, this);
+      // L.DomEvent.on(removeBtn, 'click', this.initRemove, this);
     },
 
     /**
@@ -395,15 +426,10 @@ export default function useDrawingToolbar() {
      *
      * @param {Object} e
      */
-    _disableDrawing: function (e) {
+    _disableDrawing: function (e, tool) {
       e.stopPropagation();
       e?.target?.classList?.toggle('hide');
-      const sidebar = this.getSidebar();
-      let enabled = sidebar.getState().getEnabledEl();
-      if (enabled) {
-        sidebar.getState().setEnabledEl(null);
-        this.redrawSidebar();
-      }
+      tool.disable();
     },
 
     /**
