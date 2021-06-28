@@ -4,8 +4,6 @@ type LocalProps = {
   drawingTool: object,
 };
 
-const NAME = 'abstract-drawing-tool';
-
 class AbstractTool {
   constructor(props: LocalProps) {
     this.drawingTool = props.drawingTool;
@@ -16,14 +14,14 @@ class AbstractTool {
   }
 
   static NAME(): string {
-    return NAME;
+    return 'abstract-drawing-tool';
   }
 
   /**
    * to be extended
    */
   getName(): string {
-    return NAME;
+    return AbstractTool.NAME();
   }
 
   /**

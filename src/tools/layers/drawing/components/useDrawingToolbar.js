@@ -86,28 +86,6 @@ export default function useDrawingToolbar() {
         this.options.drawingBtns[key] = btn;
       });
 
-      // this.options.drawingBtns.lineBtn = this.createToolbarBtn(
-      //   'lineBtn',
-      //   toolContainer,
-      //   'Line',
-      //   'fa fa-minus',
-      //   true,
-      // );
-      // this.options.drawingBtns.markerBtn = this.createToolbarBtn(
-      //   'markerBtn',
-      //   toolContainer,
-      //   'Marker',
-      //   'fa fa-map-marker',
-      //   true,
-      // );
-      // this.options.drawingBtns.polygonBtn = this.createToolbarBtn(
-      //   'polygonBtn',
-      //   toolContainer,
-      //   'Polygon',
-      //   'fa fa-star',
-      //   true,
-      // );
-
       // this.options.drawingBtns.deselectBtn = this.createToolbarBtn(
       //   'deselectBtn',
       //   toolContainer,
@@ -151,21 +129,6 @@ export default function useDrawingToolbar() {
       //   'Divide polygon',
       //   'fa fa-scissors',
       //   true,
-      // );
-
-      // this.options.drawingBtns.connectBtn = this.createToolbarBtn(
-      //   'connectBtn',
-      //   toolContainer,
-      //   'Connect',
-      //   'fa fa-sitemap',
-      //   true,
-      // );
-
-      // this.options.drawingBtns.searchBtn = this.createToolbarBtn(
-      //   'searchBtn',
-      //   toolContainer,
-      //   'Search',
-      //   'fa fa-search',
       // );
 
       // this.options.drawingBtns.paintBtn = this.createToolbarBtn(
@@ -294,17 +257,6 @@ export default function useDrawingToolbar() {
     },
 
     /**
-     * enables topology creation
-     *
-     * @param {Object} map
-     * @param {Object} sidebar
-     */
-    initConnect: function (map, sidebar) {
-      this.redrawSidebar('marker', true);
-      connectClick(map, sidebar);
-    },
-
-    /**
      * removes geo. object
      *
      * @param {Object} evt
@@ -345,43 +297,6 @@ export default function useDrawingToolbar() {
       this.redrawSidebar('painted');
     },
 
-    /**
-     * enables search
-     */
-    initSearch: function () {
-      this.options.tool.search();
-    },
-
-    /**
-     * enables creating polylines
-     *
-     * @param {Object} map
-     * @param {Object} sidebar
-     */
-    initCreatePolyline: function (map, sidebar) {
-      this.redrawSidebar('polyline');
-      polylineCreate(map, sidebar);
-    },
-    /**
-     * enables creating polygons
-     *
-     * @param {Object} map
-     * @param {Object} sidebar
-     */
-    initCreatePolygon: function (map, sidebar) {
-      this.redrawSidebar('polygon');
-      polygonCreate(map, sidebar);
-    },
-    /**
-     * enables creating markers
-     *
-     * @param {Object} map
-     * @param {Object} sidebar
-     */
-    initCreateMarker: function (map, sidebar) {
-      this.redrawSidebar('marker', true);
-      markerCreate(map, sidebar);
-    },
     /**
      * enables freehand slicing
      *

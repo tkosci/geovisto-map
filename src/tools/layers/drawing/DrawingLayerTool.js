@@ -40,6 +40,10 @@ import { isEmpty, sortReverseAlpha, sortAlpha } from './util/functionUtils';
 import { FIRST, NOT_FOUND, SPACE_BAR } from './util/constants';
 import { getCoords } from '@turf/turf';
 import LineTool from './tools/LineTool';
+import MarkerTool from './tools/MarkerTool';
+import PolygonTool from './tools/PolygonTool';
+import SearchTool from './tools/SearchTool';
+import TopologyTool from './tools/TopologyTool';
 
 // ! pather throws errors without this line
 window.d3 = d33;
@@ -535,11 +539,6 @@ class DrawingLayerTool extends AbstractLayerTool {
       let paintPoly = sidebarState.paintPoly;
       paintPoly.clearPaintedPolys(e.keyIndex);
     }
-
-    // * MARKER
-    if (this.getState().isConnectMarker(layer)) {
-      this.plotTopology();
-    }
   };
 
   /**
@@ -595,6 +594,11 @@ class DrawingLayerTool extends AbstractLayerTool {
     const tools = {};
 
     tools[LineTool.NAME()] = new LineTool({ drawingTool: this });
+    tools[MarkerTool.NAME()] = new MarkerTool({ drawingTool: this });
+    tools[PolygonTool.NAME()] = new PolygonTool({ drawingTool: this });
+
+    tools[SearchTool.NAME()] = new SearchTool({ drawingTool: this });
+    tools[TopologyTool.NAME()] = new TopologyTool({ drawingTool: this });
 
     this.drawingTools = tools;
   }

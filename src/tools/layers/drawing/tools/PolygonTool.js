@@ -6,37 +6,42 @@ import 'leaflet-draw';
 
 import AbstractTool from './AbstractTool';
 
-class LineTool extends AbstractTool {
+class PolygonTool extends AbstractTool {
   constructor(props) {
     super(props);
   }
 
   static NAME(): string {
-    return 'line-drawing-tool';
+    return 'polygon-drawing-tool';
   }
 
   getName(): string {
-    return LineTool.NAME();
+    return PolygonTool.NAME();
   }
 
   getIconName(): string {
-    return 'fa fa-minus';
+    return 'fa fa-star';
   }
 
   getTitle(): string {
-    return 'Line drawing tool';
+    return 'Polygon drawing tool';
   }
 
   result = (): string => {
-    return 'polyline';
+    return 'polygon';
   };
 
   canBeCanceled = (): boolean => {
     return true;
   };
 
-  _polylineCreate = (): void => {
-    this.tool = new L.Draw.Polyline(this.leafletMap, {
+  _polygonCreate = (): void => {
+    this.tool = new L.Draw.Polygon(this.leafletMap, {
+      allowIntersection: false,
+      drawError: {
+        color: '#e1e100',
+        message: '<strong>You cannot draw that!<strong>',
+      },
       shapeOptions: {
         color: this.sidebar.getState().getSelectedColor(),
         weight: this.sidebar.getState().getSelectedStroke(),
@@ -44,6 +49,7 @@ class LineTool extends AbstractTool {
         transform: true,
       },
       guideLayers: this.sidebar.getState().guideLayers,
+      snapDistance: 5,
       repeatMode: true,
     });
     this.sidebar.getState().setEnabledEl(this.tool);
@@ -52,8 +58,8 @@ class LineTool extends AbstractTool {
 
   enable = (): void => {
     this._redrawSidebar(this.result());
-    this._polylineCreate();
+    this._polygonCreate();
   };
 }
 
-export default LineTool;
+export default PolygonTool;
