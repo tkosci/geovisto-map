@@ -44,6 +44,8 @@ import MarkerTool from './tools/MarkerTool';
 import PolygonTool from './tools/PolygonTool';
 import SearchTool from './tools/SearchTool';
 import TopologyTool from './tools/TopologyTool';
+import FreehandSliceTool from './tools/FreehandSliceTool';
+import GeometricSliceTool from './tools/GeometricSliceTool';
 
 // ! pather throws errors without this line
 window.d3 = d33;
@@ -309,155 +311,6 @@ class DrawingLayerTool extends AbstractLayerTool {
   }
 
   /**
-   * @brief - inspired by https://gis.stackexchange.com/questions/344068/splitting-a-polygon-by-multiple-linestrings-leaflet-and-turf-js
-   *        - slices selected object with currently created one
-   *
-   * @param {Layer} layer
-   */
-  polySlice(layer) {
-    let lineFeat = getGeoJSONFeatureFromLayer(layer);
-    let selectedLayer = this.getState().selectedLayer;
-
-    if (selectedLayer) {
-      const THICK_LINE_WIDTH = 0.00001;
-      const THICK_LINE_UNITS = 'kilometers';
-      let offsetLine;
-      let selectedFeature = getGeoJSONFeatureFromLayer(selectedLayer);
-
-      let isFeatPoly = isFeaturePoly(selectedFeature);
-
-      if (isFeatPoly) {
-        let coords;
-        let latlngs;
-        try {
-          offsetLine = turf.lineOffset(lineFeat, THICK_LINE_WIDTH, {
-            units: THICK_LINE_UNITS,
-          });
-
-          let polyCoords = [];
-          // * push all of the coordinates of original line
-          for (let j = 0; j < lineFeat.geometry.coordinates.length; j++) {
-            polyCoords.push(lineFeat.geometry.coordinates[j]);
-          }
-          // * push all of the coordinates of offset line
-          for (let j = offsetLine.geometry.coordinates.length - 1; j >= 0; j--) {
-            polyCoords.push(offsetLine.geometry.coordinates[j]);
-          }
-          // * to create linear ring
-          polyCoords.push(lineFeat.geometry.coordinates[0]);
-
-          let thickLineString = turf.lineString(polyCoords);
-          let thickLinePolygon = turf.lineToPolygon(thickLineString);
-          let clipped = turf.difference(selectedFeature, thickLinePolygon);
-          // clipped = simplifyFeature(clipped);
-
-          coords = clipped.geometry.coordinates;
-          this.getState().removeSelectedLayer(selectedLayer);
-          coords.forEach((coord) => {
-            latlngs = L.GeoJSON.coordsToLatLngs(coord, 1);
-            let result = new L.polygon(latlngs, {
-              ...selectedLayer.options,
-              ...normalStyles,
-            });
-            result.layerType = 'polygon';
-            this.getState().addLayer(result);
-          });
-        } catch (error) {
-          console.error({ coords, latlngs, error });
-        }
-      }
-    }
-  }
-
-  /**
-   * @brief loops through each of the vertices and checks if
-   *        vertice with certain coordinates is already created
-   *
-   * @param {Layer} current
-   * @returns {Boolean}
-   */
-  haveSameVertice(current) {
-    const found = this.state.createdVertices.find((vertice) => {
-      return (
-        (vertice.getLatLngs()[0].equals(current.getLatLngs()[0]) &&
-          vertice.getLatLngs()[1].equals(current.getLatLngs()[1])) ||
-        (vertice.getLatLngs()[0].equals(current.getLatLngs()[1]) &&
-          vertice.getLatLngs()[1].equals(current.getLatLngs()[0]))
-      );
-    });
-
-    return Boolean(found);
-  }
-
-  /**
-   * @brief plots topology
-   *
-   * @param {Array<Layer>} chosen
-   */
-  plotTopology(chosen = null) {
-    const selectedLayer = this.getState().selectedLayer;
-
-    const layersObj = this.state.featureGroup._layers;
-    const layerArr = [...Object.values(layersObj)];
-    const allConnected = layerArr.filter((_) => this.getState().isConnectMarker(_)).reverse();
-    const _markers = chosen || allConnected;
-    // console.log({ _markers });
-    const index = 0;
-    // * chronologically the last created
-    const firstMarker = _markers[index];
-
-    const selectedLayerIsConnectMarker = this.getState().selectedLayerIsConnectMarker();
-
-    // * choose selected object or the second to last created
-    const secondMarker =
-      selectedLayerIsConnectMarker && !chosen ? selectedLayer : _markers[index + 1];
-    if (secondMarker) {
-      const { lat: fLat, lng: fLng } = firstMarker.getLatLng();
-      const { lat: sLat, lng: sLng } = secondMarker.getLatLng();
-
-      // * create vertice
-      let _latlng = [L.latLng(fLat, fLng), L.latLng(sLat, sLng)];
-      let poly = new L.polyline(_latlng, {
-        color: '#563412',
-        weight: 3,
-        ...normalStyles,
-      });
-      poly.layerType = 'vertice';
-      if (!this.haveSameVertice(poly)) {
-        this.state.pushVertice(poly);
-        this.getState().addLayer(poly);
-      }
-    }
-
-    this.mapMarkersToVertices(_markers);
-  }
-
-  /**
-   * @brief maps through each of the markes and if its coordinates fit vertice's coordinates
-   *        then vertice is mapped onto marker id
-   *
-   * @param {Array<Layer>} _markers
-   */
-  mapMarkersToVertices(_markers) {
-    _markers
-      .map((marker) => ({ latlng: marker.getLatLng(), lId: marker._leaflet_id, marker }))
-      .forEach(({ latlng, lId, marker }) => {
-        this.state.createdVertices.forEach((vertice, index) => {
-          // * used indexing instead of another loop (vertices have only 2 points)
-
-          let spread = this.state.mappedMarkersToVertices[lId] || {};
-          // * depending on if first or second latlng of vertice matches with marker's latlng
-          // * we save this information so we know which side we should move on drag
-          if (vertice.getLatLngs()[0].equals(latlng)) {
-            this.getState().setVerticesToMarker(lId, { ...spread, [`${index}-0`]: vertice });
-          } else if (vertice.getLatLngs()[1].equals(latlng)) {
-            this.getState().setVerticesToMarker(lId, { ...spread, [`${index}-1`]: vertice });
-          }
-        });
-      });
-  }
-
-  /**
    * @brief called on drag to change vertice's point location
    *
    * @param {Object} latlng
@@ -517,7 +370,7 @@ class DrawingLayerTool extends AbstractLayerTool {
 
     // * SLICE
     if (e.layerType === 'knife') {
-      this.polySlice(layer);
+      this.drawingTools[GeometricSliceTool.NAME()].polySlice(layer);
       // * restore state
       let enabled = sidebarState.getEnabledEl();
       if (enabled) {
@@ -539,6 +392,11 @@ class DrawingLayerTool extends AbstractLayerTool {
       let paintPoly = sidebarState.paintPoly;
       paintPoly.clearPaintedPolys(e.keyIndex);
     }
+
+    // * MARKER
+    if (this.getState().isConnectMarker(layer)) {
+      this.drawingTools[TopologyTool.NAME()].plotTopology();
+    }
   };
 
   /**
@@ -556,40 +414,6 @@ class DrawingLayerTool extends AbstractLayerTool {
     });
   }
 
-  /**
-   * @brief slices selected polygon with pather's freehand line
-   *
-   * @param {Object} e
-   */
-  createdPath = (e) => {
-    // * get polyline object
-    const layer = e.polyline.polyline;
-
-    // * get Leaflet map
-    const combinedMap = this.getMap();
-    const map = combinedMap.state.map;
-
-    // * get sidebar state and pather object
-    const sidebarState = this.getSidebarTabControl().getState();
-    const pather = sidebarState.pather;
-    // * SLICE
-    this.polySlice(layer);
-
-    // * we do not want path to stay
-    pather.removePath(layer);
-    // * we do not want to keep cutting (drawing)
-    map.removeLayer(pather);
-    sidebarState.setPatherStatus(false);
-    // * restore state
-    let enabled = sidebarState.getEnabledEl();
-    if (enabled) {
-      sidebarState.setEnabledEl(null);
-      this.redrawSidebarTabControl();
-    }
-    const knifeBtn = document.querySelector('.drawingtoolbar .sliceBtn .extra-btn');
-    if (knifeBtn) knifeBtn.classList.add('hide');
-  };
-
   initializeDrawingTools() {
     const tools = {};
 
@@ -599,6 +423,9 @@ class DrawingLayerTool extends AbstractLayerTool {
 
     tools[SearchTool.NAME()] = new SearchTool({ drawingTool: this });
     tools[TopologyTool.NAME()] = new TopologyTool({ drawingTool: this });
+
+    tools[GeometricSliceTool.NAME()] = new GeometricSliceTool({ drawingTool: this });
+    tools[FreehandSliceTool.NAME()] = new FreehandSliceTool({ drawingTool: this });
 
     this.drawingTools = tools;
   }
@@ -656,8 +483,8 @@ class DrawingLayerTool extends AbstractLayerTool {
       }
     });
 
-    const { pather, guideLayers } = this.getSidebarTabControl().getState();
-    pather.on('created', this.createdPath);
+    const { pather } = this.getSidebarTabControl().getState();
+    pather.on('created', this.drawingTools[FreehandSliceTool.NAME()].createdPath);
 
     const { featureGroup } = this.getState();
     featureGroup.eachLayer((layer) => {

@@ -10,19 +10,7 @@ import { normalStyles } from '../util/Poly';
 class TopologyTool extends MarkerTool {
   constructor(props) {
     super(props);
-    this.leafletMap.on('draw:created', this.createdListener);
   }
-
-  // TODO:
-  createdListener = (e): void => {
-    let layer = e.layer;
-
-    let isConnect = this.drawingTool.getState().isConnectMarker(layer);
-
-    if (isConnect) {
-      this.plotTopology();
-    }
-  };
 
   static NAME(): string {
     return 'topology-drawing-tool';
@@ -54,7 +42,6 @@ class TopologyTool extends MarkerTool {
   };
 
   plotTopology(chosen = null): void {
-    console.log('run');
     const toolState = this.drawingTool.getState();
     const selectedLayer = toolState.selectedLayer;
 

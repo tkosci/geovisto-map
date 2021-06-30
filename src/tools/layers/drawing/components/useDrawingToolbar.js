@@ -115,22 +115,6 @@ export default function useDrawingToolbar() {
       //   true,
       // );
 
-      // this.options.drawingBtns.sliceBtn = this.createToolbarBtn(
-      //   'sliceBtn',
-      //   toolContainer,
-      //   'Slice polygon',
-      //   'fa fa-cutlery',
-      //   true,
-      // );
-
-      // this.options.drawingBtns.divideBtn = this.createToolbarBtn(
-      //   'divideBtn',
-      //   toolContainer,
-      //   'Divide polygon',
-      //   'fa fa-scissors',
-      //   true,
-      // );
-
       // this.options.drawingBtns.paintBtn = this.createToolbarBtn(
       //   'paintBtn',
       //   toolContainer,
