@@ -1,5 +1,3 @@
-import React from 'react';
-
 type LocalProps = {
   drawingTool: object,
 };
@@ -74,6 +72,14 @@ class AbstractTool {
       this.sidebar.getState().setEnabledEl(activeTool);
       this._redrawSidebar();
     }
+  }
+
+  /**
+   *
+   * @returns currently selected geo. object
+   */
+  getSelectedEl(): object {
+    return this.drawingTool.getState().selectedLayer;
   }
 }
 

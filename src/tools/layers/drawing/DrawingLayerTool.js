@@ -48,6 +48,11 @@ import FreehandSliceTool from './tools/FreehandSliceTool';
 import GeometricSliceTool from './tools/GeometricSliceTool';
 import PaintTool from './tools/PaintTool';
 import EraseTool from './tools/EraseTool';
+import JoinTool from './tools/JoinTool';
+import DeselectTool from './tools/DeselectTool';
+import TransformTool from './tools/TransformTool';
+import EditTool from './tools/EditTool';
+import RemoveTool from './tools/RemoveTool';
 
 // ! pather throws errors without this line
 window.d3 = d33;
@@ -432,6 +437,13 @@ class DrawingLayerTool extends AbstractLayerTool {
     tools[PaintTool.NAME()] = new PaintTool({ drawingTool: this });
     tools[EraseTool.NAME()] = new EraseTool({ drawingTool: this });
 
+    tools[JoinTool.NAME()] = new JoinTool({ drawingTool: this });
+
+    tools[DeselectTool.NAME()] = new DeselectTool({ drawingTool: this });
+    tools[TransformTool.NAME()] = new TransformTool({ drawingTool: this });
+    tools[EditTool.NAME()] = new EditTool({ drawingTool: this });
+    tools[RemoveTool.NAME()] = new RemoveTool({ drawingTool: this });
+
     this.drawingTools = tools;
   }
 
@@ -564,74 +576,6 @@ class DrawingLayerTool extends AbstractLayerTool {
   }
 
   /**
-   * @brief unifies all the features in array
-   *
-   * @param {Array<Layer>} features
-   * @returns
-   */
-  getSummedFeature = (features) => {
-    if (!features || !Array.isArray(features)) return null;
-
-    let summedFeature = features[0];
-    for (let index = 1; index < features.length; index++) {
-      const feature = features[index];
-      let isfeaturePoly = isFeaturePoly(feature);
-
-      if (isfeaturePoly) {
-        summedFeature = union(feature, summedFeature);
-      }
-    }
-
-    return summedFeature;
-  };
-
-  /**
-   * @brief joins two selected objects, either two polygons or two markers
-   *
-   * @param {Layer} drawObject
-   * @returns
-   */
-  joinChosen = (drawObject) => {
-    const layerState = this.getState();
-    const unfit = !layerState.canPushToChosen(drawObject);
-    if (unfit) return;
-    layerState.pushChosenLayer(drawObject);
-    // * if true that means user selected second geo. object of the same correct type
-    if (layerState.chosenLayersMaxed()) {
-      // * if all polys unify them
-      if (layerState.chosenLayersArePolys()) {
-        const { chosenLayers } = layerState;
-        const chosenFeatures = chosenLayers
-          .filter((c) => isLayerPoly(c))
-          .map((chosen) => getFeatFromLayer(chosen));
-
-        if (chosenFeatures.length !== chosenLayers.length) return;
-
-        const first = this.getSummedFeature(chosenFeatures[0]);
-        const second = this.getSummedFeature(chosenFeatures[1]);
-
-        const resultFeature = union(first, second);
-        const opts = { ...chosenLayers[0].options, ...chosenLayers[1].options };
-        const result = morphFeatureToPolygon(resultFeature, opts, false);
-        layerState.pushJoinedToChosenLayers(result);
-
-        this.redrawSidebarTabControl(drawObject.layerType);
-      }
-      // *  if all markers plot topology
-      if (layerState.chosenLayersAreMarkers()) {
-        const { chosenLayers } = layerState;
-
-        this.plotTopology(chosenLayers);
-
-        layerState.deselectChosenLayers();
-        layerState.clearChosenLayers();
-
-        this.redrawSidebarTabControl(null);
-      }
-    }
-  };
-
-  /**
    * @brief called on object click to change its style accordingly
    *
    * @param {Object} e
@@ -643,7 +587,8 @@ class DrawingLayerTool extends AbstractLayerTool {
 
     const selecting = state.getSelecting();
     if (selecting) {
-      this.joinChosen(drawObject);
+      const joinTool = this.drawingTools[JoinTool.NAME()];
+      joinTool.joinChosen(drawObject);
       return;
     }
 

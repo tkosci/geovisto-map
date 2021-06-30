@@ -1,19 +1,10 @@
-import React from 'react';
-
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import 'leaflet-draw';
 import 'leaflet-draw/dist/leaflet.draw.css';
-import { dividePoly, normalStyles, polygonCreate, polylineCreate, slicePoly } from '../util/Poly';
-import { connectClick, markerCreate } from '../util/Marker';
 
 import '../style/drawingLayer.scss';
-import paintPoly from './paintPoly';
-
-import * as turf from '@turf/turf';
-
-const UNABLE_TO_CLICK_DISABLE = ['lineBtn', 'markerBtn', 'polygonBtn'];
 
 /**
  * @author Andrej Tlcina
@@ -86,58 +77,6 @@ export default function useDrawingToolbar() {
         this.options.drawingBtns[key] = btn;
       });
 
-      // this.options.drawingBtns.deselectBtn = this.createToolbarBtn(
-      //   'deselectBtn',
-      //   toolContainer,
-      //   'Deselect',
-      //   'fa fa-star-half-o',
-      // );
-
-      // this.options.drawingBtns.transformBtn = this.createToolbarBtn(
-      //   'transformBtn',
-      //   toolContainer,
-      //   'Transform',
-      //   'fa fa-arrows-alt',
-      // );
-
-      // this.options.drawingBtns.editBtn = this.createToolbarBtn(
-      //   'editBtn',
-      //   toolContainer,
-      //   'Edit',
-      //   'fa fa-square',
-      // );
-
-      // this.options.drawingBtns.joinBtn = this.createToolbarBtn(
-      //   'joinBtn',
-      //   toolContainer,
-      //   'Join',
-      //   'fa fa-plus-circle',
-      //   true,
-      // );
-
-      // this.options.drawingBtns.paintBtn = this.createToolbarBtn(
-      //   'paintBtn',
-      //   toolContainer,
-      //   'Paint',
-      //   'fa fa-paint-brush',
-      //   true,
-      // );
-
-      // this.options.drawingBtns.eraserBtn = this.createToolbarBtn(
-      //   'eraseBtn',
-      //   toolContainer,
-      //   'Erase',
-      //   'fa fa-eraser',
-      //   true,
-      // );
-
-      // this.options.drawingBtns.removeBtn = this.createToolbarBtn(
-      //   'removeBtn',
-      //   toolContainer,
-      //   'Remove',
-      //   'fa fa-times',
-      // );
-
       this.addEventListeners();
       L.DomEvent.disableClickPropagation(topContainer);
       return topContainer;
@@ -149,25 +88,6 @@ export default function useDrawingToolbar() {
      * adds event listeners
      */
     addEventListeners: function () {
-      const {
-        lineBtn,
-        markerBtn,
-        polygonBtn,
-        transformBtn,
-        editBtn,
-        sliceBtn,
-        joinBtn,
-        deselectBtn,
-        connectBtn,
-        searchBtn,
-        paintBtn,
-        eraserBtn,
-        removeBtn,
-        divideBtn,
-      } = this.options.drawingBtns;
-      const map = this.options.map;
-      const sidebar = this.getSidebar();
-
       // // * on click disable transform/node edit if is active
       // const btnsArr = Object.values(this.options.drawingBtns);
       // btnsArr.forEach((btn) => {
@@ -178,146 +98,6 @@ export default function useDrawingToolbar() {
       //     L.DomEvent.on(btn, 'click', this._disableNodeEdit, this);
       //   }
       // });
-
-      // // * toggles extra button for deactivating tool
-      // const toggleExtra = (e) => {
-      //   withExtra.forEach((btn) => btn.lastChild.classList.add('hide'));
-      //   let extraBtn = e.target.lastChild;
-      //   if (!extraBtn) extraBtn = e.target.nextSibling;
-      //   extraBtn.classList.toggle('hide');
-      //   L.DomEvent.on(extraBtn, 'click', this._disableDrawing, this);
-      // };
-      // const withExtra = [
-      //   lineBtn,
-      //   markerBtn,
-      //   polygonBtn,
-      //   connectBtn,
-      //   sliceBtn,
-      //   divideBtn,
-      //   paintBtn,
-      //   eraserBtn,
-      //   joinBtn,
-      // ];
-      // withExtra.forEach((btn) => {
-      //   L.DomEvent.on(btn, 'click', toggleExtra, this);
-      // });
-
-      // L.DomEvent.on(lineBtn, 'click', () => this.initCreatePolyline(map, sidebar), this);
-      // L.DomEvent.on(markerBtn, 'click', L.DomEvent.stopPropagation)
-      //   .on(markerBtn, 'click', L.DomEvent.preventDefault)
-      //   .on(markerBtn, 'click', () => this.initCreateMarker(map, sidebar), this);
-      // L.DomEvent.on(polygonBtn, 'click', () => this.initCreatePolygon(map, sidebar), this);
-      // L.DomEvent.on(transformBtn, 'click', this.initTransform, this);
-      // L.DomEvent.on(editBtn, 'click', this.initNodeEdit, this);
-      // L.DomEvent.on(sliceBtn, 'click', () => this.initSlicePoly(map, sidebar), this);
-      // L.DomEvent.on(divideBtn, 'click', () => this.initDividePoly(map, sidebar), this);
-      // L.DomEvent.on(deselectBtn, 'click', this.deselect, this);
-      // L.DomEvent.on(joinBtn, 'click', this.initJoin, this);
-      // L.DomEvent.on(connectBtn, 'click', L.DomEvent.stopPropagation)
-      //   .on(connectBtn, 'click', L.DomEvent.preventDefault)
-      //   .on(connectBtn, 'click', () => this.initConnect(map, sidebar), this);
-      // L.DomEvent.on(searchBtn, 'click', this.initSearch, this);
-      // L.DomEvent.on(paintBtn, 'click', this.initPainting, this);
-      // L.DomEvent.on(eraserBtn, 'click', this.initErasing, this);
-      // L.DomEvent.on(removeBtn, 'click', this.initRemove, this);
-    },
-
-    /**
-     * called when user wants to select multiple geo. objects
-     *
-     * @param {Object} evt
-     */
-    initJoin: function (evt) {
-      const sidebar = this.getSidebar();
-      const init = this.options.tool.initSelecting;
-      init();
-      sidebar.getState().setEnabledEl({
-        enable: init,
-        disable: () => {
-          init();
-          this.options.tool.getState().deselectChosenLayers();
-        },
-      });
-    },
-
-    /**
-     * removes geo. object
-     *
-     * @param {Object} evt
-     */
-    initRemove: function (evt) {
-      this.options.tool.removeElement();
-    },
-
-    /**
-     * enables erasing of polygons
-     *
-     * @param {Object} evt
-     */
-    initErasing: function (evt) {
-      let sidebar = this.getSidebar();
-      let paintPoly = sidebar.getState().paintPoly;
-      sidebar.getState().paintPoly.erase(evt);
-
-      sidebar
-        .getState()
-        .setEnabledEl({ enable: paintPoly.enableErase, disable: paintPoly.disable });
-      this.redrawSidebar(null);
-    },
-
-    /**
-     * enables brush tool
-     *
-     * @param {Object} e
-     */
-    initPainting: function (e) {
-      let sidebar = this.getSidebar();
-      let paintPoly = sidebar.getState().paintPoly;
-      sidebar.getState().paintPoly.clickDraw(e);
-
-      sidebar
-        .getState()
-        .setEnabledEl({ enable: paintPoly.enablePaint, disable: paintPoly.disable });
-      this.redrawSidebar('painted');
-    },
-
-    /**
-     * enables freehand slicing
-     *
-     * @param {Object} map
-     * @param {Object} sidebar
-     */
-    initSlicePoly: function (map, sidebar) {
-      this.redrawSidebar(null);
-      slicePoly(map, sidebar);
-    },
-    /**
-     * enables angular slicing
-     *
-     * @param {Object} map
-     * @param {Object} sidebar
-     */
-    initDividePoly: function (map, sidebar) {
-      this.redrawSidebar(null);
-      dividePoly(map, sidebar);
-    },
-
-    /**
-     * deselects geo.object
-     */
-    deselect: function () {
-      const selected = this.getSelectedEl();
-
-      if (selected?.editing?._enabled) {
-        selected.editing.disable();
-      }
-      if (selected) {
-        this.options.tool.normalizeElement(selected);
-        this.options.tool.initNodeEdit(true);
-        this.options.tool.getState().clearSelectedLayer();
-        this.redrawSidebar();
-        document.querySelector('.leaflet-container').style.cursor = '';
-      }
     },
 
     /**
@@ -346,26 +126,10 @@ export default function useDrawingToolbar() {
     },
 
     /**
-     * enables/disables node edit, depending on if it's active or not
-     */
-    initNodeEdit: function () {
-      this.options.tool.initNodeEdit();
-    },
-
-    /**
      * disables node edit
      */
     _disableNodeEdit: function () {
       this.options.tool.initNodeEdit(true);
-    },
-
-    /**
-     * enables/disables tranform, depending on if it's active or not
-     */
-    initTransform: function () {
-      const selected = this.getSelectedEl();
-
-      this.options.tool.initTransform(selected);
     },
 
     /**
@@ -397,16 +161,6 @@ export default function useDrawingToolbar() {
      */
     getSelectedEl: function () {
       return this.options.tool.getState().selectedLayer;
-    },
-
-    /**
-     * redraws sidebar depending on val argument
-     *
-     * @param {string} val
-     * @param {Boolean} enabled
-     */
-    redrawSidebar: function (val, enabled = false) {
-      this.options.tool.redrawSidebarTabControl(val, enabled);
     },
 
     /**
