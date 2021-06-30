@@ -46,6 +46,8 @@ import SearchTool from './tools/SearchTool';
 import TopologyTool from './tools/TopologyTool';
 import FreehandSliceTool from './tools/FreehandSliceTool';
 import GeometricSliceTool from './tools/GeometricSliceTool';
+import PaintTool from './tools/PaintTool';
+import EraseTool from './tools/EraseTool';
 
 // ! pather throws errors without this line
 window.d3 = d33;
@@ -426,6 +428,9 @@ class DrawingLayerTool extends AbstractLayerTool {
 
     tools[GeometricSliceTool.NAME()] = new GeometricSliceTool({ drawingTool: this });
     tools[FreehandSliceTool.NAME()] = new FreehandSliceTool({ drawingTool: this });
+
+    tools[PaintTool.NAME()] = new PaintTool({ drawingTool: this });
+    tools[EraseTool.NAME()] = new EraseTool({ drawingTool: this });
 
     this.drawingTools = tools;
   }
