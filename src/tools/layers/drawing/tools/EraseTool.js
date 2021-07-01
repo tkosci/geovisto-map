@@ -29,7 +29,7 @@ class EraseTool extends PaintTool {
   }
 
   result = (): string => {
-    return '';
+    return 'erased';
   };
 
   canBeCanceled = (): boolean => {

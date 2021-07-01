@@ -6,39 +6,26 @@ import DrawingLayerToolTabControl from './sidebar/DrawingLayerToolTabControl';
 import useDrawingToolbar from './components/useDrawingToolbar';
 import union from '@turf/union';
 import {
-  convertOptionsToProperties,
-  convertPropertiesToOptions,
-  featureToLeafletCoordinates,
   getGeoJSONFeatureFromLayer,
-  getLeafletTypeFromFeature,
   highlightStyles,
   normalStyles,
   getFeatFromLayer,
   isFeaturePoly,
   isLayerPoly,
-  simplifyFeature,
   morphFeatureToPolygon,
 } from './util/Poly';
 
 import 'leaflet/dist/leaflet.css';
 import './style/drawingLayer.scss';
 import difference from '@turf/difference';
-import MapCreatedEvent from '../../../model/event/basic/MapCreatedEvent';
-import { iconStarter } from './util/Marker';
-import { filter } from 'd3-array';
-import lineToPolygon from '@turf/line-to-polygon';
 import * as turf from '@turf/turf';
-import * as martinez from 'martinez-polygon-clipping';
-import * as polyClipping from 'polygon-clipping';
 import 'leaflet-snap';
 import 'leaflet-geometryutil';
 import 'leaflet-draw';
 
 import * as d33 from 'd3-3-5-5';
-import Pather from 'leaflet-pather';
-import { isEmpty, sortReverseAlpha, sortAlpha } from './util/functionUtils';
-import { FIRST, NOT_FOUND, SPACE_BAR } from './util/constants';
-import { getCoords } from '@turf/turf';
+import { FIRST, SPACE_BAR } from './util/constants';
+
 import LineTool from './tools/LineTool';
 import MarkerTool from './tools/MarkerTool';
 import PolygonTool from './tools/PolygonTool';
@@ -129,11 +116,89 @@ class DrawingLayerTool extends AbstractLayerTool {
     return new DrawingLayerToolTabControl({ tool: this });
   }
 
+  initializeDrawingTools() {
+    const tools = {};
+
+    tools[LineTool.NAME()] = new LineTool({ drawingTool: this });
+    tools[MarkerTool.NAME()] = new MarkerTool({ drawingTool: this });
+    tools[PolygonTool.NAME()] = new PolygonTool({ drawingTool: this });
+
+    tools[SearchTool.NAME()] = new SearchTool({ drawingTool: this });
+    tools[TopologyTool.NAME()] = new TopologyTool({ drawingTool: this });
+
+    tools[GeometricSliceTool.NAME()] = new GeometricSliceTool({ drawingTool: this });
+    tools[FreehandSliceTool.NAME()] = new FreehandSliceTool({ drawingTool: this });
+
+    tools[PaintTool.NAME()] = new PaintTool({ drawingTool: this });
+    tools[EraseTool.NAME()] = new EraseTool({ drawingTool: this });
+
+    tools[JoinTool.NAME()] = new JoinTool({ drawingTool: this });
+
+    tools[DeselectTool.NAME()] = new DeselectTool({ drawingTool: this });
+    tools[TransformTool.NAME()] = new TransformTool({ drawingTool: this });
+    tools[EditTool.NAME()] = new EditTool({ drawingTool: this });
+    tools[RemoveTool.NAME()] = new RemoveTool({ drawingTool: this });
+
+    this.drawingTools = tools;
+    this.paintPoly = tools[PaintTool.NAME()];
+  }
+
   /**
-   * @brief redraws sidebar with search fields
+   * It creates layer items.
    */
-  search() {
-    this.redrawSidebarTabControl('search');
+  createLayerItems() {
+    console.log('%c ...creating', 'color: #ff5108');
+    const map = this.getMap().getState().getLeafletMap();
+
+    this.initializeDrawingTools();
+    useDrawingToolbar();
+
+    this.setGlobalSimplificationTolerance();
+
+    map.addControl(L.control.drawingToolbar({ tool: this }));
+    // * eventlistener for when object is created
+    map.on('draw:created', this.createdListener);
+
+    map.on('zoomend', () => this.setGlobalSimplificationTolerance());
+
+    map.on('click', () => {
+      const sidebar = this.getSidebarTabControl();
+      if (Boolean(sidebar.getState().enabledEl)) return;
+      if (document.querySelector('.leaflet-container').style.cursor === 'wait') return;
+      let selected = this.getState().selectedLayer;
+      DeselectTool.deselect(selected);
+      TransformTool.initTransform(selected, true);
+      this.getState().clearExtraSelected();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === SPACE_BAR) {
+        let enabledEl = this.getSidebarTabControl().getState().enabledEl;
+        if (enabledEl) {
+          enabledEl.disable();
+          // map.dragging.enable(); // we do not have to do this, it is already on always
+        }
+      }
+    });
+    document.addEventListener('keyup', (e) => {
+      if (e.keyCode === SPACE_BAR) {
+        let enabledEl = this.getSidebarTabControl().getState().enabledEl;
+        if (enabledEl) {
+          enabledEl.enable();
+          // map.dragging.disable(); // we do not have to do this, it is already on always
+        }
+      }
+    });
+
+    const { pather } = this.getSidebarTabControl().getState();
+    pather.on('created', this.drawingTools[FreehandSliceTool.NAME()].createdPath);
+
+    const { featureGroup } = this.getState();
+    featureGroup.eachLayer((layer) => {
+      layer.addTo(map);
+      this.applyEventListeners(layer);
+    });
+    return [featureGroup];
   }
 
   /**
@@ -157,7 +222,6 @@ class DrawingLayerTool extends AbstractLayerTool {
    */
   polyDiff(layer, intersect = false) {
     let selectedLayer = this.getState().selectedLayer;
-    let paintPoly = this.getSidebarTabControl().getState().paintPoly;
     let fgLayers = this.getState().featureGroup._layers;
 
     let layerFeature = getGeoJSONFeatureFromLayer(layer);
@@ -182,7 +246,7 @@ class DrawingLayerTool extends AbstractLayerTool {
       }
       this.getState().addLayer(replacement);
       this.getState().removeLayer(replacedLayer);
-      paintPoly.clearPaintedPolys(replacedLayer.kIdx);
+      if (this.paintPoly) this.paintPoly?.clearPaintedPolys(replacedLayer.kIdx);
     };
 
     const diffLayers = (l) => {
@@ -228,7 +292,7 @@ class DrawingLayerTool extends AbstractLayerTool {
           }
         } else {
           this.getState().removeLayer(l);
-          paintPoly.clearPaintedPolys(l.kIdx);
+          if (this.paintPoly) this.paintPoly?.clearPaintedPolys(l.kIdx);
         }
       }
     };
@@ -259,8 +323,6 @@ class DrawingLayerTool extends AbstractLayerTool {
    * @returns {Layer} geo. object
    */
   operateOnSelectedAndCurrectLayer = (layer, eKeyIndex, operation, selectNew = false) => {
-    let paintPoly = this.getSidebarTabControl().getState().paintPoly;
-
     let feature = getFeatFromLayer(layer);
     // * gets only first one because MultiPolygon is not expected to be created
     feature = Array.isArray(feature) ? feature[0] : feature;
@@ -284,7 +346,7 @@ class DrawingLayerTool extends AbstractLayerTool {
     });
 
     layer = morphFeatureToPolygon(summedFeature, layer.options, false);
-    paintPoly.clearPaintedPolys(eKeyIndex);
+    if (this.paintPoly) this.paintPoly.clearPaintedPolys(eKeyIndex);
     if (selectNew) {
       this.getState().removeSelectedLayer();
       this.getState().setSelectedLayer(layer);
@@ -315,38 +377,6 @@ class DrawingLayerTool extends AbstractLayerTool {
   polyJoin(layer, eKeyIndex) {
     const updatedLayer = this.operateOnSelectedAndCurrectLayer(layer, eKeyIndex, union, true);
     return updatedLayer;
-  }
-
-  /**
-   * @brief called on drag to change vertice's point location
-   *
-   * @param {Object} latlng
-   * @param {String} markerID
-   * @returns
-   */
-  changeVerticesLocation(latlng, markerID) {
-    const markerVertices = this.state.mappedMarkersToVertices[markerID];
-    if (!markerVertices) return;
-
-    this.setVerticesCoordinates(markerVertices, latlng);
-  }
-
-  /**
-   * @brief takes in mapped vertices and markes and depending on index from key, new latlng is set to vertice
-   *
-   * @param {Object} markerVertices
-   * @param {Object} latlng
-   */
-  setVerticesCoordinates(markerVertices, latlng) {
-    Object.keys(markerVertices).forEach((key) => {
-      let vertice = markerVertices[key];
-      let splitKey = key?.split('-');
-      let idx = splitKey ? splitKey[1] : undefined;
-      if (idx === undefined) return;
-      let latLngs = L.LatLngUtil.cloneLatLngs(vertice.getLatLngs());
-      latLngs[idx] = latlng;
-      vertice.setLatLngs(latLngs);
-    });
   }
 
   /**
@@ -396,8 +426,7 @@ class DrawingLayerTool extends AbstractLayerTool {
     if (e.layerType === 'erased') {
       const map = this.getMap().getState().getLeafletMap();
       map.removeLayer(layer);
-      let paintPoly = sidebarState.paintPoly;
-      paintPoly.clearPaintedPolys(e.keyIndex);
+      if (this.paintPoly) this.paintPoly.clearPaintedPolys(e.keyIndex);
     }
 
     // * MARKER
@@ -414,101 +443,12 @@ class DrawingLayerTool extends AbstractLayerTool {
   applyTopologyMarkerListeners(layer) {
     layer.on('drag', (event) => {
       const { latlng, oldLatLng, target } = event;
+      const markerVertices = this.state.mappedMarkersToVertices[target._leaflet_id];
 
       // console.log({ lat: latlng.lat, lng: latlng.lng, oldlat: oldLatLng.lat, oldlng: oldLatLng.lng });
 
-      this.changeVerticesLocation(latlng, oldLatLng, target._leaflet_id);
+      TopologyTool.changeVerticesLocation(latlng, markerVertices);
     });
-  }
-
-  initializeDrawingTools() {
-    const tools = {};
-
-    tools[LineTool.NAME()] = new LineTool({ drawingTool: this });
-    tools[MarkerTool.NAME()] = new MarkerTool({ drawingTool: this });
-    tools[PolygonTool.NAME()] = new PolygonTool({ drawingTool: this });
-
-    tools[SearchTool.NAME()] = new SearchTool({ drawingTool: this });
-    tools[TopologyTool.NAME()] = new TopologyTool({ drawingTool: this });
-
-    tools[GeometricSliceTool.NAME()] = new GeometricSliceTool({ drawingTool: this });
-    tools[FreehandSliceTool.NAME()] = new FreehandSliceTool({ drawingTool: this });
-
-    tools[PaintTool.NAME()] = new PaintTool({ drawingTool: this });
-    tools[EraseTool.NAME()] = new EraseTool({ drawingTool: this });
-
-    tools[JoinTool.NAME()] = new JoinTool({ drawingTool: this });
-
-    tools[DeselectTool.NAME()] = new DeselectTool({ drawingTool: this });
-    tools[TransformTool.NAME()] = new TransformTool({ drawingTool: this });
-    tools[EditTool.NAME()] = new EditTool({ drawingTool: this });
-    tools[RemoveTool.NAME()] = new RemoveTool({ drawingTool: this });
-
-    this.drawingTools = tools;
-  }
-
-  /**
-   * It creates layer items.
-   */
-  createLayerItems() {
-    console.log('%c ...creating', 'color: #ff5108');
-    const map = this.getMap().getState().getLeafletMap();
-
-    this.initializeDrawingTools();
-    useDrawingToolbar();
-
-    this.setGlobalSimplificationTolerance();
-
-    map.addControl(L.control.drawingToolbar({ tool: this }));
-    // * eventlistener for when object is created
-    map.on('draw:created', this.createdListener);
-
-    map.on('zoomend', () => this.setGlobalSimplificationTolerance());
-
-    map.on('click', () => {
-      const sidebar = this.getSidebarTabControl();
-      if (Boolean(sidebar.getState().enabledEl)) return;
-      if (document.querySelector('.leaflet-container').style.cursor === 'wait') return;
-      let selected = this.getState().selectedLayer;
-      if (selected) {
-        this.normalizeElement(selected);
-        this.initNodeEdit(true);
-        this.redrawSidebarTabControl();
-        this.initTransform(selected, true);
-        this.getState().clearSelectedLayer();
-        document.querySelector('.leaflet-container').style.cursor = '';
-      }
-      this.getState().clearExtraSelected();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.keyCode === SPACE_BAR) {
-        let enabledEl = this.getSidebarTabControl().getState().enabledEl;
-        if (enabledEl) {
-          enabledEl.disable();
-          // map.dragging.enable(); // we do not have to do this, it is already on always
-        }
-      }
-    });
-    document.addEventListener('keyup', (e) => {
-      if (e.keyCode === SPACE_BAR) {
-        let enabledEl = this.getSidebarTabControl().getState().enabledEl;
-        if (enabledEl) {
-          enabledEl.enable();
-          // map.dragging.disable(); // we do not have to do this, it is already on always
-        }
-      }
-    });
-
-    const { pather } = this.getSidebarTabControl().getState();
-    pather.on('created', this.drawingTools[FreehandSliceTool.NAME()].createdPath);
-
-    const { featureGroup } = this.getState();
-    featureGroup.eachLayer((layer) => {
-      layer.addTo(map);
-      this.applyEventListeners(layer);
-    });
-    return [featureGroup];
   }
 
   /**
@@ -603,12 +543,11 @@ class DrawingLayerTool extends AbstractLayerTool {
       _?.dragging?.disable();
       if (_?.transform?._enabled) {
         _.transform.disable();
-        let paintPoly = this.getSidebarTabControl().getState().paintPoly;
-        paintPoly.updatePaintedPolys(_.kIdx, _);
+        if (this.paintPoly) this.paintPoly.updatePaintedPolys(_.kIdx, _);
       }
     });
     state.setSelectedLayer(drawObject);
-    this.initTransform(drawObject);
+    TransformTool.initTransform(drawObject);
     this.redrawSidebarTabControl(drawObject.layerType);
 
     this.tabControl.state.callIdentifierChange(true);
@@ -617,99 +556,6 @@ class DrawingLayerTool extends AbstractLayerTool {
     // * at this point user clicked without holdin 'CTRL' key
     // state.clearExtraSelected();
   };
-
-  /**
-   * @brief makes geo. object able to tranform  (move, scale, rotate)
-   *
-   * @param {Layer} drawObject
-   * @param {Boolean} disable
-   */
-  initTransform(drawObject, disable = false) {
-    const layer = drawObject;
-    if (layer?.transform) {
-      if (layer.transform._enabled || disable) {
-        layer.transform.disable();
-        layer.dragging.disable();
-        let paintPoly = this.getSidebarTabControl().getState().paintPoly;
-        paintPoly.updatePaintedPolys(layer.kIdx, layer);
-      } else {
-        layer.transform.enable({ rotation: true, scaling: true });
-        layer.dragging.enable();
-      }
-    } else if (layer.layerType === 'marker') {
-      if (layer.dragging._enabled || disable) {
-        layer.dragging.disable();
-      } else {
-        layer.dragging.enable();
-      }
-    }
-  }
-
-  /**
-   * @brief makes edit nodes appear on object
-   *
-   * @param {Boolean} disable
-   */
-  initNodeEdit(disable = false) {
-    const selectedLayer = this.getState().selectedLayer;
-
-    if (selectedLayer?.editing) {
-      if (selectedLayer.editing._enabled || disable) {
-        selectedLayer.editing.disable();
-        // let paintPoly = this.options.tool.getSidebarTabControl().getState().paintPoly;
-        // paintPoly.updatePaintedPolys(layer.kIdx, layer);
-      } else {
-        selectedLayer.editing.enable();
-      }
-    }
-  }
-
-  /**
-   * @brief removes a geo. object if selected
-   */
-  removeElement() {
-    const selectedLayer = this.getState().selectedLayer;
-    // * if marker is being removed, remove its vertices if any
-    if (this.getState().selectedLayerIsConnectMarker()) {
-      this.getState().removeMarkersMappedVertices(selectedLayer._leaflet_id);
-    }
-    if (selectedLayer.layerType === 'vertice') {
-      this.getState().removeGivenVertice(selectedLayer._leaflet_id);
-    }
-    let paintPoly = this.getSidebarTabControl().getState().paintPoly;
-    paintPoly.clearPaintedPolys(selectedLayer.kIdx);
-    this.getState().removeSelectedLayer();
-    this.redrawSidebarTabControl(null);
-  }
-
-  /**
-   * @brief called when user wants to join multiple geo. objects
-   */
-  initSelecting = () => {
-    const selecting = this.getState().getSelecting();
-    this.getState().setSelecting(!selecting);
-    if (!selecting) document.querySelector('.leaflet-container').style.cursor = 'crosshair';
-    else document.querySelector('.leaflet-container').style.cursor = '';
-  };
-
-  /**
-   * This function is called when layer items are rendered.
-   */
-  postCreateLayerItems() {}
-
-  /**
-   * It reloads data and redraw the layer.
-   */
-  redraw(onlyStyle) {
-    console.log('%c ...redrawing', 'color: #08ff51');
-  }
-
-  /**
-   * This function is called when a custom event is invoked.
-   *
-   * @param {AbstractEvent} event
-   */
-  handleEvent(event) {}
 }
 
 export default DrawingLayerTool;

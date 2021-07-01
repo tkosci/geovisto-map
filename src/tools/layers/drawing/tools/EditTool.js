@@ -31,12 +31,12 @@ class EditTool extends AbstractTool {
   };
 
   enable = (): void => {
-    this.initNodeEdit();
-  };
-
-  initNodeEdit(disable = false): void {
     const selectedLayer = this.getSelectedEl();
 
+    this.initNodeEdit(selectedLayer);
+  };
+
+  static initNodeEdit(selectedLayer, disable = false): void {
     if (selectedLayer?.editing) {
       if (selectedLayer.editing._enabled || disable) {
         selectedLayer.editing.disable();

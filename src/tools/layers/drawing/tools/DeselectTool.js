@@ -4,6 +4,7 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import AbstractTool from './AbstractTool';
+import EditTool from './EditTool';
 
 class DeselectTool extends AbstractTool {
   constructor(props) {
@@ -33,17 +34,21 @@ class DeselectTool extends AbstractTool {
   enable = (): void => {
     const selected = this.getSelectedEl();
 
+    this.deselect(selected);
+  };
+
+  static deselect(selected) {
     if (selected?.editing?._enabled) {
       selected.editing.disable();
     }
     if (selected) {
       this.drawingTool.normalizeElement(selected);
-      this.drawingTool.initNodeEdit(true);
+      EditTool.initNodeEdit(selected, true);
       this.drawingTool.getState().clearSelectedLayer();
       this._redrawSidebar();
       document.querySelector('.leaflet-container').style.cursor = '';
     }
-  };
+  }
 }
 
 export default DeselectTool;

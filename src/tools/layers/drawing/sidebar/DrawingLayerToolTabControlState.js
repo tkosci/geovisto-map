@@ -1,7 +1,6 @@
 import L from 'leaflet';
 
 import AbstractLayerToolTabControlState from '../../abstract/sidebar/AbstractLayerToolTabControlState';
-import PaintPoly from '../components/paintPoly';
 
 import '../style/drawingLayerTabControl.scss';
 import { geoSearch, iconStarter, putMarkerOnMap } from '../util/Marker';
@@ -45,10 +44,6 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     this.connectActivated = false;
 
     this.intersectActivated = false;
-
-    this.paintPoly = new PaintPoly({
-      tabState: this,
-    });
 
     this.pather = new L.Pather({
       strokeWidth: 3,

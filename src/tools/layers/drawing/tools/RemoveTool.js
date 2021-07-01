@@ -45,8 +45,7 @@ class RemoveTool extends AbstractTool {
       state.removeGivenVertice(selectedLayer._leaflet_id);
     }
     // TODO:
-    // let paintPoly = this.getSidebarTabControl().getState().paintPoly;
-    // paintPoly.clearPaintedPolys(selectedLayer.kIdx);
+    this.drawingTool?.paintPoly?.clearPaintedPolys(selectedLayer.kIdx);
     state.removeSelectedLayer();
     this.redrawSidebarTabControl(null);
   }

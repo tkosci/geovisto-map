@@ -129,9 +129,9 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
    * @returns {Object} HTML element
    */
   createBrushSizeControl = () => {
-    let paintPoly = this.getState().paintPoly;
+    let paintPoly = this.getTool().paintPoly;
 
-    if (!paintPoly.isActive()) return null;
+    if (!paintPoly || !paintPoly.isActive()) return null;
 
     let { maxBrushSize, minBrushSize } = paintPoly.getBrushSizeConstraints();
 
@@ -303,7 +303,7 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
    * @returns {Object} HTML element
    */
   createCustomToleranceCheck = () => {
-    const { paintPoly } = this.getState();
+    const { paintPoly } = this.getTool();
     const toleranceChange = (val) => {
       window.customTolerance = val;
       paintPoly.clearAllAccumulated();

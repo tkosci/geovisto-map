@@ -121,6 +121,37 @@ class TopologyTool extends MarkerTool {
         });
       });
   }
+
+  /**
+   * @brief called on drag to change vertice's point location
+   *
+   * @param {Object} latlng
+   * @param {String} markerID
+   * @returns
+   */
+  static changeVerticesLocation(latlng, markerVertices) {
+    if (!markerVertices) return;
+
+    TopologyTool.setVerticesCoordinates(markerVertices, latlng);
+  }
+
+  /**
+   * @brief takes in mapped vertices and markes and depending on index from key, new latlng is set to vertice
+   *
+   * @param {Object} markerVertices
+   * @param {Object} latlng
+   */
+  static setVerticesCoordinates(markerVertices, latlng) {
+    Object.keys(markerVertices).forEach((key) => {
+      let vertice = markerVertices[key];
+      let splitKey = key?.split('-');
+      let idx = splitKey ? splitKey[1] : undefined;
+      if (idx === undefined) return;
+      let latLngs = L.LatLngUtil.cloneLatLngs(vertice.getLatLngs());
+      latLngs[idx] = latlng;
+      vertice.setLatLngs(latLngs);
+    });
+  }
 }
 
 export default TopologyTool;

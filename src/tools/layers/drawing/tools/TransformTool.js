@@ -36,15 +36,14 @@ class TransformTool extends AbstractTool {
     this.initTransform(selected);
   };
 
-  initTransform(drawObject: object, disable = false): void {
+  static initTransform(drawObject: object, disable = false): void {
     const layer = drawObject;
     if (layer?.transform) {
       if (layer.transform._enabled || disable) {
         layer.transform.disable();
         layer.dragging.disable();
         // TODO:
-        // let paintPoly = this.getSidebarTabControl().getState().paintPoly;
-        // paintPoly.updatePaintedPolys(layer.kIdx, layer);
+        this.drawingTool?.paintPoly?.updatePaintedPolys(layer.kIdx, layer);
       } else {
         layer.transform.enable({ rotation: true, scaling: true });
         layer.dragging.enable();
