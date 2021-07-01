@@ -15,7 +15,7 @@ import {
   simplifyFeature,
 } from '../util/Poly';
 
-import { STROKES } from '../sidebar/DrawingLayerToolTabControlState';
+import { STROKES } from '../util/constants';
 
 const DEFAULT_COLOR = '#333333';
 const DEFAULT_RADIUS = 30;

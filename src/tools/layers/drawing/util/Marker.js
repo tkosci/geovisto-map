@@ -1,11 +1,9 @@
-import React from 'react';
-import L, { popup } from 'leaflet';
+import L from 'leaflet';
 import 'leaflet-path-drag';
 
 import 'leaflet/dist/leaflet.css';
-import { ICON_SRCS } from '../sidebar/DrawingLayerToolTabControlState';
+import { ICON_SRCS } from '../util/constants';
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
-import { MapLayerTool } from '../../map';
 
 /**
  * @author Andrej Tlcina

@@ -5,7 +5,7 @@ import 'leaflet-draw';
 
 import 'leaflet/dist/leaflet.css';
 
-import { STROKES, COLORS } from '../sidebar/DrawingLayerToolTabControlState';
+import { STROKES, COLORS } from '../util/constants';
 
 import '../components/Knife';
 

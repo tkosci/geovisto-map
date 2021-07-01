@@ -1,57 +1,14 @@
+import L from 'leaflet';
+
 import AbstractLayerToolTabControlState from '../../abstract/sidebar/AbstractLayerToolTabControlState';
 import PaintPoly from '../components/paintPoly';
 
 import '../style/drawingLayerTabControl.scss';
 import { geoSearch, iconStarter, putMarkerOnMap } from '../util/Marker';
-import { highlightStyles, normalStyles, simplifyFeature } from '../util/Poly';
-import { debounce } from '../util/functionUtils';
-import { createIntervalInput, createCheck } from '../components/inputs';
+import { normalStyles, simplifyFeature } from '../util/Poly';
 
 import * as osmtogeojson from 'osmtogeojson';
-import * as turf from '@turf/turf';
-import { FIRST } from '../util/constants';
-
-export const ICON_SRCS = [
-  'https://upload.wikimedia.org/wikipedia/commons/0/0a/Marker_location.png',
-  'https://icons.iconarchive.com/icons/icons-land/vista-map-markers/32/Map-Marker-Flag-1-Right-Azure-icon.png',
-];
-export const COLORS = [
-  '#1ABC9C',
-  '#16A085',
-  '#2ECC71',
-  '#27AE60',
-  '#3498DB',
-  '#2980B9',
-  '#9B59B6',
-  '#8E44AD',
-  '#34495E',
-  '#2C3E50',
-  '#F1C40F',
-  '#F39C12',
-  '#E67E22',
-  '#D35400',
-  '#E74C3C',
-  '#C0392B',
-  '#ECF0F1',
-  '#BDC3C7',
-  '#95A5A6',
-  '#7F8C8D',
-];
-export const STROKES = [
-  { label: 'thin', value: 3 },
-  { label: 'medium', value: 5, selected: true },
-  { label: 'bold', value: 7 },
-];
-export const ADMIN_LEVELS = [
-  { label: 'State', value: 2 },
-  { label: 'Province', value: 4, selected: true },
-  { label: '5 (depends on country)', value: 5 },
-  { label: '6 (depends on country)', value: 6 },
-  { label: '7 (depends on country)', value: 7 },
-  { label: '8 (depends on country)', value: 8 },
-  { label: '9 (depends on country)', value: 9 },
-  { label: '10 (depends on country)', value: 10 },
-];
+import { ICON_SRCS, COLORS, STROKES, ADMIN_LEVELS } from '../util/constants';
 
 /**
  * This class manages the state of the sidebar tab.
@@ -187,22 +144,6 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
   };
 
   /**
-   * sets country code to look for with request
-   *
-   * @param {String} val
-   */
-  setCountryCode(val) {
-    this.countryCode = val;
-  }
-  /**
-   * sets admin level to look for with request
-   *
-   * @param {String} val
-   */
-  setAdminLevel(val) {
-    this.adminLevel = val;
-  }
-  /**
    * sets whether displayed polygon will be of high quality
    *
    * @param {Boolean} val
@@ -278,15 +219,6 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
   }
 
   /**
-   * setter of "column header name"
-   *
-   * @param {*} val
-   */
-  setIdentifierType(val) {
-    this.identifierType = val;
-  }
-
-  /**
    * getter
    *
    * @returns {object}
@@ -323,34 +255,6 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
   }
 
   /**
-   * setter
-   */
-  setSelectedColor(value) {
-    this.selectedColor = value;
-  }
-
-  /**
-   * setter
-   */
-  setSelectedStroke(value) {
-    this.selectedStroke = value;
-  }
-
-  /**
-   * setter
-   */
-  setSelectedIcon(value) {
-    this.selectedIcon = value;
-  }
-
-  /**
-   * setter
-   */
-  setSearchOpts(opts) {
-    this.searchOpts = opts;
-  }
-
-  /**
    * append to icon Set
    *
    * @param {string} iconUrl
@@ -376,7 +280,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
    */
   changeColorAction = (color) => {
     const selectedEl = this._getSelected();
-    this.setSelectedColor(color);
+    this.selectedColor = color;
     if (selectedEl?.setStyle) selectedEl.setStyle({ color });
     this._getExtraSelected().forEach((layer) => {
       layer?.setStyle({ color });
@@ -391,7 +295,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
   changeWeightAction = (e) => {
     const weight = Number(e.target.value);
     const selectedEl = this._getSelected();
-    this.setSelectedStroke(weight);
+    this.selectedStroke = weight;
     if (selectedEl?.setStyle) selectedEl.setStyle({ weight });
     this._getExtraSelected().forEach((layer) => {
       layer?.setStyle({ weight });
@@ -420,6 +324,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
       ...oldIconOptions,
       ...iconOpt,
     };
+    console.log({ selectedEl, marker });
 
     const markerIcon = new L.Icon(newIconOptions);
     if (marker) marker.setIcon(markerIcon);
@@ -441,7 +346,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
   changeIconAction = (icon) => {
     this.changeIconOpts({ iconUrl: icon });
 
-    this.setSelectedIcon(icon);
+    this.selectedIcon = icon;
     this.tabControl.redrawTabContent('marker');
   };
 
@@ -544,7 +449,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     const id = e.target.value;
     const selectedEl = this._getSelected();
 
-    this.setIdentifierType(id);
+    this.identifierType = id;
 
     this.tabControl.redrawTabContent(selectedEl?.layerType);
   };
@@ -560,7 +465,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
 
     const opts = await geoSearch(featureGroup, value);
 
-    this.setSearchOpts(opts);
+    this.searchOpts = opts;
     this.tabControl.inputSearch.changeOptions(opts ? opts.map((opt) => opt.label || '') : []);
     // this.inputSearch.redrawMenu();
   };
@@ -583,7 +488,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     const marker = putMarkerOnMap(featureGroup, latlng, found?.label, iconUrl, connectActivated);
     this.getTool().applyEventListeners(marker);
     this.getTool().applyTopologyMarkerListeners(marker);
-    this.setSelectedIcon(iconUrl);
+    this.selectedIcon = iconUrl;
     this.appendToIconSrcs(iconUrl);
     if (connectActivated) {
       this.getTool().plotTopology();
@@ -669,7 +574,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
    */
   searchForAreaAction = (e) => {
     const val = e.target.value;
-    this.setCountryCode(val);
+    this.countryCode = val;
   };
 
   /**
@@ -679,7 +584,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
    */
   pickAdminLevelAction = (e) => {
     const val = e.target.value;
-    this.setAdminLevel(val);
+    this.adminLevel = val;
   };
 
   /**

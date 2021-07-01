@@ -11,7 +11,7 @@ import {
   simplifyFeature,
 } from '../util/Poly';
 import circle from '@turf/circle';
-import { STROKES } from '../sidebar/DrawingLayerToolTabControlState';
+import { STROKES } from '../util/constants';
 import union from '@turf/union';
 
 const DEFAULT_COLOR = '#333333';

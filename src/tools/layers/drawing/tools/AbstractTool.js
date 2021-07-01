@@ -69,7 +69,7 @@ class AbstractTool {
   _disableActive(): void {
     let activeTool = this.tool;
     if (activeTool) {
-      this.sidebar.getState().setEnabledEl(activeTool);
+      this.sidebar.getState().setEnabledEl(null);
       this._redrawSidebar();
     }
   }

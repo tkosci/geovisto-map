@@ -71,3 +71,53 @@ export const createCheck = (value, onCheck, prefix, label) => {
   inputWrapper.appendChild(checkLabel);
   return inputWrapper;
 };
+
+/**
+ * creates a grid of options, when a tile is clicked passed function runs
+ * was made for colors and icons, if img is true it expects icon urls as options
+ *
+ * @param {String} label
+ * @param {Array<String>} opts
+ * @param {Number} activeIdx
+ * @param {Function} changeAction
+ * @param {Boolean} img
+ * @returns {Object} HTML element
+ */
+export const createPalette = (label, opts, activeIdx, changeAction, img = false) => {
+  const inputPalette = document.createElement('div');
+  if (label) inputPalette.appendChild(document.createTextNode(label + ': '));
+  const wrapper = document.createElement('div');
+  wrapper.style.display = 'grid';
+  wrapper.style.width = '100%';
+  wrapper.style.gridTemplateColumns = 'repeat(4, 1fr)';
+  inputPalette.appendChild(wrapper);
+  opts.forEach((opt, idx) => {
+    let elem = document.createElement('div');
+    elem.style.boxSizing = 'border-box';
+    elem.style.background = img ? `url(${opt})` : opt;
+    elem.style.backgroundRepeat = 'no-repeat';
+    elem.style.backgroundPosition = 'center';
+    elem.style.backgroundSize = 'contain';
+    elem.style.height = '20px';
+    elem.style.display = 'inline-block';
+    elem.style.cursor = 'pointer';
+    if (idx === activeIdx) {
+      elem.style.border = '1px solid #333';
+    }
+    elem.addEventListener('click', () => changeAction(opt));
+    wrapper.appendChild(elem);
+  });
+  return inputPalette;
+};
+
+export const createButton = (text, onClick, disabled) => {
+  const btn = document.createElement('button');
+  btn.innerText = text;
+  btn.addEventListener('click', onClick);
+  if (disabled) {
+    btn.setAttribute('disabled', disabled);
+  } else {
+    btn.removeAttribute('disabled');
+  }
+  return btn;
+};

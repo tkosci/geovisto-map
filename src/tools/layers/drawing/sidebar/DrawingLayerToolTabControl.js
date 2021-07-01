@@ -1,17 +1,18 @@
 import DrawingLayerToolTabControlDefaults from './DrawingLayerToolTabControlDefaults';
-import DrawingLayerToolTabControlState, { ADMIN_LEVELS } from './DrawingLayerToolTabControlState';
+import DrawingLayerToolTabControlState from './DrawingLayerToolTabControlState';
 import AbstractLayerToolTabControl from '../../abstract/sidebar/AbstractLayerToolTabControl';
 import SidebarInputFactory from '../../../../inputs/SidebarInputFactory';
 
 import '../style/drawingLayerTabControl.scss';
-import { geoSearch, iconStarter, putMarkerOnMap } from '../util/Marker';
-import { highlightStyles, normalStyles, simplifyFeature } from '../util/Poly';
-import { debounce, getIntervalStep, isFloat } from '../util/functionUtils';
-import { createIntervalInput, createCheck } from '../components/inputs';
-
-import * as osmtogeojson from 'osmtogeojson';
-import * as turf from '@turf/turf';
-import { FIRST } from '../util/constants';
+import { ADMIN_LEVELS } from '../util/constants';
+import { iconStarter } from '../util/Marker';
+import { getIntervalStep } from '../util/functionUtils';
+import {
+  createIntervalInput,
+  createCheck,
+  createPalette,
+  createButton,
+} from '../components/inputs';
 
 const POLYS = ['polyline', 'polygon', 'painted', 'vertice'];
 
@@ -42,129 +43,6 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
   }
 
   /**
-   * creates a grid of options, when a tile is clicked passed function runs
-   * was made for colors and icons, if img is true it expects icon urls as options
-   *
-   * @param {String} label
-   * @param {Array<String>} opts
-   * @param {Number} activeIdx
-   * @param {Function} changeAction
-   * @param {Boolean} img
-   * @returns {Object} HTML element
-   */
-  createPalette(label, opts, activeIdx, changeAction, img = false) {
-    const inputPalette = document.createElement('div');
-    if (label) inputPalette.appendChild(document.createTextNode(label + ': '));
-    const wrapper = document.createElement('div');
-    wrapper.style.display = 'grid';
-    wrapper.style.width = '100%';
-    wrapper.style.gridTemplateColumns = 'repeat(4, 1fr)';
-    inputPalette.appendChild(wrapper);
-    opts.forEach((opt, idx) => {
-      let elem = document.createElement('div');
-      elem.style.boxSizing = 'border-box';
-      elem.style.background = img ? `url(${opt})` : opt;
-      elem.style.backgroundRepeat = 'no-repeat';
-      elem.style.backgroundPosition = 'center';
-      elem.style.backgroundSize = 'contain';
-      elem.style.height = '20px';
-      elem.style.display = 'inline-block';
-      elem.style.cursor = 'pointer';
-      if (idx === activeIdx) {
-        elem.style.border = '1px solid #333';
-      }
-      elem.addEventListener('click', () => changeAction(opt));
-      wrapper.appendChild(elem);
-    });
-    return inputPalette;
-  }
-
-  /**
-   * creates color picker field
-   *
-   * @returns {Object} HTML element
-   */
-  createColorPicker() {
-    const inputWrapper = document.createElement('div');
-    inputWrapper.appendChild(document.createTextNode('Pick color: '));
-    const colorPicker = document.createElement('input');
-    colorPicker.setAttribute('type', 'color');
-    colorPicker.onchange = (e) => this.getState().changeColorAction(e.target.value);
-    colorPicker.value = this._getSelected()?.options?.color || this.getState().getSelectedColor();
-    inputWrapper.appendChild(colorPicker);
-    return inputWrapper;
-  }
-
-  /**
-   * creates a color grid
-   *
-   * @returns {Object} HTML element
-   */
-  createColorPalette() {
-    const colors = this.getState().colors;
-    const activeColor = this.getState().getSelectedColor();
-    const activeIndex = colors.indexOf(activeColor);
-    const res = this.createPalette(
-      'Pick color',
-      colors,
-      activeIndex,
-      this.getState().changeColorAction,
-    );
-    return res;
-  }
-
-  /**
-   * creates a icon grid
-   *
-   * @returns {Object} HTML element
-   */
-  createIconPalette() {
-    const iconsSet = this.getState().iconSrcs;
-    const iconUrl = this._getSelected()?.options?.icon?.options?.iconUrl;
-    if (iconUrl) iconsSet.add(iconUrl);
-    const activeIcon = this.getState().getSelectedIcon();
-    const iconsArr = Array.from(iconsSet);
-    const activeIndex = iconsArr.indexOf(activeIcon);
-    const res = this.createPalette(
-      'Pick icon',
-      iconsArr,
-      activeIndex,
-      this.getState().changeIconAction,
-      true,
-    );
-    return res;
-  }
-
-  /**
-   * It acquire selected data mapping from input values.
-   */
-  getInputValues() {
-    // get data mapping model
-    let model = this.getDefaults().getDataMappingModel();
-
-    // create new selection
-    let dataMapping = {};
-
-    // get selected data domains values
-    dataMapping[model.identifier.name] = this.inputId.getValue();
-
-    return dataMapping;
-  }
-
-  /**
-   * It updates selected input values according to the given data mapping.
-   *
-   * @param {*} dataMapping
-   */
-  setInputValues(dataMapping) {
-    // get data mapping model
-    let model = this.getDefaults().getDataMappingModel();
-
-    // update inputs
-    this.inputId.setValue(dataMapping[model.identifier.name]);
-  }
-
-  /**
    * removes all elements of a sidebar and calls function to create new content of the sidebar
    *
    * @param {String} layerType
@@ -192,6 +70,57 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
    */
   _getSelected() {
     return this.getTool().getState().selectedLayer;
+  }
+
+  /**
+   * creates color picker field
+   *
+   * @returns {Object} HTML element
+   */
+  createColorPicker() {
+    const inputWrapper = document.createElement('div');
+    inputWrapper.appendChild(document.createTextNode('Pick color: '));
+    const colorPicker = document.createElement('input');
+    colorPicker.setAttribute('type', 'color');
+    colorPicker.onchange = (e) => this.getState().changeColorAction(e.target.value);
+    colorPicker.value = this._getSelected()?.options?.color || this.getState().getSelectedColor();
+    inputWrapper.appendChild(colorPicker);
+    return inputWrapper;
+  }
+
+  /**
+   * creates a color grid
+   *
+   * @returns {Object} HTML element
+   */
+  createColorPalette() {
+    const colors = this.getState().colors;
+    const activeColor = this.getState().getSelectedColor();
+    const activeIndex = colors.indexOf(activeColor);
+    const res = createPalette('Pick color', colors, activeIndex, this.getState().changeColorAction);
+    return res;
+  }
+
+  /**
+   * creates a icon grid
+   *
+   * @returns {Object} HTML element
+   */
+  createIconPalette() {
+    const iconsSet = this.getState().iconSrcs;
+    const iconUrl = this._getSelected()?.options?.icon?.options?.iconUrl;
+    if (iconUrl) iconsSet.add(iconUrl);
+    const activeIcon = this.getState().getSelectedIcon();
+    const iconsArr = Array.from(iconsSet);
+    const activeIndex = iconsArr.indexOf(activeIcon);
+    const res = createPalette(
+      'Pick icon',
+      iconsArr,
+      activeIndex,
+      this.getState().changeIconAction,
+      true,
+    );
+    return res;
   }
 
   /**
@@ -629,16 +558,8 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
 
     const wrapper = document.createElement('div');
     wrapper.style.width = '100%';
-    const addFilterBtn = document.createElement('button');
-    addFilterBtn.innerText = 'Add Filter';
-    addFilterBtn.addEventListener('click', addFilter);
-    if (disabled) addFilterBtn.setAttribute('disabled', disabled);
-    else addFilterBtn.removeAttribute('disabled');
-    const removeFilterBtn = document.createElement('button');
-    removeFilterBtn.innerText = 'Remove Filter';
-    removeFilterBtn.addEventListener('click', removeFilter);
-    if (disabled) removeFilterBtn.setAttribute('disabled', disabled);
-    else removeFilterBtn.removeAttribute('disabled');
+    const addFilterBtn = createButton('Add Filter', addFilter, disabled);
+    const removeFilterBtn = createButton('Remove Filter', removeFilter, disabled);
     wrapper.appendChild(addFilterBtn);
     wrapper.appendChild(removeFilterBtn);
     elem.appendChild(wrapper);
@@ -738,8 +659,6 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     if (layerType === 'marker') {
       this.renderIconInputs(elem, model);
     }
-
-    // this.setInputValues(this.getTool().getState().getDataMapping());
 
     return tab;
   }
