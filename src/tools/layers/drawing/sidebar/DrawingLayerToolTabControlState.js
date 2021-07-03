@@ -8,6 +8,7 @@ import { normalStyles, simplifyFeature } from '../util/Poly';
 
 import * as osmtogeojson from 'osmtogeojson';
 import { ICON_SRCS, COLORS, STROKES, ADMIN_LEVELS } from '../util/constants';
+import 'leaflet-pather';
 
 /**
  * This class manages the state of the sidebar tab.
