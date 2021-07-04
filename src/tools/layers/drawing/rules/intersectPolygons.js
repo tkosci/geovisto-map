@@ -10,7 +10,7 @@ import { operateOnSelectedAndCurrectLayer } from './shared';
  */
 export const polyIntersect = (layer, eKeyIndex, state) => {
   const selectedLayer = state.selectedLayer;
-  const updatedLayer = operateOnSelectedAndCurrectLayer(
+  const { layer: updatedLayer } = operateOnSelectedAndCurrectLayer(
     layer,
     eKeyIndex,
     turf.intersect,

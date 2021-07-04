@@ -10,10 +10,17 @@ import { operateOnSelectedAndCurrectLayer } from './shared';
  */
 export const polyJoin = (layer, eKeyIndex, state) => {
   const selectedLayer = state.selectedLayer;
-  const updatedLayer = operateOnSelectedAndCurrectLayer(layer, eKeyIndex, union, selectedLayer);
+  const { layer: updatedLayer, result } = operateOnSelectedAndCurrectLayer(
+    layer,
+    eKeyIndex,
+    union,
+    selectedLayer,
+  );
 
-  state.removeSelectedLayer();
-  state.setSelectedLayer(layer);
+  if (result) {
+    state.removeSelectedLayer();
+    state.setSelectedLayer(layer);
+  }
 
   return updatedLayer;
 };

@@ -48,7 +48,7 @@ class TransformTool extends AbstractTool {
         layer.transform.enable({ rotation: true, scaling: true });
         layer.dragging.enable();
       }
-    } else if (layer.layerType === 'marker') {
+    } else if (layer?.layerType === 'marker') {
       if (layer.dragging._enabled || disable) {
         layer.dragging.disable();
       } else {

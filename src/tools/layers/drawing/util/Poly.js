@@ -125,6 +125,7 @@ export const dividePoly = (map, sidebar) => {
  * @returns
  */
 export const getGeoJSONFeatureFromLayer = (layer) => {
+  if (!layer) return;
   let geoFeature = layer.toGeoJSON();
   let feature = geoFeature.type === 'FeatureCollection' ? geoFeature.features[0] : geoFeature;
   return feature;

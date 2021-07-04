@@ -40,8 +40,8 @@ class EditTool extends AbstractTool {
     if (selectedLayer?.editing) {
       if (selectedLayer.editing._enabled || disable) {
         selectedLayer.editing.disable();
-        // let paintPoly = this.options.tool.getSidebarTabControl().getState().paintPoly;
-        // paintPoly.updatePaintedPolys(layer.kIdx, layer);
+        // let paintPoly = this.options.tool.paintPoly;
+        // paintPoly?.updatePaintedPolys(layer.kIdx, layer);
       } else {
         selectedLayer.editing.enable();
       }
