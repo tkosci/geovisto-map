@@ -4,7 +4,12 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import AbstractTool from './AbstractTool';
-import { getFeatFromLayer, isFeaturePoly, isLayerPoly, morphFeatureToPolygon } from '../util/Poly';
+import {
+  getGeoJSONFeatures,
+  isFeaturePoly,
+  isLayerPoly,
+  morphFeatureToPolygon,
+} from '../util/Poly';
 import union from '@turf/union';
 import TopologyTool from './TopologyTool';
 
@@ -81,7 +86,7 @@ class JoinTool extends AbstractTool {
         const { chosenLayers } = layerState;
         const chosenFeatures = chosenLayers
           .filter((c) => isLayerPoly(c))
-          .map((chosen) => getFeatFromLayer(chosen));
+          .map((chosen) => getGeoJSONFeatures(chosen));
 
         if (chosenFeatures.length !== chosenLayers.length) return;
 

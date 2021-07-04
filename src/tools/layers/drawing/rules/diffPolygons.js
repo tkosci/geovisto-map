@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import difference from '@turf/difference';
-import { getGeoJSONFeatureFromLayer, isLayerPoly } from '../util/Poly';
+import { getFirstGeoJSONFeature, isLayerPoly } from '../util/Poly';
 import { FIRST, normalStyles } from '../util/constants';
 
 const replaceLayer = (state, replacement, replacedLayer, replacementCoords) => {
@@ -24,7 +24,7 @@ const replaceLayer = (state, replacement, replacedLayer, replacementCoords) => {
 
 const diffLayers = (l, selectedLayer, createdIsEraser, intersect, layerFeature, state) => {
   if (!l) return;
-  let feature = getGeoJSONFeatureFromLayer(l);
+  let feature = getFirstGeoJSONFeature(l);
 
   let layerIsNotSelected = l?._leaflet_id !== selectedLayer?._leaflet_id;
   let canDiff = !createdIsEraser ? true : layerIsNotSelected;
@@ -81,7 +81,7 @@ export const polyDiff = (layer, state, intersect = false) => {
   let selectedLayer = state.selectedLayer;
   let fgLayers = state.featureGroup._layers;
 
-  let layerFeature = getGeoJSONFeatureFromLayer(layer);
+  let layerFeature = getFirstGeoJSONFeature(layer);
   let isCurrentLayerPoly = isLayerPoly(layer);
 
   // let createdIsNotEraser = layer.layerType !== 'erased';

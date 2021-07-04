@@ -3,7 +3,6 @@ import L from 'leaflet';
 import {
   convertOptionsToProperties,
   convertPropertiesToOptions,
-  featureToLeafletCoordinates,
   getLeafletTypeFromFeature,
   isLayerPoly,
 } from './util/Poly';
@@ -473,12 +472,12 @@ class DrawingLayerToolState extends AbstractLayerToolState {
         .forEach((f) => {
           let opts = convertPropertiesToOptions(f.properties);
           let lType = getLeafletTypeFromFeature(f);
-          featureToLeafletCoordinates(f.geometry.coordinates, f.geometry.type);
+          let latlng = L.GeoJSON.coordsToLatLngs(f.geometry.coordinates, 1);
           let result;
           if (lType === 'polygon') {
-            result = new L.polygon(f.geometry.coordinates, opts);
+            result = new L.polygon(latlng, opts);
           } else if (lType === 'polyline') {
-            result = new L.polyline(f.geometry.coordinates, opts);
+            result = new L.polyline(latlng, opts);
           } else if (lType === 'marker') {
             let spreadable = f?.properties?.iconOptions || {};
             if (spreadable.iconUrl) sidebarState.appendToIconSrcs(spreadable.iconUrl);
@@ -489,7 +488,7 @@ class DrawingLayerToolState extends AbstractLayerToolState {
             };
 
             let icon = new L.Icon(options);
-            result = new L.Marker.Touch(f.geometry.coordinates, { icon });
+            result = new L.Marker.Touch(latlng, { icon });
           }
           if (result) {
             result.layerType = lType;

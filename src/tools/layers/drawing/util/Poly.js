@@ -14,56 +14,6 @@ import * as turf from '@turf/turf';
  */
 
 /**
- * gets GeoJSON representation from layer structure
- *
- * @param {Layer} layer
- * @returns
- */
-export const getGeoJSONFeatureFromLayer = (layer) => {
-  if (!layer) return;
-  let geoFeature = layer.toGeoJSON();
-  let feature = geoFeature.type === 'FeatureCollection' ? geoFeature.features[0] : geoFeature;
-  return feature;
-};
-
-/**
- * reverses GeoJSON coordinates to Leaflet coordinater
- *
- * @param {Array<Number>} featureCoordinates
- * @param {String} type
- * @returns {Array<Number>}
- */
-export const featureToLeafletCoordinates = (featureCoordinates, type = 'Polygon') => {
-  let point;
-  if (type === 'Point') {
-    point = L.latLng(featureCoordinates.reverse());
-    if (point) {
-      featureCoordinates = [point.lng, point.lat];
-    }
-    return featureCoordinates;
-  } else if (type === 'LineString') {
-    for (let i = 0; i < featureCoordinates.length; i++) {
-      point = L.latLng(featureCoordinates[i]);
-      if (point) {
-        featureCoordinates[i] = [point.lng, point.lat];
-      }
-    }
-    return featureCoordinates;
-  } else if (type === 'Polygon') {
-    for (let i = 0; i < featureCoordinates.length; i++) {
-      for (let j = 0; j < featureCoordinates[i].length; j++) {
-        point = L.latLng(featureCoordinates[i][j]);
-        if (point) {
-          featureCoordinates[i][j] = [point.lng, point.lat];
-        }
-      }
-    }
-  }
-
-  return featureCoordinates;
-};
-
-/**
  * maps feature types to leaflet types
  *
  * @param {String} feature
@@ -118,15 +68,30 @@ export const convertOptionsToProperties = (options) => {
 
 /**
  * returns GeoJSON representation, always array of them
+ * used in case of selected layer, which can be 'Multi' object
  *
  * @param {Layer} layer
  * @returns {Array}
  */
-export const getFeatFromLayer = (layer) => {
+export const getGeoJSONFeatures = (layer) => {
   if (!layer) return null;
   let drawnGeoJSON = layer.toGeoJSON();
   let feature;
   feature = drawnGeoJSON.type === 'FeatureCollection' ? drawnGeoJSON.features : [drawnGeoJSON];
+  return feature;
+};
+
+/**
+ * gets GeoJSON representation from layer structure
+ * gets only first one, because 'Multi' object is not expected to be created
+ *
+ * @param {Layer} layer
+ * @returns
+ */
+export const getFirstGeoJSONFeature = (layer) => {
+  if (!layer) return;
+  let geoFeatures = getGeoJSONFeatures(layer);
+  let feature = geoFeatures[0];
   return feature;
 };
 
@@ -166,7 +131,7 @@ export const simplifyFeature = (feature, pixels) => {
  * @returns
  */
 export const isLayerPoly = (layer) => {
-  let feature = getGeoJSONFeatureFromLayer(layer);
+  let feature = getFirstGeoJSONFeature(layer);
   return isFeaturePoly(feature);
 };
 

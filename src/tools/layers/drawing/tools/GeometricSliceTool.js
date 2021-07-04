@@ -7,7 +7,7 @@ import * as turf from '@turf/turf';
 
 import AbstractTool from './AbstractTool';
 import '../components/Knife';
-import { getGeoJSONFeatureFromLayer, isFeaturePoly } from '../util/Poly';
+import { getFirstGeoJSONFeature, isFeaturePoly } from '../util/Poly';
 import { normalStyles } from '../util/constants';
 
 class GeometricSliceTool extends AbstractTool {
@@ -46,14 +46,14 @@ class GeometricSliceTool extends AbstractTool {
    * @param {Layer} layer
    */
   polySlice(layer): void {
-    let lineFeat = getGeoJSONFeatureFromLayer(layer);
+    let lineFeat = getFirstGeoJSONFeature(layer);
     let selectedLayer = this.drawingTool.getState().selectedLayer;
 
     if (selectedLayer) {
       const THICK_LINE_WIDTH = 0.00001;
       const THICK_LINE_UNITS = 'kilometers';
       let offsetLine;
-      let selectedFeature = getGeoJSONFeatureFromLayer(selectedLayer);
+      let selectedFeature = getFirstGeoJSONFeature(selectedLayer);
 
       let isFeatPoly = isFeaturePoly(selectedFeature);
 
