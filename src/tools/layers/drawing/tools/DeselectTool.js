@@ -34,18 +34,18 @@ class DeselectTool extends AbstractTool {
   enable = (): void => {
     const selected = this.getSelectedEl();
 
-    this.deselect(selected);
+    this.deselect(selected, this.drawingTool);
   };
 
-  static deselect(selected) {
+  static deselect(selected, tool) {
     if (selected?.editing?._enabled) {
       selected.editing.disable();
     }
     if (selected) {
-      this.drawingTool.normalizeElement(selected);
+      tool?.normalizeElement(selected);
       EditTool.initNodeEdit(selected, true);
-      this.drawingTool.getState().clearSelectedLayer();
-      this._redrawSidebar();
+      tool?.getState().clearSelectedLayer();
+      tool?.redrawSidebarTabControl();
       document.querySelector('.leaflet-container').style.cursor = '';
     }
   }

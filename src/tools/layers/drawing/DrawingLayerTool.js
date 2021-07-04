@@ -4,27 +4,16 @@ import DrawingLayerToolState from './DrawingLayerToolState';
 import DrawingLayerToolDefaults from './DrawingLayerToolDefaults';
 import DrawingLayerToolTabControl from './sidebar/DrawingLayerToolTabControl';
 import useDrawingToolbar from './components/useDrawingToolbar';
-import union from '@turf/union';
-import {
-  getGeoJSONFeatureFromLayer,
-  highlightStyles,
-  normalStyles,
-  getFeatFromLayer,
-  isFeaturePoly,
-  isLayerPoly,
-  morphFeatureToPolygon,
-} from './util/Poly';
+import { highlightStyles, normalStyles } from './util/Poly';
 
 import 'leaflet/dist/leaflet.css';
 import './style/drawingLayer.scss';
-import difference from '@turf/difference';
-import * as turf from '@turf/turf';
 import 'leaflet-snap';
 import 'leaflet-geometryutil';
 import 'leaflet-draw';
 
 import * as d33 from 'd3-3-5-5';
-import { FIRST, SPACE_BAR } from './util/constants';
+import { SPACE_BAR } from './util/constants';
 
 import LineTool from './tools/LineTool';
 import MarkerTool from './tools/MarkerTool';
@@ -40,6 +29,7 @@ import DeselectTool from './tools/DeselectTool';
 import TransformTool from './tools/TransformTool';
 import EditTool from './tools/EditTool';
 import RemoveTool from './tools/RemoveTool';
+import { polyDiff, polyIntersect, polyJoin } from './rules';
 
 // ! pather throws errors without this line
 window.d3 = d33;
@@ -166,7 +156,7 @@ class DrawingLayerTool extends AbstractLayerTool {
       if (Boolean(sidebar.getState().enabledEl)) return;
       if (document.querySelector('.leaflet-container').style.cursor === 'wait') return;
       let selected = this.getState().selectedLayer;
-      DeselectTool.deselect(selected);
+      DeselectTool.deselect(selected, this);
       TransformTool.initTransform(selected, true);
       this.getState().clearExtraSelected();
     });
@@ -202,184 +192,6 @@ class DrawingLayerTool extends AbstractLayerTool {
   }
 
   /**
-   * @brief aplies event listeners for each geo. object
-   *
-   * @param {Layer} layer
-   */
-  applyEventListeners(layer) {
-    layer.on('click', L.DomEvent.stopPropagation).on('click', this.initChangeStyle, this);
-    layer.on('mouseover', this.hightlightOnHover, this);
-    layer.on('mouseout', this.normalizeOnHover, this);
-    if (layer.layerType === 'marker') this.applyTopologyMarkerListeners(layer);
-  }
-
-  /**
-   * @brief takes currently created polygon and loops through each polygon
-   *        and executes operation 'difference'
-   *
-   * @param {Layer} layer
-   * @param {Boolean} intersect
-   */
-  polyDiff(layer, intersect = false) {
-    let selectedLayer = this.getState().selectedLayer;
-    let fgLayers = this.getState().featureGroup._layers;
-
-    let layerFeature = getGeoJSONFeatureFromLayer(layer);
-    let isCurrentLayerPoly = isLayerPoly(layer);
-
-    // let createdIsNotEraser = layer.layerType !== 'erased';
-    let createdIsEraser = layer.layerType === 'erased';
-
-    const replaceLayer = (replacement, replacedLayer, replacementCoords) => {
-      replacement?.dragging?.disable();
-      replacement.layerType = 'polygon';
-      if (replacementCoords) replacement._latlngs = replacementCoords;
-      replacement.identifier = replacedLayer.identifier;
-      replacement.setStyle({ ...replacement.options, ...normalStyles });
-      let content = replacedLayer.popupContent;
-      if (content) {
-        replacement.bindPopup(content, {
-          closeOnClick: false,
-          autoClose: false,
-        });
-        replacement.popupContent = content;
-      }
-      this.getState().addLayer(replacement);
-      this.getState().removeLayer(replacedLayer);
-      if (this.paintPoly) this.paintPoly?.clearPaintedPolys(replacedLayer.kIdx);
-    };
-
-    const diffLayers = (l) => {
-      if (!l) return;
-      let feature = getGeoJSONFeatureFromLayer(l);
-
-      let layerIsNotSelected = l?._leaflet_id !== selectedLayer?._leaflet_id;
-      let canDiff = !createdIsEraser ? true : layerIsNotSelected;
-      if (canDiff || intersect) {
-        let diffFeature = difference(feature, layerFeature);
-
-        if (diffFeature) {
-          let coords;
-          let latlngs;
-          coords = diffFeature.geometry.coordinates;
-          let isMultiPoly = diffFeature.geometry.type === 'MultiPolygon';
-          let isJustPoly = diffFeature.geometry.type === 'Polygon';
-          // * when substracting you can basically slice polygon into more parts
-          // * then we have to increase depth by one because we have an array within array
-          let depth = isMultiPoly ? 2 : 1;
-          try {
-            // * this conditional asks if created polygon is polygon with hole punched in it
-            // * for the rest of cases i.e. when polygon is split into multiple parts or not we use loop
-            // * otherwise we create polygon where hole should be
-            if (isJustPoly && coords.length !== 1) {
-              latlngs = L.GeoJSON.coordsToLatLngs(coords, 1);
-              let result = new L.polygon(latlngs, {
-                ...l.options,
-              });
-              replaceLayer(result, l);
-            } else {
-              coords.forEach((coord) => {
-                latlngs = L.GeoJSON.coordsToLatLngs([coord], depth);
-                let result = new L.polygon(latlngs, {
-                  ...l.options,
-                });
-                let newLatLngs = depth === 1 ? result._latlngs : result._latlngs[FIRST];
-                replaceLayer(result, l, newLatLngs);
-              });
-            }
-          } catch (error) {
-            console.error({ coords, latlngs, error, depth });
-          }
-        } else {
-          this.getState().removeLayer(l);
-          if (this.paintPoly) this.paintPoly?.clearPaintedPolys(l.kIdx);
-        }
-      }
-    };
-
-    if (isCurrentLayerPoly) {
-      // * if intersect is active execute difference with only selected polygon
-      if (intersect && !createdIsEraser) {
-        diffLayers(selectedLayer, true);
-      } else {
-        Object.values(fgLayers)
-          .filter((l) => isLayerPoly(l))
-          .forEach((l) => {
-            diffLayers(l);
-          });
-      }
-    }
-  }
-
-  /**
-   * @brief - takes selected object and currently created object
-   *        and executes passed operation
-   *        - used for union and intersection
-   *
-   * @param {Layer} layer
-   * @param {Number | undefined} eKeyIndex
-   * @param {Function} operation
-   * @param {Boolean} selectNew
-   * @returns {Layer} geo. object
-   */
-  operateOnSelectedAndCurrectLayer = (layer, eKeyIndex, operation, selectNew = false) => {
-    let feature = getFeatFromLayer(layer);
-    // * gets only first one because MultiPolygon is not expected to be created
-    feature = Array.isArray(feature) ? feature[0] : feature;
-    let isFeatPoly = isFeaturePoly(feature);
-    if (!isFeatPoly) return layer;
-
-    let summedFeature = feature;
-
-    let selectedLayer = this.getState().selectedLayer;
-    // * this can be multipolygon whenever user joins 2 unconnected polygons
-    let selectedFeatures = getFeatFromLayer(selectedLayer);
-    if (!selectedFeatures) return layer;
-
-    // * selected feature may be multiple polygons so we sum them
-    selectedFeatures.forEach((selectedFeature) => {
-      let isSelectedFeaturePoly = isFeaturePoly(selectedFeature);
-
-      if (isSelectedFeaturePoly) {
-        summedFeature = operation(selectedFeature, summedFeature);
-      }
-    });
-
-    layer = morphFeatureToPolygon(summedFeature, layer.options, false);
-    if (this.paintPoly) this.paintPoly.clearPaintedPolys(eKeyIndex);
-    if (selectNew) {
-      this.getState().removeSelectedLayer();
-      this.getState().setSelectedLayer(layer);
-    }
-    return layer;
-  };
-
-  /**
-   * @brief intersect selected object with the one being currently created
-   *
-   * @param {Layer} layer
-   * @param {Number | undefined} eKeyIndex
-   * @returns
-   */
-  polyIntersect(layer, eKeyIndex) {
-    const updatedLayer = this.operateOnSelectedAndCurrectLayer(layer, eKeyIndex, turf.intersect);
-
-    return updatedLayer;
-  }
-
-  /**
-   * @brief unifies selected object with the one being currently created
-   *
-   * @param {Layer} layer
-   * @param {Number | undefined} eKeyIndex
-   * @returns
-   */
-  polyJoin(layer, eKeyIndex) {
-    const updatedLayer = this.operateOnSelectedAndCurrectLayer(layer, eKeyIndex, union, true);
-    return updatedLayer;
-  }
-
-  /**
    * @brief called whenever new geo. object is created
    *
    * @param {Object} e
@@ -389,18 +201,19 @@ class DrawingLayerTool extends AbstractLayerTool {
     layer.layerType = e.layerType;
     if (e.keyIndex) layer.kIdx = e.keyIndex;
     const sidebarState = this.getSidebarTabControl().getState();
+    const state = this.getState();
 
     const { intersectActivated } = sidebarState;
 
     if (e.layerType === 'polygon' || e.layerType === 'painted') {
       // * JOIN
-      if (intersectActivated) layer = this.polyIntersect(layer, e.keyIndex);
-      else layer = this.polyJoin(layer, e.keyIndex);
+      if (intersectActivated) layer = polyIntersect(layer, e.keyIndex, state);
+      else layer = polyJoin(layer, e.keyIndex, state);
     }
 
     if (e.layerType === 'polygon' || e.layerType === 'painted' || e.layerType === 'erased') {
       // * DIFFERENCE
-      this.polyDiff(layer, intersectActivated);
+      polyDiff(layer, state, intersectActivated);
     }
 
     if (layer.dragging) layer.dragging.disable();
@@ -434,6 +247,18 @@ class DrawingLayerTool extends AbstractLayerTool {
       this.drawingTools[TopologyTool.NAME()].plotTopology();
     }
   };
+
+  /**
+   * @brief aplies event listeners for each geo. object
+   *
+   * @param {Layer} layer
+   */
+  applyEventListeners(layer) {
+    layer.on('click', L.DomEvent.stopPropagation).on('click', this.initChangeStyle, this);
+    layer.on('mouseover', this.hightlightOnHover, this);
+    layer.on('mouseout', this.normalizeOnHover, this);
+    if (layer.layerType === 'marker') this.applyTopologyMarkerListeners(layer);
+  }
 
   /**
    * @brief event listener so vetice is dragged with marker
