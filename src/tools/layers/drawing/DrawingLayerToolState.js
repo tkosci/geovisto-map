@@ -5,13 +5,10 @@ import {
   convertPropertiesToOptions,
   featureToLeafletCoordinates,
   getLeafletTypeFromFeature,
-  highlightStyles,
   isLayerPoly,
-  normalStyles,
 } from './util/Poly';
 import { isEmpty, sortReverseAlpha } from './util/functionUtils';
-import { iconStarter } from './util/Marker';
-import { FIRST, NOT_FOUND } from './util/constants';
+import { FIRST, NOT_FOUND, iconStarter, normalStyles } from './util/constants';
 
 const MAX_CHOSEN = 2;
 

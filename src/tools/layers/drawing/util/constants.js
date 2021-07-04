@@ -2,11 +2,25 @@
  * @author Andrej Tlcina
  */
 
+import L from 'leaflet';
+
 export const NOT_FOUND = -1;
 
 export const FIRST = 0;
 
 export const SPACE_BAR = 32;
+
+export const highlightStyles = { fillOpacity: 0.5, opacity: 0.2 };
+export const normalStyles = { fillOpacity: 0.2, opacity: 0.5 };
+
+/**
+ * icon options default
+ */
+export const iconStarter = {
+  shadowUrl: null,
+  iconAnchor: new L.Point(12, 12),
+  iconSize: new L.Point(24, 24),
+};
 
 export const ICON_SRCS = [
   'https://upload.wikimedia.org/wikipedia/commons/0/0a/Marker_location.png',

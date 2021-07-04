@@ -7,7 +7,8 @@ import * as turf from '@turf/turf';
 
 import AbstractTool from './AbstractTool';
 import '../components/Knife';
-import { getGeoJSONFeatureFromLayer, isFeaturePoly, normalStyles } from '../util/Poly';
+import { getGeoJSONFeatureFromLayer, isFeaturePoly } from '../util/Poly';
+import { normalStyles } from '../util/constants';
 
 class GeometricSliceTool extends AbstractTool {
   constructor(props) {

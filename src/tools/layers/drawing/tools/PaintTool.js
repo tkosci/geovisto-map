@@ -4,14 +4,9 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import AbstractTool from './AbstractTool';
-import {
-  convertOptionsToProperties,
-  highlightStyles,
-  normalStyles,
-  simplifyFeature,
-} from '../util/Poly';
+import { convertOptionsToProperties, simplifyFeature } from '../util/Poly';
 import circle from '@turf/circle';
-import { STROKES } from '../util/constants';
+import { STROKES, highlightStyles, normalStyles } from '../util/constants';
 import union from '@turf/union';
 
 const DEFAULT_COLOR = '#333333';

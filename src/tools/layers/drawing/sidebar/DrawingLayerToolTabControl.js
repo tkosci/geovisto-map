@@ -4,8 +4,7 @@ import AbstractLayerToolTabControl from '../../abstract/sidebar/AbstractLayerToo
 import SidebarInputFactory from '../../../../inputs/SidebarInputFactory';
 
 import '../style/drawingLayerTabControl.scss';
-import { ADMIN_LEVELS } from '../util/constants';
-import { iconStarter } from '../util/Marker';
+import { ADMIN_LEVELS, iconStarter } from '../util/constants';
 import { getIntervalStep } from '../util/functionUtils';
 import {
   createIntervalInput,

@@ -1,7 +1,7 @@
 import L from 'leaflet';
 import difference from '@turf/difference';
-import { getGeoJSONFeatureFromLayer, isLayerPoly, normalStyles } from '../util/Poly';
-import { FIRST } from '../util/constants';
+import { getGeoJSONFeatureFromLayer, isLayerPoly } from '../util/Poly';
+import { FIRST, normalStyles } from '../util/constants';
 
 const replaceLayer = (state, replacement, replacedLayer, replacementCoords) => {
   replacement?.dragging?.disable();

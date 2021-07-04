@@ -3,12 +3,19 @@ import L from 'leaflet';
 import AbstractLayerToolTabControlState from '../../abstract/sidebar/AbstractLayerToolTabControlState';
 
 import '../style/drawingLayerTabControl.scss';
-import { geoSearch, iconStarter, putMarkerOnMap } from '../util/Marker';
-import { normalStyles, simplifyFeature } from '../util/Poly';
+import { simplifyFeature } from '../util/Poly';
 
 import * as osmtogeojson from 'osmtogeojson';
-import { ICON_SRCS, COLORS, STROKES, ADMIN_LEVELS } from '../util/constants';
+import {
+  ICON_SRCS,
+  COLORS,
+  STROKES,
+  ADMIN_LEVELS,
+  iconStarter,
+  normalStyles,
+} from '../util/constants';
 import 'leaflet-pather';
+import { SearchTool } from '../tools';
 
 /**
  * This class manages the state of the sidebar tab.
@@ -459,7 +466,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     const value = e.target.value;
     const featureGroup = this.getTool()?.getState()?.featureGroup;
 
-    const opts = await geoSearch(featureGroup, value);
+    const opts = await SearchTool.geoSearch(featureGroup, value);
 
     this.searchOpts = opts;
     this.tabControl.inputSearch.changeOptions(opts ? opts.map((opt) => opt.label || '') : []);
@@ -481,7 +488,13 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     latlng.lat = found?.y || 0;
     latlng.lng = found?.x || 0;
     const iconUrl = found?.raw?.icon || ICON_SRCS[0];
-    const marker = putMarkerOnMap(featureGroup, latlng, found?.label, iconUrl, connectActivated);
+    const marker = SearchTool.putMarkerOnMap(
+      featureGroup,
+      latlng,
+      found?.label,
+      iconUrl,
+      connectActivated,
+    );
     this.getTool().applyEventListeners(marker);
     this.getTool().applyTopologyMarkerListeners(marker);
     this.selectedIcon = iconUrl;

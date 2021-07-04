@@ -5,7 +5,7 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import AbstractTool from './AbstractTool';
-import { iconStarter } from '../util/Marker';
+import { iconStarter } from '../util/constants';
 
 /**
  * @author Andrej Tlcina

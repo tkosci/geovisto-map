@@ -4,7 +4,6 @@ import DrawingLayerToolState from './DrawingLayerToolState';
 import DrawingLayerToolDefaults from './DrawingLayerToolDefaults';
 import DrawingLayerToolTabControl from './sidebar/DrawingLayerToolTabControl';
 import useDrawingToolbar from './components/useDrawingToolbar';
-import { highlightStyles, normalStyles } from './util/Poly';
 
 import 'leaflet/dist/leaflet.css';
 import './style/drawingLayer.scss';
@@ -13,7 +12,7 @@ import 'leaflet-geometryutil';
 import 'leaflet-draw';
 
 import * as d33 from 'd3-3-5-5';
-import { SPACE_BAR } from './util/constants';
+import { SPACE_BAR, highlightStyles, normalStyles } from './util/constants';
 
 import LineTool from './tools/LineTool';
 import MarkerTool from './tools/MarkerTool';

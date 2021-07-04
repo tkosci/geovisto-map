@@ -5,118 +5,13 @@ import 'leaflet-draw';
 
 import 'leaflet/dist/leaflet.css';
 
-import { STROKES, COLORS } from '../util/constants';
-
-import '../components/Knife';
+import { STROKES, COLORS, normalStyles } from '../util/constants';
 
 import * as turf from '@turf/turf';
-
-export const highlightStyles = { fillOpacity: 0.5, opacity: 0.2 };
-export const normalStyles = { fillOpacity: 0.2, opacity: 0.5 };
 
 /**
  * @author Andrej Tlcina
  */
-
-/**
- * enables creation of polygons
- *
- * @param {Object} map
- * @param {Object} sidebar
- * @returns
- */
-export const polygonCreate = (map, sidebar) => {
-  const x = new L.Draw.Polygon(map, {
-    allowIntersection: false,
-    drawError: {
-      color: '#e1e100',
-      message: '<strong>You cannot draw that!<strong>',
-    },
-    shapeOptions: {
-      color: sidebar.getState().getSelectedColor(),
-      weight: sidebar.getState().getSelectedStroke(),
-      draggable: true,
-      transform: true,
-    },
-    guideLayers: sidebar.getState().guideLayers,
-    snapDistance: 5,
-    repeatMode: true,
-  });
-  if (x) sidebar.getState().setEnabledEl(x);
-  x.enable();
-  return x;
-};
-
-/**
- * enables creation of polylines
- *
- * @param {Object} map
- * @param {Object} sidebar
- * @returns
- */
-export const polylineCreate = (map, sidebar) => {
-  const x = new L.Draw.Polyline(map, {
-    shapeOptions: {
-      color: sidebar.getState().getSelectedColor(),
-      weight: sidebar.getState().getSelectedStroke(),
-      draggable: true,
-      transform: true,
-    },
-    guideLayers: sidebar.getState().guideLayers,
-    repeatMode: true,
-  });
-  if (x) sidebar.getState().setEnabledEl(x);
-  x.enable();
-  return x;
-};
-
-/**
- * enables freehand slicing
- *
- * @param {Object} map
- * @param {Object} sidebar
- * @returns
- */
-export const slicePoly = (map, sidebar) => {
-  const pather = sidebar.getState().pather;
-  const patherStatus = sidebar.getState().patherActive;
-  if (!patherStatus) {
-    map.addLayer(pather);
-    sidebar.getState().setEnabledEl({
-      disable: () => {
-        map.removeLayer(pather);
-        sidebar.getState().setPatherStatus(false);
-      },
-    });
-  } else {
-    map.removeLayer(pather);
-    sidebar.getState().setEnabledEl(null);
-  }
-
-  sidebar.getState().setPatherStatus(!patherStatus);
-};
-
-/**
- * enables angular slicing
- *
- * @param {Object} map
- * @param {Object} sidebar
- * @returns
- */
-export const dividePoly = (map, sidebar) => {
-  const x = new L.Draw.Slice(map, {
-    shapeOptions: {
-      color: '#333',
-      weight: 3,
-      draggable: true,
-      transform: true,
-      guideLayers: sidebar.getState().guideLayers,
-    },
-  });
-  x.enable();
-  sidebar.getState().setEnabledEl(x);
-  return x;
-};
 
 /**
  * gets GeoJSON representation from layer structure

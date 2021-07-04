@@ -5,7 +5,7 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import MarkerTool from './MarkerTool';
-import { normalStyles } from '../util/Poly';
+import { normalStyles } from '../util/constants';
 
 class TopologyTool extends MarkerTool {
   constructor(props) {
