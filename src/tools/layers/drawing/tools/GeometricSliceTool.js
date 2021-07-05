@@ -83,7 +83,7 @@ class GeometricSliceTool extends AbstractTool {
           // clipped = simplifyFeature(clipped);
 
           coords = clipped.geometry.coordinates;
-          this.drawingTool.getState().removeSelectedLayer(selectedLayer);
+          this.drawingTool.getState().removeSelectedLayer();
           coords.forEach((coord) => {
             latlngs = L.GeoJSON.coordsToLatLngs(coord, 1);
             let result = new L.polygon(latlngs, {
@@ -116,6 +116,7 @@ class GeometricSliceTool extends AbstractTool {
 
   enable = (): void => {
     this._redrawSidebar(this.result());
+    this._disableActive();
     this._dividePoly();
   };
 }

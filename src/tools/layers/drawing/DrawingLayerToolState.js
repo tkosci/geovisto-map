@@ -8,6 +8,7 @@ import {
 } from './util/Poly';
 import { isEmpty, sortReverseAlpha } from './util/functionUtils';
 import { FIRST, NOT_FOUND, iconStarter, normalStyles } from './util/constants';
+import { EditTool, TransformTool } from './tools';
 
 const MAX_CHOSEN = 2;
 
@@ -318,8 +319,10 @@ class DrawingLayerToolState extends AbstractLayerToolState {
    *
    * @param {Layer} layer
    */
-  removeSelectedLayer(layer) {
-    this.featureGroup.removeLayer(layer || this.selectedLayer);
+  removeSelectedLayer() {
+    TransformTool.disableTransform(this.selectedLayer);
+    EditTool.disableNodeEdit(this.selectedLayer);
+    this.featureGroup.removeLayer(this.selectedLayer);
     this.selectedLayer = null;
   }
 

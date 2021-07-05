@@ -34,7 +34,7 @@ class DeselectTool extends AbstractTool {
   enable = (): void => {
     const selected = this.getSelectedEl();
 
-    this.deselect(selected, this.drawingTool);
+    DeselectTool.deselect(selected, this.drawingTool);
   };
 
   static deselect(selected, tool) {

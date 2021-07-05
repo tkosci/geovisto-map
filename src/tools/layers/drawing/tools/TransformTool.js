@@ -33,7 +33,7 @@ class TransformTool extends AbstractTool {
   enable = (): void => {
     const selected = this.getSelectedEl();
 
-    this.initTransform(selected);
+    TransformTool.initTransform(selected);
   };
 
   static initTransform(drawObject: object, disable = false): void {
@@ -56,6 +56,10 @@ class TransformTool extends AbstractTool {
       }
     }
   }
+
+  static disableTransform = (selectedEl: object) => {
+    TransformTool.initTransform(selectedEl, true);
+  };
 }
 
 export default TransformTool;

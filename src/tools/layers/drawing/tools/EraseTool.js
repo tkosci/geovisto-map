@@ -38,6 +38,7 @@ class EraseTool extends PaintTool {
 
   enable = (): void => {
     this._redrawSidebar(this.result());
+    this._disableActive();
     if (this._action == 'erase') {
       this.disable();
     } else {

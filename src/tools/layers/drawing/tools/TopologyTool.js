@@ -38,6 +38,7 @@ class TopologyTool extends MarkerTool {
 
   enable = (): void => {
     this._redrawSidebar(this.result);
+    this._disableActive();
     this._markerCreate(true);
   };
 

@@ -89,6 +89,7 @@ class FreehandSliceTool extends GeometricSliceTool {
 
   enable = (): void => {
     this._redrawSidebar(this.result());
+    this._disableActive();
     this._enableSlicing();
   };
 }

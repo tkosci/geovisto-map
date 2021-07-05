@@ -41,13 +41,13 @@ class RemoveTool extends AbstractTool {
     if (state.selectedLayerIsConnectMarker()) {
       state.removeMarkersMappedVertices(selectedLayer._leaflet_id);
     }
-    if (selectedLayer.layerType === 'vertice') {
+    if (selectedLayer?.layerType === 'vertice') {
       state.removeGivenVertice(selectedLayer._leaflet_id);
     }
     // TODO:
-    this.drawingTool?.paintPoly?.clearPaintedPolys(selectedLayer.kIdx);
+    this.drawingTool?.paintPoly?.clearPaintedPolys(selectedLayer?.kIdx);
     state.removeSelectedLayer();
-    this.redrawSidebarTabControl(null);
+    this._redrawSidebar(null);
   }
 }
 

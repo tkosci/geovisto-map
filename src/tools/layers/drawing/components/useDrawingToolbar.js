@@ -5,6 +5,7 @@ import 'leaflet-draw';
 import 'leaflet-draw/dist/leaflet.draw.css';
 
 import '../style/drawingLayer.scss';
+import { EditTool, TransformTool } from '../tools';
 
 /**
  * @author Andrej Tlcina
@@ -45,15 +46,21 @@ export default function useDrawingToolbar() {
       const topContainer = L.DomUtil.create('div', 'drawingtoolbar');
       const toolContainer = L.DomUtil.create('div', 'leaflet-bar leaflet-control', topContainer);
       toolContainer.style.cursor = 'pointer';
-      const cancalables = [];
+      const cancelables = [];
 
       const toggleExtra = (e, tool) => {
-        cancalables.forEach((btn) => btn.lastChild.classList.add('hide'));
+        cancelables.forEach((btn) => btn.lastChild.classList.add('hide'));
         let extraBtn = e.target.lastChild;
         if (!extraBtn) extraBtn = e.target.nextSibling;
-        extraBtn.classList.toggle('hide');
-        L.DomEvent.on(extraBtn, 'click', (e) => this._disableDrawing(e, tool), this);
+        // * careful not to hide the icon
+        if (extraBtn?.tagName === 'I') return;
+        if (extraBtn) {
+          extraBtn.classList.toggle('hide');
+          L.DomEvent.on(extraBtn, 'click', (e) => this._disableDrawing(e, tool), this);
+        }
       };
+
+      const selectedEl = this.getSelectedEl();
 
       const drawingTools = this.options.tool.drawingTools;
 
@@ -69,7 +76,15 @@ export default function useDrawingToolbar() {
           canBeCanceled,
         );
 
-        if (canBeCanceled) cancalables.push(btn);
+        if (canBeCanceled) cancelables.push(btn);
+
+        // TODO: refactor
+        if (tool.getName() !== 'transform-drawing-tool') {
+          L.DomEvent.on(btn, 'click', () => TransformTool.disableTransform(selectedEl), this);
+        }
+        if (tool.getName() !== 'edit-drawing-tool') {
+          L.DomEvent.on(btn, 'click', () => EditTool.disableNodeEdit(selectedEl), this);
+        }
 
         L.DomEvent.on(btn, 'click', tool.enable, this);
         L.DomEvent.on(btn, 'click', (e) => toggleExtra(e, tool), this);
@@ -77,28 +92,11 @@ export default function useDrawingToolbar() {
         this.options.drawingBtns[key] = btn;
       });
 
-      this.addEventListeners();
       L.DomEvent.disableClickPropagation(topContainer);
       return topContainer;
     },
 
     onRemove: function (map) {},
-
-    /**
-     * adds event listeners
-     */
-    addEventListeners: function () {
-      // // * on click disable transform/node edit if is active
-      // const btnsArr = Object.values(this.options.drawingBtns);
-      // btnsArr.forEach((btn) => {
-      //   if (!btn.className.includes('transformBtn')) {
-      //     L.DomEvent.on(btn, 'click', this._disableTransform, this);
-      //   }
-      //   if (!btn.className.includes('editBtn')) {
-      //     L.DomEvent.on(btn, 'click', this._disableNodeEdit, this);
-      //   }
-      // });
-    },
 
     /**
      * disables enabled tool (markers, polylines, polygons, brush tool, eraser)
@@ -107,29 +105,8 @@ export default function useDrawingToolbar() {
      */
     _disableDrawing: function (e, tool) {
       e.stopPropagation();
-      e?.target?.classList?.toggle('hide');
+      e?.target?.classList?.add('hide');
       tool.disable();
-    },
-
-    /**
-     * disables transform of selected geo. object
-     */
-    _disableTransform: function () {
-      const layer = this.getSelectedEl();
-
-      if (layer?.transform?._enabled) {
-        layer.transform.disable();
-        layer.dragging.disable();
-        let paintPoly = this.getSidebar().getState().paintPoly;
-        paintPoly.updatePaintedPolys(layer.kIdx, layer);
-      }
-    },
-
-    /**
-     * disables node edit
-     */
-    _disableNodeEdit: function () {
-      this.options.tool.initNodeEdit(true);
     },
 
     /**
@@ -161,14 +138,6 @@ export default function useDrawingToolbar() {
      */
     getSelectedEl: function () {
       return this.options.tool.getState().selectedLayer;
-    },
-
-    /**
-     *
-     * @returns sidebar object
-     */
-    getSidebar: function () {
-      return this.options.tool.getSidebarTabControl();
     },
   });
 

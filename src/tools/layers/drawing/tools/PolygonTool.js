@@ -58,6 +58,7 @@ class PolygonTool extends AbstractTool {
 
   enable = (): void => {
     this._redrawSidebar(this.result());
+    this._disableActive();
     this._polygonCreate();
   };
 }
