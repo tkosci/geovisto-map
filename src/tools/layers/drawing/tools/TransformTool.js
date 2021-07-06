@@ -42,8 +42,6 @@ class TransformTool extends AbstractTool {
       if (layer.transform._enabled || disable) {
         layer.transform.disable();
         layer.dragging.disable();
-        // TODO:
-        // this.drawingTool?.paintPoly?.updatePaintedPolys(layer.kIdx, layer);
       } else {
         layer.transform.enable({ rotation: true, scaling: true });
         layer.dragging.enable();

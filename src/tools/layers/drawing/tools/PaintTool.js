@@ -4,14 +4,13 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import AbstractTool from './AbstractTool';
-import { convertOptionsToProperties, simplifyFeature } from '../util/Poly';
+import { convertOptionsToProperties, isLayerPoly, simplifyFeature } from '../util/Poly';
 import circle from '@turf/circle';
 import { STROKES, highlightStyles, normalStyles } from '../util/constants';
 import union from '@turf/union';
 
 const DEFAULT_COLOR = '#333333';
 const DEFAULT_RADIUS = 30;
-const ERASE_KEY = 'X';
 const ERASER_COLOR = '#ee000055';
 
 class PaintTool extends AbstractTool {
@@ -32,8 +31,8 @@ class PaintTool extends AbstractTool {
 
     this.keyIndex = 0;
 
-    this._accumulatedShapes = {};
-    this._shapeLayers = {};
+    this._accumulatedShape = null;
+    this._shapeLayer = null;
 
     this._active = false;
   }
@@ -145,45 +144,11 @@ class PaintTool extends AbstractTool {
   };
 
   /**
-   * painted polygons change (with union, difference ops)
-   * whenever one changes remove it, otherwise you'll start painting on the old one (not modified one)
-   */
-  clearPaintedPolys = (kIdx) => {
-    if (kIdx === undefined) return;
-
-    if (this._shapeLayers[kIdx]) {
-      this._shapeLayers[kIdx].remove();
-      delete this._shapeLayers[kIdx];
-    }
-    delete this._accumulatedShapes[kIdx];
-  };
-
-  /**
    * removes all accumulated circles (painted polygons)
    */
-  clearAllAccumulated = () => {
-    Object.keys(this._accumulatedShapes).forEach((key) => {
-      delete this._accumulatedShapes[key];
-    });
-  };
-
-  /**
-   * updates painted polygons with passed layer
-   *
-   * @param {Number} kIdx
-   * @param {Layer} layer
-   * @returns
-   */
-  updatePaintedPolys = (kIdx, layer) => {
-    if (kIdx === undefined) return;
-
-    if (this._shapeLayers[kIdx]) {
-      this._shapeLayers[kIdx] = layer;
-    }
-    let feature = layer.toGeoJSON();
-    feature.properties = convertOptionsToProperties(layer.options);
-
-    this._accumulatedShapes[kIdx] = feature;
+  clearPainted = () => {
+    this._accumulatedShape = null;
+    this._shapeLayer = null;
   };
 
   /**
@@ -207,25 +172,19 @@ class PaintTool extends AbstractTool {
   drawCircle = (erase) => {
     const brushColor = this.tabState.getSelectedColor() || DEFAULT_COLOR;
     const brushStroke = this.tabState.getSelectedStroke() || STROKES[1].value;
-    const turfCircle = circle([this._latlng.lng, this._latlng.lat], this._pixelsToMeters(), {
+    let turfCircle = circle([this._latlng.lng, this._latlng.lat], this._pixelsToMeters(), {
       steps: 16,
       units: 'meters',
     });
 
-    const kIdx = erase ? ERASE_KEY : this.keyIndex;
-
-    if (!this._accumulatedShapes[kIdx]) {
-      this._accumulatedShapes[kIdx] = turfCircle;
+    if (!this._accumulatedShape) {
+      this._accumulatedShape = turfCircle;
     } else {
-      this._accumulatedShapes[kIdx] = union(this._accumulatedShapes[kIdx], turfCircle);
+      this._accumulatedShape = union(this._accumulatedShape, turfCircle);
     }
 
-    this._accumulatedShapes[kIdx].properties = { fill: brushColor, 'stroke-width': brushStroke };
-    // console.log({
-    //   accShapes: this._accumulatedShapes,
-    //   shape: this._accumulatedShapes[kIdx],
-    //   kIdx: kIdx,
-    // });
+    this._accumulatedShape.properties = { fill: brushColor, 'stroke-width': brushStroke };
+
     this._redrawShapes();
   };
 
@@ -234,37 +193,35 @@ class PaintTool extends AbstractTool {
    */
   _redrawShapes = () => {
     const selectedLayer = this.tabState.getToolState().selectedLayer;
-    Object.keys(this._accumulatedShapes).forEach((key) => {
-      let simplified = simplifyFeature(this._accumulatedShapes[key]);
-      let coords = simplified.geometry.coordinates;
-      let isMultiPoly = this._accumulatedShapes[key].geometry.type === 'MultiPolygon';
-      let depth = isMultiPoly ? 2 : 1;
-      let latlngs = L.GeoJSON.coordsToLatLngs(coords, depth);
-      let color = this._accumulatedShapes[key]?.properties?.fill || DEFAULT_COLOR;
-      let weight = this._accumulatedShapes[key]?.properties['stroke-width'] || STROKES[1].value;
 
-      let styles = selectedLayer?.kIdx === key ? highlightStyles : normalStyles;
+    let simplified = simplifyFeature(this._accumulatedShape);
+    let coords = simplified.geometry.coordinates;
+    let isMultiPoly = this._accumulatedShape.geometry.type === 'MultiPolygon';
+    let depth = isMultiPoly ? 2 : 1;
+    let latlngs = L.GeoJSON.coordsToLatLngs(coords, depth);
+    let color = this._accumulatedShape?.properties?.fill || DEFAULT_COLOR;
+    let weight = this._accumulatedShape?.properties['stroke-width'] || STROKES[1].value;
 
-      let opts =
-        key === ERASE_KEY
-          ? { color: ERASER_COLOR, draggable: false, transform: false }
-          : {
-              color,
-              weight,
-              draggable: true,
-              transform: true,
-            };
+    let styles = isLayerPoly(selectedLayer) ? highlightStyles : normalStyles;
 
-      let result = new L.polygon(latlngs, { ...opts, ...styles });
+    let opts =
+      this._action === 'erase'
+        ? { color: ERASER_COLOR, draggable: false, transform: false }
+        : {
+            color,
+            weight,
+            draggable: true,
+            transform: true,
+          };
 
-      result?.dragging?.disable();
+    let result = new L.polygon(latlngs, { ...opts, ...styles });
 
-      if (this._shapeLayers[key] !== undefined) {
-        this._shapeLayers[key].remove();
-      }
+    result?.dragging?.disable();
 
-      this._shapeLayers[key] = result.addTo(this.leafletMap);
-    });
+    // * remove previously appended object onto map, otherwise we'll have duplicates
+    if (this._shapeLayer) this._shapeLayer.remove();
+    // * this will just append shapes onto map, but not into featureGroup of all objects
+    this._shapeLayer = result.addTo(this.leafletMap);
   };
 
   /**
@@ -273,22 +230,13 @@ class PaintTool extends AbstractTool {
    */
   _fireCreatedShapes = () => {
     // console.log('%cfired', 'color: #085f89');
-    const layerState = this.tabState.getToolState();
-    Object.keys(this._shapeLayers).forEach((key) => {
-      const found = layerState.getLayerByIdx(key);
-      if (found) {
-        layerState.removeLayer(found);
-        this._shapeLayers[key].kIdx = key;
-        this._shapeLayers[key].layerType = 'painted';
-        layerState.addLayer(this._shapeLayers[key]);
-      } else {
-        this.leafletMap.fire(L.Draw.Event.CREATED, {
-          layer: this._shapeLayers[key],
-          layerType: key === ERASE_KEY ? 'erased' : 'painted',
-          keyIndex: key,
-        });
-      }
+
+    this.leafletMap.fire(L.Draw.Event.CREATED, {
+      layer: this._shapeLayer,
+      layerType: this._action === 'erase' ? 'erased' : 'painted',
     });
+
+    this.clearPainted();
   };
 
   // ================= EVENT LISTENERS =================

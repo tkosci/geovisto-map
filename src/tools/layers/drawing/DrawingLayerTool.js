@@ -238,7 +238,6 @@ class DrawingLayerTool extends AbstractLayerTool {
     if (e.layerType === 'erased') {
       const map = this.getMap().getState().getLeafletMap();
       map.removeLayer(layer);
-      if (this.paintPoly) this.paintPoly.clearPaintedPolys(e.keyIndex);
     }
 
     // * MARKER
@@ -367,7 +366,6 @@ class DrawingLayerTool extends AbstractLayerTool {
       _?.dragging?.disable();
       if (_?.transform?._enabled) {
         _.transform.disable();
-        if (this.paintPoly) this.paintPoly.updatePaintedPolys(_.kIdx, _);
       }
     });
     state.setSelectedLayer(drawObject);

@@ -302,10 +302,8 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
    * @returns {Object} HTML element
    */
   createCustomToleranceCheck = () => {
-    const { paintPoly } = this.getTool();
     const toleranceChange = (val) => {
       window.customTolerance = val;
-      paintPoly.clearAllAccumulated();
     };
 
     // * tolerance changes with zoom

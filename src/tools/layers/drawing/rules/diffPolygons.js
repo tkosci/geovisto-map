@@ -19,7 +19,6 @@ const replaceLayer = (state, replacement, replacedLayer, replacementCoords) => {
   }
   state.addLayer(replacement);
   state.removeLayer(replacedLayer);
-  // if (this.paintPoly) this.paintPoly?.clearPaintedPolys(replacedLayer.kIdx);
 };
 
 const diffLayers = (l, selectedLayer, createdIsEraser, intersect, layerFeature, state) => {
@@ -65,7 +64,6 @@ const diffLayers = (l, selectedLayer, createdIsEraser, intersect, layerFeature, 
       }
     } else {
       state.removeLayer(l);
-      // if (this.paintPoly) this.paintPoly?.clearPaintedPolys(l.kIdx);
     }
   }
 };

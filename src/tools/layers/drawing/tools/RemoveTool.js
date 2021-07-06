@@ -44,8 +44,6 @@ class RemoveTool extends AbstractTool {
     if (selectedLayer?.layerType === 'vertice') {
       state.removeGivenVertice(selectedLayer._leaflet_id);
     }
-    // TODO:
-    this.drawingTool?.paintPoly?.clearPaintedPolys(selectedLayer?.kIdx);
     state.removeSelectedLayer();
     this._redrawSidebar(null);
   }
