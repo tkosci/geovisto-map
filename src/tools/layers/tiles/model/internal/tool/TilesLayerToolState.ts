@@ -1,6 +1,7 @@
 // Geovisto core
 import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
 import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
+import IMapTilesModel from "../../../../../../model/types/tiles/IMapTilesModel";
 
 import ITilesLayerToolState from "../../types/tool/ITilesLayerToolState";
 import ITilesLayerTool from "../../types/tool/ITilesLayerTool";
@@ -15,7 +16,7 @@ import ITilesLayerToolConfig from "../../types/tool/ITilesLayerToolConfig";
  */
 class TilesLayerToolState extends LayerToolState implements ITilesLayerToolState {
     
-    private baseMap!: string;
+    private tilesModel!: IMapTilesModel;
     private layer?: L.TileLayer;
 
     /**
@@ -65,8 +66,8 @@ class TilesLayerToolState extends LayerToolState implements ITilesLayerToolState
     /**
      * It returns a base map ID.
      */
-    public getBaseMap(): string {
-        return this.baseMap;
+    public getBaseMap(): IMapTilesModel {
+        return this.tilesModel;
     }
 
     /**
@@ -74,8 +75,8 @@ class TilesLayerToolState extends LayerToolState implements ITilesLayerToolState
      * 
      * @param baseMap
      */
-    public setBaseMap(baseMap: string): void {
-        this.baseMap = baseMap;
+    public setBaseMap(baseMap: IMapTilesModel): void {
+        this.tilesModel = baseMap;
     }
 
     /**

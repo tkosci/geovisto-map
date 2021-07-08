@@ -4,14 +4,12 @@ import IMapTilesModel from '../../../../../../../model/types/tiles/IMapTilesMode
 import BasicTheme from '../../basic/BasicTheme';
 import IMapTheme from '../../../../types/theme/IMapTheme';
 
-import './style.scss';
-
 /**
- * This class wraps a filter operation.
+ * This class defines a custom theme.
  * 
  * @author Jiri Hynek
  */
-class Light3Theme extends BasicTheme implements IMapTheme {
+class MapyCZTheme extends BasicTheme implements IMapTheme {
 
     /**
      * It initializes the light theme.
@@ -24,7 +22,7 @@ class Light3Theme extends BasicTheme implements IMapTheme {
      * It returns the theme type.
      */
     public getName(): string {
-        return "light3";
+        return "mapy.cz";
     }
 
     /**
@@ -32,9 +30,9 @@ class Light3Theme extends BasicTheme implements IMapTheme {
      */
     public getBaseMap(): IMapTilesModel {
         return { 
-            url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+            url: 'https://mapserver.mapy.cz/turist-m/{z}-{x}-{y}',
+            attribution: '&copy; <a href="https://licence.mapy.cz/?doc=mapy_pu">Mapy.cz</a>'
         };
     }
 }
-export default Light3Theme;
+export default MapyCZTheme;

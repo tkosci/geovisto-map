@@ -2,6 +2,7 @@
 import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
 import { ILayerToolDimensionsConfig } from "../../../../../../model/types/layer/ILayerToolConfig";
 import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
+import IMapTilesModel from "../../../../../../model/types/tiles/IMapTilesModel";
 
 import ITilesLayerToolConfig from "./ITilesLayerToolConfig";
 import ITilesLayerToolDefaults from "./ITilesLayerToolDefaults";
@@ -23,14 +24,14 @@ interface ITilesLayerToolState<
     /**
      * It returns a base map ID.
      */
-    getBaseMap(): string;
+    getBaseMap(): IMapTilesModel;
 
     /**
      * It sets a base map ID.
      * 
      * @param baseMap
      */
-    setBaseMap(baseMap: string): void;
+    setBaseMap(baseMap: IMapTilesModel): void;
 
     /**
      * It returns a Leaflet tile layer.

@@ -1,7 +1,5 @@
-import L from 'leaflet';
+import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-
-import 'font-awesome/css/font-awesome.min.css';
 
 // TODO - move to index.ts
 import '../../../styles/common.scss';
@@ -22,6 +20,8 @@ import DataChangeEvent from '../event/data/DataChangeEvent';
 import GeovistoMapDefaults from './GeovistoMapDefaults';
 import GeovistoMapState from './GeovistoMapState';
 import MapObject from '../object/MapObject';
+import IMapDataManager from '../../types/data/IMapDataManager';
+import DataManagerChangeEvent from '../event/data/DataManagerChangeEvent';
 
 /**
  * Representation of map wrapper which handles map layers, sidebar and other tools
@@ -246,7 +246,7 @@ class GeovistoMap extends MapObject implements IMap {
     protected createMap(): L.Map {
         const state: IMapState = this.getState();
         const map: L.Map = L
-        .map(this.getContainerId(), state.getInitialMapStructure())
+        .map(this.getContainerId(), { ...state.getInitialMapStructure() })
         .setView(
             state.getInitialMapCenter(),
             state.getInitialZoom()
@@ -266,7 +266,7 @@ class GeovistoMap extends MapObject implements IMap {
      * This function can be overriden;
      */
     protected getMapAttribution(): string {
-        return '<a href="https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson">GeoJSON</a>';
+        return 'Geovisto | VUT FIT Brno';
     }
 
     /**
@@ -284,6 +284,23 @@ class GeovistoMap extends MapObject implements IMap {
 
     /**
      * It updates data and invokes notifies listeners.
+     * 
+     * @param data
+     */
+    public updateData(data: IMapDataManager): void {
+
+        // create and dispatch event
+        this.getState().getEventManager().scheduleEvent(
+            new DataManagerChangeEvent(this, data),
+            () => {
+                this.getState().setMapData(data);
+            }, // update data in map state (it updates the current data as well)
+            undefined
+        );
+    }
+
+    /**
+     * It updates current data and invokes notifies listeners.
      * 
      * @param data
      * @param source of the change

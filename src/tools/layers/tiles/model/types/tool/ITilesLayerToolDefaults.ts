@@ -1,5 +1,6 @@
 // Geovisto core
 import ILayerToolDefaults from "../../../../../../model/types/layer/ILayerToolDefaults";
+import IMapTilesModel from "../../../../../../model/types/tiles/IMapTilesModel";
 
 /**
  * This interface declares functions which return the default state values.
@@ -11,6 +12,6 @@ interface ITilesLayerToolDefaults extends ILayerToolDefaults {
     /**
      * It returns the preferred base map.
      */
-    getBaseMap(): string;
+    getBaseMap(): IMapTilesModel;
 }
 export default ITilesLayerToolDefaults;

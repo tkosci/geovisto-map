@@ -1,9 +1,10 @@
 // Leaflet
-import L from 'leaflet';
+import * as L from 'leaflet';
 import "leaflet-sidebar-v2";
 import "leaflet-sidebar-v2/css/leaflet-sidebar.min.css";
 
 // styles
+import 'font-awesome/css/font-awesome.min.css';
 import "../../../styles/style.scss";
 
 // Geovisto core
@@ -11,6 +12,7 @@ import MapTool from '../../../../../model/internal/tool/MapTool';
 import { IMapToolInitProps } from '../../../../../model/types/tool/IMapToolProps';
 import { instanceOfMapForm } from '../../../../../model/types/form/IMapFormControl';
 
+import DataManagerChangeEvent from '../../../../../model/internal/event/data/DataManagerChangeEvent';
 import DummyTabTool from '../dummy/DummyTabTool';
 import IMapTool from '../../../../../model/types/tool/IMapTool';
 import ISidebarTab from '../../types/tab/ISidebarTab';
@@ -23,6 +25,7 @@ import ISidebarToolState from '../../types/tool/ISidebarToolState';
 import SidebarTab from '../tab/SidebarTab';
 import SidebarToolDefaults from "./SidebarToolDefaults";
 import SidebarToolState from "./SidebarToolState";
+import IMapEvent from '../../../../../model/types/event/IMapEvent';
 
 /**
  * This class provides the sidebar tool.
@@ -213,6 +216,26 @@ class SidebarTool extends MapTool implements ISidebarTool {
                 // update state
                 this.getState().addTab(sidebarTab);
             }
+        }
+    }
+
+    /**
+     * This function is called when a custom event is invoked.
+     * 
+     * @param event 
+     */
+     public handleEvent(event: IMapEvent): void {
+        console.log(event);
+        let tabs;
+        switch (event.getType()) {
+            case DataManagerChangeEvent.TYPE():
+                tabs = this.getState().getTabs();
+                for(let i = 0; i < tabs.length; i++) {
+                    tabs[i].redraw();
+                }
+                break;
+            default:
+                break;
         }
     }
 }

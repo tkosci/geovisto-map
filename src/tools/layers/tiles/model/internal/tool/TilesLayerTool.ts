@@ -1,5 +1,5 @@
 // leaflet
-import L from 'leaflet';
+import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 // Geovisto Themes Tool API
@@ -15,6 +15,7 @@ import IMapChangeEvent from '../../../../../../model/types/event/IMapChangeEvent
 import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapForm from '../../../../../../model/types/form/IMapForm';
 import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
+import IMapTilesModel from '../../../../../../model/types/tiles/IMapTilesModel';
 import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
 
 import ITilesLayerTool from '../../types/tool/ITilesLayerTool';
@@ -143,18 +144,22 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, IMapF
     /**
      * Creates new tile layer
      * 
-     * TODO: do not use constant attribution.
-     * 
-     * @param tileID 
+     * @param tilesModel 
      */
-    protected createTileLayer(tileID: string): L.TileLayer {
-        // ----------------- TODO: refactorization needed
-        const layer: L.TileLayer = L.tileLayer(tileID, {    
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-            subdomains: 'abcd',
-            maxZoom: 19,
-            minZoom: 1,
-        });
+    protected createTileLayer(tilesModel: IMapTilesModel): L.TileLayer {
+        const defaultTilesModel = this.getDefaults().getBaseMap();
+
+        const options: L.TileLayerOptions = {
+            attribution: tilesModel.attribution ?? "",
+            maxZoom: tilesModel.maxZoom ?? defaultTilesModel.maxZoom,
+            maxNativeZoom: tilesModel.maxNativeZoom ?? defaultTilesModel.maxNativeZoom
+        }
+
+        if(tilesModel.subdomains) {
+            options.subdomains = tilesModel.subdomains
+        }
+
+        const layer: L.TileLayer = L.tileLayer(tilesModel.url, options);
         return layer;
     }
 

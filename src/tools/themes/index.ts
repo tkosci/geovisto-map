@@ -22,6 +22,9 @@ export { default as Dark3Theme } from './model/internal/theme/custom/dark3/Dark3
 export { default as Light1Theme } from './model/internal/theme/custom/light1/Light1Theme';
 export { default as Light2Theme } from './model/internal/theme/custom/light2/Light2Theme';
 export { default as Light3Theme } from './model/internal/theme/custom/light3/Light3Theme';
+export { default as MapyCZTheme } from './model/internal/theme/custom/mapycz/MapyCZTheme';
+export { default as GoogleTheme } from './model/internal/theme/custom/google/GoogleTheme';
+export { default as GoogleSatTheme } from './model/internal/theme/custom/google/GoogleSatTheme';
 export { default as ThemesTool } from './model/internal/tool/ThemesTool';
 export { default as ThemesToolAPI } from './model/internal/tool/ThemesToolAPI';
 export { default as ThemesToolDefaults } from './model/internal/tool/ThemesToolDefaults';

@@ -21,6 +21,7 @@ class MapToolsManager extends MapObjectsManager<IMapTool> implements IMapToolsMa
         const toolsCopy: IMapTool[] = [];
         const tools: IMapTool[] = this.getAll();
         for(let i = 0; i < tools.length; i++) {
+            // FIXME: this us a bug (deep copy of the object needs to be done, including all the overriden fields)
             toolsCopy.push(tools[i].copy());
         }
         return new MapToolsManager(toolsCopy);

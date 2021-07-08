@@ -36,5 +36,12 @@ interface IMapDimension<T extends IMapDomain> extends IMapDomain {
      * @param domain 
      */
     setDomain(domain: T | undefined): void;
+
+    /**
+     * It looks for the map domain of the given name and sets it the map dimension.
+     * 
+     * @param domainName 
+     */
+    setDomainByName(domainName: string): void;
 }
 export default IMapDimension;

@@ -5,6 +5,7 @@ import IMapDefaults from "./IMapDefaults";
 import IMapObject from "../object/IMapObject";
 import { IMapProps, IMapInitProps } from "./IMapProps";
 import IMapState from "./IMapState";
+import IMapDataManager from "../data/IMapDataManager";
 
 /**
  * Declaration of map wrapper which handles map inputs (data, props, config), map tools and other map objects.
@@ -35,7 +36,14 @@ interface IMap<
     export(): Record<string, unknown>;
 
     /**
-     * It updates data and invokes listeners.
+     * It updates data and notifies listeners.
+     * 
+     * @param data
+     */
+    updateData(data: IMapDataManager): void;
+
+    /**
+     * It updates current data and notifies listeners.
      * 
      * @param data
      * @param source of the change

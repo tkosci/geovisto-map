@@ -1,5 +1,6 @@
 // Geovisto core
 import ILayerToolProps from "../../../../../../model/types/layer/ILayerToolProps";
+import IMapTilesModel from "../../../../../../model/types/tiles/IMapTilesModel";
 
 /**
  * This type provides the specification of the tiles layer tool props model.
@@ -7,6 +8,6 @@ import ILayerToolProps from "../../../../../../model/types/layer/ILayerToolProps
  * @author Jiri Hynek
  */
 type ITilesLayerToolProps = ILayerToolProps & {
-    baseMap?: string;
+    baseMap?: IMapTilesModel;
 }
 export default ITilesLayerToolProps;

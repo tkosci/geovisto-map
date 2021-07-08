@@ -204,16 +204,8 @@ class SidebarTab<T extends IMapTool & IMapFormControl> extends MapObject impleme
         if(tabElement) {
             const tabContentElements: HTMLCollectionOf<Element> = tabElement.getElementsByClassName(C_sidebar_tab_content_class);
             if(tabContentElements.length > 0) {
-                const tabContent: Element = tabContentElements[0];
-                tabContent.appendChild(this.getTool().getMapForm().getContent());
 
-                // append tab fragments if defined
-                const tabFragments: ISidebarFragment[] | undefined = this.getState().getFragments();
-                if(tabFragments) {
-                    for(let i = 0; i < tabFragments.length; i++) {
-                        tabContent.appendChild(tabFragments[i].getContent());
-                    }
-                }
+                this.createTabContent(tabContentElements[0]);
 
                 // enable/disable button
                 const tabHeaderElements: HTMLCollectionOf<Element> = tabElement.getElementsByClassName(C_sidebar_header_class);
@@ -241,13 +233,49 @@ class SidebarTab<T extends IMapTool & IMapFormControl> extends MapObject impleme
                     if(this.getState().getTool()?.isEnabled()) {
                         tabHeader.classList.add(C_enabled_class);
                         tabElement.classList.add(C_enabled_class);
-                    } else {
-                        // disable inputs
-                        d3select(tabContent).selectAll("input").attr("disabled", "true");
-                        d3select(tabContent).selectAll("select").attr("disabled", "true");
-                        d3select(tabContent).selectAll("button").attr("disabled", "true");
                     }
                 }
+            }
+        }
+    }
+
+    protected createTabContent(tabContent: Element): void {
+        tabContent.appendChild(this.getTool().getMapForm().getContent());
+
+        // append tab fragments if defined
+        const tabFragments: ISidebarFragment[] | undefined = this.getState().getFragments();
+        if(tabFragments) {
+            for(let i = 0; i < tabFragments.length; i++) {
+                tabContent.appendChild(tabFragments[i].getContent());
+            }
+        }
+
+        if(!this.getState().getTool()?.isEnabled()) {
+            // disable inputs
+            d3select(tabContent).selectAll("input").attr("disabled", "true");
+            d3select(tabContent).selectAll("select").attr("disabled", "true");
+            d3select(tabContent).selectAll("button").attr("disabled", "true");
+        }
+    }
+
+    /**
+     * It redraws the content of the sidebar tab.
+     */
+    public redraw(): void {
+        // get rendered sidebar tab
+        const tabElement: HTMLElement | null = document.getElementById(this.getState().getId());
+
+        // create sidebar tab content
+        if(tabElement) {
+            const tabContentElements: HTMLCollectionOf<Element> = tabElement.getElementsByClassName(C_sidebar_tab_content_class);
+            if(tabContentElements.length > 0) {
+                const tabContent: Element = tabContentElements[0];
+
+                // remove current form inputs
+                tabContent.innerHTML = "";
+
+                // create new form inputs
+                this.createTabContent(tabContentElements[0]);
             }
         }
     }

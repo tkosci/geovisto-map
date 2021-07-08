@@ -42,5 +42,10 @@ interface ISidebarTab<
      * It creates the sidebar tab
      */
     create(): this;
+
+    /**
+     * It redraws the content of the sidebar tab.
+     */
+    redraw(): void;
 }
 export default ISidebarTab;
