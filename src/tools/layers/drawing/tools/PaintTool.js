@@ -62,19 +62,20 @@ class PaintTool extends AbstractTool {
   };
 
   enable = (): void => {
-    this._redrawSidebar(this.result());
     this._disableActive();
     if (this._action == 'draw') {
       this.disable();
     } else {
       this.enablePaint();
     }
+    this._redrawSidebar(this.result());
   };
 
   /**
    * enables painting
    */
   enablePaint = () => {
+    console.log('enabled');
     this.startPaint();
     this._active = true;
   };
@@ -289,6 +290,7 @@ class PaintTool extends AbstractTool {
   disable = () => {
     this.stop();
     this._active = false;
+    this._redrawSidebar('');
   };
 
   /**

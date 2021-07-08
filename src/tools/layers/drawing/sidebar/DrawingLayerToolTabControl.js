@@ -12,6 +12,7 @@ import {
   createPalette,
   createButton,
 } from '../components/inputs';
+import { EraseTool, PaintTool } from '../tools';
 
 const POLYS = ['polyline', 'polygon', 'painted', 'vertice'];
 
@@ -128,19 +129,26 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
    * @returns {Object} HTML element
    */
   createBrushSizeControl = () => {
-    let paintPoly = this.getTool().paintPoly;
+    const { drawingTools = {} } = this.getTool();
 
-    if (!paintPoly || !paintPoly.isActive()) return null;
+    const paintTool = drawingTools[PaintTool.NAME()];
+    const eraseTool = drawingTools[EraseTool.NAME()];
 
-    let { maxBrushSize, minBrushSize } = paintPoly.getBrushSizeConstraints();
+    let brush = null;
+    if (paintTool?.isActive()) brush = paintTool;
+    if (eraseTool?.isActive()) brush = eraseTool;
+
+    if (!brush) return null;
+
+    let { maxBrushSize, minBrushSize } = brush.getBrushSizeConstraints();
 
     const controlWrapper = document.createElement('div');
     const brushControl = createIntervalInput(
       'Brush size: ',
       minBrushSize,
       maxBrushSize,
-      paintPoly.resizeBrush,
-      paintPoly.getBrushSize(),
+      brush.resizeBrush,
+      brush.getBrushSize(),
     );
     controlWrapper.appendChild(brushControl);
 
@@ -626,8 +634,8 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     // get data mapping model
     let model = this.getDefaults().getDataMappingModel();
 
-    let paintPolyControl = this.createBrushSizeControl();
-    if (paintPolyControl) elem.appendChild(paintPolyControl);
+    let brushControl = this.createBrushSizeControl();
+    if (brushControl) elem.appendChild(brushControl);
 
     if (!layerType) {
       this.getState().clearFilters();

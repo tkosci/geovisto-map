@@ -129,7 +129,6 @@ class DrawingLayerTool extends AbstractLayerTool {
     tools[RemoveTool.NAME()] = new RemoveTool({ drawingTool: this });
 
     this.drawingTools = tools;
-    this.paintPoly = tools[PaintTool.NAME()];
   }
 
   /**
@@ -197,8 +196,9 @@ class DrawingLayerTool extends AbstractLayerTool {
    */
   createdListener = (e) => {
     let layer = e.layer;
+    if (!layer) return;
+
     layer.layerType = e.layerType;
-    if (e.keyIndex) layer.kIdx = e.keyIndex;
     const sidebarState = this.getSidebarTabControl().getState();
     const state = this.getState();
 
@@ -215,7 +215,7 @@ class DrawingLayerTool extends AbstractLayerTool {
       polyDiff(layer, state, intersectActivated);
     }
 
-    if (layer.dragging) layer.dragging.disable();
+    if (layer?.dragging) layer.dragging.disable();
 
     // * SLICE
     if (e.layerType === 'knife') {

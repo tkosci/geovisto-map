@@ -83,7 +83,7 @@ export const polyDiff = (layer, state, intersect = false) => {
   let isCurrentLayerPoly = isLayerPoly(layer);
 
   // let createdIsNotEraser = layer.layerType !== 'erased';
-  let createdIsEraser = layer.layerType === 'erased';
+  let createdIsEraser = layer?.layerType === 'erased';
 
   if (isCurrentLayerPoly) {
     // * if intersect is active execute difference with only selected polygon
