@@ -1,5 +1,6 @@
 // Geovisto core
 import IMapDomain from "../../../../../model/types/domain/IMapDomain";
+import IMapTilesModel from "../../../../../model/types/tiles/IMapTilesModel";
 
 /**
  * This interface declares a map theme API.
@@ -11,7 +12,7 @@ interface IMapTheme extends IMapDomain {
     /**
      * It returns the url of the preferred base map.
      */
-    getBaseMap(): string;
+    getBaseMap(): IMapTilesModel;
 
     /**
      * It returns if the styles preferres inversed dark colors.

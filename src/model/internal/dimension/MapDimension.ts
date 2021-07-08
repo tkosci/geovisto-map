@@ -72,5 +72,15 @@ class MapDimension<T extends IMapDomain> extends AbstractMapDomain implements IM
     public setDomain(domain: T | undefined): void {
         this.domain = domain;
     }
+
+    /**
+     * It looks for the map domain of the given name and sets it the map dimension.
+     * 
+     * @param domainName 
+     */
+    public setDomainByName(domainName: string): void {
+        this.domain = this.getDomainManager().getDomain(domainName);
+    }
+
 }
 export default MapDimension;

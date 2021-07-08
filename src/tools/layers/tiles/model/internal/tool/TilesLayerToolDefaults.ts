@@ -1,4 +1,5 @@
 // Geovisto core
+import IMapTilesModel from "../../../../../../model/types/tiles/IMapTilesModel";
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
 
 import ITilesLayerToolDefaults from "../../types/tool/ITilesLayerToolDefaults";
@@ -46,8 +47,17 @@ class TilesLayerToolDefaults extends LayerToolDefaults implements ITilesLayerToo
     /**
      * It returns the preferred base map.
      */
-    public getBaseMap(): string {
-        return 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png';
+    public getBaseMap(): IMapTilesModel {
+        return {
+            url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            //url: 'http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}';
+            //url: 'https://mapserver.mapy.cz/turist-m/{z}-{x}-{y}';
+            //url: 'http://mapserver.mapy.cz/base-m/{z}-{x}-{y}';
+            maxZoom: 20,
+            maxNativeZoom: 19
+            //subdomains:['mt0','mt1','mt2','mt3']
+        }
+        
     }
 }
 export default TilesLayerToolDefaults;

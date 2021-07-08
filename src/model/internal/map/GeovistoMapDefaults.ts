@@ -134,7 +134,7 @@ class GeovistoMapDefaults extends MapObjectDefaults implements IMapDefaults {
      */
     public getMapStructure(): { maxZoom: number, maxBounds: [[ number,number ],[ number,number ]] } {
         return {
-            maxZoom: 10,
+            maxZoom: 20,
             maxBounds: [[-100,-400],[2000,400]]
         };
     }

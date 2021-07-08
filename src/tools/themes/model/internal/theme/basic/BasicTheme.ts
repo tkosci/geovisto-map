@@ -1,5 +1,6 @@
 // Geovisto core
 import AbstractMapDomain from "../../../../../../model/internal/domain/abstract/AbstractMapDomain";
+import IMapTilesModel from "../../../../../../model/types/tiles/IMapTilesModel";
 
 import IMapTheme from "../../../types/theme/IMapTheme";
 
@@ -27,8 +28,14 @@ class BasicTheme extends AbstractMapDomain implements IMapTheme {
     /**
      * It returns the preferred base map.
      */
-    public getBaseMap(): string {
-        return 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png';
+    public getBaseMap(): IMapTilesModel {
+        return {
+            url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 20,
+            maxNativeZoom: 19,
+            subdomains: undefined
+        };
     }
 
     /**

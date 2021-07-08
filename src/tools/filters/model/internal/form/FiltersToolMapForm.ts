@@ -30,8 +30,6 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
     /**
      * TODO: exclude class variables to the defaults and state.
      */
-    private mapDataManager?: IMapDataManager;
-    private filterManager!: IMapFilterManager;
     private htmlContent!: HTMLDivElement;
     private btnGroup: HTMLDivElement | null;
     private inputs: InputItem[];
@@ -52,20 +50,14 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
      * A help function which returns data manager
      */
      protected getDataManager(): IMapDataManager | undefined {
-        if(!this.mapDataManager) {
-            this.mapDataManager = this.getMapObject().getMap()?.getState().getMapData();
-        }
-        return this.mapDataManager;
+        return this.getMapObject().getMap()?.getState().getMapData();
     }
 
     /**
      * A help function which returns data manager
      */
      protected getFilterManager(): IMapFilterManager {
-        if(!this.filterManager) {
-            this.filterManager = this.getMapObject().getState().getFiltersManager();
-        }
-        return this.filterManager;
+        return this.getMapObject().getState().getFiltersManager();
     }
 
     /**
@@ -82,7 +74,7 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
      * It returns a HTML div element conatining the form.
      */
     public getContent(): HTMLDivElement {
-        if(this.htmlContent == undefined) {
+        //if(this.htmlContent == undefined) {
             // tab pane
             this.htmlContent = document.createElement('div');
 
@@ -103,7 +95,7 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
 
             // import inputs according to configuration
             this.setFilterRules(this.getMapObject().getState().getFilterRules());
-        }
+        //}
 
         return this.htmlContent;
     }
@@ -178,7 +170,10 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
             };
 
             const dataManager = this.getDataManager();
-            const dataDomainNames = dataManager?.getDomainNames() ?? [ "" ];
+            let dataDomainNames = dataManager?.getDomainNames();
+            if(!dataDomainNames || dataDomainNames.length == 0) {
+                dataDomainNames = [ "" ];
+            }
             const dataDomain = dataManager?.getDomain(dataDomainNames[0]);
             const operationNames = this.getFilterManager().getDomainNames();
 
@@ -263,7 +258,7 @@ class FiltersToolMapForm extends MapObjectForm<IFiltersTool> implements IMapForm
             dataDomain = this.getDataManager()?.getDomain(value.data);
             if(dataDomain) {
                 // new filter rule
-                const filterRule: IMapFilterRule | null = this.filterManager.createRule(dataDomain, value.op, value.val);
+                const filterRule: IMapFilterRule | null = this.getFilterManager().createRule(dataDomain, value.op, value.val);
                 if(filterRule) {
                     filterRules.push(filterRule);
                 }

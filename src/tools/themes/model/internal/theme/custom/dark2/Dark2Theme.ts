@@ -1,3 +1,6 @@
+// Geovisto core
+import IMapTilesModel from '../../../../../../../model/types/tiles/IMapTilesModel';
+
 import BasicTheme from '../../basic/BasicTheme';
 import IMapTheme from '../../../../types/theme/IMapTheme';
 
@@ -34,8 +37,11 @@ class Dark2Theme extends BasicTheme implements IMapTheme {
     /**
      * It returns the preferred base map.
      */
-    public getBaseMap(): string {
-        return 'https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png';
+    public getBaseMap(): IMapTilesModel {
+        return { 
+            url: 'https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png',
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        };
     }
 }
 export default Dark2Theme;

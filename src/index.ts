@@ -79,6 +79,9 @@ export type { IMapObjectProps, IMapObjectInitProps } from './model/types/object/
 export type { default as IMapObjectsManager } from './model/types/object/IMapObjectsManager';
 export type { default as IMapObjectState } from './model/types/object/IMapObjectState';
 
+// tiles
+export type { default as IMapTilesModel } from './model/types/tiles/IMapTilesModel';
+
 // tool
 export type { default as IMapTool } from './model/types/tool/IMapTool';
 export type { default as IMapToolConfig } from './model/types/tool/IMapToolConfig';
@@ -122,6 +125,7 @@ export { default as MapDomainArrayManager } from './model/internal/domain/generi
 // event
 export { default as MapEventFactory } from './model/internal/event/MapEventFactory';
 export { default as DataChangeEvent } from './model/internal/event/data/DataChangeEvent';
+export { default as DataManagerChangeEvent } from './model/internal/event/data/DataManagerChangeEvent';
 export { default as MapEvent } from './model/internal/event/generic/MapEvent';
 export { default as MapChangeEvent } from './model/internal/event/generic/MapChangeEvent';
 

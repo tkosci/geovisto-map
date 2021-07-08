@@ -189,7 +189,7 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
         // get selected values and update layer tool's dimension
         const domain: IMapDomain | undefined = dimension.getDomainManager().getDomain(value);
         if(dimension.getDomain() !== domain) {
-            dimension.setDomain(domain);
+            dimension.setDomainByName(domain?.getName() ?? "");
         
             if(redraw != undefined) {
                 this.redraw(redraw);

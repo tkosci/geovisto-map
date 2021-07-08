@@ -10,7 +10,6 @@ import React, { Component } from "react";
 // React-Geovisto
 import ReactGeovistoMap from "../react/ReactGeovistoMap";
 
-import 'font-awesome/css/font-awesome.min.css';
 import './Demo.scss';
 
 // Geovisto Tools
