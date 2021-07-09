@@ -90,8 +90,7 @@ class ConnectionLayerTool extends AbstractLayerTool {
         this.getState().setLayer(layer);
 
         // prepare data
-        const data = this.getMap().getState().getCurrentData();
-        this.prepareMapData(data);
+        this.prepareMapData();
 
         return [ layer ];
     }
