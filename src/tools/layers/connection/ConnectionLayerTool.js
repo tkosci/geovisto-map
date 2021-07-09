@@ -1,18 +1,18 @@
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import * as d3 from "d3";
-import rfdc from "rfdc";
-import "./style/connectionLayer.scss";
-import ConnectionLayerToolTabControl from "./sidebar/ConnectionLayerToolTabControl";
-import ConnectionLayerToolState from "./ConnectionLayerToolState";
-import ConnectionLayerToolDefaults from "./ConnectionLayerToolDefaults";
-import SelectionTool from "../../selection/SelectionTool";
-import AbstractLayerTool from "../abstract/AbstractLayerTool";
-import DataChangeEvent from "../../../model/event/basic/DataChangeEvent";
-import SelectionToolEvent from "../../selection/model/event/SelectionToolEvent";
-import ThemesToolEvent from "../../themes/model/event/ThemesToolEvent";
-import D3PathForceSimulator from "./util/D3PathForceSimulator";
-import ProjectionUtil from "./util/ProjectionUtil";
+import rfdc from 'rfdc';
+import './style/connectionLayer.scss';
+import ConnectionLayerToolTabControl from './sidebar/ConnectionLayerToolTabControl';
+import ConnectionLayerToolState from './ConnectionLayerToolState';
+import ConnectionLayerToolDefaults from './ConnectionLayerToolDefaults';
+import SelectionTool from '../../selection/SelectionTool';
+import AbstractLayerTool from '../abstract/AbstractLayerTool';
+import DataChangeEvent from '../../../model/event/basic/DataChangeEvent';
+import SelectionToolEvent from '../../selection/model/event/SelectionToolEvent';
+import ThemesToolEvent from '../../themes/model/event/ThemesToolEvent';
+import D3PathForceSimulator from './util/D3PathForceSimulator';
+import ProjectionUtil from './util/ProjectionUtil';
 
 /**
  * This class represents Connection layer tool. It uses SVG layer and D3 to draw the lines.
@@ -116,6 +116,9 @@ class ConnectionLayerTool extends AbstractLayerTool {
      * It prepares data for connections.
      */
     prepareMapData() {
+        //console.log("updating map data", this);
+
+        //this.getState().getlayer()._container.remove();
         let workData = {
             nodes: [],
             connections: []

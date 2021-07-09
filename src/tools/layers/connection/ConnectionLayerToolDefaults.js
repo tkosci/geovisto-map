@@ -37,7 +37,7 @@ const MAPPING_MODEL = {
 
 /**
  * This class provide functions which return the default state values.
- *
+ * 
  * @author Jiri Hynek
  */
 class ConnectionLayerToolDefaults extends AbstractLayerToolDefaults {
@@ -68,10 +68,10 @@ class ConnectionLayerToolDefaults extends AbstractLayerToolDefaults {
      */
     getDataMapping() {
         let dataMapping = {};
-
+        
         let dataMappingModel = this.getDataMappingModel();
         let implicitDataDomainLabel = this.getMapObject().getMap().getState().getMapData().getDataDomainLabels()[0];
-
+        
         dataMapping[dataMappingModel.from.name] = implicitDataDomainLabel;
         dataMapping[dataMappingModel.to.name] = implicitDataDomainLabel;
         dataMapping[dataMappingModel.animateDirection.name] = false;
@@ -85,14 +85,14 @@ class ConnectionLayerToolDefaults extends AbstractLayerToolDefaults {
     getDataMappingModel() {
         return MAPPING_MODEL;
     }
-
+    
     /**
      * It returns optiomal zoom for D3 projections.
      */
     getProjectionZoom() {
         return 2;
     }
-
+    
     /**
      * It returns default centroids.
      */

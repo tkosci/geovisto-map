@@ -1,24 +1,24 @@
-import L from "leaflet";
-import "leaflet.markercluster";
-import "leaflet/dist/leaflet.css";
-import "leaflet.markercluster/dist/MarkerCluster.css";
-import "leaflet.markercluster/dist/MarkerCluster.Default.css";
-import "./style/markerLayer.scss";
+import L from 'leaflet';
+import 'leaflet.markercluster';
+import 'leaflet/dist/leaflet.css';
+import 'leaflet.markercluster/dist/MarkerCluster.css';
+import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
+import './style/markerLayer.scss';
 import * as d3 from "d3";
-import MarkerLayerToolTabControl from "./sidebar/MarkerLayerToolTabControl";
-import MarkerLayerToolDefaults from "./MarkerLayerToolDefaults";
-import MarkerLayerToolState from "./MarkerLayerToolState";
-import SelectionTool from "../../selection/SelectionTool";
-import AbstractLayerTool from "../abstract/AbstractLayerTool";
-import ThemesToolEvent from "../../themes/model/event/ThemesToolEvent";
-import SelectionToolEvent from "../../selection/model/event/SelectionToolEvent";
-import DataChangeEvent from "../../../model/event/basic/DataChangeEvent";
-import { createClusterMarkersData, createMarkerPopupContent } from "./utils";
+import MarkerLayerToolTabControl from './sidebar/MarkerLayerToolTabControl';
+import MarkerLayerToolDefaults from './MarkerLayerToolDefaults';
+import MarkerLayerToolState from './MarkerLayerToolState';
+import SelectionTool from '../../selection/SelectionTool';
+import AbstractLayerTool from '../abstract/AbstractLayerTool';
+import ThemesToolEvent from '../../themes/model/event/ThemesToolEvent';
+import SelectionToolEvent from '../../selection/model/event/SelectionToolEvent';
+import DataChangeEvent from '../../../model/event/basic/DataChangeEvent';
+import { createClusterMarkersData, createMarkerPopupContent } from './utils';
 
 /**
  * This class represents custom div icon which is used to mark center of countries.
  * It overrides L.DivIcon.
- *
+ * 
  * @author Jiri Hynek
  * @override {L.DivIcon}
  */
@@ -56,7 +56,7 @@ const CountryIcon = L.DivIcon.extend({
             }
         },
         isGroup: false,
-        useDonut: true,
+        useDonut: true
     },
 
     round: function (value, align) {
@@ -194,15 +194,15 @@ const CountryIcon = L.DivIcon.extend({
 
 /**
  * This class represents Marker layer. It works with geojson polygons representing countries.
- *
+ * 
  * @author Jiri Hynek
  */
 class MarkerLayerTool extends AbstractLayerTool {
 
     /**
      * It creates a new tool with respect to the props.
-     *
-     * @param {*} props
+     * 
+     * @param {*} props 
      */
     constructor(props) {
         super(props);
@@ -309,6 +309,8 @@ class MarkerLayerTool extends AbstractLayerTool {
      * It prepares data for markers.
      */
     prepareMapData(data, redraw = true) {
+        //console.log("updating map data", this);
+
         // prepare data
         let workData = {};
         let mapData = this.getMap().getState().getMapData();
@@ -325,12 +327,25 @@ class MarkerLayerTool extends AbstractLayerTool {
         let centroids = this.getState().getCentroids();
         const categories = new Set();
         for (let i = 0; i < dataLen; i++) {
+            // find the 'country' properties
             foundCountries = mapData.getItemValues(countryDataDomain, data[i]);
+            //console.log("search country: ", foundCountries);
+
+            // find the 'value' properties
             foundValues = mapData.getItemValues(valueDataDomain, data[i]);
+            //console.log("search values: ", foundValues);
+
+            // find the 'category' properties
             foundCategories = mapData.getItemValues(categoryDataDomain, data[i]);
+            //console.log("search category: ", foundCategories);
 
             // since the data are flattened we can expect max one found item
             if (foundCountries.length == 1 && (highlightedIds.length == 0 || highlightedIds.indexOf(foundCountries[0]) >= 0)) {
+                // test if country respects highlighting selection
+                /*if(highlightedIds != undefined) {
+                    console.log(highlightedIds.indexOf(foundCountries[0]) >= 0);
+                }*/
+
                 // test if country exists in the map
                 geoCountry = centroids.find(x => x.id == foundCountries[0]);
                 if (geoCountry != undefined) {
@@ -401,9 +416,9 @@ class MarkerLayerTool extends AbstractLayerTool {
 
     /**
      * It creates one marker with respect to the given centroid and data.
-     *
-     * @param {*} centroid
-     * @param {*} data
+     * 
+     * @param {*} centroid 
+     * @param {*} data 
      */
     createMarker(centroid, data) {
         // create marker
@@ -470,8 +485,8 @@ class MarkerLayerTool extends AbstractLayerTool {
 
     /**
      * This function is called when a custom event is invoked.
-     *
-     * @param {AbstractEvent} event
+     * 
+     * @param {AbstractEvent} event 
      */
     handleEvent(event) {
         if (event.getType() === DataChangeEvent.TYPE()) {

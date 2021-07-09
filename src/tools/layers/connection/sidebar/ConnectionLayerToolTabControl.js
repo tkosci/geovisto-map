@@ -5,7 +5,7 @@ import SidebarInputFactory from "../../../../inputs/SidebarInputFactory";
 
 /**
  * This class provides controls for management of the layer sidebar tab.
- *
+ * 
  * @author Jiri Hynek
  */
 class ConnectionLayerToolTabControl extends AbstractLayerToolTabControl {
@@ -36,7 +36,7 @@ class ConnectionLayerToolTabControl extends AbstractLayerToolTabControl {
     getInputValues() {
         // get data mapping model
         let model = this.getDefaults().getDataMappingModel();
-
+        
         // create new selection
         let dataMapping = {};
 
@@ -50,8 +50,8 @@ class ConnectionLayerToolTabControl extends AbstractLayerToolTabControl {
 
     /**
      * It updates selected input values according to the given data mapping.
-     *
-     * @param {*} dataMapping
+     * 
+     * @param {*} dataMapping 
      */
     setInputValues(dataMapping) {
         // get data mapping model
@@ -74,7 +74,7 @@ class ConnectionLayerToolTabControl extends AbstractLayerToolTabControl {
             // get selected values and update layer's data mapping
             _this.getTool().updateDataMapping(_this.getInputValues());
         }
-
+        
         // tab content
         let tab = document.createElement('div');
         let elem = tab.appendChild(document.createElement('div'));
@@ -99,7 +99,7 @@ class ConnectionLayerToolTabControl extends AbstractLayerToolTabControl {
         elem.appendChild(this.animateDirectionCheckbox.create());
 
         this.setInputValues(this.getTool().getState().getDataMapping());
-
+        
         return tab;
     }
 

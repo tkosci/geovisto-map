@@ -2,7 +2,7 @@ import AbstractToolState from "../../model/tool/abstract/AbstractToolState";
 
 /**
  * This class provide functions for using filters.
- *
+ * 
  * @author Jiri Hynek
  */
 class FiltersToolState extends AbstractToolState {
@@ -15,10 +15,9 @@ class FiltersToolState extends AbstractToolState {
     }
 
     /**
-     * It resets state with respect to initial props. Optionally, defaults can be set if property
-     * is undefined.
-     *
-     * @param {FiltersToolDefaults} defaults
+     * It resets state with respect to initial props. Optionally, defaults can be set if property is undefined.
+     * 
+     * @param {FiltersToolDefaults} defaults 
      */
     reset(defaults) {
         super.reset(defaults);
@@ -34,8 +33,8 @@ class FiltersToolState extends AbstractToolState {
 
     /**
      * The metod takes config and desrializes the values.
-     *
-     * @param {*} config
+     * 
+     * @param {*} config 
      */
     deserialize(config) {
         super.deserialize(config);
@@ -70,10 +69,9 @@ class FiltersToolState extends AbstractToolState {
     }
 
     /**
-     * The method serializes the tool state. Optionally, defaults can be set if property is
-     * undefined.
-     *
-     * @param {FiltersToolDefaults} defaults
+     * The method serializes the tool state. Optionally, defaults can be set if property is undefined.
+     * 
+     * @param {FiltersToolDefaults} defaults 
      */
     serialize(defaults) {
         let config = super.serialize(defaults);
@@ -97,8 +95,8 @@ class FiltersToolState extends AbstractToolState {
 
     /**
      * It updates filter manager.
-     *
-     * @param {AbstractFiltersManager} manager
+     * 
+     * @param {AbstractFiltersManager} manager 
      */
     setFiltersManager(manager) {
         this.manager = manager;
@@ -120,8 +118,8 @@ class FiltersToolState extends AbstractToolState {
 
     /**
      * It sets the filterRules property of the tool state.
-     *
-     * @param {[AbstractFilterRule]} filterRules
+     * 
+     * @param {[AbstractFilterRule]} filterRules 
      */
     setFilterRules(filterRules) {
         this.filterRules = filterRules;

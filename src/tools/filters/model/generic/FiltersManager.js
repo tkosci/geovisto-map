@@ -4,7 +4,7 @@ import FilterRule from "./FilterRule";
 
 /**
  * This class provide functions for using filters.
- *
+ * 
  * @author Jiri Hynek
  */
 class FiltersManager extends AbstractFiltersManager {
@@ -23,14 +23,14 @@ class FiltersManager extends AbstractFiltersManager {
 
     /**
      * The function creates a new filter rule using given operation label.
-     *
-     * @param {*} dataDomain
-     * @param {*} label
-     * @param {*} pattern
+     * 
+     * @param {*} dataDomain 
+     * @param {*} label 
+     * @param {*} pattern 
      */
     createRule({ dataDomain, label, pattern, transformValue }) {
         let operation = this.getOperation(label);
-        if (operation && operation.length > 0) {
+        if(operation && operation.length > 0) {
             return new FilterRule({ dataDomain, operation: operation[0], pattern, transformValue });
         }
         return new FilterRule({ dataDomain, operation: new AbstractFilterOperation(), pattern, transformValue });
@@ -39,13 +39,13 @@ class FiltersManager extends AbstractFiltersManager {
     /**
      * Takes a list of data and applies the given filter rules.
      * Returns a new list of the references to filtered data items.
-     *
+     * 
      * @param {AbstractMapData} mapData
      * @param {*} data
      * @param {[FilterRule]} filterRules
      */
     filterData(mapData, data, filterRules) {
-        if (filterRules.length === 0) {
+        if(filterRules.length === 0) {
             return data;
         }
 
@@ -67,5 +67,4 @@ class FiltersManager extends AbstractFiltersManager {
         return resultData;
     }
 }
-
 export default FiltersManager;

@@ -4,7 +4,7 @@ const ID = "geovisto-input-text";
 
 /**
  * This class represents basic text sidebar input.
- *
+ * 
  * @author Jiri Hynek
  */
 class TextSidebarInput extends AbstractSidebarInput {
@@ -43,13 +43,12 @@ class TextSidebarInput extends AbstractSidebarInput {
 
     /**
      * It sets value of the input element.
-     *
-     * @param {*} value
+     * 
+     * @param {*} value 
      */
     setValue(value) {
         this.input.value = value;
     }
 
 }
-
 export default TextSidebarInput;

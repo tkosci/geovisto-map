@@ -5,7 +5,7 @@ import SidebarInputFactory from "../../../../inputs/SidebarInputFactory";
 
 /**
  * This class provides controls for management of the layer sidebar tab.
- *
+ * 
  * @author Jiri Hynek
  */
 class ChoropolethLayerToolTabControl extends AbstractLayerToolTabControl {
@@ -57,8 +57,8 @@ class ChoropolethLayerToolTabControl extends AbstractLayerToolTabControl {
 
     /**
      * It updates selected input values according to the given data mapping.
-     *
-     * @param {*} dataMapping
+     * 
+     * @param {*} dataMapping 
      */
     setInputValues(dataMapping) {
         // get data model

@@ -4,7 +4,7 @@ const ID = "geovisto-input-text-labeled";
 
 /**
  * This class represents labeled text sidebar input.
- *
+ * 
  * @author Jiri Hynek
  */
 class LabeledTextSidebarInput extends TextSidebarInput {

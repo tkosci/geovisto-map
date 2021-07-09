@@ -1,15 +1,15 @@
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
-import "./style/choroplethLayer.scss"
-import AbstractLayerTool from "../abstract/AbstractLayerTool";
-import ChoroplethLayerToolState from "./ChoroplethLayerToolState";
-import ChoroplethLayerToolDefaults from "./ChoroplethLayerToolDefaults";
-import ChoropolethLayerToolTabControl from "./sidebar/ChoroplethLayerToolTabControl";
-import ThemesToolEvent from "../../themes/model/event/ThemesToolEvent";
-import SelectionToolEvent from "../../selection/model/event/SelectionToolEvent";
-import DataChangeEvent from "../../../model/event/basic/DataChangeEvent";
-import MapSelection from "../../selection/model/item/generic/MapSelection";
-import SelectionTool from "../../selection/SelectionTool";
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+import './style/choroplethLayer.scss'
+import AbstractLayerTool from '../abstract/AbstractLayerTool';
+import ChoroplethLayerToolState from './ChoroplethLayerToolState';
+import ChoroplethLayerToolDefaults from './ChoroplethLayerToolDefaults';
+import ChoropolethLayerToolTabControl from './sidebar/ChoroplethLayerToolTabControl';
+import ThemesToolEvent from '../../themes/model/event/ThemesToolEvent';
+import SelectionToolEvent from '../../selection/model/event/SelectionToolEvent';
+import DataChangeEvent from '../../../model/event/basic/DataChangeEvent';
+import MapSelection from '../../selection/model/item/generic/MapSelection';
+import SelectionTool from '../../selection/SelectionTool';
 
 // TODO: move to defaults
 const COLOR_orange = ['#8c8c8c', '#ffffcc', '#ffff99', '#ffcc99', '#ff9966', '#ff6600', '#ff0000', '#cc0000'];
@@ -20,17 +20,16 @@ var DYNAMIC_SCALE = [];
 const SCALE = [1, 100, 1000, 10000, 100000, 1000000, 10000000];
 
 /**
- * This class represents Choropleth layer tool. It works with geojson polygons representing
- * countries.
- *
+ * This class represents Choropleth layer tool. It works with geojson polygons representing countries.
+ * 
  * @author Jiri Hynek
  */
 class ChoroplethLayerTool extends AbstractLayerTool {
 
     /**
      * It creates a new tool with respect to the props.
-     *
-     * @param {*} props
+     * 
+     * @param {*} props 
      */
     constructor(props) {
         super(props);
@@ -119,6 +118,7 @@ class ChoroplethLayerTool extends AbstractLayerTool {
                 }
             }
             e.target.bindTooltip(popup, { className: 'leaflet-popup-content', sticky: true }).openTooltip();
+
             if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
                 layerItem.bringToFront();
             }
@@ -197,6 +197,7 @@ class ChoroplethLayerTool extends AbstractLayerTool {
      * It updates polygons so they represent current data.
      */
     updatePolygons(data) {
+        //console.log("updating map data", this);
         // delete the 'value' property of every geo feature object if defined
         let polygons = this.getState().getPolygons();
         // TODO create new map and do not modify polygons structure
@@ -271,19 +272,18 @@ class ChoroplethLayerTool extends AbstractLayerTool {
 
     /**
      * This function is called when a custom event is invoked.
-     *
-     * @param {AbstractEvent} event
+     * 
+     * @param {AbstractEvent} event 
      */
     handleEvent(event) {
-        if (event.getType() === DataChangeEvent.TYPE()) {
+        if (event.getType() == DataChangeEvent.TYPE()) {
             const { data, options: { transitionDuration, transitionDelay } } = event.getObject()
             this.updatePolygons(data);
             this.updateStyle({ transitionDuration, transitionDelay });
-        }
-        if (event.getType() === SelectionToolEvent.TYPE()) {
+        } else if (event.getType() == SelectionToolEvent.TYPE()) {
+            // selection change
             this.updateStyle();
-        }
-        if (event.getType() === ThemesToolEvent.TYPE()) {
+        } else if(event.getType() == ThemesToolEvent.TYPE()) {
             var map = event.getObject()
             document.documentElement.style.setProperty('--choropleth-item-hover', map.getHoverColor());
             document.documentElement.style.setProperty('--choropleth-item-select', map.getHighlightColor().selected);
@@ -306,7 +306,7 @@ class ChoroplethLayerTool extends AbstractLayerTool {
 
     /**
      * It returns color style for the current template.
-     *
+     * 
      * @deprecated
      */
     getColors() {
@@ -322,7 +322,7 @@ class ChoroplethLayerTool extends AbstractLayerTool {
 
     /**
      * It returns color value for the current template and given value.
-     *
+     * 
      * @deprecated
      */
     computeColor(val) {

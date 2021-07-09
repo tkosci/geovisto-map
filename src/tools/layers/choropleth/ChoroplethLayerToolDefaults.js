@@ -84,7 +84,7 @@ const MAPPING_MODEL = {
 
 /**
  * This class provide functions which return the default state values.
- *
+ * 
  * @author Jiri Hynek
  */
 class ChoroplethLayerToolDefaults extends AbstractLayerToolDefaults {

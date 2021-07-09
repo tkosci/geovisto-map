@@ -10,7 +10,7 @@ import GreaterThanFilterOperation from "./model/basic/GreaterThanFilterOperation
 
 /**
  * This class provide functions which return the default state values.
- *
+ * 
  * @author Jiri Hynek
  */
 class FiltersToolDefaults extends AbstractToolDefaults {
@@ -26,7 +26,7 @@ class FiltersToolDefaults extends AbstractToolDefaults {
      * Only one filter tool should be present in the Geovisto map.
      */
     isSingleton() {
-        return true;
+       return true; 
     }
 
     /**
@@ -57,5 +57,4 @@ class FiltersToolDefaults extends AbstractToolDefaults {
         return [];
     }
 }
-
 export default FiltersToolDefaults;

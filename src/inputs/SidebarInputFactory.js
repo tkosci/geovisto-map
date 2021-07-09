@@ -11,14 +11,14 @@ import ColorPickerInput from "./input/ColorPickerInput";
 import CheckboxSidebarInput from './input/CheckboxSidebarInput';
 /**
  * Factory for sidebar inputs.
- *
+ * 
  * @author Jiri Hynek
  */
 class SidebarInputFactory {
 
     /**
      * Static function creates new sidebar input of given identifier.
-     *
+     * 
      * @param {*} id
      */
     static createSidebarInput(id, settings) {

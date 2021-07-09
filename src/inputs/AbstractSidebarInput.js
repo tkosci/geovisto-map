@@ -2,9 +2,9 @@ const ID = "geovisto-input";
 
 /**
  * This class represents abstract sidebar input.
- *
+ * 
  * This class is intended to be extended.
- *
+ * 
  * @author Jiri Hynek
  */
 class AbstractSidebarInput {
@@ -23,7 +23,7 @@ class AbstractSidebarInput {
 
     /**
      * It returns input element.
-     *
+     * 
      * This function is intended to be extended.
      */
     create() {
@@ -42,8 +42,8 @@ class AbstractSidebarInput {
 
     /**
      * It sets value of the input element.
-     *
-     * @param {*} value
+     * 
+     * @param {*} value 
      */
     setValue(value) {
         this.input.value = value;

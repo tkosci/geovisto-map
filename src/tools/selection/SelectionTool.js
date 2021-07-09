@@ -8,17 +8,17 @@ import DataChangeEvent from "../../model/event/basic/DataChangeEvent";
 
 /**
  * This class provides the selection tool.
- *
+ * 
  * TODO: exclude defaults and state variables
- *
+ * 
  * @author Jiri Hynek
  */
 class SelectionTool extends AbstractTool {
 
     /**
      * It creates a new tool with respect to the props.
-     *
-     * @param {*} props
+     * 
+     * @param {*} props 
      */
     constructor(props) {
         super(props);
@@ -35,7 +35,7 @@ class SelectionTool extends AbstractTool {
     }
 
     /**
-     *
+     * 
      */
     static EMPTY_SELECTION() {
         return new MapSelection(undefined, []);
@@ -72,8 +72,8 @@ class SelectionTool extends AbstractTool {
     }
 
     /**
-     *
-     * @param {*} selection
+     * 
+     * @param {*} selection 
      */
     setSelection(selection) {
         if (selection != undefined) {
@@ -110,7 +110,7 @@ class SelectionTool extends AbstractTool {
 
     /**
      * It creates new tab control.
-     *
+     * 
      * This function can be extended.
      */
     createSidebarTabFragment() {
