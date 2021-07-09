@@ -62,13 +62,12 @@ class MarkerTool extends AbstractTool {
       guideLayers,
       snapVertices: false,
     });
-    this.sidebar.getState().setEnabledEl(this.tool);
     this.tool.enable();
   };
 
   enable = (): void => {
     this._redrawSidebar(this.result());
-    this._disableActive();
+    this.disable();
     this._markerCreate();
   };
 }

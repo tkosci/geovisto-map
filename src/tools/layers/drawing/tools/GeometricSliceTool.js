@@ -111,12 +111,11 @@ class GeometricSliceTool extends AbstractTool {
       },
     });
     this.tool.enable();
-    this.sidebar.getState().setEnabledEl(this.tool);
   };
 
   enable = (): void => {
     this._redrawSidebar(this.result());
-    this._disableActive();
+    this.disable();
     this._dividePoly();
   };
 }

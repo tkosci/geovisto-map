@@ -159,27 +159,25 @@ class DrawingLayerTool extends AbstractLayerTool {
       this.getState().clearExtraSelected();
     });
 
+    // TODO:
     document.addEventListener('keydown', (e) => {
-      if (e.keyCode === SPACE_BAR) {
-        let enabledEl = this.getSidebarTabControl().getState().enabledEl;
-        if (enabledEl) {
-          enabledEl.disable();
-          // map.dragging.enable(); // we do not have to do this, it is already on always
-        }
-      }
+      // if (e.keyCode === SPACE_BAR) {
+      //   let enabledEl = this.getSidebarTabControl().getState().enabledEl;
+      //   if (enabledEl) {
+      //     enabledEl.disable();
+      //     // map.dragging.enable(); // we do not have to do this, it is already on always
+      //   }
+      // }
     });
     document.addEventListener('keyup', (e) => {
-      if (e.keyCode === SPACE_BAR) {
-        let enabledEl = this.getSidebarTabControl().getState().enabledEl;
-        if (enabledEl) {
-          enabledEl.enable();
-          // map.dragging.disable(); // we do not have to do this, it is already on always
-        }
-      }
+      // if (e.keyCode === SPACE_BAR) {
+      //   let enabledEl = this.getSidebarTabControl().getState().enabledEl;
+      //   if (enabledEl) {
+      //     enabledEl.enable();
+      //     // map.dragging.disable(); // we do not have to do this, it is already on always
+      //   }
+      // }
     });
-
-    const { pather } = this.getSidebarTabControl().getState();
-    pather.on('created', this.drawingTools[FreehandSliceTool.NAME()].createdPath);
 
     const { featureGroup } = this.getState();
     featureGroup.eachLayer((layer) => {
@@ -221,9 +219,9 @@ class DrawingLayerTool extends AbstractLayerTool {
     if (e.layerType === 'knife') {
       this.drawingTools[GeometricSliceTool.NAME()].polySlice(layer);
       // * restore state
-      let enabled = sidebarState.getEnabledEl();
+      let enabled = sidebarState.getEnabledTool();
       if (enabled) {
-        sidebarState.setEnabledEl(null);
+        sidebarState.setEnabledTool(null);
         this.redrawSidebarTabControl();
       }
       const divideBtn = document.querySelector('.drawingtoolbar .divideBtn .extra-btn');

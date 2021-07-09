@@ -51,6 +51,18 @@ class AbstractTool {
     this.drawingTool.redrawSidebarTabControl(type);
   }
 
+  setCurrentToolAsEnabled(): void {
+    this.sidebar.getState().setEnabledTool(this);
+  }
+
+  /**
+   * because I want to run setCurrentToolAsEnabled every time enabled is run I wrap it with this function
+   */
+  activate(): void {
+    this.setCurrentToolAsEnabled();
+    this.enable();
+  }
+
   /**
    * to be extended
    */
@@ -69,7 +81,7 @@ class AbstractTool {
   _disableActive(): void {
     let activeTool = this.tool;
     if (activeTool) {
-      this.sidebar.getState().setEnabledEl(null);
+      activeTool.disable();
       this._redrawSidebar();
     }
   }

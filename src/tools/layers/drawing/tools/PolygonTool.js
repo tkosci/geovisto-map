@@ -52,13 +52,12 @@ class PolygonTool extends AbstractTool {
       snapDistance: 5,
       repeatMode: true,
     });
-    this.sidebar.getState().setEnabledEl(this.tool);
     this.tool.enable();
   };
 
   enable = (): void => {
     this._redrawSidebar(this.result());
-    this._disableActive();
+    this.disable();
     this._polygonCreate();
   };
 }

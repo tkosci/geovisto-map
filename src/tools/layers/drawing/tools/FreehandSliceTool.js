@@ -1,14 +1,25 @@
-import React from 'react';
 import L from 'leaflet';
 import 'leaflet-path-drag';
 import 'leaflet-path-transform';
 import 'leaflet-draw';
+import 'leaflet-pather';
 
 import GeometricSliceTool from './GeometricSliceTool';
 
 class FreehandSliceTool extends GeometricSliceTool {
   constructor(props) {
     super(props);
+
+    this.pather = new L.Pather({
+      strokeWidth: 3,
+      smoothFactor: 5,
+      moduleClass: 'leaflet-pather',
+      pathColour: '#333',
+    });
+
+    this.patherActive = false;
+
+    this.pather.on('created', this.createdPath);
   }
 
   static NAME(): string {
@@ -36,22 +47,15 @@ class FreehandSliceTool extends GeometricSliceTool {
   };
 
   _enableSlicing = (): void => {
-    const pather = this.sidebar.getState().pather;
-    const patherStatus = this.sidebar.getState().patherActive;
+    const pather = this.pather;
+    const patherStatus = this.patherActive;
     if (!patherStatus) {
       this.leafletMap.addLayer(pather);
-      this.sidebar.getState().setEnabledEl({
-        disable: () => {
-          this.leafletMap.removeLayer(pather);
-          this.sidebar.getState().setPatherStatus(false);
-        },
-      });
     } else {
       this.leafletMap.removeLayer(pather);
-      this.sidebar.getState().setEnabledEl(null);
     }
 
-    this.sidebar.getState().setPatherStatus(!patherStatus);
+    this.patherActive = !patherStatus;
   };
 
   /**
@@ -78,9 +82,9 @@ class FreehandSliceTool extends GeometricSliceTool {
     map.removeLayer(pather);
     sidebarState.setPatherStatus(false);
     // * restore state
-    let enabled = sidebarState.getEnabledEl();
+    let enabled = sidebarState.getEnabledTool();
     if (enabled) {
-      sidebarState.setEnabledEl(null);
+      sidebarState.setEnabledTool(null);
       this._redrawSidebar();
     }
     const knifeBtn = document.querySelector('.drawingtoolbar .sliceBtn .extra-btn');
@@ -89,8 +93,13 @@ class FreehandSliceTool extends GeometricSliceTool {
 
   enable = (): void => {
     this._redrawSidebar(this.result());
-    this._disableActive();
+    this.disable();
     this._enableSlicing();
+  };
+
+  disable = (): void => {
+    this.leafletMap.removeLayer(this.pather);
+    this.patherActive = false;
   };
 }
 

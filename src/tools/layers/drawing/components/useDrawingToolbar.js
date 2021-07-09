@@ -60,9 +60,21 @@ export default function useDrawingToolbar() {
         }
       };
 
-      const selectedEl = this.getSelectedEl();
-
       const drawingTools = this.options.tool.drawingTools;
+
+      const handleClick = (e, tool) => {
+        const selectedEl = this.getSelectedEl();
+        // * functions are called so user is not drawing over object that has transform handles
+        if (tool.getName() !== 'transform-drawing-tool') {
+          TransformTool.disableTransform(selectedEl);
+        }
+        if (tool.getName() !== 'edit-drawing-tool') {
+          EditTool.disableNodeEdit(selectedEl);
+        }
+
+        toggleExtra(e, tool);
+        tool.activate();
+      };
 
       Object.keys(drawingTools).forEach((key) => {
         let tool = drawingTools[key];
@@ -78,16 +90,7 @@ export default function useDrawingToolbar() {
 
         if (canBeCanceled) cancelables.push(btn);
 
-        // TODO: refactor
-        if (tool.getName() !== 'transform-drawing-tool') {
-          L.DomEvent.on(btn, 'click', () => TransformTool.disableTransform(selectedEl), this);
-        }
-        if (tool.getName() !== 'edit-drawing-tool') {
-          L.DomEvent.on(btn, 'click', () => EditTool.disableNodeEdit(selectedEl), this);
-        }
-
-        L.DomEvent.on(btn, 'click', tool.enable, this);
-        L.DomEvent.on(btn, 'click', (e) => toggleExtra(e, tool), this);
+        L.DomEvent.on(btn, 'click', (e) => handleClick(e, tool), this);
 
         this.options.drawingBtns[key] = btn;
       });

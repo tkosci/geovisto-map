@@ -46,13 +46,12 @@ class LineTool extends AbstractTool {
       guideLayers: this.sidebar.getState().guideLayers,
       repeatMode: true,
     });
-    this.sidebar.getState().setEnabledEl(this.tool);
     this.tool.enable();
   };
 
   enable = (): void => {
+    console.log('called');
     this._redrawSidebar(this.result());
-    this._disableActive();
     this._polylineCreate();
   };
 }

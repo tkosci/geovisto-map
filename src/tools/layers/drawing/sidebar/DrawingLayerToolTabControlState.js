@@ -14,7 +14,6 @@ import {
   iconStarter,
   normalStyles,
 } from '../util/constants';
-import 'leaflet-pather';
 import { SearchTool } from '../tools';
 
 /**
@@ -52,14 +51,6 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     this.connectActivated = false;
 
     this.intersectActivated = false;
-
-    this.pather = new L.Pather({
-      strokeWidth: 3,
-      smoothFactor: 5,
-      moduleClass: 'leaflet-pather',
-      pathColour: '#333',
-    });
-    this.patherActive = false;
 
     this.countries = require('/static/geo/iso3166_countries.json');
     this.countryCode = '';
@@ -165,15 +156,6 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
   }
 
   /**
-   * sets whether pather (freehand cutting) is active
-   *
-   * @param {Boolean} val
-   */
-  setPatherStatus(val) {
-    this.patherActive = val;
-  }
-
-  /**
    * sets whether we are creating topology with search
    *
    * @param {Boolena} val
@@ -200,16 +182,9 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     this.guideLayers.push(layer);
   }
 
-  /**
-   * sets enabled element, which is an element that is active (do not get confused with selected object)
-   * these can be active marker, polyline, polygon tools
-   *
-   * @param {Layer} val
-   */
-  setEnabledEl(val) {
+  setEnabledTool(val) {
     this.enabledEl?.disable();
     this.enabledEl = val;
-    // this.tool.state.setSelectedLayer(null);
   }
 
   /**
@@ -226,7 +201,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
    *
    * @returns {object}
    */
-  getEnabledEl() {
+  getEnabledTool() {
     return this.enabledEl;
   }
 

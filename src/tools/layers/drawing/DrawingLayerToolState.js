@@ -23,15 +23,14 @@ class DrawingLayerToolState extends AbstractLayerToolState {
    */
   constructor(tool) {
     super();
-    // * element/layer that was created
-    this.currEl = null;
 
     this.featureGroup = new L.FeatureGroup();
-    this.activeIndex = 0;
     // * for knowing if we are using select tool
     this.selecting = false;
     // * for knowing if we already selected layer
     this.selectedLayer = null;
+    // * enabled tool so we are able to switch it off
+    this.enabledTool = null;
 
     this.tool = tool;
 
@@ -43,6 +42,11 @@ class DrawingLayerToolState extends AbstractLayerToolState {
 
     // * selected for customization
     this.extraSelected = [];
+  }
+
+  setEnabledTool(tool) {
+    this.enabledTool?.disable();
+    this.enabledTool = tool;
   }
 
   /**
