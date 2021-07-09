@@ -37,6 +37,9 @@ class CheckboxSidebarInput extends AbstractSidebarInput {
         return this.elementWrapper;
     }
 
+    /**
+     * A help method which creates the label HTML element.
+     */
     createLabel() {
         const labelElement = document.createElement('div');
         labelElement.innerHTML = this.label;
@@ -44,6 +47,9 @@ class CheckboxSidebarInput extends AbstractSidebarInput {
         return labelElement;
     }
 
+    /**
+     * A help method which creates the checkbox HTML element.
+     */
     createCheckbox() {
         const input = document.createElement('input');
         input.type = 'checkbox';
@@ -52,10 +58,18 @@ class CheckboxSidebarInput extends AbstractSidebarInput {
         return input;
     }
 
+    /**
+     * It returns the value of the input element.
+     */
     getValue() {
         return this.input.checked;
     }
 
+    /**
+     * It sets value of the input element.
+     * 
+     * @param {*} checked 
+     */
     setValue(checked) {
         this.input.checked = checked;
     }

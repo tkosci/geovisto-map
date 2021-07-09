@@ -6,6 +6,7 @@ const ID = "geovisto-input-text-labeled";
  * This class represents labeled text sidebar input.
  * 
  * @author Jiri Hynek
+ * @author Krystof Rykala - input div wrapper
  */
 class LabeledTextSidebarInput extends TextSidebarInput {
 
@@ -50,6 +51,9 @@ class LabeledTextSidebarInput extends TextSidebarInput {
         return this.div;
     }
 
+    /**
+     * A help method which creates the label HTML element.
+     */
     createLabel() {
         const labelElement = document.createElement("div");
         labelElement.innerHTML = this.label;

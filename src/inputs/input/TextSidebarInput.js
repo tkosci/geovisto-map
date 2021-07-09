@@ -6,6 +6,7 @@ const ID = "geovisto-input-text";
  * This class represents basic text sidebar input.
  * 
  * @author Jiri Hynek
+ * @author Krystof Rykala - generic input types
  */
 class TextSidebarInput extends AbstractSidebarInput {
 

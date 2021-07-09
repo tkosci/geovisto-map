@@ -62,16 +62,11 @@ class ColorPickerInput extends AbstractSidebarInput {
         this.input.setAttribute("id", ID);
         this.input.onchange = this.action;
 
-
-
-
         // construct elements
         this.inputDiv.appendChild(this.input);
         this.inputDiv.appendChild(value);
         this.formDiv.appendChild(labelDiv);
         this.formDiv.appendChild(this.inputDiv);
-
-
 
         return this.formDiv;
     }

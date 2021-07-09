@@ -49,6 +49,11 @@ class AbstractSidebarInput {
         this.input.value = value;
     }
 
+    /**
+     * It sets the input disabled.
+     * 
+     * @param {*} disabled 
+     */
     setDisabled(disabled) {
         this.input.disabled = disabled;
     }

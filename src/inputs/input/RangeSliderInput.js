@@ -13,7 +13,7 @@ const COMPONENT_INPUT_CLASS = ID + "-input";
 /**
  * This class represents basic text sidebar input.
  * 
- * @author Jiri Hynek
+ * @author Jakub Kachlik
  */
 class RangeSliderInput extends AbstractSidebarInput {
 
