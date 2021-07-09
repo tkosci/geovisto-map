@@ -442,7 +442,7 @@ class MarkerLayerTool extends AbstractLayerTool {
             // delete actual items
             this.deleteLayerItems();
             // prepare data
-            const data = this.getMap().getState().getFilteredData();
+            const data = this.getMap().getState().getCurrentData();
 
             // update map
             const markData = this.prepareMapData(data);

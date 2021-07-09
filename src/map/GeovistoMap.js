@@ -236,10 +236,7 @@ class GeovistoMap extends AbstractMapObject {
      * @param {[any]} data
      * @param {*} source of the change
      */
-    updateData(data, options = { redraw: true, transitionDelay: 0, transitionDuration: 0 }, source) {
-        if (options.redraw) {
-            this.getState().setFilteredData(data);
-        }
+    updateData(data, source, options = { redraw: true, transitionDelay: 0, transitionDuration: 0 }) {
         // update state
         this.getState().setCurrentData(data);
 

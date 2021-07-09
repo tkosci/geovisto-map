@@ -152,16 +152,7 @@ class GeovistoMapState extends AbstractMapObjectState {
      */
     setMapData(mapData) {
         this.mapData = mapData;
-        this.setFilteredData(mapData.getData())
         this.setCurrentData(mapData.getData());
-    }
-
-    setFilteredData(data) {
-        this.filteredData = data;
-    }
-
-    getFilteredData() {
-        return this.filteredData;
     }
 
     /**

@@ -13,6 +13,7 @@ export class TimelineTool extends AbstractLayerTool {
     constructor(props, container, config) {
         super(props);
 
+        this.initialData = undefined;
         this.tabControl = undefined;
         this.timeline = undefined;
         this.timelineControl = undefined;
@@ -57,6 +58,11 @@ export class TimelineTool extends AbstractLayerTool {
         return new TimelineToolTabControl({ tool: this });
     }
 
+    initialize(map, config) {
+        super.initialize(map, config);
+        this.initialData = map.getState().getCurrentData();
+    }
+
     /**
      * It creates settings tool
      */
@@ -94,7 +100,7 @@ export class TimelineTool extends AbstractLayerTool {
     }
 
     calculateTimes() {
-        const data = this.getMap().getState().getFilteredData();
+        const data = this.initialData;
         const { timePath, realTimeEnabled, granularity } = this.formState;
         let times = data.map(record => record[timePath]);
         times = [...new Set(times)];
@@ -120,14 +126,14 @@ export class TimelineTool extends AbstractLayerTool {
         }
         this.getMap().updateData(
             this.data.values.get(this.times[currentTimeIndex]),
+            TimelineTool.TYPE(),
             {
                 redraw: false,
                 transitionDuration: story && story.transitionDuration ?
                     story.transitionDuration :
                     this.formState.transitionDuration,
                 transitionDelay: story && story.transitionDelay ? story.transitionDelay : 0,
-            },
-            TimelineTool.TYPE()
+            }
         )
     }
 
@@ -143,7 +149,7 @@ export class TimelineTool extends AbstractLayerTool {
                 return timeStamp > time && timeStamp < this.times[index + 1]
             });
         }
-        this.getMap().getState().getFilteredData().forEach((item) => {
+        this.initialData.forEach((item) => {
             const timeStamp = getTimeStamp(item[this.formState.timePath]);
             values.set(timeStamp, [...values.get(timeStamp), item]);
         });
@@ -218,7 +224,7 @@ export class TimelineTool extends AbstractLayerTool {
             this.timelineControl.remove();
             this.timelineControl = null;
         }
-        this.getMap().updateData(this.getMap().getState().getFilteredData());
+        this.getMap().updateData(this.initialData);
     }
 
     handleEvent(event) {
@@ -226,6 +232,10 @@ export class TimelineTool extends AbstractLayerTool {
 
         if (event.getType() === DataChangeEvent.TYPE()) {
             if (event.getSource() === TimelineTool.TYPE()) return;
+            let changeObject = event.getObject();
+            if (changeObject && changeObject.options &&  changeObject.options.redraw) {
+                this.initialData = changeObject.data;
+            }
             this.initializeTimeline(this.formState)
         }
     }
