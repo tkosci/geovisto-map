@@ -151,7 +151,7 @@ class DrawingLayerTool extends AbstractLayerTool {
 
     map.on('click', () => {
       const sidebar = this.getSidebarTabControl();
-      if (Boolean(sidebar.getState().enabledEl)) return;
+      if (sidebar.getState().enabledEl.isToolActive()) return;
       if (document.querySelector('.leaflet-container').style.cursor === 'wait') return;
       let selected = this.getState().selectedLayer;
       DeselectTool.deselect(selected, this);
@@ -204,8 +204,8 @@ class DrawingLayerTool extends AbstractLayerTool {
 
     if (e.layerType === 'polygon' || e.layerType === 'painted') {
       // * JOIN
-      if (intersectActivated) layer = polyIntersect(layer, e.keyIndex, state);
-      else layer = polyJoin(layer, e.keyIndex, state);
+      if (intersectActivated) layer = polyIntersect(layer, state);
+      else layer = polyJoin(layer, state);
     }
 
     if (e.layerType === 'polygon' || e.layerType === 'painted' || e.layerType === 'erased') {
@@ -224,7 +224,8 @@ class DrawingLayerTool extends AbstractLayerTool {
         sidebarState.setEnabledTool(null);
         this.redrawSidebarTabControl();
       }
-      const divideBtn = document.querySelector('.drawingtoolbar .divideBtn .extra-btn');
+      const query = `.drawingtoolbar ${GeometricSliceTool.NAME()} .extra-btn`;
+      const divideBtn = document.querySelector(query);
       if (divideBtn) divideBtn.classList.add('hide');
     }
 

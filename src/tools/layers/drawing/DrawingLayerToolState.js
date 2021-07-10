@@ -324,6 +324,7 @@ class DrawingLayerToolState extends AbstractLayerToolState {
    * @param {Layer} layer
    */
   removeSelectedLayer() {
+    console.log({ selectedLayer: this.selectedLayer });
     TransformTool.disableTransform(this.selectedLayer);
     EditTool.disableNodeEdit(this.selectedLayer);
     this.featureGroup.removeLayer(this.selectedLayer);

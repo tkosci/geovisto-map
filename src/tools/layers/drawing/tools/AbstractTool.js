@@ -9,6 +9,7 @@ class AbstractTool {
     this.leafletMap = props.drawingTool.getMap().getState().getLeafletMap();
 
     this.tool = null;
+    this._isActive = false;
   }
 
   static NAME(): string {
@@ -61,6 +62,7 @@ class AbstractTool {
   activate(): void {
     this.setCurrentToolAsEnabled();
     this.enable();
+    this._isActive = true;
   }
 
   /**
@@ -76,6 +78,7 @@ class AbstractTool {
    */
   disable(): void {
     this._disableActive();
+    this._isActive = false;
   }
 
   _disableActive(): void {
@@ -92,6 +95,10 @@ class AbstractTool {
    */
   getSelectedEl(): object {
     return this.drawingTool.getState().selectedLayer;
+  }
+
+  isToolActive(): boolean {
+    return this._isActive;
   }
 }
 

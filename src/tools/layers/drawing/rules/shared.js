@@ -11,11 +11,10 @@ import {
  *        - used for union and intersection
  *
  * @param {Layer} layer
- * @param {Number | undefined} eKeyIndex
  * @param {Function} operation
  * @returns {{Layer, result: boolean}} geo. object
  */
-export const operateOnSelectedAndCurrectLayer = (layer, eKeyIndex, operation, selectedLayer) => {
+export const operateOnSelectedAndCurrectLayer = (layer, operation, selectedLayer) => {
   let feature = getFirstGeoJSONFeature(layer);
   let isFeatPoly = isFeaturePoly(feature);
   if (!isFeatPoly) return { layer, result: false };

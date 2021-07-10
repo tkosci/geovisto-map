@@ -42,7 +42,7 @@ class EraseTool extends PaintTool {
       this.disable();
     } else {
       this.startErase();
-      this._active = true;
+      this._isActive = true;
     }
     this._redrawSidebar(this.result());
   };

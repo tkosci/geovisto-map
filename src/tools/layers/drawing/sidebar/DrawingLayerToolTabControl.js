@@ -135,8 +135,8 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     const eraseTool = drawingTools[EraseTool.NAME()];
 
     let brush = null;
-    if (paintTool?.isActive()) brush = paintTool;
-    if (eraseTool?.isActive()) brush = eraseTool;
+    if (paintTool?.isToolActive()) brush = paintTool;
+    if (eraseTool?.isToolActive()) brush = eraseTool;
 
     if (!brush) return null;
 

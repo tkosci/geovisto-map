@@ -33,8 +33,6 @@ class PaintTool extends AbstractTool {
 
     this._accumulatedShape = null;
     this._shapeLayer = null;
-
-    this._active = false;
   }
 
   static NAME(): string {
@@ -75,9 +73,8 @@ class PaintTool extends AbstractTool {
    * enables painting
    */
   enablePaint = () => {
-    console.log('enabled');
     this.startPaint();
-    this._active = true;
+    this._isActive = true;
   };
 
   /**
@@ -289,17 +286,8 @@ class PaintTool extends AbstractTool {
    */
   disable = () => {
     this.stop();
-    this._active = false;
     this._redrawSidebar('');
-  };
-
-  /**
-   * getter
-   *
-   * @returns {Boolean}
-   */
-  isActive = () => {
-    return this._active;
+    this._isActive = false;
   };
 }
 
