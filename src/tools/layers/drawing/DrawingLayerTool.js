@@ -331,7 +331,7 @@ class DrawingLayerTool extends AbstractLayerTool {
    */
   normalizeOnHover(e) {
     if (!this.getState().getSelecting()) return;
-    const { chosenLayers } = this.getState();
+    const { chosenLayers = [] } = this.drawingTools[JoinTool.NAME()] || {};
     const isChosen = chosenLayers.map((x) => x._leaflet_id).includes(e.target._leaflet_id);
     if (isChosen) return;
     this.normalizeElement(e.target);

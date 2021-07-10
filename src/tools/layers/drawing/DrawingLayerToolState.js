@@ -3,14 +3,13 @@ import L from 'leaflet';
 import {
   convertOptionsToProperties,
   convertPropertiesToOptions,
+  getConversionDepth,
   getLeafletTypeFromFeature,
   isLayerPoly,
 } from './util/Poly';
 import { isEmpty, sortReverseAlpha } from './util/functionUtils';
-import { FIRST, NOT_FOUND, iconStarter, normalStyles } from './util/constants';
+import { NOT_FOUND, iconStarter, normalStyles } from './util/constants';
 import { EditTool, TransformTool } from './tools';
-
-const MAX_CHOSEN = 2;
 
 /**
  * This class provide functions for using the state of the layer tool.
@@ -36,9 +35,6 @@ class DrawingLayerToolState extends AbstractLayerToolState {
 
     this.createdVertices = [];
     this.mappedMarkersToVertices = {};
-
-    // * selected for join
-    this.chosenLayers = [];
 
     // * selected for customization
     this.extraSelected = [];
@@ -100,55 +96,6 @@ class DrawingLayerToolState extends AbstractLayerToolState {
   };
 
   /**
-   * checks if maximum size of an array is reached
-   */
-  chosenLayersMaxed = () => {
-    return this.chosenLayers.length === MAX_CHOSEN;
-  };
-
-  /**
-   * pushes passed object into array, if length exceeds maximum array is shifted
-   * so the lenght is constant
-   *
-   * @param {Layer} layer
-   */
-  pushChosenLayer = (layer) => {
-    if (this.chosenLayers.length >= MAX_CHOSEN) {
-      this.chosenLayers.shift();
-    }
-    this.tool.highlightElement(layer);
-    this.chosenLayers.push(layer);
-  };
-
-  /**
-   * deselects all selected ones
-   */
-  deselectChosenLayers = () => {
-    this.chosenLayers.forEach((chosen) => this.tool.normalizeElement(chosen));
-    this.chosenLayers = [];
-  };
-
-  /**
-   * removes all selected ones
-   */
-  clearChosenLayers = () => {
-    this.chosenLayers.forEach((chosen) => this.removeLayer(chosen));
-    this.chosenLayers = [];
-  };
-
-  /**
-   * layers are joined which means remove previous ones and append joined
-   *
-   * @param {Layer} joined
-   */
-  pushJoinedToChosenLayers = (joined) => {
-    this.clearChosenLayers();
-    this.tool.highlightElement(joined);
-    this.chosenLayers.push(joined);
-    this.addLayer(joined);
-  };
-
-  /**
    * checks if markers is connect marker
    *
    * @param {Layer} marker
@@ -165,40 +112,6 @@ class DrawingLayerToolState extends AbstractLayerToolState {
    */
   selectedLayerIsConnectMarker = () => {
     return this.isConnectMarker(this.selectedLayer);
-  };
-
-  /**
-   * checks if geo. object may be push to an array and be joined later on
-   *
-   * @param {Layer} layer
-   * @returns {Boolean}
-   */
-  canPushToChosen = (layer) => {
-    const acceptableType = this.isConnectMarker(layer) || isLayerPoly(layer);
-    if (isEmpty(this.chosenLayers)) {
-      if (acceptableType) return true;
-    } else {
-      let firstChosen = this.chosenLayers[FIRST];
-      if (this.isConnectMarker(firstChosen) && this.isConnectMarker(layer)) return true;
-      if (isLayerPoly(firstChosen) && isLayerPoly(layer)) return true;
-    }
-
-    return false;
-  };
-
-  chosenLayersArePolys = () => {
-    let firstChosen = this.chosenLayers[FIRST];
-    return isLayerPoly(firstChosen);
-  };
-
-  /**
-   * checks if layers, to be joined, are markers
-   *
-   * @returns boolean
-   */
-  chosenLayersAreMarkers = () => {
-    let firstChosen = this.chosenLayers[FIRST];
-    return this.isConnectMarker(firstChosen);
   };
 
   /**
@@ -319,7 +232,6 @@ class DrawingLayerToolState extends AbstractLayerToolState {
    * @param {Layer} layer
    */
   removeSelectedLayer() {
-    console.log({ selectedLayer: this.selectedLayer });
     TransformTool.disableTransform(this.selectedLayer);
     EditTool.disableNodeEdit(this.selectedLayer);
     this.featureGroup.removeLayer(this.selectedLayer);
@@ -452,7 +364,7 @@ class DrawingLayerToolState extends AbstractLayerToolState {
         .forEach((f) => {
           let opts = convertPropertiesToOptions(f.properties);
           let lType = getLeafletTypeFromFeature(f);
-          let latlng = L.GeoJSON.coordsToLatLngs(f.geometry.coordinates, 1);
+          let latlng = L.GeoJSON.coordsToLatLngs(f.geometry.coordinates, getConversionDepth(f));
           let result;
           if (lType === 'polygon') {
             result = new L.polygon(latlng, opts);

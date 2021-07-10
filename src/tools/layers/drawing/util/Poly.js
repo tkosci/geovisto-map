@@ -151,7 +151,7 @@ export const getConversionDepth = (feature) => {
  * @param {Boolean} simplify
  * @returns
  */
-export const morphFeatureToPolygon = (feature, options = {}, simplify = true) => {
+export const morphFeatureToPolygon = (feature, options = {}, simplify = false) => {
   let depth = getConversionDepth(feature);
   let simplified = simplify ? simplifyFeature(feature) : feature;
   let coords = simplified.geometry.coordinates;

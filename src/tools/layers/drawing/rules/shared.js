@@ -34,7 +34,7 @@ export const operateOnSelectedAndCurrectLayer = (layer, operation, selectedLayer
     }
   });
 
-  layer = morphFeatureToPolygon(summedFeature, layer.options, false);
+  layer = morphFeatureToPolygon(summedFeature, layer.options);
 
   return { layer, result: true };
 };
