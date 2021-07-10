@@ -44,11 +44,6 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     this.extraSelected = [];
   }
 
-  setEnabledTool(tool) {
-    this.enabledTool?.disable();
-    this.enabledTool = tool;
-  }
-
   /**
    * clears extraSelected array and sets normal styles to each geo. object
    */
@@ -329,29 +324,6 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     EditTool.disableNodeEdit(this.selectedLayer);
     this.featureGroup.removeLayer(this.selectedLayer);
     this.selectedLayer = null;
-  }
-
-  /**
-   * gets layer with kIdx that equals passed one
-   *
-   * @param {Number} idx
-   * @returns {Layer}
-   */
-  getLayerByIdx(idx) {
-    const found = Object.values(this.featureGroup._layers).find((l) => l.kIdx === idx);
-    return found;
-  }
-
-  /**
-   * removes layer with same kIdx as passed one
-   *
-   * @param {Number} idx
-   * @returns
-   */
-  removeLayerByIdx(idx) {
-    if (idx === undefined) return;
-    const found = Object.values(this.featureGroup._layers).find((l) => l.kIdx === idx);
-    if (found) this.removeLayer(found);
   }
 
   /**

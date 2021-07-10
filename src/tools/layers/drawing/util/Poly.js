@@ -135,6 +135,14 @@ export const isLayerPoly = (layer) => {
   return isFeaturePoly(feature);
 };
 
+export const getConversionDepth = (feature) => {
+  let depth = 1;
+  if (feature?.geometry?.type === 'MultiPolygon') {
+    depth = 2;
+  }
+  return depth;
+};
+
 /**
  * helper function for morphing GeoJSON feature to Polygon {Layer} structure
  *
@@ -144,10 +152,7 @@ export const isLayerPoly = (layer) => {
  * @returns
  */
 export const morphFeatureToPolygon = (feature, options = {}, simplify = true) => {
-  let depth = 1;
-  if (feature.geometry.type === 'MultiPolygon') {
-    depth = 2;
-  }
+  let depth = getConversionDepth(feature);
   let simplified = simplify ? simplifyFeature(feature) : feature;
   let coords = simplified.geometry.coordinates;
   let latlngs = L.GeoJSON.coordsToLatLngs(coords, depth);

@@ -4,7 +4,12 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import AbstractTool from './AbstractTool';
-import { convertOptionsToProperties, isLayerPoly, simplifyFeature } from '../util/Poly';
+import {
+  convertOptionsToProperties,
+  getConversionDepth,
+  isLayerPoly,
+  simplifyFeature,
+} from '../util/Poly';
 import circle from '@turf/circle';
 import { STROKES, highlightStyles, normalStyles } from '../util/constants';
 import union from '@turf/union';
@@ -194,8 +199,7 @@ class PaintTool extends AbstractTool {
 
     let simplified = simplifyFeature(this._accumulatedShape);
     let coords = simplified.geometry.coordinates;
-    let isMultiPoly = this._accumulatedShape.geometry.type === 'MultiPolygon';
-    let depth = isMultiPoly ? 2 : 1;
+    let depth = getConversionDepth(this._accumulatedShape);
     let latlngs = L.GeoJSON.coordsToLatLngs(coords, depth);
     let color = this._accumulatedShape?.properties?.fill || DEFAULT_COLOR;
     let weight = this._accumulatedShape?.properties['stroke-width'] || STROKES[1].value;
