@@ -307,7 +307,7 @@ class DrawingLayerTool extends AbstractLayerTool {
    * @returns
    */
   hightlightOnHover(e) {
-    if (!this.getState().getSelecting()) return;
+    if (this.getState().getSelecting()) return;
     this.highlightElement(e.target);
   }
 
@@ -330,10 +330,8 @@ class DrawingLayerTool extends AbstractLayerTool {
    * @param {Object} el
    */
   normalizeOnHover(e) {
-    if (!this.getState().getSelecting()) return;
-    const { chosenLayers = [] } = this.drawingTools[JoinTool.NAME()] || {};
-    const isChosen = chosenLayers.map((x) => x._leaflet_id).includes(e.target._leaflet_id);
-    if (isChosen) return;
+    if (this.getState().getSelecting()) return;
+    if (this.getState()?.selectedLayer?._leaflet_id === e.target._leaflet_id) return;
     this.normalizeElement(e.target);
   }
 
@@ -350,8 +348,10 @@ class DrawingLayerTool extends AbstractLayerTool {
     const selecting = state.getSelecting();
     if (selecting) {
       const joinTool = this.drawingTools[JoinTool.NAME()];
-      joinTool.joinChosen(drawObject);
-      return;
+      if (joinTool) {
+        joinTool.joinChosen(drawObject);
+        return;
+      }
     }
 
     if (e?.originalEvent?.ctrlKey && state.selectedLayer) {
