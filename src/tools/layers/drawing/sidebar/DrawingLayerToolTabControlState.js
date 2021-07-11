@@ -302,7 +302,6 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
       ...oldIconOptions,
       ...iconOpt,
     };
-    console.log({ selectedEl, marker });
 
     const markerIcon = new L.Icon(newIconOptions);
     if (marker) marker.setIcon(markerIcon);

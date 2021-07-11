@@ -66,8 +66,6 @@ class MarkerTool extends AbstractTool {
   };
 
   enable = (): void => {
-    this._redrawSidebar(this.result());
-    this.disable();
     this._markerCreate();
   };
 }

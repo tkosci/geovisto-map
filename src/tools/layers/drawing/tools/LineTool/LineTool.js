@@ -50,8 +50,6 @@ class LineTool extends AbstractTool {
   };
 
   enable = (): void => {
-    console.log('called');
-    this._redrawSidebar(this.result());
     this._polylineCreate();
   };
 }

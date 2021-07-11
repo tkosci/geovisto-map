@@ -142,18 +142,16 @@ class DrawingLayerTool extends AbstractLayerTool {
 
     this.initializeDrawingTools();
     useDrawingToolbar();
-
     this.setGlobalSimplificationTolerance();
 
     map.addControl(L.control.drawingToolbar({ tool: this }));
+
     // * eventlistener for when object is created
     map.on('draw:created', this.createdListener);
-
     map.on('zoomend', () => this.setGlobalSimplificationTolerance());
-
     map.on('click', () => {
       const sidebar = this.getSidebarTabControl();
-      if (sidebar.getState().enabledEl.isToolActive()) return;
+      if (sidebar.getState()?.enabledEl?.isToolActive()) return;
       if (document.querySelector('.leaflet-container').style.cursor === 'wait') return;
       let selected = this.getState().selectedLayer;
       DeselectTool.deselect(selected, this);
@@ -161,25 +159,21 @@ class DrawingLayerTool extends AbstractLayerTool {
       this.getState().clearExtraSelected();
     });
 
+    const sidebarState = this.getSidebarTabControl().getState();
+    const handleSpacePress = (e, exec) => {
+      if (e.keyCode === SPACE_BAR) {
+        let enabledEl = sidebarState.enabledEl;
+        if (enabledEl?.isToolActive()) {
+          exec(enabledEl);
+        }
+      }
+    };
+    const handleSpaceDown = (e) => handleSpacePress(e, (enabledEl) => enabledEl?.disable());
+    const handleSpaceUp = (e) => handleSpacePress(e, (enabledEl) => enabledEl?.enable());
+
     // TODO:
-    document.addEventListener('keydown', (e) => {
-      // if (e.keyCode === SPACE_BAR) {
-      //   let enabledEl = this.getSidebarTabControl().getState().enabledEl;
-      //   if (enabledEl) {
-      //     enabledEl.disable();
-      //     // map.dragging.enable(); // we do not have to do this, it is already on always
-      //   }
-      // }
-    });
-    document.addEventListener('keyup', (e) => {
-      // if (e.keyCode === SPACE_BAR) {
-      //   let enabledEl = this.getSidebarTabControl().getState().enabledEl;
-      //   if (enabledEl) {
-      //     enabledEl.enable();
-      //     // map.dragging.disable(); // we do not have to do this, it is already on always
-      //   }
-      // }
-    });
+    document.addEventListener('keydown', handleSpaceDown);
+    document.addEventListener('keyup', handleSpaceUp);
 
     const { featureGroup } = this.getState();
     featureGroup.eachLayer((layer) => {

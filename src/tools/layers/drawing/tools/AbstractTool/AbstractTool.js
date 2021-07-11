@@ -63,6 +63,15 @@ class AbstractTool {
     this.setCurrentToolAsEnabled();
     this.enable();
     this._isActive = true;
+    this._redrawSidebar(this.result());
+  }
+
+  deactivate(): void {
+    this.disable();
+    this.tool = null;
+    this._isActive = false;
+    this.sidebar.getState().setEnabledTool(null);
+    this._redrawSidebar();
   }
 
   /**
@@ -70,22 +79,15 @@ class AbstractTool {
    */
   enable(): void {
     this._redrawSidebar(this.result());
-    console.log('enabled');
   }
 
   /**
    * to be extended
    */
   disable(): void {
-    this._disableActive();
-    this._isActive = false;
-  }
-
-  _disableActive(): void {
     let activeTool = this.tool;
     if (activeTool) {
       activeTool.disable();
-      this._redrawSidebar();
     }
   }
 

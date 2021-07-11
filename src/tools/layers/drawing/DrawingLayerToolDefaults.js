@@ -117,7 +117,6 @@ class DrawingLayerToolDefaults extends AbstractLayerToolDefaults {
       .getState()
       .getMapData()
       .getDataDomainLabels()[0];
-    console.log({ implicitDataDomainLabel });
 
     dataMapping[dataMappingModel.identifier.name] = implicitDataDomainLabel;
     dataMapping[dataMappingModel.description.name] = implicitDataDomainLabel;

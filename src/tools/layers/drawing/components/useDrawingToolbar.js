@@ -109,7 +109,7 @@ export default function useDrawingToolbar() {
     _disableDrawing: function (e, tool) {
       e.stopPropagation();
       e?.target?.classList?.add('hide');
-      tool.disable();
+      tool.deactivate();
     },
 
     /**
