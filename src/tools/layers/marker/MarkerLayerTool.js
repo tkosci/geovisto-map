@@ -257,6 +257,11 @@ class MarkerLayerTool extends AbstractLayerTool {
         return new MarkerLayerToolTabControl({ tool: this });
     }
 
+    initialize(map, config) {
+        super.initialize(map, config);
+        this.data = map.getState().getCurrentData();
+    }
+
     /**
      * It creates layer items.
      */
@@ -441,11 +446,8 @@ class MarkerLayerTool extends AbstractLayerTool {
         if (this.getState().getLayer()) {
             // delete actual items
             this.deleteLayerItems();
-            // prepare data
-            const data = this.getMap().getState().getCurrentData();
-
             // update map
-            const markData = this.prepareMapData(data);
+            const markData = this.prepareMapData(this.data);
             const markers = this.createMarkers(markData);
             this.getState().setMarkers(markers);
         }
@@ -492,6 +494,7 @@ class MarkerLayerTool extends AbstractLayerTool {
         if (event.getType() === DataChangeEvent.TYPE()) {
             const { data, options } = event.getObject()
             if (options.redraw) {
+                this.data = data;
                 this.redraw();
             } else {
                 const { transitionDuration, transitionDelay } = options;
