@@ -76,6 +76,7 @@ export const polyDiff = (layer, state, intersect = false) => {
   let layerFeature = getFirstGeoJSONFeature(layer);
   let isCurrentLayerPoly = isLayerPoly(layer);
   let createdIsNotEraser = layer.layerType !== 'erased';
+  let createdIsEraser = layer.layerType === 'erased';
 
   if (isCurrentLayerPoly) {
     let selectedLayer = state.selectedLayer;
@@ -92,7 +93,7 @@ export const polyDiff = (layer, state, intersect = false) => {
         .forEach((geoObject) => {
           // * we want to avoid damaging selected layer
           let objectIsNotSelected = geoObject?._leaflet_id !== selectedLayer?._leaflet_id;
-          let canDiff = createdIsNotEraser && objectIsNotSelected;
+          let canDiff = createdIsEraser ? true : objectIsNotSelected;
           diffLayers(geoObject, layerFeature, state, canDiff);
         });
     }
