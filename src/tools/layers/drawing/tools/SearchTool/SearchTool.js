@@ -5,8 +5,8 @@ import 'leaflet-draw';
 
 import { OpenStreetMapProvider } from 'leaflet-geosearch';
 
-import AbstractTool from './AbstractTool';
-import { iconStarter, ICON_SRCS } from '../util/constants';
+import { AbstractTool } from '../AbstractTool';
+import { iconStarter, ICON_SRCS } from '../../util/constants';
 
 class SearchTool extends AbstractTool {
   constructor(props) {

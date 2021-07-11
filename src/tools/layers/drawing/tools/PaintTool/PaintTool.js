@@ -3,15 +3,15 @@ import 'leaflet-path-drag';
 import 'leaflet-path-transform';
 import 'leaflet-draw';
 
-import AbstractTool from './AbstractTool';
+import { AbstractTool } from '../AbstractTool';
 import {
   convertOptionsToProperties,
   getConversionDepth,
   isLayerPoly,
   simplifyFeature,
-} from '../util/Poly';
+} from '../../util/Poly';
 import circle from '@turf/circle';
-import { STROKES, highlightStyles, normalStyles } from '../util/constants';
+import { STROKES, highlightStyles, normalStyles } from '../../util/constants';
 import union from '@turf/union';
 
 const DEFAULT_COLOR = '#333333';

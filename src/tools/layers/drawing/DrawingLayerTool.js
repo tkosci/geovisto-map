@@ -14,21 +14,23 @@ import 'leaflet-draw';
 import * as d33 from 'd3-3-5-5';
 import { SPACE_BAR, highlightStyles, normalStyles } from './util/constants';
 
-import LineTool from './tools/LineTool';
-import MarkerTool from './tools/MarkerTool';
-import PolygonTool from './tools/PolygonTool';
-import SearchTool from './tools/SearchTool';
-import TopologyTool from './tools/TopologyTool';
-import FreehandSliceTool from './tools/FreehandSliceTool';
-import GeometricSliceTool from './tools/GeometricSliceTool';
-import PaintTool from './tools/PaintTool';
-import EraseTool from './tools/EraseTool';
-import JoinTool from './tools/JoinTool';
-import DeselectTool from './tools/DeselectTool';
-import TransformTool from './tools/TransformTool';
-import EditTool from './tools/EditTool';
-import RemoveTool from './tools/RemoveTool';
 import { polyDiff, polyIntersect, polyJoin } from './rules';
+import {
+  DeselectTool,
+  EditTool,
+  EraseTool,
+  FreehandSliceTool,
+  GeometricSliceTool,
+  JoinTool,
+  LineTool,
+  MarkerTool,
+  PaintTool,
+  PolygonTool,
+  RemoveTool,
+  SearchTool,
+  TopologyTool,
+  TransformTool,
+} from './tools';
 
 // ! pather throws errors without this line
 window.d3 = d33;

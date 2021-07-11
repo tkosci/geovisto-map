@@ -8,11 +8,11 @@ import {
   isFeaturePoly,
   isLayerPoly,
   morphFeatureToPolygon,
-} from '../util/Poly';
+} from '../../util/Poly';
 import union from '@turf/union';
-import TopologyTool from './TopologyTool';
-import { isEmpty } from '../util/functionUtils';
-import { FIRST } from '../util/constants';
+import { isEmpty } from '../../util/functionUtils';
+import { FIRST } from '../../util/constants';
+import { TopologyTool } from '../TopologyTool';
 
 const MAX_CHOSEN = 2;
 

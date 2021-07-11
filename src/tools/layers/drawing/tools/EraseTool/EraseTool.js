@@ -3,7 +3,7 @@ import 'leaflet-path-drag';
 import 'leaflet-path-transform';
 import 'leaflet-draw';
 
-import PaintTool from './PaintTool';
+import { PaintTool } from '../PaintTool';
 
 const ERASER_COLOR = '#ee000055';
 

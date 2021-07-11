@@ -3,8 +3,8 @@ import 'leaflet-path-drag';
 import 'leaflet-path-transform';
 import 'leaflet-draw';
 
-import AbstractTool from './AbstractTool';
-import EditTool from './EditTool';
+import { AbstractTool } from '../AbstractTool';
+import { EditTool } from '../EditTool';
 
 class DeselectTool extends AbstractTool {
   constructor(props) {

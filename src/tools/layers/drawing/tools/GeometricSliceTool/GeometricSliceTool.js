@@ -5,10 +5,10 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 import * as turf from '@turf/turf';
 
-import AbstractTool from './AbstractTool';
-import '../components/Knife';
-import { getFirstGeoJSONFeature, isFeaturePoly } from '../util/Poly';
-import { normalStyles } from '../util/constants';
+import { AbstractTool } from '../AbstractTool';
+import '../../components/Knife';
+import { getFirstGeoJSONFeature, isFeaturePoly } from '../../util/Poly';
+import { normalStyles } from '../../util/constants';
 
 class GeometricSliceTool extends AbstractTool {
   constructor(props) {

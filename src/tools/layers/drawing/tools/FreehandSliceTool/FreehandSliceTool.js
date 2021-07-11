@@ -4,7 +4,7 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 import 'leaflet-pather';
 
-import GeometricSliceTool from './GeometricSliceTool';
+import { GeometricSliceTool } from '../GeometricSliceTool';
 
 class FreehandSliceTool extends GeometricSliceTool {
   constructor(props) {

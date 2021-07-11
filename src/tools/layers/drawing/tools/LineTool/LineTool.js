@@ -4,7 +4,7 @@ import 'leaflet-path-drag';
 import 'leaflet-path-transform';
 import 'leaflet-draw';
 
-import AbstractTool from './AbstractTool';
+import { AbstractTool } from '../AbstractTool';
 
 class LineTool extends AbstractTool {
   constructor(props) {
