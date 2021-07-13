@@ -143,6 +143,21 @@ export const getConversionDepth = (feature) => {
   return depth;
 };
 
+export const convertCoords = (feature) => {
+  if (!feature) return null;
+
+  const coords = feature.geometry.coordinates;
+  const depth = getConversionDepth(feature);
+
+  if (feature.geometry.type === 'Point') {
+    return L.GeoJSON.coordsToLatLng(coords);
+  } else if (feature.geometry.type === 'LineString') {
+    return L.GeoJSON.coordsToLatLngs([coords], 1);
+  } else {
+    return L.GeoJSON.coordsToLatLngs(coords, depth);
+  }
+};
+
 /**
  * helper function for morphing GeoJSON feature to Polygon {Layer} structure
  *

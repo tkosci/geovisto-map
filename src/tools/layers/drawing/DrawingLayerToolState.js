@@ -1,6 +1,7 @@
 import { AbstractLayerToolState } from '../abstract';
 import L from 'leaflet';
 import {
+  convertCoords,
   convertOptionsToProperties,
   convertPropertiesToOptions,
   getConversionDepth,
@@ -364,7 +365,8 @@ class DrawingLayerToolState extends AbstractLayerToolState {
         .forEach((f) => {
           let opts = convertPropertiesToOptions(f.properties);
           let lType = getLeafletTypeFromFeature(f);
-          let latlng = L.GeoJSON.coordsToLatLngs(f.geometry.coordinates, getConversionDepth(f));
+          let latlng = convertCoords(f);
+
           let result;
           if (lType === 'polygon') {
             result = new L.polygon(latlng, opts);
@@ -503,7 +505,7 @@ class DrawingLayerToolState extends AbstractLayerToolState {
         let _latlng;
         let poly;
         if (layer.layerType === 'polyline' || layer.layerType === 'vertice') {
-          _latlng = layer.latlngs.map((l) => L.latLng(l.lat, l.lng));
+          _latlng = layer.latlngs[0].map((l) => L.latLng(l.lat, l.lng));
           poly = new L.polyline(_latlng, layer.options);
         }
         if (layer.layerType === 'polygon' || layer.layerType === 'painted') {
@@ -518,8 +520,7 @@ class DrawingLayerToolState extends AbstractLayerToolState {
         layerToAdd.bindPopup(layer.popupContent, { closeOnClick: false, autoClose: false });
         layerToAdd.popupContent = layer.popupContent;
       }
-      // layer.snapediting = new L.Handler.MarkerSnap(map, layer);
-      // layer.snapediting.enable();
+
       this.tool.tabControl.state.pushGuideLayer(layer);
 
       layerToAdd.layerType = layer.layerType;
