@@ -198,9 +198,12 @@ class DrawingLayerTool extends AbstractLayerTool {
 
     const { intersectActivated } = sidebarState;
 
+    if (layer?.dragging) layer.dragging.disable();
+
     if (e.layerType === 'polygon' || e.layerType === 'painted') {
-      // * JOIN
+      // * INTERSECT
       if (intersectActivated) layer = polyIntersect(layer, state);
+      // * JOIN
       else layer = polyJoin(layer, state);
     }
 
@@ -209,35 +212,27 @@ class DrawingLayerTool extends AbstractLayerTool {
       polyDiff(layer, state, intersectActivated);
     }
 
-    if (layer?.dragging) layer.dragging.disable();
-
     // * SLICE
     if (e.layerType === 'knife') {
       this.drawingTools[GeometricSliceTool.NAME()].polySlice(layer);
-      // * restore state
-      let enabled = sidebarState.getEnabledTool();
-      if (enabled) {
-        sidebarState.setEnabledTool(null);
-        this.redrawSidebarTabControl();
-      }
-      const query = `.drawingtoolbar ${GeometricSliceTool.NAME()} .extra-btn`;
-      const divideBtn = document.querySelector(query);
-      if (divideBtn) divideBtn.classList.add('hide');
+      this.drawingTools[GeometricSliceTool.NAME()].deactivate();
     }
 
-    if (e.layerType !== 'knife' && e.layerType !== 'erased') {
-      this.getState().addLayer(layer);
-      sidebarState.pushGuideLayer(layer);
-    }
-
+    // * ERASER
     if (e.layerType === 'erased') {
       const map = this.getMap().getState().getLeafletMap();
       map.removeLayer(layer);
     }
 
     // * MARKER
-    if (this.getState().isConnectMarker(layer)) {
+    if (state.isConnectMarker(layer)) {
       this.drawingTools[TopologyTool.NAME()].plotTopology();
+    }
+
+    // * PUSH LAYER IF NOT SLICING/ERASING
+    if (e.layerType !== 'knife' && e.layerType !== 'erased') {
+      state.addLayer(layer);
+      sidebarState.pushGuideLayer(layer);
     }
   };
 
@@ -250,23 +245,9 @@ class DrawingLayerTool extends AbstractLayerTool {
     layer.on('click', L.DomEvent.stopPropagation).on('click', this.initChangeStyle, this);
     layer.on('mouseover', this.hightlightOnHover, this);
     layer.on('mouseout', this.normalizeOnHover, this);
-    if (layer.layerType === 'marker') this.applyTopologyMarkerListeners(layer);
-  }
-
-  /**
-   * @brief event listener so vetice is dragged with marker
-   *
-   * @param {Layers} layer
-   */
-  applyTopologyMarkerListeners(layer) {
-    layer.on('drag', (event) => {
-      const { latlng, oldLatLng, target } = event;
-      const markerVertices = this.state.mappedMarkersToVertices[target._leaflet_id];
-
-      // console.log({ lat: latlng.lat, lng: latlng.lng, oldlat: oldLatLng.lat, oldlng: oldLatLng.lng });
-
-      TopologyTool.changeVerticesLocation(latlng, markerVertices);
-    });
+    if (layer.layerType === 'marker') {
+      TopologyTool.applyTopologyMarkerListeners(layer, this.state);
+    }
   }
 
   /**

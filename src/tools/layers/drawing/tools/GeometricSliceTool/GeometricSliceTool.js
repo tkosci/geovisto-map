@@ -116,6 +116,18 @@ class GeometricSliceTool extends AbstractTool {
   enable = (): void => {
     this._dividePoly();
   };
+
+  disable = () => {
+    let activeTool = this.tool;
+    if (activeTool) {
+      activeTool.disable();
+    }
+
+    // * hide extra btn for disabling tools
+    const query = `.drawingtoolbar .${this.getName()} .extra-btn`;
+    const divideBtn = document.querySelector(query);
+    if (divideBtn) divideBtn.classList.add('hide');
+  };
 }
 
 export default GeometricSliceTool;

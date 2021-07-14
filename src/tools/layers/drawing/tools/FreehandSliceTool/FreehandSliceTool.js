@@ -87,7 +87,9 @@ class FreehandSliceTool extends GeometricSliceTool {
       sidebarState.setEnabledTool(null);
       this._redrawSidebar();
     }
-    const knifeBtn = document.querySelector('.drawingtoolbar .sliceBtn .extra-btn');
+
+    const query = `.drawingtoolbar .${FreehandSliceTool.NAME()} .extra-btn`;
+    const knifeBtn = document.querySelector(query);
     if (knifeBtn) knifeBtn.classList.add('hide');
   };
 

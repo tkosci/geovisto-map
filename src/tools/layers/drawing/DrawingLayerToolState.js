@@ -389,7 +389,7 @@ class DrawingLayerToolState extends AbstractLayerToolState {
 
             // result.snapediting = new L.Handler.MarkerSnap(map, result);
             // result.snapediting.enable();
-            this.tool.tabControl.state.pushGuideLayer(result);
+            sidebarState.pushGuideLayer(result);
 
             if (f?.properties?.popupContent) {
               result.popupContent = f.properties.popupContent;
@@ -402,9 +402,9 @@ class DrawingLayerToolState extends AbstractLayerToolState {
               result.identifier = f.id;
             }
             if (result.dragging) result.dragging.disable();
+            this.initMappedMarkersToVertices(lType, result, f.properties);
             this.addLayer(result);
           }
-          this.initMappedMarkersToVertices(lType, result, f.properties);
         });
     }
 
@@ -521,12 +521,12 @@ class DrawingLayerToolState extends AbstractLayerToolState {
         layerToAdd.popupContent = layer.popupContent;
       }
 
-      this.tool.tabControl.state.pushGuideLayer(layer);
+      sidebarState.pushGuideLayer(layer);
 
       layerToAdd.layerType = layer.layerType;
       if (layerToAdd.dragging) layerToAdd.dragging.disable();
-      this.addLayer(layerToAdd);
       this.initMappedMarkersToVertices(layer.layerType, layerToAdd, layer);
+      this.addLayer(layerToAdd);
     });
   }
 }

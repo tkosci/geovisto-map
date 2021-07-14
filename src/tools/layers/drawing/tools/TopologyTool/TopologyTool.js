@@ -122,6 +122,22 @@ class TopologyTool extends MarkerTool {
   }
 
   /**
+   * @brief event listener so vetice is dragged with marker
+   *
+   * @param {Layers} layer
+   */
+  static applyTopologyMarkerListeners(layer, state) {
+    layer.on('drag', (event) => {
+      const { latlng, oldLatLng, target } = event;
+      const markerVertices = state.mappedMarkersToVertices[target._leaflet_id];
+
+      // console.log({ lat: latlng.lat, lng: latlng.lng, oldlat: oldLatLng.lat, oldlng: oldLatLng.lng });
+
+      TopologyTool.changeVerticesLocation(latlng, markerVertices);
+    });
+  }
+
+  /**
    * @brief called on drag to change vertice's point location
    *
    * @param {Object} latlng
