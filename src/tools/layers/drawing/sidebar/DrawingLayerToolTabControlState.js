@@ -49,14 +49,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
 
     this.guideLayers = [];
 
-    this.connectActivated = false;
-
     this.intersectActivated = false;
-
-    this.countries = require('/static/geo/iso3166_countries.json');
-    this.countryCode = '';
-    this.adminLevel = ADMIN_LEVELS[1].value;
-    this.highQuality = false;
 
     this.filtersAmount = 0;
     this.filtersKeys = [];
@@ -139,30 +132,12 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
   };
 
   /**
-   * sets whether displayed polygon will be of high quality
-   *
-   * @param {Boolean} val
-   */
-  setHighQuality(val) {
-    this.highQuality = val;
-  }
-
-  /**
    * returns state of a drawing tool
    *
    * @returns {Object}
    */
   getToolState() {
     return this.getTool().getState();
-  }
-
-  /**
-   * sets whether we are creating topology with search
-   *
-   * @param {Boolena} val
-   */
-  setConnectActivated(val) {
-    this.connectActivated = val;
   }
 
   /**
@@ -240,16 +215,6 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
    */
   appendToIconSrcs(iconUrl) {
     this.iconSrcs.add(iconUrl);
-  }
-
-  /**
-   * takes countries from static file and maps through them
-   *
-   * @returns {Array<{value: string, label: string}>}
-   */
-  getSelectCountries() {
-    const result = this.countries.map((c) => ({ value: c['alpha-2'], label: c['name'] }));
-    return [{ value: '', label: '' }, ...result];
   }
 
   /**
@@ -433,54 +398,6 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
   };
 
   /**
-   * sets new options for place search
-   *
-   * @param {Object} e
-   */
-  searchAction = async (e) => {
-    const value = e.target.value;
-    const featureGroup = this.getTool()?.getState()?.featureGroup;
-
-    const opts = await SearchTool.geoSearch(featureGroup, value);
-
-    this.searchOpts = opts;
-    this.tabControl.inputSearch.changeOptions(opts ? opts.map((opt) => opt.label || '') : []);
-    // this.inputSearch.redrawMenu();
-  };
-
-  /**
-   * called when user picks a place from displayed options
-   *
-   * @param {String} value
-   */
-  onInputOptClick = (value) => {
-    const featureGroup = this.getTool()?.getState().featureGroup;
-    const { searchOpts: opts, connectActivated } = this;
-
-    const found = opts.find((opt) => opt.label === value);
-
-    let latlng = L.latLng(0, 0);
-    latlng.lat = found?.y || 0;
-    latlng.lng = found?.x || 0;
-    const iconUrl = found?.raw?.icon || ICON_SRCS[0];
-    const marker = SearchTool.putMarkerOnMap(
-      featureGroup,
-      latlng,
-      found?.label,
-      iconUrl,
-      connectActivated,
-    );
-    this.getTool().applyEventListeners(marker);
-    this.getTool().applyTopologyMarkerListeners(marker);
-    this.selectedIcon = iconUrl;
-    this.appendToIconSrcs(iconUrl);
-    if (connectActivated) {
-      this.getTool().plotTopology();
-    }
-    this.tabControl.redrawTabContent('search');
-  };
-
-  /**
    * runs on 'Enter' whenever user adds new icon to list of icons
    *
    * @param {Object} e
@@ -489,86 +406,6 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     const iconUrl = e.target.value;
     this.appendToIconSrcs(iconUrl);
     this.tabControl.redrawTabContent('marker');
-  };
-
-  /**
-   * builds query from inputed values and send it to Overpass API
-   *
-   * @returns
-   */
-  fetchAreas = async () => {
-    const { countryCode, adminLevel, highQuality } = this;
-
-    if (!countryCode || !adminLevel) return;
-
-    const toolState = this.getTool().getState();
-
-    const endPoint = 'https://overpass-api.de/api/interpreter?data=[out:json];';
-    const query = `area["ISO3166-1"="${countryCode}"]->.searchArea;(relation["admin_level"="${adminLevel}"](area.searchArea););out;>;out skel qt;`;
-
-    document.querySelector('.leaflet-container').style.cursor = 'wait';
-    this.tabControl.searchForAreasBtn.setAttribute('disabled', true);
-
-    fetch(endPoint + query)
-      .then((response) => response.json())
-      .then((data) => {
-        const gJSON = osmtogeojson(data);
-
-        const opts = {
-          color: this.selectedColor,
-          draggable: true,
-          transform: true,
-        };
-
-        toolState.featureGroup.eachLayer((layer) => {
-          if (layer.countryCode === countryCode) toolState.removeLayer(layer);
-        });
-
-        gJSON?.features
-          ?.filter((feat) => feat?.geometry?.type === 'Polygon')
-          ?.forEach((feat) => {
-            let coords = feat.geometry.coordinates;
-            if (!highQuality) {
-              let simplified = simplifyFeature(feat, 0.01);
-              coords = simplified.geometry.coordinates;
-            }
-            let latlngs = L.GeoJSON.coordsToLatLngs(coords, 1);
-            let result = new L.polygon(latlngs, { ...opts, ...normalStyles });
-            result?.dragging?.disable();
-            result.layerType = 'polygon';
-            result.countryCode = countryCode;
-            toolState.addLayer(result);
-          });
-        this.tabControl.errorMsg.innerText = '';
-      })
-      .catch((err) => {
-        this.tabControl.errorMsg.innerText = 'There was a problem, re-try later.';
-        console.error(err);
-      })
-      .finally(() => {
-        document.querySelector('.leaflet-container').style.cursor = '';
-        this.tabControl.searchForAreasBtn.removeAttribute('disabled');
-      });
-  };
-
-  /**
-   * sets for what area we are searching for
-   *
-   * @param {Object} e
-   */
-  searchForAreaAction = (e) => {
-    const val = e.target.value;
-    this.countryCode = val;
-  };
-
-  /**
-   * sets for what administration level we are searching for
-   *
-   * @param {Object} e
-   */
-  pickAdminLevelAction = (e) => {
-    const val = e.target.value;
-    this.adminLevel = val;
   };
 
   /**

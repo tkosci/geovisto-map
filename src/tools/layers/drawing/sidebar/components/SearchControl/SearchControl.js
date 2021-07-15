@@ -1,11 +1,14 @@
 import SidebarInputFactory from '../../../../../../inputs/SidebarInputFactory';
 import { createCheck } from '../../../components/inputs';
 import { ADMIN_LEVELS } from '../../../util/constants';
+import SearchControlState from './SearchControlState';
 
 class SearchControl {
   constructor(props) {
     this.tabControl = props.tabControl;
     this.tabState = props.tabControl.getState();
+
+    this.state = new SearchControlState({ tabControl: props.tabControl, control: this });
   }
 
   /**
@@ -14,8 +17,8 @@ class SearchControl {
    * @returns {Object} HTML element
    */
   createConnectCheck = () => {
-    const onChange = (val) => this.tabState.setConnectActivated(val);
-    const { connectActivated } = this.tabState;
+    const onChange = (val) => this.state.setConnectActivated(val);
+    const { connectActivated } = this.state;
 
     const result = createCheck(
       connectActivated,
@@ -33,8 +36,8 @@ class SearchControl {
    * @returns {Object} HTML element
    */
   createHighQualityCheck = () => {
-    const onChange = (val) => this.tabState.setHighQuality(val);
-    const { highQuality } = this.tabState;
+    const onChange = (val) => this.state.setHighQuality(val);
+    const { highQuality } = this.state;
 
     const result = createCheck(
       highQuality,
@@ -66,14 +69,14 @@ class SearchControl {
   renderSearchInputs = (elem, model) => {
     this.addHeading('Search for place', elem);
     // * labeled text Search
-    const inputSearch = SidebarInputFactory.createSidebarInput(model.search.input, {
+    this.inputSearch = SidebarInputFactory.createSidebarInput(model.search.input, {
       label: model.search.label,
       action: this.tabState.searchAction,
       options: [],
       placeholder: 'Press enter for search',
       setData: this.tabState.onInputOptClick,
     });
-    elem.appendChild(inputSearch.create());
+    elem.appendChild(this.inputSearch.create());
 
     this.inputConnect = this.createConnectCheck();
     elem.appendChild(this.inputConnect);
@@ -101,15 +104,15 @@ class SearchControl {
     const hqCheck = this.createHighQualityCheck();
     elem.appendChild(hqCheck);
 
-    const errorMsg = document.createElement('div');
-    errorMsg.className = 'error-text';
-    errorMsg.innerText = '';
-    elem.appendChild(errorMsg);
+    this.errorMsg = document.createElement('div');
+    this.errorMsg.className = 'error-text';
+    this.errorMsg.innerText = '';
+    elem.appendChild(this.errorMsg);
 
-    const searchForAreasBtn = document.createElement('button');
-    searchForAreasBtn.innerText = 'Submit';
-    searchForAreasBtn.addEventListener('click', this.tabState.fetchAreas);
-    elem.appendChild(searchForAreasBtn);
+    this.searchForAreasBtn = document.createElement('button');
+    this.searchForAreasBtn.innerText = 'Submit';
+    this.searchForAreasBtn.addEventListener('click', this.tabState.fetchAreas);
+    elem.appendChild(this.searchForAreasBtn);
   };
 }
 
