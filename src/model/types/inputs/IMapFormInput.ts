@@ -22,5 +22,12 @@ interface IMapFormInput {
      */
     setValue(value: unknown): void;
 
+    /**
+     * It sets the input disabled.
+     * 
+     * @param disabled 
+     */
+    setDisabled(disabled: boolean): void;
+
 }
 export default IMapFormInput;

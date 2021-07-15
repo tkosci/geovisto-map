@@ -9,6 +9,7 @@ import ISidebarTabDefaults from "../../types/tab/ISidebarTabDefaults";
 import { ISidebarTabProps, ISidebarTabInitProps } from "../../types/tab/ISidebarTabProps";
 import ISidebarTabState from "../../types/tab/ISidebarTabState";
 import ISidebarTool from "../../types/tool/ISidebarTool";
+import DummyTabTool from "../dummy/DummyTabTool";
 
 /**
  * This class manages the state of the sidebar tab.
@@ -89,7 +90,7 @@ class SidebarTabState extends MapObjectState implements ISidebarTabState {
         const config: ISidebarTabConfig = {
             type: undefined,
             id: undefined,
-            tool: this.getTool()?.getId(),
+            tool: this.getTool() instanceof DummyTabTool ? undefined : this.getTool()?.getId(),
             enabled: defaults && this.isEnabled() == defaults.isEnabled() ? undefined : this.isEnabled(),
             name: defaults && this.getName() == defaults.getName() ? undefined : this.getName(),
             icon: defaults && this.getIcon() == defaults.getIcon() ? undefined : this.getIcon(),

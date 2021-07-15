@@ -1,9 +1,10 @@
-.grid_default {
-    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+:root {
+    --default-font: "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 .geovisto-map {
     height: 100%;
+    font-family: var(--default-font);
 }
 
 .geovisto-map-container {

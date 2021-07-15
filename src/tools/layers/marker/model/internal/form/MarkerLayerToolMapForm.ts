@@ -2,7 +2,7 @@
 import IGeoData from "../../../../../../model/types/geodata/IGeoData";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
+import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
 import IMapForm from "../../../../../../model/types/form/IMapForm";
 import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
 import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
@@ -43,11 +43,11 @@ class MarkerLayerToolMapForm extends MapLayerToolForm<IMarkerLayerTool> implemen
      */
     public setInputValues(dimensions: IMarkerLayerToolDimensions): void {
         // update inputs
-        this.inputs?.geoData.setValue((dimensions.geoData.getDomain()?.getName())?? "");
-        this.inputs?.geoId.setValue((dimensions.geoId.getDomain()?.getName())?? "");
-        this.inputs?.value.setValue((dimensions.value.getDomain()?.getName())?? "");
-        this.inputs?.aggregation.setValue((dimensions.aggregation.getDomain()?.getName())?? "");
-        this.inputs?.category.setValue((dimensions.category.getDomain()?.getName())?? "");
+        this.inputs?.geoData.setValue((dimensions.geoData.getValue()?.getName())?? "");
+        this.inputs?.geoId.setValue((dimensions.geoId.getValue()?.getName())?? "");
+        this.inputs?.value.setValue((dimensions.value.getValue()?.getName())?? "");
+        this.inputs?.aggregation.setValue((dimensions.aggregation.getValue()?.getName())?? "");
+        this.inputs?.category.setValue((dimensions.category.getValue()?.getName())?? "");
     }
 
     /**
@@ -90,7 +90,7 @@ class MarkerLayerToolMapForm extends MapLayerToolForm<IMarkerLayerTool> implemen
      * 
      * @param dimension
      */
-    public getInputGeoData(dimension: IMapDimension<IGeoData>): IMapFormInput {
+    public getInputGeoData(dimension: IMapDomainDimension<IGeoData>): IMapFormInput {
         return this.getAutocompleteInput(dimension);
     }
 
@@ -99,7 +99,7 @@ class MarkerLayerToolMapForm extends MapLayerToolForm<IMarkerLayerTool> implemen
      * 
      * @param dimension
      */
-    public getInputGeoId(dimension: IMapDimension<IMapDataDomain>): IMapFormInput {
+    public getInputGeoId(dimension: IMapDomainDimension<IMapDataDomain>): IMapFormInput {
         return this.getAutocompleteInput(dimension);
     }
 
@@ -108,7 +108,7 @@ class MarkerLayerToolMapForm extends MapLayerToolForm<IMarkerLayerTool> implemen
      * 
      * @param dimension
      */
-    public getInputValue(dimension: IMapDimension<IMapDataDomain>): IMapFormInput {
+    public getInputValue(dimension: IMapDomainDimension<IMapDataDomain>): IMapFormInput {
         return this.getAutocompleteInput(dimension);
     }
 
@@ -117,7 +117,7 @@ class MarkerLayerToolMapForm extends MapLayerToolForm<IMarkerLayerTool> implemen
      * 
      * @param dimension
      */
-    public getInputAggregation(dimension: IMapDimension<IMapAggregationFunction>): IMapFormInput {
+    public getInputAggregation(dimension: IMapDomainDimension<IMapAggregationFunction>): IMapFormInput {
         return this.getAutocompleteInput(dimension);
     }
 
@@ -126,7 +126,7 @@ class MarkerLayerToolMapForm extends MapLayerToolForm<IMarkerLayerTool> implemen
      * 
      * @param dimension
      */
-    public getInputCategory(dimension: IMapDimension<IMapDataDomain>): IMapFormInput {
+    public getInputCategory(dimension: IMapDomainDimension<IMapDataDomain>): IMapFormInput {
         return this.getAutocompleteInput(dimension);
     }
 

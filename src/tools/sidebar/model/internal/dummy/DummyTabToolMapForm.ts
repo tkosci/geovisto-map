@@ -2,7 +2,7 @@
 import IMapForm from "../../../../../model/types/form/IMapForm";
 import MapObjectForm from "../../../../../model/internal/form/MapObjectForm";
 
-import IDummyTabTool from "../../types/dummy/ISettingsTool";
+import IDummyTabTool from "../../types/dummy/IDummyTabTool";
 
 /**
  * This class provides the settings sidebar tab.

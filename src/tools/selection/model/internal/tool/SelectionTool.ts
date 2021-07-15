@@ -1,5 +1,6 @@
 // Geovisto core
 import DataChangeEvent from "../../../../../model/internal/event/data/DataChangeEvent";
+import IMapDataChangeEvent from "../../../../../model/types/event/data/IMapDataChangeEvent";
 import IMapEvent from "../../../../../model/types/event/IMapEvent";
 import IMapForm from "../../../../../model/types/form/IMapForm";
 import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
@@ -169,8 +170,14 @@ class SelectionTool extends MapTool implements ISelectionTool, IMapFormControl {
         if(event.getType() == DataChangeEvent.TYPE()) {
             // if data has been changed reset the selection
             const selection = this.getState().getSelection();
-            if(selection) {
-                this.setSelection(new MapSelection(selection.getTool(), selection.getSrcIds()));
+            if((<IMapDataChangeEvent> event).getAnimateOptions()) {
+                if(selection) {
+                    this.setSelection(null);
+                }
+            } else {
+                if(selection) {
+                    this.setSelection(new MapSelection(selection.getTool(), selection.getSrcIds()));
+                }
             }
         }
         return;

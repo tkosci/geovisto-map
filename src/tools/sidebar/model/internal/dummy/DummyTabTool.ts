@@ -1,5 +1,5 @@
 // Geovisto core
-import IDummyTabTool from "../../types/dummy/ISettingsTool";
+import IDummyTabTool from "../../types/dummy/IDummyTabTool";
 import IMapForm from "../../../../../model/types/form/IMapForm";
 import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
 import IMapTool from "../../../../../model/types/tool/IMapTool";

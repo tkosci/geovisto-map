@@ -8,13 +8,20 @@ import {
  * 
  * @author Jiri Hynek
  */
-type IMarkerIconOptions = BaseIconOptions & {
-    values: {
-        id: string,
-        value: number,
-        subvalues: Map<string, number>
-    };
+export type IMarkerIconOptions = BaseIconOptions & {
+    id: string;
+    values: IMarkerIconValueOptions;
     isGroup: boolean;
     useDonut: boolean;
+    categories: string[];
 }
-export default IMarkerIconOptions;
+
+/**
+ * The definition of type describing marker icon value options.
+ * 
+ * @author Jiri Hynek
+ */
+export type IMarkerIconValueOptions = {
+    value: number;
+    subvalues: Map<string, number>;
+}

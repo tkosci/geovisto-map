@@ -4,9 +4,11 @@ import 'leaflet/dist/leaflet.css';
 // TODO - move to index.ts
 import '../../../styles/common.scss';
 
+import IDataChangeAnimateOptions from '../../types/event/data/IDataChangeAnimateOptions';
 import IMap from '../../types/map/IMap';
 import IMapToolAPI from '../../types/api/IMapToolAPI';
 import IMapConfigManager from '../../types/config/IMapConfigManager';
+import IMapDataManager from '../../types/data/IMapDataManager';
 import IMapDefaults from '../../types/map/IMapDefaults';
 import IMapObject from '../../types/object/IMapObject';
 import { IMapProps, IMapInitProps } from '../../types/map/IMapProps';
@@ -17,11 +19,10 @@ import IMapToolsManager from '../../types/tool/IMapToolsManager';
 import IMapData from '../../types/data/IMapData';
 import IMapToolAPIGetter from '../../types/api/IMapToolAPIGetter';
 import DataChangeEvent from '../event/data/DataChangeEvent';
+import DataManagerChangeEvent from '../event/data/DataManagerChangeEvent';
 import GeovistoMapDefaults from './GeovistoMapDefaults';
 import GeovistoMapState from './GeovistoMapState';
 import MapObject from '../object/MapObject';
-import IMapDataManager from '../../types/data/IMapDataManager';
-import DataManagerChangeEvent from '../event/data/DataManagerChangeEvent';
 
 /**
  * Representation of map wrapper which handles map layers, sidebar and other tools
@@ -88,12 +89,16 @@ class GeovistoMap extends MapObject implements IMap {
     /**
      * This function redraws the current map.
      */
-    public redraw(configManager: IMapConfigManager): HTMLElement | null {
+    public redraw(configManager: IMapConfigManager, props?: IMapProps): HTMLElement | null {
         // get map and remove map children
         let mapContainer: HTMLElement | null = document.getElementById(this.getState().getId());
         if(mapContainer && mapContainer.childNodes.length > 0) {
             // remove old elements
             mapContainer.childNodes[0].remove();
+
+            if(props) {
+                this.setProps(props);
+            }
 
             // initialize map and tools
             this.initialize({ config: configManager.getMapConfig(), configManager: configManager});
@@ -288,7 +293,6 @@ class GeovistoMap extends MapObject implements IMap {
      * @param data
      */
     public updateData(data: IMapDataManager): void {
-
         // create and dispatch event
         this.getState().getEventManager().scheduleEvent(
             new DataManagerChangeEvent(this, data),
@@ -304,11 +308,12 @@ class GeovistoMap extends MapObject implements IMap {
      * 
      * @param data
      * @param source of the change
+     * @param animateOptions
      */
-    public updateCurrentData(data: IMapData, source: IMapObject): void {
+    public updateCurrentData(data: IMapData, source: IMapObject, animateOptions?: IDataChangeAnimateOptions): void {
         // create and dispatch event
         this.getState().getEventManager().scheduleEvent(
-            new DataChangeEvent(source, data),
+            new DataChangeEvent(source, data, animateOptions),
             () => { this.getState().setCurrentData(data); }, // update current data in map state
             undefined
         );

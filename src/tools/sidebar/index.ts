@@ -1,6 +1,8 @@
 export { GeovistoSidebarTool } from './GeovistoSidebarTool';
 
 // types
+export type { default as IDummyTabTool } from './model/types/dummy/IDummyTabTool';
+
 export type { default as ISidebarFragmentConfig } from './model/types/fragment/ISidebarFragmentConfig';
 export type { default as ISidebarFragment } from './model/types/fragment/ISidebarFragment';
 export type { default as ISidebarFragmentDefaults } from './model/types/fragment/ISidebarFragmentDefaults';
@@ -20,6 +22,11 @@ export type { default as ISidebarToolProps } from './model/types/tool/ISidebarTo
 export type { default as ISidebarToolState } from './model/types/tool/ISidebarToolState';
 
 // internal
+export { default as SidebarToolThemeChangeAdapter } from './model/internal/adapters/ThemeChangeAdapter';
+
+export { default as DummyTabTool } from './model/internal/dummy/DummyTabTool';
+export { default as DummyTabToolMapForm } from './model/internal/dummy/DummyTabToolMapForm';
+
 export { default as SidebarFragment } from './model/internal/fragment/SidebarFragment';
 export { default as SidebarFragmentDefaults } from './model/internal/fragment/SidebarFragmentDefaults';
 export { default as SidebarFragmentState } from './model/internal/fragment/SidebarFragmentState';

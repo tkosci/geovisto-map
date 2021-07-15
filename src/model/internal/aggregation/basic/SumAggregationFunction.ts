@@ -10,14 +10,14 @@ import MapDomain from "../../domain/generic/MapDomain";
 class SumAggregationFunction extends MapDomain implements IMapAggregationFunction {
 
     /**
-     * It initializes event.
+     * It initializes the function.
      */
     public constructor() {
         super(SumAggregationFunction.TYPE());
     }
 
     /**
-     * Type of the event.
+     * Type of the function.
      */
     public static TYPE(): string {
         return "sum";

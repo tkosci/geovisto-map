@@ -1,9 +1,10 @@
 // Geovisto core
 import IGeoData from "../../../../../../model/types/geodata/IGeoData";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
+import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
 import IMapForm from "../../../../../../model/types/form/IMapForm";
 import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
+import IMapTypeDimension from "../../../../../../model/types/dimension/IMapTypeDimension";
 import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
 
 import IConnectionLayerTool from "../../types/tool/IConnectionLayerTool";
@@ -21,6 +22,7 @@ class ConnectionLayerToolMapForm extends MapLayerToolForm<IConnectionLayerTool> 
         geoData: IMapFormInput,
         from: IMapFormInput,
         to: IMapFormInput,
+        direction: IMapFormInput,
     };
 
     /**
@@ -39,9 +41,10 @@ class ConnectionLayerToolMapForm extends MapLayerToolForm<IConnectionLayerTool> 
      */
     public setInputValues(dimensions: IConnectionLayerToolDimensions): void {
         // update inputs
-        this.inputs?.geoData.setValue((dimensions.geoData.getDomain()?.getName())?? "");
-        this.inputs?.from.setValue((dimensions.from.getDomain()?.getName())?? "");
-        this.inputs?.to.setValue((dimensions.to.getDomain()?.getName())?? "");
+        this.inputs?.geoData.setValue((dimensions.geoData.getValue()?.getName()) ?? "");
+        this.inputs?.from.setValue((dimensions.from.getValue()?.getName()) ?? "");
+        this.inputs?.to.setValue((dimensions.to.getValue()?.getName()) ?? "");
+        this.inputs?.direction.setValue((dimensions.direction.getValue()) ?? "");
     }
 
     /**
@@ -60,13 +63,15 @@ class ConnectionLayerToolMapForm extends MapLayerToolForm<IConnectionLayerTool> 
             this.inputs = {
                 geoData: this.getInputGeoData(dimensions.geoData),
                 from: this.getInputFrom(dimensions.from),
-                to: this.getInputTo(dimensions.to)
+                to: this.getInputTo(dimensions.to),
+                direction: this.getInputDirection(dimensions.direction)
             };
             
             // append to DOM
             elem.appendChild(this.inputs.geoData.create());
             elem.appendChild(this.inputs.from.create());        
             elem.appendChild(this.inputs.to.create());
+            elem.appendChild(this.inputs.direction.create());
     
             // set input values
             this.setInputValues(dimensions);
@@ -80,7 +85,7 @@ class ConnectionLayerToolMapForm extends MapLayerToolForm<IConnectionLayerTool> 
      * 
      * @param dimension
      */
-    public getInputGeoData(dimension: IMapDimension<IGeoData>): IMapFormInput {
+    public getInputGeoData(dimension: IMapDomainDimension<IGeoData>): IMapFormInput {
         return this.getAutocompleteInput(dimension);
     }
 
@@ -89,7 +94,7 @@ class ConnectionLayerToolMapForm extends MapLayerToolForm<IConnectionLayerTool> 
      * 
      * @param dimension
      */
-    public getInputFrom(dimension: IMapDimension<IMapDataDomain>): IMapFormInput {
+    public getInputFrom(dimension: IMapDomainDimension<IMapDataDomain>): IMapFormInput {
         return this.getAutocompleteInput(dimension);
     }
 
@@ -98,8 +103,17 @@ class ConnectionLayerToolMapForm extends MapLayerToolForm<IConnectionLayerTool> 
      * 
      * @param dimension
      */
-    public getInputTo(dimension: IMapDimension<IMapDataDomain>): IMapFormInput {
+    public getInputTo(dimension: IMapDomainDimension<IMapDataDomain>): IMapFormInput {
         return this.getAutocompleteInput(dimension);
+    }
+
+    /**
+     * It returns new input for the geo dimension.
+     * 
+     * @param dimension
+     */
+    public getInputDirection(dimension: IMapTypeDimension<boolean>): IMapFormInput {
+        return this.getCheckboxInput(dimension);
     }
 }
 export default ConnectionLayerToolMapForm;

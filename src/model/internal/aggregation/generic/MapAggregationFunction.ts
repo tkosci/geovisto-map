@@ -12,7 +12,7 @@ class MapAggregationFunction extends MapDomain implements IMapAggregationFunctio
     private aggregationBucket: () => IMapAggregationBucket;
 
     /**
-     * It initializes event.
+     * It initializes the function.
      */
     public constructor(type: string, aggregationBucket: () => IMapAggregationBucket) {
         super(type);

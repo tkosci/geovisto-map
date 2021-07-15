@@ -1,17 +1,29 @@
 // Geovisto core
+import BooleanTypeManager from "../../../../../../model/internal/type/BooleanTypeManager";
 import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
 import IGeoData from "../../../../../../model/types/geodata/IGeoData";
+import IIntegerRangeManager from "../../../../../../model/types/type/IIntegerRangeManager";
 import IMap from "../../../../../../model/types/map/IMap";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
+import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
+import IMapTypeDimension from "../../../../../../model/types/dimension/IMapTypeDimension";
+import IntegerRangeManager from "../../../../../../model/internal/type/IntegerRangeManager";
+import IntegerTypeManager from "../../../../../../model/internal/type/IntegerTypeManager";
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
-import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
+import MapDomainDimension from "../../../../../../model/internal/dimension/MapDomainDimension";
 import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
+import MapTypeDimension from "../../../../../../model/internal/dimension/MapTypeDimension";
 import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
+import StringTypeManager from "../../../../../../model/internal/type/StringTypeManager";
 
+import DecimalScale from "../scale/DecimalScale";
 import IChoroplethLayerToolDefaults from "../../types/tool/IChoroplethLayerToolDefaults";
 import IChoroplethLayerToolDimensions from "../../types/tool/IChoroplethLayerToolDimensions";
+import IScale from "../../types/scale/IScale";
+import MedianScale from "../scale/MedianScale";
+import RelativeMinMaxScale from "../scale/RelativeMinMaxScale";
+import RelativeScale from "../scale/RelativeScale";
 
 /**
  * This class provide functions which return the default state values.
@@ -61,15 +73,22 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
             geoData: this.getGeoDataDimension(map),
             geoId: this.getGeoIdDimension(map),
             value: this.getValueDimension(map),
-            aggregation: this.getAggregationDimension()
+            aggregation: this.getAggregationDimension(),
+            customColor: this.getCustomColorDimension(),
+            color: this.getColorDimension(),
+            range: this.getRangeDimension(),
+            scaling: this.getScalingDimension(),
+            customMinMax: this.getCustomMinMaxDimension(),
+            minValue: this.getMinValueDimension(),
+            maxValue: this.getMaxValueDimension()
         };
     }
 
     /**
      * It returns the default geo ID dimension.
      */
-    public getGeoDataDimension(map?: IMap): IMapDimension<IGeoData> {
-        return new MapDimension(
+    public getGeoDataDimension(map?: IMap): IMapDomainDimension<IGeoData> {
+        return new MapDomainDimension(
             "geo data",
             map?.getState().getGeoDataManager() ?? this.getGeoDataManager(this.getGeoData()),
             undefined
@@ -79,8 +98,8 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
     /**
      * It returns the default geo ID dimension.
      */
-    public getGeoIdDimension(map?: IMap): IMapDimension<IMapDataDomain> {
-        return new MapDimension(
+    public getGeoIdDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
+        return new MapDomainDimension(
             "geo id",
             map?.getState().getMapData() ?? this.getDataManager(),
             undefined
@@ -90,8 +109,8 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
     /**
      * It returns the default value dimension.
      */
-    public getValueDimension(map?: IMap): IMapDimension<IMapDataDomain> {
-        return new MapDimension(
+    public getValueDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
+        return new MapDomainDimension(
             "value",
             map?.getState().getMapData() ?? this.getDataManager(),
             undefined
@@ -101,7 +120,7 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
     /**
      * It returns the default aggregation function dimension.
      */
-    public getAggregationDimension(): IMapDimension<IMapAggregationFunction> {
+    public getAggregationDimension(): IMapDomainDimension<IMapAggregationFunction> {
         const domainManager = new MapDomainArrayManager(
             [
                 new CountAggregationFunction(),
@@ -109,10 +128,96 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
             ]
         );
 
-        return new MapDimension(
+        return new MapDomainDimension(
             "aggregation",
             domainManager,
             domainManager.getDefault()
+        );
+    }
+
+    /**
+     * It returns the animate direction dimension.
+     */
+    public getCustomColorDimension(): IMapTypeDimension<boolean> {
+        return new MapTypeDimension<boolean>(
+            "customColor",
+            new BooleanTypeManager(),
+            undefined
+        );
+    }
+
+    /**
+     * It returns the color dimension.
+     */
+    public getColorDimension(): IMapTypeDimension<string> {
+        return new MapTypeDimension<string>(
+            "color",
+            new StringTypeManager(),
+            "#E32400"
+        );
+    }
+
+    /**
+     * It returns the range dimension.
+     */
+    public getRangeDimension(): IMapTypeDimension<number, IIntegerRangeManager> {
+        return new MapTypeDimension<number, IIntegerRangeManager>(
+            "range",
+            new IntegerRangeManager(1, 7),
+            7
+        );
+    }
+
+    /**
+     * It returns the scaling dimension.
+     */
+    public getScalingDimension(): IMapDomainDimension<IScale> {
+        const domainManager = new MapDomainArrayManager(
+            [
+                new MedianScale(),
+                new RelativeScale(),
+                new RelativeMinMaxScale(),
+                new DecimalScale(),
+            ]
+        );
+
+        return new MapDomainDimension(
+            "scaling",
+            domainManager,
+            domainManager.getDefault()
+        );
+    }
+
+    /**
+     * It returns the custom min-max dimension.
+     */
+    public getCustomMinMaxDimension(): IMapTypeDimension<boolean> {
+        return new MapTypeDimension<boolean>(
+            "customMinMax",
+            new BooleanTypeManager(),
+            undefined
+        );
+    }
+
+    /**
+     * It returns the min value dimension.
+     */
+    public getMinValueDimension(): IMapTypeDimension<number> {
+        return new MapTypeDimension<number>(
+            "minValue",
+            new IntegerTypeManager(),
+            undefined
+        );
+    }
+
+    /**
+     * It returns the max value dimension.
+     */
+    public getMaxValueDimension(): IMapTypeDimension<number> {
+        return new MapTypeDimension<number>(
+            "maxValue",
+            new IntegerTypeManager(),
+            undefined
         );
     }
     
@@ -130,13 +235,6 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
      */
     public getZIndex(): number {
         return 350;
-    }
-
-    /**
-     * It returns the values scale.
-     */
-    public getScale(): number[] {
-        return [1, 100, 1000, 10000, 100000, 1000000, 10000000];
     }
 }
 export default ChoroplethLayerToolDefaults;

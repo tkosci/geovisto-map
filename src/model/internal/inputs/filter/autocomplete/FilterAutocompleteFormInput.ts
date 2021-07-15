@@ -97,6 +97,17 @@ class FilterAutocompleteFormInput extends AbstractMapFormInput {
             this.input.val.setValue(value.val);
         }
     }
+
+    /*
+     * Sets/removes attribute 'disabled' from input box.
+     */
+    public setDisabled(disabled: boolean): void {
+        if(this.input) {
+            this.input.data.setDisabled(disabled);
+            this.input.op.setDisabled(disabled);
+            this.input.val.setDisabled(disabled);
+        }
+    }
     
     /**
      * It returns input

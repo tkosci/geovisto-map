@@ -153,10 +153,10 @@ class TilesLayerTool extends AbstractLayerTool implements ITilesLayerTool, IMapF
             attribution: tilesModel.attribution ?? "",
             maxZoom: tilesModel.maxZoom ?? defaultTilesModel.maxZoom,
             maxNativeZoom: tilesModel.maxNativeZoom ?? defaultTilesModel.maxNativeZoom
-        }
+        };
 
         if(tilesModel.subdomains) {
-            options.subdomains = tilesModel.subdomains
+            options.subdomains = tilesModel.subdomains;
         }
 
         const layer: L.TileLayer = L.tileLayer(tilesModel.url, options);

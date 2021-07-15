@@ -150,10 +150,22 @@ class ThemesTool extends MapTool implements IThemesTool, IMapFormControl {
                 // update tool state
                 this.getState().setTheme(theme);
 
+                // update global styles
+                this.updateGlobalStyles(theme);
+
                 // dispatch event
                 map.getState().getEventManager().scheduleEvent(new ThemesToolEvent(this, theme), undefined, undefined);
             }
         }
+    }
+
+    /**
+     * This function updates the global styles.
+     * 
+     * @param theme 
+     */
+    protected updateGlobalStyles(theme: IMapTheme): void {
+        document.documentElement.style.setProperty('--default-font', theme.getFont());
     }
 
     /**

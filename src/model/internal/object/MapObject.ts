@@ -33,6 +33,13 @@ class MapObject implements IMapObject {
     }
 
     /**
+     * It updates the props.
+     */
+    protected setProps(props: IMapObjectProps): void {
+        this.props = props;
+    }
+
+    /**
      * It returns the props given by the programmer.
      */
     public getProps(): IMapObjectProps {

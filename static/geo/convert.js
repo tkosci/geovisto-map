@@ -1,6 +1,6 @@
 
-const centroids = require("./country_centroids_old.json");
-
+//const centroids = require("./country_centroids_old.json");
+const centroids = require("./czech_districts_centroids_old.json");
 
 const createFeature = (centroid) => {
 
@@ -32,7 +32,7 @@ for(let i = 0; i < centroids.length; i++) {
 }
 
 fs = require('fs');
-fs.writeFile('./country_centroids.json', JSON.stringify(geojson, null, 2), function (err) {
+fs.writeFile('./czech_districts_centroids.json', JSON.stringify(geojson, null, 2), function (err) {
     if (err) return console.log(err);
     console.log('writing...');
   });

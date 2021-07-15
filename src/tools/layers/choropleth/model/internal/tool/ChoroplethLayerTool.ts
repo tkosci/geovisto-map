@@ -22,26 +22,31 @@ import {
 
 // Geovisto Themes Tool API
 import {
+    IMapTheme,
     IThemesToolAPI,
-    IThemesToolAPIGetter
+    IThemesToolAPIGetter,
+    IThemesToolEvent
 } from '../../../../../themes';
 
 // Geovisto core
 import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
 import DataChangeEvent from '../../../../../../model/internal/event/data/DataChangeEvent';
+import DataManagerChangeEvent from '../../../../../../model/internal/event/data/DataManagerChangeEvent';
 import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
+import IDataChangeAnimateOptions from '../../../../../../model/types/event/data/IDataChangeAnimateOptions';
 import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMapAggregationBucket';
 import IMapAggregationFunction from '../../../../../../model/types/aggregation/IMapAggregationFunction';
 import IMapData from '../../../../../../model/types/data/IMapData';
+import IMapDataChangeEvent from '../../../../../../model/types/event/data/IMapDataChangeEvent';
 import IMapDataDomain from '../../../../../../model/types/data/IMapDataDomain';
 import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
-import IMapDimension from '../../../../../../model/types/dimension/IMapDimension';
+import IMapDomainDimension from '../../../../../../model/types/dimension/IMapDomainDimension';
 import IMapDomain from '../../../../../../model/types/domain/IMapDomain';
 import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapForm from '../../../../../../model/types/form/IMapForm';
 import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
 import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
-import LayerToolRedrawEnum from '../../../../../../model/types/layer/LayerToolRedrawEnum';
+import LayerToolRenderType from '../../../../../../model/types/layer/LayerToolRenderType';
 
 import IChoroplethLayerTool from '../../types/tool/IChoroplethLayerTool';
 import { IChoroplethLayerToolConfig } from '../../types/tool/IChoroplethLayerToolConfig';
@@ -52,6 +57,9 @@ import IChoroplethLayerToolProps from '../../types/tool/IChoroplethLayerToolProp
 import IChoroplethLayerToolState from '../../types/tool/IChoroplethLayerToolState';
 import ChoroplethLayerToolDefaults from './ChoroplethLayerToolDefaults';
 import ChoroplethLayerToolState from './ChoroplethLayerToolState';
+import CustomMinMaxScale from '../scale/CustomMinMaxScale';
+import IScale from '../../types/scale/IScale';
+import RelativeScale from '../scale/RelativeScale';
 
 /**
  * This class represents Choropleth layer tool. It works with geojson polygons representing countries.
@@ -193,7 +201,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
      * It creates an instance of the Leaflet GeoJSON layer.
      */
     protected createGeoJSONLayer(): L.GeoJSON {
-        const geoJSON = this.getState().getDimensions().geoData.getDomain()?.getFeatures([ GeoJSONTypes.MultiPolygon, GeoJSONTypes.Polygon ]);
+        const geoJSON = this.getState().getDimensions().geoData.getValue()?.getFeatures([ GeoJSONTypes.MultiPolygon, GeoJSONTypes.Polygon ]);
         const layer: L.GeoJSON = new L.GeoJSON(geoJSON, {
             onEachFeature: this.getOnEachFeatureFunction(),
             pane: this.getId()
@@ -228,10 +236,10 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
             const layerItem: L.Polygon = e.target;
             const id: string | undefined = layerItem.feature?.id?.toString();
             this.getState().setHoveredItem(id);
-            this.updateItemStyle(layerItem);
+            this.hoverItem(layerItem, true);
             this.getState().getBucketData().get(layerItem.feature?.id?.toString() ?? "");
             const popupText: string = "<b>" + e.target.feature.name + "</b><br>"
-                                + this.getState().getDimensions().aggregation.getDomain()?.getName() + ": "
+                                + this.getState().getDimensions().aggregation.getValue()?.getName() + ": "
                                 + separateThousands(id ? (this.getState().getBucketData().get(id)?.getValue() ?? 0) : 0);
             e.target.bindTooltip(popupText,{className: 'leaflet-popup-content', sticky: true}).openTooltip();
         
@@ -248,7 +256,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
         return (e: L.LeafletMouseEvent): void => {
             const layerItem: L.Polygon = e.target;
             this.getState().setHoveredItem(undefined);
-            this.updateItemStyle(layerItem);
+            this.hoverItem(layerItem, false);
 
             if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
                 layerItem.bringToBack();
@@ -268,72 +276,13 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
                 if(id) {
                     const selection: IMapSelection = selectionToolAPI.createSelection(this, [ id ]);
                     if(selection.equals(selectionToolAPI.getSelection())) {
-                        this.getSelectionTool()?.setSelection(null);
+                        selectionToolAPI.setSelection(null);
                     } else {
-                        this.getSelectionTool()?.setSelection(selection);
+                        selectionToolAPI.setSelection(selection);
                     }
                 }
             }
         };
-    }
-
-    /**
-     * This function is called when layer items are rendered.
-     */
-    protected postProcessLayerItems(): void {
-        if(this.getState().getGeoJSONLayer()) {
-            this.updateStyle();
-        }
-    }
-
-    /**
-     * It updates the dimension.
-     * 
-     * @param dimension 
-     * @param value 
-     * @param redraw 
-     */
-    public updateDimension(dimension: IMapDimension<IMapDomain>, value: string, redraw: number | undefined): void {
-        if(!redraw) {
-            const dimensions = this.getState().getDimensions();
-            switch (dimension) {
-                case dimensions.geoData:
-                    redraw = LayerToolRedrawEnum.LAYER;
-                    break;
-                case dimensions.geoId:
-                case dimensions.value:
-                case dimensions.aggregation:
-                    redraw = LayerToolRedrawEnum.DATA;
-                    break;
-                default:
-                    redraw = LayerToolRedrawEnum.STYLE;
-                    break;
-            }
-        }
-        super.updateDimension(dimension, value, redraw);
-    }
-
-    /**
-     * It reloads data and redraw the layer.
-     * 
-     * @param type
-     */
-    public redraw(type: number): void {
-        switch (type) {
-            case LayerToolRedrawEnum.LAYER:
-                this.updateGeoData();
-                this.updateData();
-                this.updateStyle();
-                break;
-            case LayerToolRedrawEnum.DATA:
-                this.updateData();
-                this.updateStyle();
-                break;
-            default:
-                // update style
-                this.updateStyle();
-                break;
-        }
     }
 
     /**
@@ -346,7 +295,7 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
 
         if(layer) {
             layer.clearLayers();
-            const geoJSON = this.getState().getDimensions().geoData.getDomain()?.getFeatures([ GeoJSONTypes.MultiPolygon, GeoJSONTypes.Polygon ]);
+            const geoJSON = this.getState().getDimensions().geoData.getValue()?.getFeatures([ GeoJSONTypes.MultiPolygon, GeoJSONTypes.Polygon ]);
             if(geoJSON) {
                 layer.addData(geoJSON);
             }
@@ -364,9 +313,9 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
 
         // get dimensions
         const dimensions: IChoroplethLayerToolDimensions = this.getState().getDimensions();
-        const geoIdDimension: IMapDataDomain | undefined = dimensions.geoId.getDomain();
-        const valueDimension: IMapDataDomain | undefined = dimensions.value.getDomain();
-        const aggregationDimension: IMapAggregationFunction | undefined = dimensions.aggregation.getDomain();
+        const geoIdDimension: IMapDataDomain | undefined = dimensions.geoId.getValue();
+        const valueDimension: IMapDataDomain | undefined = dimensions.value.getValue();
+        const aggregationDimension: IMapAggregationFunction | undefined = dimensions.aggregation.getValue();
         const map = this.getMap();
 
         // test whether the dimension are set
@@ -403,18 +352,74 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
     }
 
     /**
+     * It reloads data and redraw the layer.
+     * 
+     * @param type
+     */
+    public render(type: number, animateOptions?: IDataChangeAnimateOptions): void {
+        switch (type) {
+            case LayerToolRenderType.LAYER:
+                this.updateGeoData();
+                this.updateData();
+                this.updateStyle();
+                break;
+            case LayerToolRenderType.DATA:
+                this.updateData();
+                this.updateStyle(animateOptions);
+                break;
+            default:
+                // update style
+                this.updateStyle(animateOptions);
+                break;
+        }
+    }
+
+    /**
+     * It updates the dimension.
+     * 
+     * @param dimension 
+     * @param value 
+     * @param redraw 
+     */
+    public updateDimension(dimension: IMapDomainDimension<IMapDomain>, value: string, redraw: number | undefined): void {
+        if(!redraw) {
+            const dimensions = this.getState().getDimensions();
+            switch (dimension) {
+                case dimensions.geoData:
+                    redraw = LayerToolRenderType.LAYER;
+                    break;
+                case dimensions.geoId:
+                case dimensions.value:
+                case dimensions.aggregation:
+                    redraw = LayerToolRenderType.DATA;
+                    break;
+                default:
+                    redraw = LayerToolRenderType.STYLE;
+                    break;
+            }
+        }
+        super.updateDimension(dimension, value, redraw);
+    }
+
+    /**
      * This function is called when a custom event is invoked.
      * 
      * @param event 
      */
     public handleEvent(event: IMapEvent): void {
         switch (event.getType()) {
+            case DataManagerChangeEvent.TYPE():
+                this.render(LayerToolRenderType.DATA);
+                break;
             case DataChangeEvent.TYPE():
-                this.redraw(LayerToolRedrawEnum.DATA);
+                this.render(LayerToolRenderType.DATA, (<IMapDataChangeEvent> event).getAnimateOptions());
                 break;
             case this.getSelectionTool()?.getChangeEventType():
+                this.render(LayerToolRenderType.STYLE);
+                break;
             case this.getThemesTool()?.getChangeEventType():
-                this.redraw(LayerToolRedrawEnum.STYLE);
+                this.updateTheme((<IThemesToolEvent> event).getChangedObject());
+                this.render(LayerToolRenderType.STYLE);
                 break;
             default:
                 break;
@@ -422,49 +427,135 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
     }
 
     /**
+     * Help function which updates theme with respect to the Themes Tool API.
+     * 
+     * TODO: move to adapter
+     * 
+     * @param theme 
+     */
+    protected updateTheme(theme: IMapTheme): void {
+        document.documentElement.style.setProperty('--choropleth-item-hover', theme.getHoverColor());
+        document.documentElement.style.setProperty('--choropleth-item-select', theme.getHighlightColor().selected);
+        document.documentElement.style.setProperty('--choropleth-item-highlight', theme.getHighlightColor().highlight);
+    }
+
+    /**
      * It updates style of all layer features using the current template.
      */
-    protected updateStyle(): void {
+    protected updateStyle(animateOptions?: IDataChangeAnimateOptions): void {
+        const scale: number[] | undefined = this.getScale();
+
+        if(scale && scale.length > 0) {
+            this.getState().getGeoJSONLayer()?.eachLayer((item: L.Layer) => {
+                this.updateItemStyle(item, scale, animateOptions);
+            });
+        }
+    }
+
+    /**
+     * Help function which returns a scale which can be used to distinguish value levels in choropleth.
+     */
+    protected getScale(): number[] | undefined {
+        // get values
+        const values: number[] = [];
+        let id: string | number | undefined;
+        let value: number | undefined;
         this.getState().getGeoJSONLayer()?.eachLayer((item: L.Layer) => {
-            this.updateItemStyle(item);
+            id = (<L.Polygon> item).feature?.id?.toString() ?? "";
+            if(id !== undefined) {
+                value = this.getState().getBucketData().get(id)?.getValue();
+                if(value) {
+                    values.push(value);
+                }
+            }
         });
+
+        // calculate scale based on user inputs
+        let scale: number[] | undefined = undefined;
+        const dimensions: IChoroplethLayerToolDimensions = this.getState().getDimensions();
+        const rangeDimension: number | undefined = dimensions.range.getValue();
+        if(rangeDimension) {
+            const customMinMaxDimension: boolean | undefined = dimensions.customMinMax.getValue();
+            const scalingDimension: IScale | undefined = dimensions.scaling.getValue();
+            if(customMinMaxDimension) {
+                const minDimension: number | undefined = dimensions.minValue.getValue();
+                const maxDimension: number | undefined = dimensions.maxValue.getValue();
+                if(minDimension !== undefined && maxDimension !== undefined) {
+                    scale = (new CustomMinMaxScale(minDimension, maxDimension)).getScale(values, rangeDimension);
+                } else {
+                    scale = (new RelativeScale()).getScale(values, rangeDimension);
+                }
+            } else if(scalingDimension) {
+                scale = scalingDimension.getScale(values, rangeDimension);
+            }
+        }
+
+        return scale;
     }
 
     /**
      * It updates style of the given feature using the current template.
      */
-    protected updateItemStyle(item: L.Layer): void {
+    protected updateItemStyle(item: L.Layer, scale: number[], animateOptions?: IDataChangeAnimateOptions): void {
         // TODO: use setStyle instead
         //item.setStyle(this.computeStyle(item));
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        if((item as any)._path != undefined) {
-            // modify classes
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (item as any)._path.classList.value = this.computeStyleClasses(item as L.Polygon).join(" ");
+        const anyItem = (item as any);
+        if(anyItem._path != undefined) {
+            // animation styles
+            if(animateOptions) {
+                anyItem._path.style.transitionDuration = `${animateOptions.transitionDuration}ms`;
+                anyItem._path.style.transitionDelay = `${animateOptions.transitionDelay}ms`;
+            }
+
+            // class list
+            anyItem._path.classList.value = this.computeStyleClasses(item as L.Polygon, scale).join(" ");
         }
     }
 
     /**
      * It returns style classes for the current template and given feature.
      */
-    protected computeStyleClasses(item: L.Polygon): string[] {
+    protected computeStyleClasses(item: L.Polygon, scale: number[]): string[] {
         const classList: string[] = [ "leaflet-interactive", "leaflet-choropleth-item-basic" ];
 
         const feature: Feature<Polygon | MultiPolygon, GeoJsonProperties> | undefined = item.feature;
         const id: string = feature?.id?.toString() ?? "";
 
-        // compute color level
-        classList.push(this.computeColorClass(this.getState().getBucketData().get(id)?.getValue() ?? 0));
+        // get value
+        const value = this.getState().getBucketData().get(id)?.getValue() ?? 0;
 
-        // hovered
-        if(this.getState().getHoveredItem() == id) {
-            classList.push("leaflet-choropleth-item-hover");
+        // use color according to the user's preferences
+        const dimensions: IChoroplethLayerToolDimensions = this.getState().getDimensions();
+        const customColor: boolean | undefined = dimensions.customColor.getValue();
+        const color: string | undefined = dimensions.color.getValue();
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const path: any = (item as any)._path;
+        if(customColor && color) {
+            if(value && value >= scale[0]) {
+                // compute color level of custom color
+                path.style.fill = color;
+                path.style.fillOpacity = this.computeColorIntensity(value, scale);
+            } else {
+                // very low value is represented rather by a light gray (not the fully transparent color)
+                path.style.fill = "grey";
+                path.style.fillOpacity = 0.3;
+            }
+        } else {
+            // compute color level of the palette of predefined colors
+            classList.push(this.computeColorClass(this.getState().getBucketData().get(id)?.getValue() ?? 0, scale));
+            // explicit opacity is not required here
+            path.style.fill = null;
+            path.style.fillOpacity = null;
         }
 
         // selected / highlighted
         const selection: IMapSelection | null | undefined = this.getSelectionTool()?.getSelection() ?? undefined;
         const selectedIds: string[] = selection?.getIds() ?? [];
         if(selection && selectedIds.length > 0) {
+            path.style.fill = null;
+            path.style.fillOpacity = null;
             if(selectedIds.includes(id)) {
                 if(selection.getTool() == this && selection.getSrcIds().includes(id)) {
                     // selected
@@ -479,24 +570,61 @@ class ChoroplethLayerTool extends AbstractLayerTool implements IChoroplethLayerT
             }
         }
 
+        // hover
+        if(this.getState().getHoveredItem() == id) {
+            classList.push("leaflet-choropleth-item-hover");
+        }
+
         return classList;
     }
 
     /**
-     * It returns color class for the current template and given value.
+     * It returns color class for the current scale and given value.
+     * 
+     * @param val 
+     * @param scale 
      */
-    protected computeColorClass(val: number): string {
-        const scale = this.getDefaults().getScale();
-        return val > scale[6] ? "leaflet-choropleth-item-clr8" :
-                val > scale[5] ? "leaflet-choropleth-item-clr7" :
-                val > scale[4] ? "leaflet-choropleth-item-clr6" :
-                val > scale[3] ? "leaflet-choropleth-item-clr5" :
-                val > scale[2] ? "leaflet-choropleth-item-clr4" :
-                val > scale[1] ? "leaflet-choropleth-item-clr3" :
-                val > scale[0] ? "leaflet-choropleth-item-clr2" :
-                "leaflet-choropleth-item-clr1";
+    protected computeColorClass(val: number, scale: number[]): string {
+        for (let i = scale.length - 1; i >= 0; i--) {
+            if (val > scale[i]) {
+                return "leaflet-choropleth-item-clr" + (i + 1);
+            }
+        }
+        return "leaflet-choropleth-item-clr0";
+    }
+
+    /**
+     * It returns color intensity for the current scale and given value.
+     * 
+     * @param val 
+     * @param scale 
+     */
+    protected computeColorIntensity(val: number, scale: number[]): number {
+        for(let i = scale.length - 1; i >= 0; i--) {
+            if(val > scale[i]) {
+                // round to 2 decimals
+                return Math.round(((i + 1) / (scale.length)) * 100) / 100;
+            }
+        }
+        return 0.9;
+    }
+    
+    /**
+     * It updates style of the given feature using the current template.
+     */
+    protected hoverItem(item: L.Layer, hover: boolean): void {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if((item as any)._path != undefined) {
+            // modify classes
+            if(hover) {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ((item as any)._path as SVGPathElement).classList.add("leaflet-choropleth-item-hover");
+            } else {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                ((item as any)._path as SVGPathElement).classList.remove("leaflet-choropleth-item-hover");
+            }
+        }
     }
 
 }
-
 export default ChoroplethLayerTool;

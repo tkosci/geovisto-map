@@ -1,3 +1,4 @@
+import IDataChangeAnimateOptions from "../event/data/IDataChangeAnimateOptions";
 import IMapConfigManager from "../config/IMapConfigManager";
 import IMapConfig from "./IMapConfig";
 import IMapData from "../data/IMapData";
@@ -28,7 +29,7 @@ interface IMap<
     /**
      * This function redraws the current map.
      */
-    redraw(mapConfig: IMapConfigManager): HTMLElement | null;
+    redraw(mapConfig: IMapConfigManager, props?: IMapProps): HTMLElement | null;
 
     /**
      * It exports the serialized representation of the current state of the map.
@@ -47,7 +48,8 @@ interface IMap<
      * 
      * @param data
      * @param source of the change
+     * @param animateOptions
      */
-    updateCurrentData(data: IMapData, source: IMapObject): void;
+    updateCurrentData(data: IMapData, source: IMapObject, animateOptions?: IDataChangeAnimateOptions): void;
 }
 export default IMap;

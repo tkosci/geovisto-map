@@ -41,5 +41,12 @@ abstract class AbstractMapFormInput implements IMapFormInput {
      */
     public abstract setValue(value: unknown): void;
 
+    /**
+     * It sets the input disabled.
+     * 
+     * @param {*} disabled 
+     */
+    public abstract setDisabled(disabled: boolean): void;
+
 }
 export default AbstractMapFormInput;

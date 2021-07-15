@@ -1,3 +1,4 @@
+import IDataChangeAnimateOptions from "../../types/event/data/IDataChangeAnimateOptions";
 import ILayerTool from "../../types/layer/ILayerTool";
 import { ILayerToolConfig } from "../../types/layer/ILayerToolConfig";
 import { IMapToolInitProps } from "../../types/tool/IMapToolProps";
@@ -5,8 +6,8 @@ import ILayerToolProps from "../../types/layer/ILayerToolProps";
 import ILayerToolDefaults from "../../types/layer/ILayerToolDefaults";
 import ILayerToolState from "../../types/layer/ILayerToolState";
 import IMapDimension from "../../types/dimension/IMapDimension";
-import IMapDomain from "../../types/domain/IMapDomain";
 import LayerToolDefaults from "./LayerToolDefaults";
+import LayerToolRenderType from "../../types/layer/LayerToolRenderType";
 import LayerToolState from "./LayerToolState";
 import MapTool from "../tool/MapTool";
 
@@ -125,8 +126,8 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
                 layerItems[j].addTo(leafletMap);
             }
 
-            // post create items
-            this.postProcessLayerItems();
+            // render data
+            this.render(LayerToolRenderType.DATA);
         }
     }
 
@@ -170,34 +171,6 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
     protected abstract createLayerItems(): L.Layer[];
 
     /**
-     * This function is called when layer items are rendered.
-     * 
-     * Override this function if needed.
-     */
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    protected postProcessLayerItems(): void {
-    }
-
-    /**
-     * It updates the dimension.
-     * 
-     * @param dimension 
-     * @param value 
-     * @param redraw
-     */
-    public updateDimension(dimension: IMapDimension<IMapDomain>, value: string, redraw: number | undefined = undefined): void {
-        // get selected values and update layer tool's dimension
-        const domain: IMapDomain | undefined = dimension.getDomainManager().getDomain(value);
-        if(dimension.getDomain() !== domain) {
-            dimension.setDomainByName(domain?.getName() ?? "");
-        
-            if(redraw != undefined) {
-                this.redraw(redraw);
-            }
-        }
-    }
-
-    /**
      * It reloads data and redraw the layer with respect to the type.
      * 
      * By default it works with LayerRedrawType
@@ -205,8 +178,27 @@ abstract class AbstractLayerTool extends MapTool implements ILayerTool {
      * @param type 
      */
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    public redraw(type: number): void {
+    public render(type: number, animateOptions?: IDataChangeAnimateOptions): void {
         return;
+    }
+
+    /**
+     * It updates the dimension.
+     * 
+     * @param dimension 
+     * @param value 
+     * @param renderType
+     */
+    public updateDimension(dimension: IMapDimension<unknown>, value: string, renderType: number | undefined = undefined): void {
+        // get selected values and update layer tool's dimension
+        const domain: unknown | undefined = dimension.findValue(value);
+        if(dimension.getValue() !== domain) {
+            dimension.setStringValue(value);
+        
+            if(renderType != undefined) {
+                this.render(renderType);
+            }
+        }
     }
 }
 export default AbstractLayerTool;

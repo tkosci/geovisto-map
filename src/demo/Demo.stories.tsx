@@ -39,6 +39,8 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
     
     private polygons: unknown;
     private centroids: unknown;
+    private polygons2: unknown;
+    private centroids2: unknown;
     private map: React.RefObject<ReactGeovistoMap>;
 
     public constructor(props: Record<string, never>) {
@@ -47,11 +49,13 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
         // initialize geo objects
         this.polygons = require("/static/geo/country_polygons.json");
         this.centroids = require("/static/geo/country_centroids.json");
+        this.polygons2 = require("/static/geo/czech_districts_polygons.json");
+        this.centroids2 = require("/static/geo/czech_districts_centroids.json");
 
         // data and config can be changed
         this.state = {
             // implicit data
-            data: require('/static/data/demo1.json'),
+            data: require('/static/data/timeData.json'),
             // implicit config
             config: require('/static/config/config.json')
         };
@@ -187,8 +191,12 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
                 <div className="demo-toolbar">
                     <span>Data file: </span>
                     <select id={C_ID_select_data}>
+                        <option value="timeData.json">timeData.json</option>
                         <option value="demo1.json">demo1.json</option>
                         <option value="demo2.json">demo2.json</option>
+                        <option value="covidCzechDistricts.json">covid czech districts</option>
+                        <option value="covidCzechDistrictsCumulative.json">covid czech districts (cumulative)</option>
+                        <option value="ovidCzechDistrictsCategoric.json">covid czech districts (categoric)</option>
                         <option disabled></option>
                     </select>
 
@@ -209,7 +217,9 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
                         data={Geovisto.getMapDataManagerFactory().json(this.state.data)}
                         geoData={Geovisto.getGeoDataManager([
                             Geovisto.getGeoDataFactory().geojson("world polygons", this.polygons),
-                            Geovisto.getGeoDataFactory().geojson("world centroids", this.centroids)
+                            Geovisto.getGeoDataFactory().geojson("world centroids", this.centroids),
+                            Geovisto.getGeoDataFactory().geojson("czech polygons", this.polygons2),
+                            Geovisto.getGeoDataFactory().geojson("czech centroids", this.centroids2)
                         ])}
                         config={Geovisto.getMapConfigManagerFactory().default(this.state.config)}
                         globals={undefined}

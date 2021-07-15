@@ -8,9 +8,10 @@ import 'font-awesome/css/font-awesome.min.css';
 import "../../../styles/style.scss";
 
 // Geovisto core
-import MapTool from '../../../../../model/internal/tool/MapTool';
+import IMapEvent from '../../../../../model/types/event/IMapEvent';
 import { IMapToolInitProps } from '../../../../../model/types/tool/IMapToolProps';
 import { instanceOfMapForm } from '../../../../../model/types/form/IMapFormControl';
+import MapTool from '../../../../../model/internal/tool/MapTool';
 
 import DataManagerChangeEvent from '../../../../../model/internal/event/data/DataManagerChangeEvent';
 import DummyTabTool from '../dummy/DummyTabTool';
@@ -25,7 +26,7 @@ import ISidebarToolState from '../../types/tool/ISidebarToolState';
 import SidebarTab from '../tab/SidebarTab';
 import SidebarToolDefaults from "./SidebarToolDefaults";
 import SidebarToolState from "./SidebarToolState";
-import IMapEvent from '../../../../../model/types/event/IMapEvent';
+import ThemeChangeAdapter from '../adapters/ThemeChangeAdapter';
 
 /**
  * This class provides the sidebar tool.
@@ -33,6 +34,8 @@ import IMapEvent from '../../../../../model/types/event/IMapEvent';
  * @author Jiri Hynek
  */
 class SidebarTool extends MapTool implements ISidebarTool {
+
+    private themeChangeAdapter!: ThemeChangeAdapter;
 
     /**
      * It creates a new tool with respect to the props.
@@ -83,6 +86,16 @@ class SidebarTool extends MapTool implements ISidebarTool {
      */
     protected createState(): ISidebarToolState {
         return new SidebarToolState(this);
+    }
+
+    /**
+     * It returns theme change adapter.
+     */
+    protected getThemeChangeAdapter(): ThemeChangeAdapter {
+        if(!this.themeChangeAdapter) {
+            this.themeChangeAdapter = new ThemeChangeAdapter(this);
+        }
+        return this.themeChangeAdapter;
     }
 
     /**
@@ -235,6 +248,7 @@ class SidebarTool extends MapTool implements ISidebarTool {
                 }
                 break;
             default:
+                this.getThemeChangeAdapter().handleEvent(event);
                 break;
         }
     }
