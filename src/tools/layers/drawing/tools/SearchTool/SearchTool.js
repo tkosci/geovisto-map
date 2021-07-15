@@ -9,6 +9,8 @@ import { AbstractTool } from '../AbstractTool';
 import { iconStarter, ICON_SRCS } from '../../util/constants';
 
 class SearchTool extends AbstractTool {
+  static result = 'search';
+
   constructor(props) {
     super(props);
   }

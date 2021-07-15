@@ -1,0 +1,116 @@
+import SidebarInputFactory from '../../../../../../inputs/SidebarInputFactory';
+import { createCheck } from '../../../components/inputs';
+import { ADMIN_LEVELS } from '../../../util/constants';
+
+class SearchControl {
+  constructor(props) {
+    this.tabControl = props.tabControl;
+    this.tabState = props.tabControl.getState();
+  }
+
+  /**
+   * checkbox to be able to create topology with place search
+   *
+   * @returns {Object} HTML element
+   */
+  createConnectCheck = () => {
+    const onChange = (val) => this.tabState.setConnectActivated(val);
+    const { connectActivated } = this.tabState;
+
+    const result = createCheck(
+      connectActivated,
+      onChange,
+      'connect',
+      'By creating new marker while having this choice selected, you will create path between newly created marker and selected marker or last created marker via Topology tool',
+    );
+
+    return result;
+  };
+
+  /**
+   * checkbox to set if result of area search will be HQ
+   *
+   * @returns {Object} HTML element
+   */
+  createHighQualityCheck = () => {
+    const onChange = (val) => this.tabState.setHighQuality(val);
+    const { highQuality } = this.tabState;
+
+    const result = createCheck(
+      highQuality,
+      onChange,
+      'high-quality',
+      'By selecting the option displayed polygons will be in higher quality, which however means that some operations will take longer to execute',
+    );
+    return result;
+  };
+
+  /**
+   * creates heading element
+   *
+   * @param {String} title
+   * @param {Object} elem HTML element wrapper
+   */
+  addHeading = (title, elem) => {
+    let headingTag = document.createElement('h3');
+    headingTag.innerText = title;
+    elem.appendChild(headingTag);
+  };
+
+  /**
+   * creates all of the search inputs
+   *
+   * @param {Object} elem HTML element wrapper
+   * @param {Object} model
+   */
+  renderSearchInputs = (elem, model) => {
+    this.addHeading('Search for place', elem);
+    // * labeled text Search
+    const inputSearch = SidebarInputFactory.createSidebarInput(model.search.input, {
+      label: model.search.label,
+      action: this.tabState.searchAction,
+      options: [],
+      placeholder: 'Press enter for search',
+      setData: this.tabState.onInputOptClick,
+    });
+    elem.appendChild(inputSearch.create());
+
+    this.inputConnect = this.createConnectCheck();
+    elem.appendChild(this.inputConnect);
+    // * divider
+    elem.appendChild(document.createElement('hr'));
+
+    this.addHeading('Search for area', elem);
+    // * labeled text Search
+    const inputSearchForArea = SidebarInputFactory.createSidebarInput(model.searchForArea.input, {
+      label: model.searchForArea.label,
+      options: this.tabState.getSelectCountries(),
+      action: this.tabState.searchForAreaAction,
+      value: this.tabState.countryCode || '',
+    });
+    elem.appendChild(inputSearchForArea.create());
+
+    const inputAdminLevel = SidebarInputFactory.createSidebarInput(model.adminLevel.input, {
+      label: model.adminLevel.label,
+      options: ADMIN_LEVELS,
+      action: this.tabState.pickAdminLevelAction,
+      value: this.tabState.adminLevel,
+    });
+    elem.appendChild(inputAdminLevel.create());
+
+    const hqCheck = this.createHighQualityCheck();
+    elem.appendChild(hqCheck);
+
+    const errorMsg = document.createElement('div');
+    errorMsg.className = 'error-text';
+    errorMsg.innerText = '';
+    elem.appendChild(errorMsg);
+
+    const searchForAreasBtn = document.createElement('button');
+    searchForAreasBtn.innerText = 'Submit';
+    searchForAreasBtn.addEventListener('click', this.tabState.fetchAreas);
+    elem.appendChild(searchForAreasBtn);
+  };
+}
+
+export default SearchControl;

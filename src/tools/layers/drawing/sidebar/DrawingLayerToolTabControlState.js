@@ -15,6 +15,7 @@ import {
   normalStyles,
 } from '../util/constants';
 import { SearchTool } from '../tools';
+import DataControl from './components/DataControl/DataControl';
 
 /**
  * This class manages the state of the sidebar tab.
@@ -357,7 +358,7 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
    */
   changeDesc = (inputText) => {
     const selectedEl = this._getSelected();
-    const modInputText = this.tabControl.convertDescToPopText(inputText);
+    const modInputText = DataControl.convertDescToPopText(inputText);
 
     let popup1 = selectedEl.getPopup();
     if (popup1) {

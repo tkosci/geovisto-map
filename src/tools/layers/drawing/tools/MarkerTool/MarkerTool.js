@@ -20,6 +20,8 @@ L.Draw.ExtendedMarker = L.Draw.Marker.extend({
 });
 
 class MarkerTool extends AbstractTool {
+  static result = 'marker';
+
   constructor(props) {
     super(props);
   }
