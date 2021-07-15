@@ -1,4 +1,3 @@
-import React from 'react';
 import L from 'leaflet';
 import 'leaflet-path-drag';
 import 'leaflet-path-transform';
@@ -7,6 +6,8 @@ import 'leaflet-draw';
 import { AbstractTool } from '../AbstractTool';
 
 class PolygonTool extends AbstractTool {
+  static result = 'polygon';
+
   constructor(props) {
     super(props);
   }

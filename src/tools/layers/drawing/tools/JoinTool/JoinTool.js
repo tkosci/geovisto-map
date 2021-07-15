@@ -65,10 +65,6 @@ class JoinTool extends TopologyTool {
     this.deselectChosenLayers();
   };
 
-  isConnectMarker = (layer) => {
-    return this.drawingTool.getState().isConnectMarker(layer);
-  };
-
   /**
    * checks if geo. object may be push to an array and be joined later on
    *

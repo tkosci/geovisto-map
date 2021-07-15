@@ -1,4 +1,3 @@
-import React from 'react';
 import L from 'leaflet';
 import 'leaflet-path-drag';
 import 'leaflet-path-transform';
@@ -11,8 +10,12 @@ import { getFirstGeoJSONFeature, isFeaturePoly } from '../../util/Poly';
 import { normalStyles } from '../../util/constants';
 
 class GeometricSliceTool extends AbstractTool {
+  static result = 'knife';
+
   constructor(props) {
     super(props);
+
+    this.leafletMap.on('draw:created', this.created);
   }
 
   static NAME(): string {
@@ -31,12 +34,19 @@ class GeometricSliceTool extends AbstractTool {
     return 'Division tool';
   }
 
-  result = (): string => {
-    return 'knife';
-  };
-
   canBeCanceled = (): boolean => {
     return true;
+  };
+
+  created = (e) => {
+    let layer = e.layer;
+    if (!layer) return;
+
+    // * SLICE
+    if (e.layerType === GeometricSliceTool.result) {
+      this.polySlice(layer);
+      this.deactivate();
+    }
   };
 
   /**

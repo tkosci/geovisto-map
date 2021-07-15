@@ -19,6 +19,8 @@ const DEFAULT_RADIUS = 30;
 const ERASER_COLOR = '#ee000055';
 
 class PaintTool extends AbstractTool {
+  static result = 'painted';
+
   constructor(props) {
     super(props);
 

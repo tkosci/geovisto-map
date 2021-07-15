@@ -1,4 +1,3 @@
-import React from 'react';
 import L from 'leaflet';
 import 'leaflet-path-drag';
 import 'leaflet-path-transform';
@@ -10,6 +9,8 @@ import { normalStyles } from '../../util/constants';
 class TopologyTool extends MarkerTool {
   constructor(props) {
     super(props);
+
+    this.leafletMap.on('draw:created', this.created);
   }
 
   static NAME(): string {
@@ -36,19 +37,35 @@ class TopologyTool extends MarkerTool {
     return true;
   };
 
+  created = (e) => {
+    let layer = e.layer;
+    if (!layer) return;
+    layer.layerType = e.layerType;
+
+    // * MARKER
+    if (this.isConnectMarker(layer)) {
+      this.plotTopology(null, layer);
+    }
+  };
+
+  isConnectMarker = (layer) => {
+    return this.drawingTool.getState().isConnectMarker(layer);
+  };
+
   enable = (): void => {
     this._markerCreate(true);
   };
 
-  plotTopology(chosen = null): void {
+  plotTopology(chosen = null, createdMarker = null): void {
     const toolState = this.drawingTool.getState();
     const selectedLayer = toolState.selectedLayer;
 
     const layersObj = toolState.featureGroup._layers;
     const layerArr = [...Object.values(layersObj)];
     const allConnected = layerArr.filter((_) => toolState.isConnectMarker(_)).reverse();
-    const _markers = chosen || allConnected;
-    // console.log({ _markers });
+    let _markers = chosen || allConnected;
+    _markers = createdMarker ? [createdMarker, ..._markers] : _markers;
+
     const index = 0;
     // * chronologically the last created
     const firstMarker = _markers[index];

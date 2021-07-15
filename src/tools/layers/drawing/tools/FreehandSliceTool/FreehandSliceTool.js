@@ -7,6 +7,8 @@ import 'leaflet-pather';
 import { GeometricSliceTool } from '../GeometricSliceTool';
 
 class FreehandSliceTool extends GeometricSliceTool {
+  static result = '';
+
   constructor(props) {
     super(props);
 
@@ -37,10 +39,6 @@ class FreehandSliceTool extends GeometricSliceTool {
   getTitle(): string {
     return 'Freehand slice tool';
   }
-
-  result = (): string => {
-    return 'knife';
-  };
 
   canBeCanceled = (): boolean => {
     return true;
@@ -82,15 +80,7 @@ class FreehandSliceTool extends GeometricSliceTool {
     map.removeLayer(pather);
     sidebarState.setPatherStatus(false);
     // * restore state
-    let enabled = sidebarState.getEnabledTool();
-    if (enabled) {
-      sidebarState.setEnabledTool(null);
-      this._redrawSidebar();
-    }
-
-    const query = `.drawingtoolbar .${FreehandSliceTool.NAME()} .extra-btn`;
-    const knifeBtn = document.querySelector(query);
-    if (knifeBtn) knifeBtn.classList.add('hide');
+    this.deactivate();
   };
 
   enable = (): void => {
@@ -100,6 +90,15 @@ class FreehandSliceTool extends GeometricSliceTool {
   disable = (): void => {
     this.leafletMap.removeLayer(this.pather);
     this.patherActive = false;
+    let activeTool = this.tool;
+    if (activeTool) {
+      activeTool.disable();
+    }
+
+    // * hide extra btn for disabling tools
+    const query = `.drawingtoolbar .${this.getName()} .extra-btn`;
+    const divideBtn = document.querySelector(query);
+    if (divideBtn) divideBtn.classList.add('hide');
   };
 }
 

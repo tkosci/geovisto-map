@@ -200,37 +200,24 @@ class DrawingLayerTool extends AbstractLayerTool {
 
     if (layer?.dragging) layer.dragging.disable();
 
-    if (e.layerType === 'polygon' || e.layerType === 'painted') {
+    if (e.layerType === PolygonTool.result || e.layerType === PaintTool.result) {
       // * INTERSECT
       if (intersectActivated) layer = polyIntersect(layer, state);
       // * JOIN
       else layer = polyJoin(layer, state);
     }
 
-    if (e.layerType === 'polygon' || e.layerType === 'painted' || e.layerType === 'erased') {
+    if (
+      e.layerType === PolygonTool.result ||
+      e.layerType === PaintTool.result ||
+      e.layerType === EraseTool.result
+    ) {
       // * DIFFERENCE
       polyDiff(layer, state, intersectActivated);
     }
 
-    // * SLICE
-    if (e.layerType === 'knife') {
-      this.drawingTools[GeometricSliceTool.NAME()].polySlice(layer);
-      this.drawingTools[GeometricSliceTool.NAME()].deactivate();
-    }
-
-    // * ERASER
-    if (e.layerType === 'erased') {
-      const map = this.getMap().getState().getLeafletMap();
-      map.removeLayer(layer);
-    }
-
-    // * MARKER
-    if (state.isConnectMarker(layer)) {
-      this.drawingTools[TopologyTool.NAME()].plotTopology();
-    }
-
     // * PUSH LAYER IF NOT SLICING/ERASING
-    if (e.layerType !== 'knife' && e.layerType !== 'erased') {
+    if (e.layerType !== GeometricSliceTool.result && e.layerType !== EraseTool.result) {
       state.addLayer(layer);
       sidebarState.pushGuideLayer(layer);
     }

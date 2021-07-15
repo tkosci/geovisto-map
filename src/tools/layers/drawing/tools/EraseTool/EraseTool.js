@@ -8,8 +8,12 @@ import { PaintTool } from '../PaintTool';
 const ERASER_COLOR = '#ee000055';
 
 class EraseTool extends PaintTool {
+  static result = 'erased';
+
   constructor(props) {
     super(props);
+
+    this.leafletMap.on('draw:created', this.created);
   }
 
   static NAME(): string {
@@ -34,6 +38,12 @@ class EraseTool extends PaintTool {
 
   canBeCanceled = (): boolean => {
     return true;
+  };
+
+  created = (e) => {
+    let layer = e.layer;
+    if (!layer) return;
+    if (e.layerType === this.result()) this.leafletMap.removeLayer(layer);
   };
 
   enable = (): void => {
