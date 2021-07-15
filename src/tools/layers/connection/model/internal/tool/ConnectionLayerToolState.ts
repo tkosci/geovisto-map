@@ -40,7 +40,8 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
             this.setDimensions({
                 geoData: props.dimensions.geoData == undefined ? defaults.getGeoDataDimension(initProps.map) : props.dimensions.geoData,
                 from: props.dimensions.from == undefined ? defaults.getFromDimension(initProps.map) : props.dimensions.from,
-                to: props.dimensions.to == undefined ? defaults.getToDimension(initProps.map) : props.dimensions.to
+                to: props.dimensions.to == undefined ? defaults.getToDimension(initProps.map) : props.dimensions.to,
+                direction: props.dimensions.direction == undefined ? defaults.getDirectionDimension() : props.dimensions.direction,
             });
         } else {
             this.setDimensions(defaults.getDimensions(initProps.map));
@@ -76,9 +77,10 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
      */
     public deserializeDimensions(dimensionsConfig: IConnectionLayerToolDimensionsConfig): void {
         const dimensions = this.getDimensions();
-        if(dimensionsConfig.geoData) dimensions.geoData.setDomain(dimensions.geoData.getDomainManager().getDomain(dimensionsConfig.geoData));
-        if(dimensionsConfig.from) dimensions.from.setDomain(dimensions.from.getDomainManager().getDomain(dimensionsConfig.from));
-        if(dimensionsConfig.to) dimensions.to.setDomain(dimensions.to.getDomainManager().getDomain(dimensionsConfig.to));
+        if(dimensionsConfig.geoData) dimensions.geoData.setValue(dimensions.geoData.getDomainManager().getDomain(dimensionsConfig.geoData));
+        if(dimensionsConfig.from) dimensions.from.setValue(dimensions.from.getDomainManager().getDomain(dimensionsConfig.from));
+        if(dimensionsConfig.to) dimensions.to.setValue(dimensions.to.getDomainManager().getDomain(dimensionsConfig.to));
+        if(dimensionsConfig.direction !== undefined) dimensions.direction.setValue(dimensionsConfig.direction);
     }
 
     /**
@@ -92,9 +94,10 @@ class ConnectionLayerToolState extends LayerToolState implements IConnectionLaye
         // serialize the layer tool properties
         const dimensions = this.getDimensions();
         config.data = {
-            geoData: dimensions.geoData.getDomain()?.getName(),
-            from: dimensions.from.getDomain()?.getName(),
-            to: dimensions.to.getDomain()?.getName()
+            geoData: dimensions.geoData.getValue()?.getName(),
+            from: dimensions.from.getValue()?.getName(),
+            to: dimensions.to.getValue()?.getName(),
+            direction: dimensions.direction.getValue()
         };
 
         return config;

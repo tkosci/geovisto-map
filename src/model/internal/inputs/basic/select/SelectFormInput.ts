@@ -1,5 +1,5 @@
 import ISelectFormInputProps from "../../../../types/inputs/basic/select/ISelectFormInputProps";
-import AbstractFormInput from "../text/TextFormInput";
+import AbstractMapFormInput from "../../abstract/AbstractMapFormInput";
 
 const ID = "geovisto-input-select";
 
@@ -8,7 +8,7 @@ const ID = "geovisto-input-select";
  * 
  * @author Jiri Hynek
  */
-class SelectFormInput extends AbstractFormInput {
+class SelectFormInput extends AbstractMapFormInput {
     
     /**
      * the input element is initialized when required
@@ -62,6 +62,19 @@ class SelectFormInput extends AbstractFormInput {
     public setValue(value: string): void {
         if(this.element) {
             this.element.value = value;
+        }
+    }
+
+    /*
+     * Sets/removes attribute 'disabled' from input box.
+     */
+    public setDisabled(disabled: boolean): void {
+        if(this.element) {
+            if(disabled == true) {
+                this.element.setAttribute("disabled", "true");            
+            } else {
+                this.element.removeAttribute("disabled");
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ const ID = "geovisto-input-text";
  * This class represents basic text form input.
  * 
  * @author Jiri Hynek
+ * @author Krystof Rykala - generic input types
  */
 class TextFormInput extends AbstractMapFormInput implements IMapFormInput {
     
@@ -32,8 +33,10 @@ class TextFormInput extends AbstractMapFormInput implements IMapFormInput {
      */
     public create(): HTMLElement {
         if(this.input == undefined) {
+            const props = <ITextFormInputProps> this.getProps();
             this.input = document.createElement("input");
-            this.input.setAttribute("type", "text");
+            this.input.setAttribute("class", `${ID}-input`);
+            this.input.setAttribute("type", props.type ?? "text");
             this.input.onchange = (<ITextFormInputProps> this.getProps()).onChangeAction;
         }
         return this.input;
@@ -61,6 +64,19 @@ class TextFormInput extends AbstractMapFormInput implements IMapFormInput {
     public setValue(value: string): void {
         if(this.input) {
             this.input.value = value;
+        }
+    }
+
+    /*
+     * Sets/removes attribute 'disabled' from input box.
+     */
+    public setDisabled(disabled: boolean): void {
+        if(this.input) {
+            if(disabled == true) {
+                this.input.setAttribute("disabled", "true");            
+            } else {
+                this.input.removeAttribute("disabled");
+            }
         }
     }
 }

@@ -1,6 +1,6 @@
 import IFilterFormInputProps from "../../types/inputs/filter/IFilterFormInputProps";
 import ILabeledAutocompleteFormInputProps from "../../types/inputs/labeled/autocomplete/ILabeledAutocompleteFormInputProps";
-import ILabeledMapFormInputProps from "../../types/inputs/labeled/text/ILabeledTextFormInputProps";
+import ILabeledTextFormInputProps from "../../types/inputs/labeled/text/ILabeledTextFormInputProps";
 import ILabeledSelectFormInputProps from "../../types/inputs/labeled/select/ILabeledSelectFormInputProps";
 import IMapFormInput from "../../types/inputs/IMapFormInput";
 import ISelectFormInputProps from "../../types/inputs/basic/select/ISelectFormInputProps";
@@ -35,7 +35,7 @@ class MapFormInputFactory {
     /**
      * It creates the labeled text form input.
      */
-    public labeledText(props: ILabeledMapFormInputProps): IMapFormInput {
+    public labeledText(props: ILabeledTextFormInputProps): IMapFormInput {
         return new TextFormInput(props);
     }
     

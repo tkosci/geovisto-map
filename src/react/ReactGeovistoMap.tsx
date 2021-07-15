@@ -4,11 +4,11 @@ import React, { Component } from "react";
 // Geovisto
 import { Geovisto } from "../model/internal/api/Geovisto";
 import IMap from "../model/types/map/IMap";
+import IReactGeovistoMapProps from "./IReactGeovistoMapProps";
 
 // styles
 import '../styles/common.scss';
 
-import IReactGeovistoMapProps from "./IReactGeovistoMapProps";
 
 /**
  * React component which wraps Geovisto map.
@@ -67,7 +67,7 @@ class ReactGeovistoMap extends Component<IReactGeovistoMapProps, Record<string, 
      */
     public componentDidUpdate(): void {
         // redraw map with a new config and new props
-        this.m.redraw(this.props.config ?? Geovisto.getMapConfigManagerFactory().default({}));
+        this.m.redraw(this.props.config ?? Geovisto.getMapConfigManagerFactory().default({}), this.props);
     }
 
     /**

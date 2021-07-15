@@ -1,8 +1,6 @@
 // Leaflet
 import {
-    Icon,
     LatLngExpression,
-    MarkerOptions
 } from "leaflet";
 
 // Geovisto core
@@ -11,16 +9,18 @@ import IGeoData from "../../../../../../model/types/geodata/IGeoData";
 import IMap from "../../../../../../model/types/map/IMap";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
+import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
-import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
+import MapDomainDimension from "../../../../../../model/internal/dimension/MapDomainDimension";
 import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
 import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
 
 import IMarker from "../../types/marker/IMarker";
-import IMarkerIconOptions from "../../types/marker/IMarkerIconOptions";
+import IMarkerIcon from "../../types/marker/IMarkerIcon";
+import { IMarkerIconOptions } from "../../types/marker/IMarkerIconOptions";
 import IMarkerLayerToolDefaults from "../../types/tool/IMarkerLayerToolDefaults";
 import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";
+import IMarkerOptions from "../../types/marker/IMarkerOptions";
 import Marker from "../marker/Marker";
 import { MarkerIcon } from "../marker/MarkerIcon";
 
@@ -80,8 +80,8 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     /**
      * It returns the default geo ID dimension.
      */
-    public getGeoDataDimension(map?: IMap): IMapDimension<IGeoData> {
-        return new MapDimension(
+    public getGeoDataDimension(map?: IMap): IMapDomainDimension<IGeoData> {
+        return new MapDomainDimension(
             "geo-data",
             map?.getState().getGeoDataManager() ?? this.getGeoDataManager(this.getGeoData()),
             undefined
@@ -91,8 +91,8 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     /**
      * It returns the default geo ID dimension.
      */
-    public getGeoIdDimension(map?: IMap): IMapDimension<IMapDataDomain> {
-        return new MapDimension(
+    public getGeoIdDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
+        return new MapDomainDimension(
             "geo",
             map?.getState().getMapData() ?? this.getDataManager(),
             undefined
@@ -102,8 +102,8 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     /**
      * It returns the default value dimension.
      */
-    public getValueDimension(map?: IMap): IMapDimension<IMapDataDomain> {
-        return new MapDimension(
+    public getValueDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
+        return new MapDomainDimension(
             "value",
             map?.getState().getMapData() ?? this.getDataManager(),
             undefined
@@ -113,7 +113,7 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     /**
      * It returns the default aggregation function dimension.
      */
-    public getAggregationDimension(): IMapDimension<IMapAggregationFunction> {
+    public getAggregationDimension(): IMapDomainDimension<IMapAggregationFunction> {
         const domainManager = new MapDomainArrayManager(
             [
                 new CountAggregationFunction(),
@@ -121,7 +121,7 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
             ]
         );
 
-        return new MapDimension(
+        return new MapDomainDimension(
             "aggregation",
             domainManager,
             domainManager.getDefault()
@@ -131,8 +131,8 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
     /**
      * It returns the default category dimension.
      */
-    public getCategoryDimension(map?: IMap): IMapDimension<IMapDataDomain> {
-        return new MapDimension(
+    public getCategoryDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
+        return new MapDomainDimension(
             "category",
             map?.getState().getMapData() ?? this.getDataManager(),
             undefined
@@ -154,8 +154,8 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
      * @param latlng 
      * @param options
      */
-    public getMarker(latlng: LatLngExpression, options?: MarkerOptions): IMarker<Icon<IMarkerIconOptions>> {
-        return new Marker<Icon<IMarkerIconOptions>>(latlng, options);
+    public getMarker(latlng: LatLngExpression, options?: IMarkerOptions): IMarker<IMarkerIcon<IMarkerIconOptions>> {
+        return new Marker<IMarkerIcon<IMarkerIconOptions>>(latlng, options);
     }
 
     /**
@@ -163,7 +163,7 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
      * 
      * @param options 
      */
-    public getMarkerIcon(options: IMarkerIconOptions): Icon<IMarkerIconOptions> {
+    public getMarkerIcon(options: IMarkerIconOptions): IMarkerIcon<IMarkerIconOptions> {
         return new MarkerIcon(options);
     }
 }

@@ -6,49 +6,39 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 // d3
-import { select as d3select } from "d3";
+import { BaseType, select as d3select } from "d3";
 
 // own styles
 import '../../../style/connectionLayer.scss';
-
-// Geovisto Selection Tool API
-import {
-    ISelectionToolAPI,
-    ISelectionToolAPIGetter,
-    IMapSelection
-} from '../../../../../selection';
-
-// Geovisto Themes Tool API
-import {
-    IThemesToolAPI,
-    IThemesToolAPIGetter
-} from '../../../../../themes';
 
 // Geovisto core
 import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
 import CountAggregationFunction from '../../../../../../model/internal/aggregation/basic/CountAggregationFunction';
 import DataChangeEvent from '../../../../../../model/internal/event/data/DataChangeEvent';
+import DataManagerChangeEvent from '../../../../../../model/internal/event/data/DataManagerChangeEvent';
 import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
+import IDataChangeAnimateOptions from '../../../../../../model/types/event/data/IDataChangeAnimateOptions';
 import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMapAggregationBucket';
 import IMapAggregationFunction from '../../../../../../model/types/aggregation/IMapAggregationFunction';
-import IMapChangeEvent from '../../../../../../model/types/event/IMapChangeEvent';
 import IMapData from '../../../../../../model/types/data/IMapData';
+import IMapDataChangeEvent from '../../../../../../model/types/event/data/IMapDataChangeEvent';
 import IMapDataDomain from '../../../../../../model/types/data/IMapDataDomain';
 import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
 import IMapDimension from '../../../../../../model/types/dimension/IMapDimension';
-import IMapDomain from '../../../../../../model/types/domain/IMapDomain';
 import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapForm from '../../../../../../model/types/form/IMapForm';
 import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
 import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
-import LayerToolRedrawEnum from '../../../../../../model/types/layer/LayerToolRedrawEnum';
+import LayerToolRenderType from '../../../../../../model/types/layer/LayerToolRenderType';
 
 import ConnectionLayerToolMapForm from '../form/ConnectionLayerToolMapForm';
 import ConnectionLayerToolState from './ConnectionLayerToolState';
 import ConnectionLayerToolDefaults from './ConnectionLayerToolDefaults';
+import AnimateDirectionUtil from '../util/AnimateDirectionUtil';
 import D3PathForceSimulator from '../util/D3PathForceSimulator';
 import IConnectionLayerConnection from '../../types/items/IConnectionLayerConnection';
 import IConnectionLayerNode from '../../types/items/IConnectionLayerNode';
+import IConnectionLayerPath from '../../types/items/IConnectionLayerPath';
 import IConnectionLayerTool from '../../types/tool/IConnectionLayerTool';
 import { IConnectionLayerToolConfig } from '../../types/tool/IConnectionLayerToolConfig';
 import IConnectionLayerToolDimensions from '../../types/tool/IConnectionLayerToolDimensions';
@@ -56,6 +46,8 @@ import IConnectionLayerToolDefaults from '../../types/tool/IConnectionLayerToolD
 import IConnectionLayerToolProps from '../../types/tool/IConnectionLayerToolProps';
 import IConnectionLayerToolState from '../../types/tool/IConnectionLayerToolState';
 import ProjectionUtil from '../util/ProjectionUtil';
+import SelectionChangeAdapter from '../adapters/SelectionChangeAdapter';
+import ThemeChangeAdapter from '../adapters/ThemeChangeAdapter';
 
 /**
  * This class represents Connection layer tool. It uses SVG layer and D3 to draw the lines.
@@ -64,9 +56,13 @@ import ProjectionUtil from '../util/ProjectionUtil';
  */
 class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerTool, IMapFormControl {
 
-    private selectionToolAPI: ISelectionToolAPI | undefined;
-    private themesToolAPI: IThemesToolAPI | undefined;
     private mapForm!: IMapForm;
+    
+    private selectionChangeAdapter!: SelectionChangeAdapter;
+    private themeChangeAdapter!: ThemeChangeAdapter;
+    private animateDirectionUtil!: AnimateDirectionUtil;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private connectionsPaths!: Record<string, d3.Selection<BaseType, any, any, any>>;
 
     /**
      * It creates a new tool with respect to the props.
@@ -75,6 +71,8 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
      */
     public constructor(props?: IConnectionLayerToolProps) {
         super(props);
+
+        this.connectionsPaths = {};
     }
 
     /**
@@ -120,29 +118,33 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
     }
 
     /**
-     * Help function which acquires and returns the selection tool if available.
+     * It returns selection change adapter.
      */
-    private getSelectionTool(): ISelectionToolAPI | undefined {
-        if(this.selectionToolAPI == undefined) {
-            const api = this.getMap()?.getState().getToolsAPI() as ISelectionToolAPIGetter;
-            if(api.getGeovistoSelectionTool) {
-                this.selectionToolAPI = api.getGeovistoSelectionTool();
-            }
+     protected getSelectionChangeAdapter(): SelectionChangeAdapter {
+        if(!this.selectionChangeAdapter) {
+            this.selectionChangeAdapter = new SelectionChangeAdapter(this);
         }
-        return this.selectionToolAPI;
+        return this.selectionChangeAdapter;
     }
 
     /**
-     * Help function which acquires and returns the themes tool if available.
+     * It returns theme change adapter.
      */
-    private getThemesTool(): IThemesToolAPI | undefined {
-        if(this.themesToolAPI == undefined) {
-            const api = this.getMap()?.getState().getToolsAPI() as IThemesToolAPIGetter;
-            if(api.getGeovistoThemesTool) {
-                this.themesToolAPI = api.getGeovistoThemesTool();
-            }
+     protected getThemeChangeAdapter(): ThemeChangeAdapter {
+        if(!this.themeChangeAdapter) {
+            this.themeChangeAdapter = new ThemeChangeAdapter(this);
         }
-        return this.themesToolAPI;
+        return this.themeChangeAdapter;
+    }
+
+    /**
+     * It returns theme change adapter.
+     */
+     protected getAnimateDirectionUtil(): AnimateDirectionUtil {
+        if(!this.animateDirectionUtil) {
+            this.animateDirectionUtil = new AnimateDirectionUtil(this);
+        }
+        return this.animateDirectionUtil;
     }
 
     /**
@@ -232,8 +234,8 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
         if(map) {
             const leafletMap = map?.getState().getLeafletMap();
             const dimensions: IConnectionLayerToolDimensions = this.getState().getDimensions();
-            const fromDimension: IMapDataDomain | undefined = dimensions.from.getDomain();
-            const toDimension: IMapDataDomain | undefined = dimensions.to.getDomain();
+            const fromDimension: IMapDataDomain | undefined = dimensions.from.getValue();
+            const toDimension: IMapDataDomain | undefined = dimensions.to.getValue();
 
             // TODO: implement aggregation of values
             const aggregationDimension: IMapAggregationFunction = new CountAggregationFunction();
@@ -286,25 +288,19 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
 
     /**
      * This function is called when layer items are rendered.
-     * It use the D3 force layout simulation to arrange the connections.
+     * It uses the D3 force layout simulation to arrange the connections.
      */
-    protected postProcessLayerItems(): void {
+    protected renderConnections(animateOptions: IDataChangeAnimateOptions = { transitionDelay: 0, transitionDuration: 0 }): void {
         const leafletMap = this.getMap()?.getState().getLeafletMap();
         const overlayPane = this.getState().getSVGLayer()?.getPane();
 
         if(leafletMap && overlayPane) {
-            // get <svg> element (expect L.svg() layer)
-            const g = d3select(overlayPane).select("svg").select("g")
-                // uncoment this in case of non-smooth zoom animation
-                //.attr("class", "leaflet-zoom-hide")
-            ;
-            g.selectAll("*").remove();
 
             // get bucket data and prepare nodes and connections for 
             const bucketData = this.getState().getBucketData();
 
             // prepare nodes
-            const pointFeatures = this.getState().getDimensions().geoData.getDomain()?.getFeatures([ GeoJSONTypes.Point ]);
+            const pointFeatures = this.getState().getDimensions().geoData.getValue()?.getFeatures([ GeoJSONTypes.Point ]);
             const projectPoint = ProjectionUtil.getDataProjectionFunction(leafletMap, this.getDefaults().getProjectionZoom());
             const usedNodes = new Map<string, IConnectionLayerNode>();
             let node: IConnectionLayerNode;
@@ -364,9 +360,65 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
                 // geographic locations [lat, lng] of nodes needs to be projected to leaflet map
                 // we use the zoom preferred for the force layout simulation
                 const projectionPathFunction = ProjectionUtil.getPathProjectionFunction(leafletMap, this.getDefaults().getProjectionZoom());
-    
+
+                // get <svg> element (expect L.svg() layer)
+                const g = d3select(overlayPane).select("svg").select("g")
+                // uncoment this in case of non-smooth zoom animation
+                //.attr("class", "leaflet-zoom-hide")
+                ;
+                g.selectAll("*").remove();
+
+                // get new paths map from the d3 simulator
+                const pathsMap: Record<string, IConnectionLayerPath []> = d3ForceSimulator.getPathsMap();
+
+                // construct array of new and old connection ids
+                const connectionsIds: string[] = [
+                    ...Object.keys(this.connectionsPaths),
+                    ...Object.keys(pathsMap)
+                ];
+                
+                // construct new map (id, paths) using all ids (we can recognize deprecated ids)
+                const pathsData = connectionsIds.reduce((acc: Record<string, IConnectionLayerPath[]>, connectionId: string) => ({
+                    ...acc,
+                    [connectionId]: pathsMap[connectionId] || [],
+                }), {});
+
+                //console.log("all paths data", pathsData);
+                
                 // draw paths
-                g.selectAll("path.abc")
+                Object.entries(pathsData).forEach(([id, paths]: [ string, IConnectionLayerPath[]]) => {
+
+                    //console.log("ahoj", paths);
+                    
+                    // the type does not match!
+                    this.connectionsPaths[id] = g
+                        .selectAll(`path.leaflet-layer-connection.${id}`)
+                        .data(paths);
+                    
+                    this.connectionsPaths[id].enter()
+                        .append("path")
+                        .attr("d", "projectionPathFunction")
+                        .attr("class", `leaflet-layer-connection ${id}`)
+                        .style("stroke-opacity", 0)
+                        .transition()
+                        .delay(animateOptions.transitionDelay)
+                        .duration(animateOptions.transitionDuration)
+                        .style("stroke-opacity", 0.4);
+                    
+                    this.connectionsPaths[id].exit()
+                        .transition()
+                        .delay(animateOptions.transitionDelay)
+                        .duration(animateOptions.transitionDuration)
+                        .style("stroke-opacity", 0)
+                        .remove();
+                });
+                
+                // old simple soultion
+                /*const paths = d3ForceSimulator.getPaths();
+                console.log(pathsMap, paths);
+    
+                    // draw paths
+                    g.selectAll("path.abc")
                     .data(d3ForceSimulator.getPaths())
                     .enter()
                     .append("path")
@@ -375,6 +427,7 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
                     .attr("d", projectionPathFunction as any)
                     //.attr("data-countries", function(d) { return d[0].id + " " + d[d.length-1].id; })
                     .attr("class", "leaflet-layer-connection");
+                */
     
                 // update paths with respect to actual map state (zoom, move)
                 const updatePaths = function() {
@@ -383,25 +436,62 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
                     g.selectAll("path").attr("d", projectionPathFunction as any);
                 };
     
-                // highlight connections with respect to the selection of the selection tool if available
-                const selection = this.getSelectionTool()?.getSelection();
-                if(selection) {
-                    this.onSelectionUpdate(selection);
-                }
-    
                 // map move/zoom listener
                 leafletMap.on("moveend", updatePaths);
                 // initial update
                 updatePaths();
     
                 // run force layout algorithm
-                d3ForceSimulator.run(
-                    updatePaths,
-                    function() {
-                        // print message when finishes
-                        console.log("Force layout algorithm completed!");
+                const run = () => {
+                    d3ForceSimulator.run(
+                        updatePaths,
+                        function() {
+                            // print message when finishes
+                            console.log("Force layout algorithm completed!");
+                        }
+                    );
+                };
+
+                if(animateOptions && animateOptions.transitionDelay > 0) {
+                    setTimeout(run, animateOptions.transitionDelay);
+                } else {
+                    run();
+                }
+            }
+        }
+    }
+
+    /**
+     * Help method which updates styles
+     */
+    protected updateStyle(): void {
+        this.getAnimateDirectionUtil().animateDirection(this.getState().getDimensions().direction.getValue() ?? false);
+
+        // highlight connections with respect to the selection of the selection tool if available
+        this.getSelectionChangeAdapter().updateSelection();
+    }
+
+    /**
+     * It reloads data and redraw the layer.
+     * 
+     * @param type
+     */
+    public render(type: number, animateOptions?: IDataChangeAnimateOptions): void {
+        const svgLayer: L.SVG | undefined = this.getState().getSVGLayer();
+        if(svgLayer && (svgLayer.getPane())) {
+            switch (type) {
+                case LayerToolRenderType.LAYER:
+                case LayerToolRenderType.DATA:
+                    if(!animateOptions) {
+                        this.deleteLayerItems();
                     }
-                );
+                    this.updateData();
+                    this.renderConnections();
+                    this.updateStyle();
+                    break;
+                default:
+                    this.updateStyle();
+                    break;
             }
         }
     }
@@ -411,49 +501,26 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
      * 
      * @param dimension 
      * @param value 
-     * @param redraw 
+     * @param renderType 
      */
-    public updateDimension(dimension: IMapDimension<IMapDomain>, value: string, redraw: number | undefined): void {
-        if(!redraw) {
+    public updateDimension(dimension: IMapDimension<unknown>, value: string, renderType: number | undefined): void {
+        if(!renderType) {
             const dimensions : IConnectionLayerToolDimensions = this.getState().getDimensions();
             switch (dimension) {
                 case dimensions.geoData:
-                    redraw = LayerToolRedrawEnum.LAYER;
+                    renderType = LayerToolRenderType.LAYER;
                     break;
                 case dimensions.from:
                 case dimensions.to:
-                    redraw = LayerToolRedrawEnum.DATA;
+                    renderType = LayerToolRenderType.DATA;
                     break;
+                case dimensions.direction:
                 default:
-                    redraw = LayerToolRedrawEnum.STYLE;
+                    renderType = LayerToolRenderType.STYLE;
                     break;
             }
         }
-        super.updateDimension(dimension, value, redraw);
-    }
-
-    /**
-     * It reloads data and redraw the layer.
-     * 
-     * @param type
-     */
-    public redraw(type: number): void {
-        const svgLayer: L.SVG | undefined = this.getState().getSVGLayer();
-        if(svgLayer && (svgLayer.getPane())) {
-            switch (type) {
-                case LayerToolRedrawEnum.LAYER:
-                case LayerToolRedrawEnum.DATA:
-                    this.updateData();
-                    this.deleteLayerItems();
-                    this.postProcessLayerItems();
-                    break;
-                default:
-                    // update style
-                    // TODO
-                    //this.updateStyle();
-                    break;
-            }
-        }
+        super.updateDimension(dimension, value, renderType);
     }
 
     /**
@@ -463,87 +530,16 @@ class ConnectionLayerTool extends AbstractLayerTool implements IConnectionLayerT
      */
     public handleEvent(event: IMapEvent): void {
         switch (event.getType()) {
+            case DataManagerChangeEvent.TYPE():
+                this.render(LayerToolRenderType.DATA);
+                break;
             case DataChangeEvent.TYPE():
-                this.redraw(LayerToolRedrawEnum.DATA);
-                break;
-            case this.getSelectionTool()?.getChangeEventType():
-                this.onSelectionUpdate(<IMapSelection> (<IMapChangeEvent> event).getChangedObject());
-                break;
-            case this.getThemesTool()?.getChangeEventType():
-                // TODO
+                this.render(LayerToolRenderType.DATA, (<IMapDataChangeEvent> event).getAnimateOptions());
                 break;
             default:
+                this.getSelectionChangeAdapter().handleEvent(event);
+                this.getThemeChangeAdapter().handleEvent(event);
                 break;
-        }
-    }
-
-    /**
-     * It highlights connections with respect to the given selection.
-     */
-    protected onSelectionUpdate(selection: IMapSelection): void {
-        const overlayPane: HTMLElement | undefined = this.getState().getSVGLayer()?.getPane();
-        if(overlayPane) {
-
-            // get overleay pane, svg g element and paths
-            const paths = d3select(overlayPane)
-                            .select("svg")
-                            .select("g")
-                            .selectAll("path");
-
-            if(selection && selection.getSrcIds().length > 0) {
-                const selectionSrcIds = selection.getSrcIds();
-
-                // process all paths and find the affected ones
-                let from, to;
-                const affectedIds: string[] = [];
-                // TODO specify the types
-                paths.each(function(d: unknown) {
-                    if(Array.isArray(d)) {
-                        // from
-                        from = d[0].id;
-                        to = d[d.length-1].id;
-                        if(selectionSrcIds.includes(from)) {
-                            // highlight
-                            (this as HTMLElement).setAttribute("class", "leaflet-layer-connection-highlight");
-                            // check affected country
-                            if(!affectedIds.includes(to)) {
-                                affectedIds.push(to);
-                            }
-                        } else if(selectionSrcIds.includes(to)) {
-                            // highlight
-                            (this as HTMLElement).setAttribute("class", "leaflet-layer-connection-highlight");
-                            // check affected country
-                            if(!affectedIds.includes(from)) {
-                                affectedIds.push(from);
-                            }
-                        } else {
-                            //if(this.getAttribute("class") == "leaflet-layer-connection") {
-                                // deemphasize if it is not already highlighted
-                                (this as HTMLElement).setAttribute("class", "leaflet-layer-connection-other");
-                            //}
-                        }
-                    }
-                });
-
-                // update selection with respect to the affected countries
-                //console.log("affected", affectedIds);
-                if(affectedIds.length > 0) {
-                    const selectionTool = this.getSelectionTool();
-                    if(selectionTool) {
-                        const length = selection.getIds().length;
-                        selection.addIds(affectedIds);
-                        // check if selection has changed
-                        // take only the paths which have not been already processed
-                        // this prevents cyclic processing
-                        if(length != selection.getIds().length) {
-                            selectionTool.setSelection(selection);
-                        }
-                    }
-                }
-            } else {
-                // set the default path style
-                paths.attr("class", "leaflet-layer-connection");
-            }
         }
     }
 }

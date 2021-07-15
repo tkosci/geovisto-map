@@ -24,6 +24,8 @@ export type { default as IMapDataRecordItem } from './model/types/data/IMapDataR
 
 // dimension
 export type { default as IMapDimension } from './model/types/dimension/IMapDimension';
+export type { default as IMapDomainDimension } from './model/types/dimension/IMapDomainDimension';
+export type { default as IMapTypeDimension } from './model/types/dimension/IMapTypeDimension';
 
 // domain
 export type { default as IMapDomain } from './model/types/domain/IMapDomain';
@@ -34,7 +36,12 @@ export type { default as IMapDomainManagerFactory } from './model/types/domain/I
 // event
 export type { default as IMapEvent } from './model/types/event/IMapEvent';
 export type { default as IMapEventFactory } from './model/types/event/IMapEventFactory';
+export type { default as IMapEventListener } from './model/types/event/IMapEventListener';
+export type { default as IMapEventManager } from './model/types/event/IMapEventManager';
 export type { default as IMapChangeEvent } from './model/types/event/IMapChangeEvent';
+export type { default as IDataChangeAnimateOptions } from './model/types/event/data/IDataChangeAnimateOptions';
+export type { default as IMapDataChangeEvent } from './model/types/event/data/IMapDataChangeEvent';
+export type { default as IMapDataManagerChangeEvent } from './model/types/event/data/IMapDataManagerChangeEvent';
 
 // geodata
 export type { default as IGeoData } from './model/types/geodata/IGeoData';
@@ -51,7 +58,10 @@ export type { default as ITextFormInputProps } from './model/types/inputs/basic/
 export type { default as IFilterFormInputProps } from './model/types/inputs/filter/IFilterFormInputProps';
 export type { default as IFilterFormInputValue } from './model/types/inputs/filter/IFilterFormInputValue';
 export type { default as ILabeledAutocompleteFormInputProps } from './model/types/inputs/labeled/autocomplete/ILabeledAutocompleteFormInputProps';
+export type { default as ILabeledCheckboxFormInputProps } from './model/types/inputs/labeled/checkbox/ILabeledCheckboxFormInputProps';
+export type { default as ILabeledColorFormInputProps } from './model/types/inputs/labeled/color/ILabeledColorFormInputProps';
 export type { default as ILabeledSelectFormInputProps } from './model/types/inputs/labeled/select/ILabeledSelectFormInputProps';
+export type { default as ILabeledSliderFormInputProps } from './model/types/inputs/labeled/slider/ILabeledSliderFormInputProps';
 export type { default as ILabeledTextFormInputProps } from './model/types/inputs/labeled/text/ILabeledTextFormInputProps';
 
 // layer
@@ -60,7 +70,7 @@ export type { ILayerToolConfig, ILayerToolDimensionsConfig } from './model/types
 export type { default as ILayerToolDefaults } from './model/types/layer/ILayerToolDefaults';
 export type { default as ILayerToolProps } from './model/types/layer/ILayerToolProps';
 export type { default as ILayerToolState } from './model/types/layer/ILayerToolState';
-export type { default as LayerToolRedrawEnum } from './model/types/layer/LayerToolRedrawEnum';
+export type { default as LayerToolRenderType } from './model/types/layer/LayerToolRenderType';
 
 // map
 export type { default as IMap } from './model/types/map/IMap';
@@ -90,6 +100,10 @@ export type { IMapToolProps, IMapToolInitProps } from './model/types/tool/IMapTo
 export type { default as IMapToolsManager } from './model/types/tool/IMapToolsManager';
 export type { default as IMapToolState } from './model/types/tool/IMapToolState';
 
+// type
+export type { default as IIntegerRangeManager } from './model/types/type/IIntegerRangeManager';
+export type { default as ITypeManager } from './model/types/type/ITypeManager';
+
 // MODEL / INTERNAL
 
 // aggregation
@@ -114,7 +128,9 @@ export { default as JsonMapDataDomain } from './model/internal/data/json/JsonMap
 export { default as JsonMapDataManager } from './model/internal/data/json/JsonMapDataManager';
 
 // dimension
-export { default as MapDimension } from './model/internal/dimension/MapDimension';
+export { default as AbstractMapDimension } from './model/internal/dimension/AbstractMapDimension';
+export { default as MapDomainDimension } from './model/internal/dimension/MapDomainDimension';
+export { default as MapTypeDimension } from './model/internal/dimension/MapTypeDimension';
 
 // domain
 export { default as MapDomainManagerFactory } from './model/internal/domain/MapDomainManagerFactory';
@@ -142,7 +158,10 @@ export { default as TextFormInput } from './model/internal/inputs/basic/text/Tex
 export { default as FilterAutocompleteFormInput } from './model/internal/inputs/filter/autocomplete/FilterAutocompleteFormInput';
 export { default as FilterSelectFormInput } from './model/internal/inputs/filter/select/FilterSelectFormInput';
 export { default as LabeledAutocompleteFormInput } from './model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput';
+export { default as LabeledCheckboxFormInput } from './model/internal/inputs/labeled/checkbox/LabeledCheckboxFormInput';
+export { default as LabeledColorFormInput } from './model/internal/inputs/labeled/color/LabeledColorFormInput';
 export { default as LabeledSelectFormInput } from './model/internal/inputs/labeled/select/LabeledSelectFormInput';
+export { default as LabeledSliderFormInput } from './model/internal/inputs/labeled/slider/LabeledSliderFormInput';
 export { default as LabeledTextFormInput } from './model/internal/inputs/labeled/text/LabeledTextFormInput';
 
 // layer
@@ -166,6 +185,12 @@ export { default as MapTool } from './model/internal/tool/MapTool';
 export { default as MapToolDefaults } from './model/internal/tool/MapToolDefaults';
 export { default as MapToolsManager } from './model/internal/tool/MapToolsManager';
 export { default as MapToolState } from './model/internal/tool/MapToolState';
+
+// type
+export { default as BooleanTypeManager } from './model/internal/type/BooleanTypeManager';
+export { default as IntegerRangeManager } from './model/internal/type/IntegerRangeManager';
+export { default as IntegerTypeManager } from './model/internal/type/IntegerTypeManager';
+export { default as StringTypeManager } from './model/internal/type/StringTypeManager';
 
 // REACT MAP
 export { default as ReactGeovistoMap } from './react/ReactGeovistoMap';

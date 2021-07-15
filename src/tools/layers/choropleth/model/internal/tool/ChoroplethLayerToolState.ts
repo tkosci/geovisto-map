@@ -43,7 +43,14 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
                 geoData: props.dimensions.geoData == undefined ? defaults.getGeoDataDimension(initProps.map) : props.dimensions.geoData,
                 geoId: props.dimensions.geoId == undefined ? defaults.getGeoIdDimension(initProps.map) : props.dimensions.geoId,
                 value: props.dimensions.value == undefined ? defaults.getValueDimension(initProps.map) : props.dimensions.value,
-                aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation
+                aggregation: props.dimensions.aggregation == undefined ? defaults.getAggregationDimension() : props.dimensions.aggregation,
+                customColor: props.dimensions.customColor == undefined ? defaults.getCustomColorDimension() : props.dimensions.customColor,
+                color: props.dimensions.color == undefined ? defaults.getColorDimension() : props.dimensions.color,
+                range: props.dimensions.range == undefined ? defaults.getRangeDimension() : props.dimensions.range,
+                scaling: props.dimensions.scaling == undefined ? defaults.getScalingDimension() : props.dimensions.scaling,
+                customMinMax: props.dimensions.customMinMax == undefined ? defaults.getCustomMinMaxDimension() : props.dimensions.customMinMax,
+                minValue: props.dimensions.minValue == undefined ? defaults.getMinValueDimension() : props.dimensions.minValue,
+                maxValue: props.dimensions.maxValue == undefined ? defaults.getMaxValueDimension() : props.dimensions.maxValue,
             });
         } else {
             this.setDimensions(defaults.getDimensions(initProps.map));
@@ -72,10 +79,18 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
      */
     public deserializeDimensions(dimensionsConfig: IChoroplethLayerToolDimensionsConfig): void {
         const dimensions = this.getDimensions();
-        if(dimensionsConfig.geoData) dimensions.geoData.setDomain(dimensions.geoData.getDomainManager().getDomain(dimensionsConfig.geoData));
-        if(dimensionsConfig.geoId) dimensions.geoId.setDomain(dimensions.geoId.getDomainManager().getDomain(dimensionsConfig.geoId));
-        if(dimensionsConfig.value) dimensions.value.setDomain(dimensions.value.getDomainManager().getDomain(dimensionsConfig.value));
-        if(dimensionsConfig.aggregation) dimensions.aggregation.setDomain(dimensions.aggregation.getDomainManager().getDomain(dimensionsConfig.aggregation));
+        if(dimensionsConfig.geoData) dimensions.geoData.setValue(dimensions.geoData.getDomainManager().getDomain(dimensionsConfig.geoData));
+        if(dimensionsConfig.geoId) dimensions.geoId.setValue(dimensions.geoId.getDomainManager().getDomain(dimensionsConfig.geoId));
+        if(dimensionsConfig.value) dimensions.value.setValue(dimensions.value.getDomainManager().getDomain(dimensionsConfig.value));
+        if(dimensionsConfig.aggregation) dimensions.aggregation.setValue(dimensions.aggregation.getDomainManager().getDomain(dimensionsConfig.aggregation));
+        if(dimensionsConfig.customColor !== undefined) dimensions.customColor.setValue(dimensionsConfig.customColor);
+        if(dimensionsConfig.color) dimensions.color.setValue(dimensionsConfig.color);
+        if(dimensionsConfig.range !== undefined) dimensions.range.setValue(dimensionsConfig.range);
+        if(dimensionsConfig.scaling) dimensions.scaling.setValue(dimensions.scaling.getDomainManager().getDomain(dimensionsConfig.scaling));
+        if(dimensionsConfig.customMinMax !== undefined) dimensions.customMinMax.setValue(dimensionsConfig.customMinMax);
+        if(dimensionsConfig.minValue !== undefined) dimensions.minValue.setValue(dimensionsConfig.minValue);
+        if(dimensionsConfig.maxValue !== undefined) dimensions.maxValue.setValue(dimensionsConfig.maxValue);
+        
     }
 
     /**
@@ -89,10 +104,17 @@ class ChoroplethLayerToolState extends LayerToolState implements IChoroplethLaye
         // serialize the layer tool properties
         const dimensions = this.getDimensions();
         config.data = {
-            geoData: dimensions.geoData.getDomain()?.getName(),
-            geoId: dimensions.geoId.getDomain()?.getName(),
-            value: dimensions.value.getDomain()?.getName(),
-            aggregation: dimensions.aggregation.getDomain()?.getName(),
+            geoData: dimensions.geoData.getValue()?.getName(),
+            geoId: dimensions.geoId.getValue()?.getName(),
+            value: dimensions.value.getValue()?.getName(),
+            aggregation: dimensions.aggregation.getValue()?.getName(),
+            customColor: dimensions.customColor.getValue(),
+            color: dimensions.color.getValue(),
+            range: dimensions.range.getValue(),
+            scaling: dimensions.scaling.getValue()?.getName(),
+            customMinMax: dimensions.customMinMax.getValue(),
+            minValue: dimensions.minValue.getValue(),
+            maxValue: dimensions.maxValue.getValue()
         };
 
         return config;

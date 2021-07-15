@@ -19,5 +19,6 @@ type IConnectionLayerToolDimensionsConfig = ILayerToolDimensionsConfig & {
     geoData?: string,
     from?: string,
     to?: string,
+    direction?: boolean,
 }
 export type { IConnectionLayerToolConfig, IConnectionLayerToolDimensionsConfig };

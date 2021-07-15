@@ -1,10 +1,13 @@
 // Geovisto core
+import BooleanTypeManager from "../../../../../../model/internal/type/BooleanTypeManager";
 import IGeoData from "../../../../../../model/types/geodata/IGeoData";
 import IMap from "../../../../../../model/types/map/IMap";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
+import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
+import IMapTypeDimension from "../../../../../../model/types/dimension/IMapTypeDimension";
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
-import MapDimension from "../../../../../../model/internal/dimension/MapDimension";
+import MapDomainDimension from "../../../../../../model/internal/dimension/MapDomainDimension";
+import MapTypeDimension from "../../../../../../model/internal/dimension/MapTypeDimension";
 
 import IConnectionLayerToolDefaults from "../../types/tool/IConnectionLayerToolDefaults";
 import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToolDimensions";
@@ -56,14 +59,15 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
             geoData: this.getGeoDataDimension(map),
             from: this.getFromDimension(map),
             to: this.getToDimension(map),
+            direction: this.getDirectionDimension()
         };
     }
 
     /**
      * It returns the default geo ID dimension.
      */
-    public getGeoDataDimension(map?: IMap): IMapDimension<IGeoData> {
-        return new MapDimension(
+    public getGeoDataDimension(map?: IMap): IMapDomainDimension<IGeoData> {
+        return new MapDomainDimension(
             "geo data",
             map?.getState().getGeoDataManager() ?? this.getGeoDataManager(this.getGeoData()),
             undefined
@@ -73,8 +77,8 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
     /**
      * It returns the source geo ID dimension.
      */
-    public getFromDimension(map?: IMap): IMapDimension<IMapDataDomain> {
-        return new MapDimension(
+    public getFromDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
+        return new MapDomainDimension(
             "from",
             map?.getState().getMapData() ?? this.getDataManager(),
             undefined
@@ -84,10 +88,21 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
     /**
      * It returns the target geo ID dimension.
      */
-    public getToDimension(map?: IMap): IMapDimension<IMapDataDomain> {
-        return new MapDimension(
+    public getToDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
+        return new MapDomainDimension(
             "to",
             map?.getState().getMapData() ?? this.getDataManager(),
+            undefined
+        );
+    }
+
+    /**
+     * It returns the animate direction dimension.
+     */
+    public getDirectionDimension(): IMapTypeDimension<boolean> {
+        return new MapTypeDimension<boolean>(
+            "direction",
+            new BooleanTypeManager(),
             undefined
         );
     }

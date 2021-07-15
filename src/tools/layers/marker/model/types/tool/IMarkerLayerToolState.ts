@@ -2,6 +2,9 @@
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
 import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
 
+import IMarker from "../marker/IMarker";
+import IMarkerIcon from "../marker/IMarkerIcon";
+import { IMarkerIconOptions } from "../marker/IMarkerIconOptions";
 import { IMarkerLayerToolConfig, IMarkerLayerToolDimensionsConfig } from "./IMarkerLayerToolConfig";
 import IMarkerLayerToolDefaults from "./IMarkerLayerToolDefaults";
 import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
@@ -35,27 +38,41 @@ interface IMarkerLayerToolState<
     /**
      * It returns the markers.
      */
-    getMarkers(): L.Marker[];
+    getMarkers(): IMarker<IMarkerIcon<IMarkerIconOptions>>[];
 
     /**
      * It sets the markers.
      * 
      * @param markers 
      */
-    setMarkers(markers: L.Marker[]): void;
+    setMarkers(markers: IMarker<IMarkerIcon<IMarkerIconOptions>>[]): void;
+
+    /**
+     * It returns the current data categories.
+     * 
+     * @param currentData 
+     */
+    getCurrentDataCategories(): string[];
+
+    /**
+     * It sets the current data categories.
+     * 
+     * @param currentData 
+     */
+    setCurrentDataCategories(allCategories: string[]): void;
 
     /**
      * It returns the bucket data.
      * 
      * @param bucketData 
      */
-    getBucketData(): Map<string, Map<string, IMapAggregationBucket>>;
+    getBucketData(): Map<string, Map<string, IMapAggregationBucket | null>>;
 
     /**
      * It sets the bucket data.
      * 
      * @param bucketData 
      */
-    setBucketData(bucketData: Map<string, Map<string, IMapAggregationBucket>>): void;
+    setBucketData(bucketData: Map<string, Map<string, IMapAggregationBucket | null>>): void;
 }
 export default IMarkerLayerToolState;

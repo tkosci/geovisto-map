@@ -6,7 +6,7 @@ import {
 
 // leaflet
 import {
-    Icon,
+    MarkerCluster,
     MarkerClusterGroup
 } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -27,29 +27,35 @@ import {
 
 // Geovisto Themes Tool API
 import {
+    IMapTheme,
     IThemesToolAPI,
-    IThemesToolAPIGetter
+    IThemesToolAPIGetter,
+    IThemesToolEvent
 } from '../../../../../themes';
 
 // Geovisto core
 import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
 import DataChangeEvent from '../../../../../../model/internal/event/data/DataChangeEvent';
+import DataManagerChangeEvent from '../../../../../../model/internal/event/data/DataManagerChangeEvent';
 import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
+import IDataChangeAnimateOptions from '../../../../../../model/types/event/data/IDataChangeAnimateOptions';
 import IMapDataDomain from '../../../../../../model/types/data/IMapDataDomain';
 import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMapAggregationBucket';
 import IMapAggregationFunction from '../../../../../../model/types/aggregation/IMapAggregationFunction';
 import IMapData from '../../../../../../model/types/data/IMapData';
+import IMapDataChangeEvent from '../../../../../../model/types/event/data/IMapDataChangeEvent';
 import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
-import IMapDimension from '../../../../../../model/types/dimension/IMapDimension';
+import IMapDomainDimension from '../../../../../../model/types/dimension/IMapDomainDimension';
 import IMapDomain from '../../../../../../model/types/domain/IMapDomain';
 import IMapEvent from '../../../../../../model/types/event/IMapEvent';
 import IMapForm from '../../../../../../model/types/form/IMapForm';
 import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
 import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
-import LayerToolRedrawEnum from '../../../../../../model/types/layer/LayerToolRedrawEnum';
+import LayerToolRenderType from '../../../../../../model/types/layer/LayerToolRenderType';
 
+import { createClusterMarkersData, createMarkerIconValueOptions, createPopupMessage } from '../marker/MarkerUtil';
 import IMarker from '../../types/marker/IMarker';
-import IMarkerIconOptions from '../../types/marker/IMarkerIconOptions';
+import { IMarkerIconOptions, IMarkerIconValueOptions } from '../../types/marker/IMarkerIconOptions';
 import IMarkerLayerTool from '../../types/tool/IMarkerLayerTool';
 import { IMarkerLayerToolConfig } from '../../types/tool/IMarkerLayerToolConfig';
 import IMarkerLayerToolDefaults from '../../types/tool/IMarkerLayerToolDefaults';
@@ -60,6 +66,7 @@ import Marker from '../marker/Marker';
 import MarkerLayerToolDefaults from './MarkerLayerToolDefaults';
 import MarkerLayerToolMapForm from '../form/MarkerLayerToolMapForm';
 import MarkerLayerToolState from './MarkerLayerToolState';
+import IMarkerIcon from '../../types/marker/IMarkerIcon';
 
 /**
  * This class represents Marker layer tool. It works with geojson polygons representing countries.
@@ -185,36 +192,15 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
             // create cluster icon
             iconCreateFunction: (cluster) => {
                 // take child markers and construct options for the parent marker
-                const markers: Marker<Icon<IMarkerIconOptions>>[] = cluster.getAllChildMarkers() as Marker<Icon<IMarkerIconOptions>>[];
-                const values = { id: "<Group>", value: 0, subvalues: new Map<string, number>() };
-                let currentIcon: Icon<IMarkerIconOptions>;
-                let subvalue: number | undefined;
-                // go through all child markers and calculate sum of their values and subvalues
-                for (let i = 0; i < markers.length; i++) {
-                    currentIcon = markers[i].getIcon();
-                    values.value += (currentIcon)?.options.values.value;
-                    for(const [key, value] of (currentIcon)?.options.values.subvalues) {
-                        subvalue = values.subvalues.get(key);
-                        if(subvalue == undefined) {
-                            values.subvalues.set(key, value);
-                        } else {
-                            values.subvalues.set(key, value + subvalue);
-                        }
-                    }
-                }
-                // create icon for the parent marker
-                const icon = this.getDefaults().getMarkerIcon({
-                    values: values,
-                    isGroup: true,
-                    useDonut: markers[0].getIcon()?.options.useDonut
-                });
-                return icon;
+                const markers: IMarker<IMarkerIcon<IMarkerIconOptions>>[] = cluster.getAllChildMarkers() as Marker<IMarkerIcon<IMarkerIconOptions>>[];
+                const markerOptions: IMarkerIconOptions = createClusterMarkersData(markers);
+                // create an icon for the parent marker
+                return this.getDefaults().getMarkerIcon(markerOptions);
             }
         });
 
         // update state and redraw
         this.getState().setMarkerLayerGroup(markerLayerGroup);
-        this.redraw(LayerToolRedrawEnum.DATA);
 
         return [ markerLayerGroup ];
     }
@@ -240,16 +226,16 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
     /**
      * It prepares data for markers.
      */
-    protected updateData(): Map<string, Map<string, IMapAggregationBucket>> {
+    protected updateData(): Map<string, Map<string, IMapAggregationBucket | null>> {
         // initialize a hash map of aggreation buckets
-        const bucketMaps = new Map<string, Map<string, IMapAggregationBucket>>();
+        const bucketMaps = new Map<string, Map<string, IMapAggregationBucket | null>>();
 
         // get dimensions
         const dimensions: IMarkerLayerToolDimensions = this.getState().getDimensions();
-        const geoDimension: IMapDataDomain | undefined = dimensions.geoId.getDomain();
-        const valueDimension: IMapDataDomain | undefined = dimensions.value.getDomain();
-        const aggregationDimension: IMapAggregationFunction | undefined = dimensions.aggregation.getDomain();
-        const categoryDimension: IMapDataDomain | undefined = dimensions.category.getDomain();
+        const geoDimension: IMapDataDomain | undefined = dimensions.geoId.getValue();
+        const valueDimension: IMapDataDomain | undefined = dimensions.value.getValue();
+        const aggregationDimension: IMapAggregationFunction | undefined = dimensions.aggregation.getValue();
+        const categoryDimension: IMapDataDomain | undefined = dimensions.category.getValue();
         const map = this.getMap();
 
         // test whether the dimension are set
@@ -259,8 +245,8 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
             const dataLen: number = data.length;
             let foundGeos: unknown[], foundValues: unknown[], foundCategories: unknown[], foundCategory: string;
             
-            let bucketMap: Map<string, IMapAggregationBucket> | undefined;
-            let aggregationBucket: IMapAggregationBucket | undefined;
+            let bucketMap: Map<string, IMapAggregationBucket | null> | undefined;
+            let aggregationBucket: IMapAggregationBucket | null | undefined;
             for (let i = 0; i < dataLen; i++) {
                 // find the 'geo' properties of the data record
                 foundGeos = mapData.getDataRecordValues(geoDimension, data[i]);
@@ -269,7 +255,7 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
                     // get the aggregation bucket map for the country or create a new one
                     bucketMap = bucketMaps.get(foundGeos[0]);
                     if(!bucketMap) {
-                        bucketMap = new Map<string, IMapAggregationBucket>();
+                        bucketMap = new Map<string, IMapAggregationBucket | null>();
                         bucketMaps.set(foundGeos[0], bucketMap);
                     }
                     // find the 'category' properties
@@ -301,25 +287,31 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
     /**
      * It creates markers using bucket data
      */
-    protected createMarkers(): IMarker<Icon<IMarkerIconOptions>>[] {
+    protected createMarkers(): IMarker<IMarkerIcon<IMarkerIconOptions>>[] {
         // create markers
-        const markers: IMarker<Icon<IMarkerIconOptions>>[] = [];
+        const markers: IMarker<IMarkerIcon<IMarkerIconOptions>>[] = [];
 
-        const bucketMaps: Map<string, Map<string, IMapAggregationBucket>> = this.getState().getBucketData();
+        const bucketMaps: Map<string, Map<string, IMapAggregationBucket | null>> = this.getState().getBucketData();
         const layerGroup: L.LayerGroup | undefined = this.getState().getMarkerLayerGroup();
-        const pointFeatures: Feature[] | undefined = this.getState().getDimensions().geoData.getDomain()?.getFeatures([ GeoJSONTypes.Point ]).features;
+        const pointFeatures: Feature[] | undefined = this.getState().getDimensions().geoData.getValue()?.getFeatures([ GeoJSONTypes.Point ]).features;
         const selectedIds: string[] | undefined = this.getSelectionTool()?.getSelection()?.getIds();
+
+
+        // optimization
+        const geoDimension: IMapDataDomain | undefined = this.getState().getDimensions().geoId.getValue();
 
         // iterate over point features
         let pointFeature: Feature;
-        let bucketMap: Map<string, IMapAggregationBucket> | undefined;
-        let marker: IMarker<Icon<IMarkerIconOptions>>;
-        if(pointFeatures) {
+        let bucketMap: Map<string, IMapAggregationBucket | null> | undefined;
+        let marker: IMarker<IMarkerIcon<IMarkerIconOptions>>;
+        if(pointFeatures && geoDimension) {
             for(let i = 0; i < pointFeatures.length; i++) {
                 pointFeature = pointFeatures[i];
                 if(pointFeature.id) {
                     bucketMap = bucketMaps.get(pointFeature.id.toString());
                     if(bucketMap && (!selectedIds || selectedIds.includes(pointFeature.id.toString()))) {
+                        // sort entries according to the keys
+                        bucketMap = new Map([...bucketMap.entries()].sort());
                         // create marker
                         marker = this.createMarker(pointFeature, bucketMap);
                         layerGroup?.addLayer(marker);
@@ -341,50 +333,68 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
      * @param pointFeature 
      * @param data 
      */
-    protected createMarker(pointFeature: Feature, bucketMap: Map<string, IMapAggregationBucket>): IMarker<Icon<IMarkerIconOptions>> {
-        // help function for popup numbers
-        const formatPopUpNumber = function(num: number) {
-            const numParts = num.toString().split(".");
-            numParts[0] = numParts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-            return numParts.join(".");
-        };
-
-        // build categories popup messages
-        let popupMsg = "";
-        let subValue, value = 0;
-        const subValuesMap = new Map<string, number>();
-        for(const [category, bucket] of bucketMap) {
-            subValue = bucket.getValue();
-            popupMsg += category + ": " + formatPopUpNumber(subValue) + "<br>";
-            value += subValue;
-            subValuesMap.set(category, subValue);
-        }
-
-        // prepend title popup message
-        popupMsg = "<b>" + pointFeature.properties?.name + "</b><br>" + (value != null ? formatPopUpNumber(value) : "N/A") + "<br><br>"
-                    + popupMsg;
-
+    protected createMarker(pointFeature: Feature, bucketMap: Map<string, IMapAggregationBucket | null>): IMarker<IMarkerIcon<IMarkerIconOptions>> {
         // create icon
         const icon = this.getDefaults().getMarkerIcon({
-            useDonut: this.getState().getDimensions().category.getDomain() !== undefined,
+            id: pointFeature.properties?.name,
+            useDonut: this.getState().getDimensions().category.getValue() !== undefined,
             isGroup: false,
-            values: {
-                id: pointFeature.properties?.name,
-                value: value,
-                subvalues: subValuesMap
-            }
+            values: createMarkerIconValueOptions(bucketMap),
+            categories: this.getState().getCurrentDataCategories() ?? []
         });
 
         // create marker
         const coordinates = (pointFeature.geometry as Point).coordinates;
         const marker = this.getDefaults().getMarker([coordinates[0], coordinates[1]], {
+            id: pointFeature.id?.toString() ?? "",
+            name: pointFeature.properties?.name,
             icon: icon
         });
 
         // create popop
-        marker.bindPopup(popupMsg);
+        marker.bindPopup(createPopupMessage(pointFeature.properties?.name ?? "", bucketMap));
 
         return marker;
+    }
+    
+    /**
+     * Help method which updates existing markers and applies animation options
+     * 
+     * @param animateOptions 
+     */
+    protected updateMarkers(animateOptions: IDataChangeAnimateOptions): void {
+        const layerGroup = this.getState().getMarkerLayerGroup();
+        if (layerGroup) {
+            const bucketMaps: Map<string, Map<string, IMapAggregationBucket | null>> = this.getState().getBucketData();
+
+            // modify existing markers stored in the tool state
+            this.getState().getMarkers().forEach((marker: IMarker<IMarkerIcon<IMarkerIconOptions>>) => {
+                const bucketData: Map<string, IMapAggregationBucket | null> = bucketMaps.get(marker.getOptions().id) ?? new Map<string, IMapAggregationBucket | null>();
+                const markerIconValueOptions: IMarkerIconValueOptions = createMarkerIconValueOptions(bucketData);
+
+                marker.getIcon().updateData(markerIconValueOptions, animateOptions);
+                marker.getPopup()?.setContent(createPopupMessage(
+                    marker.getOptions().name,
+                    bucketData
+                ));
+                
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                (layerGroup as any)._flagParentsIconsNeedUpdate([marker]);
+            });
+
+            // update cluster markers as well
+            // TODO use piublic API
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            (layerGroup as any)._featureGroup.eachLayer(function (marker: MarkerCluster) {
+                if (marker instanceof MarkerCluster) {
+                    const markers: Marker<IMarkerIcon<IMarkerIconOptions>>[] = marker.getAllChildMarkers() as Marker<IMarkerIcon<IMarkerIconOptions>>[];
+                    const markerOptions: IMarkerIconOptions = createClusterMarkersData(markers);
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    (marker.getIcon() as any)._iconObj.updateData(markerOptions, animateOptions.transitionDuration, animateOptions.transitionDelay);
+                }
+            });
+        }
+        return;
     }
 
     /**
@@ -394,21 +404,21 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
      * @param value 
      * @param redraw 
      */
-    public updateDimension(dimension: IMapDimension<IMapDomain>, value: string, redraw: number | undefined): void {
+    public updateDimension(dimension: IMapDomainDimension<IMapDomain>, value: string, redraw: number | undefined): void {
         if(!redraw) {
             const dimensions = this.getState().getDimensions();
             switch (dimension) {
                 case dimensions.geoData:
-                    redraw = LayerToolRedrawEnum.LAYER;
+                    redraw = LayerToolRenderType.LAYER;
                     break;
                 case dimensions.geoId:
                 case dimensions.value:
                 case dimensions.category:
                 case dimensions.aggregation:
-                    redraw = LayerToolRedrawEnum.DATA;
+                    redraw = LayerToolRenderType.DATA;
                     break;
                 default:
-                    redraw = LayerToolRedrawEnum.STYLE;
+                    redraw = LayerToolRenderType.STYLE;
                     break;
             }
         }
@@ -418,19 +428,44 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
     /**
      * It reloads data and redraw the layer.
      */
-    public redraw(type: number): void {
+    public render(type: number, animateOptions?: IDataChangeAnimateOptions): void {
         switch (type) {
-            case LayerToolRedrawEnum.LAYER:
-            case LayerToolRedrawEnum.DATA:
+            case LayerToolRenderType.LAYER:
+            case LayerToolRenderType.DATA:
+                if(!animateOptions) {
+                    this.updateCategoryValues(); 
+                }
                 this.updateData();
-                this.deleteLayerItems();
-                this.createMarkers();
+                if(animateOptions) {
+                    this.updateMarkers(animateOptions); 
+                } else {
+                    this.deleteLayerItems();
+                    this.createMarkers();
+                }
                 break;
             default:
                 // update style
                 // TODO
                 //this.updateStyle();
                 break;
+        }
+    }
+    
+    /**
+     * Help function which updates the current category values based on map current data.
+     * 
+     * This should be called only when animated render is not required.
+     */
+    protected updateCategoryValues(): void {
+        // if animation is not required, categories should be updated
+        const dataDomain: IMapDataDomain | undefined = this.getState().getDimensions().category.getValue();
+        const map = this.getMap();
+        if(dataDomain && map) {
+                this.getState().setCurrentDataCategories(map.getState().getMapData().getDataRecordsValues(
+                    dataDomain, // category data domain
+                    map.getState().getCurrentData() // of current data
+                ).map((value: unknown) => new String(value).toString()) // map to string
+            );
         }
     }
 
@@ -441,16 +476,35 @@ class MarkerLayerTool extends AbstractLayerTool implements IMarkerLayerTool, IMa
      */
     public handleEvent(event: IMapEvent): void {
         switch (event.getType()) {
+            case DataManagerChangeEvent.TYPE():
+                this.render(LayerToolRenderType.DATA);
+                break;
             case DataChangeEvent.TYPE():
+                this.render(LayerToolRenderType.DATA, (<IMapDataChangeEvent> event).getAnimateOptions());
+                break;
             case this.getSelectionTool()?.getChangeEventType():
-                this.redraw(LayerToolRedrawEnum.DATA);
+                this.render(LayerToolRenderType.DATA);
                 break;
             case this.getThemesTool()?.getChangeEventType():
-                this.redraw(LayerToolRedrawEnum.STYLE);
+                this.updateTheme((<IThemesToolEvent> event).getChangedObject());
+                this.render(LayerToolRenderType.STYLE);
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * Help function which updates theme with respect to the Themes Tool API.
+     * 
+     * TODO: move to adapter
+     * 
+     * @param theme 
+     */
+    protected updateTheme(theme: IMapTheme): void {
+        document.documentElement.style.setProperty('--leaflet-marker-donut1', theme.getDataColors().triadic1);
+        document.documentElement.style.setProperty('--leaflet-marker-donut2', theme.getDataColors().triadic2);
+        document.documentElement.style.setProperty('--leaflet-marker-donut3', theme.getDataColors().triadic3);
     }
 }
 

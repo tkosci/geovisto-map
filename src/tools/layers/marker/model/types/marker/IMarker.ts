@@ -1,17 +1,23 @@
 // Leaflet
 import {
-    Icon,
     Marker
 } from "leaflet";
 
-import IMarkerIconOptions from "./IMarkerIconOptions";
+import IMarkerIcon from "./IMarkerIcon";
+import { IMarkerIconOptions } from "./IMarkerIconOptions";
+import IMarkerOptions from "./IMarkerOptions";
 
 /**
  * This intreface extends Leaflet Marker in order to work with generic icon type.
  * 
  * @author Jiri Hynek
  */
- interface IMarker<T extends Icon<IMarkerIconOptions>> extends Marker {
+ interface IMarker<T extends IMarkerIcon<IMarkerIconOptions>> extends Marker {
+    
+    /**
+     * It returns the marker options.
+     */
+    getOptions(): IMarkerOptions;
 
     /**
      * It sets the marker icon.

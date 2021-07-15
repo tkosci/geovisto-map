@@ -5,11 +5,11 @@ import IMapEvent from "./IMapEvent";
  * 
  * @author Jiri Hynek
  */
-interface IMapChangeEvent extends IMapEvent {
+interface IMapChangeEvent<T extends unknown = unknown> extends IMapEvent {
 
     /**
      * Return the changed object.
      */
-    getChangedObject(): unknown;
+    getChangedObject(): T;
 }
 export default IMapChangeEvent;

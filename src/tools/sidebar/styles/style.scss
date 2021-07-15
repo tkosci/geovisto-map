@@ -1,7 +1,35 @@
-// Sidebar
+:root {
+    //sidebar tabs header
+    --leaflet-sidebar-primary-bg: rgba(55, 71, 79, 0.9);
+    --leaflet-sidebar-primary-fg: white;
+    //sidebar content
+    --leaflet-sidebar-secondary-bg: rgba(240, 240, 240, 0.8);
+    --leaflet-sidebar-secondary-fg: black;
+    //sidebar header disabled
+    --leaflet-sidebar-disabled-bg: rgba(55, 71, 79, 0.4);
+    --leaflet-sidebar-disabled-fg: rgba(240, 240, 240, 0.8);
+    --geovisto-input-autocomplete-value-bg: white;
+    --geovisto-input-autocomplete-value-fg: black;
+    --geovisto-input-autocomplete-value-notmatch-bg: #e6e6e6;
+    --geovisto-input-autocomplete-value-notmatch-fg: #999999;
+    --geovisto-input-autocomplete-value-placeholder: #d9d9d9;
+    --geovisto-input-autocomplete-value-hover: #cccccc;
+}
 
-.leaflet-bar a {
-    background-color: rgba(255, 255, 255, 0.6);
+// Sidebar
+.leaflet-bar a,
+.leaflet-sidebar-tabs>li,
+.leaflet-sidebar-tabs>ul>li {
+    background-color: var(--leaflet-sidebar-secondary-bg);
+    color: var(--leaflet-sidebar-secondary-fg);
+    border: 1px, solid, black;
+}
+
+.leaflet-bar a:hover,
+.leaflet-sidebar-tabs>ul>li:hover {
+    background-color: var(--leaflet-sidebar-primary-bg);
+    color: var(--leaflet-sidebar-primary-fg);
+    opacity: 80%;
 }
 
 .leaflet-container {
@@ -9,24 +37,22 @@
 }
 
 .leaflet-sidebar-header {
-    background-color: rgba(55, 71, 79, 0.4);
+    background-color: var(--leaflet-sidebar-disabled-bg);
+    color: var(--leaflet-sidebar-disabled-fg);
 }
 
-.leaflet-sidebar-header.enabled {
-    background-color: rgba(55, 71, 79, 0.9);
-}
-
+.leaflet-sidebar-header.enabled,
 .leaflet-sidebar-tabs>li.active,
 .leaflet-sidebar-tabs>ul>li.active {
-    background-color: rgba(55, 71, 79, 0.9);
+    background-color: var(--leaflet-sidebar-primary-bg);
+    color: var(--leaflet-sidebar-primary-fg);
 }
 
-.leaflet-sidebar-tabs {
-    background-color: rgba(255, 255, 255, 0.6);
-}
-
+.leaflet-sidebar-tabs,
 .leaflet-sidebar-content {
-    background-color: rgba(240, 240, 240, 0.8);
+    background-color: var(--leaflet-sidebar-secondary-bg);
+    color: var(--leaflet-sidebar-secondary-fg);
+    border: grey;
 }
 
 .leaflet-sidebar-tab-content {
@@ -36,11 +62,11 @@
 .leaflet-sidebar-pane {
     padding-left: 10px;
     height: 100%;
-    color: gray;
+    color: var(--leaflet-sidebar-disabled-bg);
 }
 
 .leaflet-sidebar-pane.enabled {
-    color: black
+    color: var(--leaflet-sidebar-secondary-fg);
 }
 
 .leaflet-sidebar-tabs>ul>li.active {
@@ -48,8 +74,11 @@
 }
 
 // Autocomplete sidebar tab inputs
-
-.geovisto-input-autocomplete {
+.geovisto-input-autocomplete,
+.geovisto-input-range,
+.geovisto-input-colorPicker,
+.geovisto-input-checkbox,
+.geovisto-input-text-labeled {
     height: 30px;
     padding-bottom: 0px;
     align-items: center;
@@ -57,7 +86,11 @@
     display: flex;
 }
 
-.geovisto-input-autocomplete-label {
+.geovisto-input-autocomplete-label,
+.geovisto-input-range-label,
+.geovisto-input-colorPicker-label,
+.geovisto-input-checkbox-label,
+.geovisto-input-text-labeled-label {
     width: 25%;
     height: 30px;
     float: left;
@@ -65,12 +98,14 @@
     justify-content: flex-end;
     padding-right: 10px;
     display: flex;
-    color: rgb(0, 0, 0);
+    min-width: 95px;
+    text-align: right;
 }
 
-.geovisto-input-autocomplete-component {
+.geovisto-input-autocomplete-component,
+.geovisto-input-range-component,
+.geovisto-input-text-labeled-component {
     position: relative;
-    width: 50%;
     height: 30px;
     float: left;
     align-items: center;
@@ -78,20 +113,29 @@
     display: flex;
 }
 
-.geovisto-input-autocomplete-value {
+.geovisto-input-autocomplete-value::placeholder {
+    color: var(--geovisto-input-autocomplete-value-placeholder);
+}
+
+.geovisto-input-autocomplete-value,
+.geovisto-input-text-input {
     position: relative;
     width: 100%;
     height: 25px;
     border-radius: 3px;
     border: 1px solid hsla(189, 49%, 52%, 0.8);
     padding-left: 5px;
+    background: var(--geovisto-input-autocomplete-value-bg);
+    color: var(--geovisto-input-autocomplete-value-fg);
 }
 
-.geovisto-input-autocomplete-value:focus {
+.geovisto-input-autocomplete-value:focus,
+.geovisto-input-text-input:focus {
     outline: none;
 }
 
-.geovisto-input-autocomplete-value:disabled {
+.geovisto-input-autocomplete-value:disabled,
+.geovisto-input-text-input:disabled {
     background-color: #c2c2c29d;
 }
 
@@ -118,7 +162,8 @@
     padding-bottom: 3px;
     padding-top: 3px;
     width: 100%;
-    background: #ffffff;
+    background: var(--geovisto-input-autocomplete-value-bg);
+    color: var(--geovisto-input-autocomplete-value-fg);
     margin: auto;
 }
 
@@ -127,20 +172,14 @@
     padding-bottom: 3px;
     padding-top: 3px;
     width: 100%;
-    background: #f5f5f5f0;
+    background: var(--geovisto-input-autocomplete-value-notmatch-bg);
     border-top: 1px solid #c7c7c7f0;
-    color: #0000008b;
+    color: var(--geovisto-input-autocomplete-value-notmatch-fg);
     margin: auto;
 }
 
-.geovisto-input-autocomplete-option-m:hover {
-    background: #DAEFF2;
-}
-
-.geovisto-input-autocomplete-option-n:hover {
-    background: #DAEFF2;
-}
-
+.geovisto-input-autocomplete-option-m:hover,
+.geovisto-input-autocomplete-option-n:hover,
 .geovisto-input-autocomplete-option-a {
-    background: #DAEFF2;
+    background: var(--geovisto-input-autocomplete-value-hover);
 }

@@ -1,5 +1,6 @@
 // Geovisto core
 import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
+import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
 import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
 
@@ -9,6 +10,9 @@ import IMarkerLayerToolDefaults from "../../types/tool/IMarkerLayerToolDefaults"
 import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";
 import IMarkerLayerToolProps from "../../types/tool/IMarkerLayerToolProps";
 import IMarkerLayerToolState from "../../types/tool/IMarkerLayerToolState";
+import IMarker from "../../types/marker/IMarker";
+import { IMarkerIconOptions } from "../../types/marker/IMarkerIconOptions";
+import IMarkerIcon from "../../types/marker/IMarkerIcon";
 
 /**
  * This class provide functions for using the state of the layer tool.
@@ -17,7 +21,8 @@ import IMarkerLayerToolState from "../../types/tool/IMarkerLayerToolState";
  */
 class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolState {
 
-    private markers!: L.Marker[];
+    private markers!: IMarker<IMarkerIcon<IMarkerIconOptions>>[];
+    private currentDataCategories!: string[];
     private bucketData!: Map<string, Map<string, IMapAggregationBucket>>;
     private layerGroup?: L.LayerGroup;
 
@@ -55,6 +60,19 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
 
         // set super props
         super.initialize(defaults, props, initProps);
+
+        // set string representations of current data values of category data domain 
+        const categoryDomain: IMapDataDomain | undefined = this.getDimensions().category.getValue();
+        if(categoryDomain) {
+            this.setCurrentDataCategories(initProps.map.getState().getMapData().getDataRecordsValues(
+                    categoryDomain, // category data domain
+                    initProps.map.getState().getCurrentData() // of current data
+                ).map((value: unknown) => new String(value).toString()) // map to string
+                .sort()
+            );
+        } else {
+            this.setCurrentDataCategories([]);
+        }
     }
 
     /**
@@ -76,11 +94,11 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
      */
     public deserializeDimensions(dimensionsConfig: IMarkerLayerToolDimensionsConfig): void {
         const dimensions = this.getDimensions();
-        if(dimensionsConfig.geoData) dimensions.geoData.setDomain(dimensions.geoData.getDomainManager().getDomain(dimensionsConfig.geoData));
-        if(dimensionsConfig.geoId) dimensions.geoId.setDomain(dimensions.geoId.getDomainManager().getDomain(dimensionsConfig.geoId));
-        if(dimensionsConfig.value) dimensions.value.setDomain(dimensions.value.getDomainManager().getDomain(dimensionsConfig.value));
-        if(dimensionsConfig.aggregation) dimensions.aggregation.setDomain(dimensions.aggregation.getDomainManager().getDomain(dimensionsConfig.aggregation));
-        if(dimensionsConfig.category) dimensions.category.setDomain(dimensions.category.getDomainManager().getDomain(dimensionsConfig.category));
+        if(dimensionsConfig.geoData) dimensions.geoData.setValue(dimensions.geoData.getDomainManager().getDomain(dimensionsConfig.geoData));
+        if(dimensionsConfig.geoId) dimensions.geoId.setValue(dimensions.geoId.getDomainManager().getDomain(dimensionsConfig.geoId));
+        if(dimensionsConfig.value) dimensions.value.setValue(dimensions.value.getDomainManager().getDomain(dimensionsConfig.value));
+        if(dimensionsConfig.aggregation) dimensions.aggregation.setValue(dimensions.aggregation.getDomainManager().getDomain(dimensionsConfig.aggregation));
+        if(dimensionsConfig.category) dimensions.category.setValue(dimensions.category.getDomainManager().getDomain(dimensionsConfig.category));
     }
 
     /**
@@ -94,11 +112,11 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
         // serialize the layer tool properties
         const dimensions = this.getDimensions();
         config.data = {
-            geoData: dimensions.geoData.getDomain()?.getName(),
-            geoId: dimensions.geoId.getDomain()?.getName(),
-            value: dimensions.value.getDomain()?.getName(),
-            aggregation: dimensions.aggregation.getDomain()?.getName(),
-            category: dimensions.category.getDomain()?.getName(),
+            geoData: dimensions.geoData.getValue()?.getName(),
+            geoId: dimensions.geoId.getValue()?.getName(),
+            value: dimensions.value.getValue()?.getName(),
+            aggregation: dimensions.aggregation.getValue()?.getName(),
+            category: dimensions.category.getValue()?.getName(),
         };
 
         return config;
@@ -139,7 +157,7 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
     /**
      * It returns the markers.
      */
-    public getMarkers(): L.Marker[] {
+    public getMarkers(): IMarker<IMarkerIcon<IMarkerIconOptions>>[] {
         return this.markers;
     }
 
@@ -148,8 +166,26 @@ class MarkerLayerToolState extends LayerToolState implements IMarkerLayerToolSta
      * 
      * @param markers 
      */
-    public setMarkers(markers: L.Marker[]): void {
+    public setMarkers(markers: IMarker<IMarkerIcon<IMarkerIconOptions>>[]): void {
         this.markers = markers;
+    }
+
+    /**
+     * It returns the current data categories.
+     * 
+     * @param currentDataCategories 
+     */
+    public getCurrentDataCategories(): string[] {
+        return this.currentDataCategories;
+    }
+
+    /**
+     * It sets the current data categories.
+     * 
+     * @param currentDataCategories 
+     */
+    public setCurrentDataCategories(currentDataCategories: string[]): void {
+        this.currentDataCategories = currentDataCategories;
     }
 
     /**

@@ -1,8 +1,6 @@
 // Leaflet
 import {
-    Icon,
-    LatLngExpression,
-    MarkerOptions
+    LatLngExpression
 } from "leaflet";
 
 // Geovisto core
@@ -11,12 +9,13 @@ import ILayerToolDefaults from "../../../../../../model/types/layer/ILayerToolDe
 import IMap from "../../../../../../model/types/map/IMap";
 import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
 import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDimension from "../../../../../../model/types/dimension/IMapDimension";
+import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
 
 import IMarker from "../marker/IMarker";
-import IMarkerIconOptions from "../marker/IMarkerIconOptions";
+import IMarkerIcon from "../marker/IMarkerIcon";
+import { IMarkerIconOptions } from "../marker/IMarkerIconOptions";
 import IMarkerLayerToolDimensions from "./IMarkerLayerToolDimensions";
-
+import IMarkerOptions from "../marker/IMarkerOptions";
 
 /**
  * This interface provides functions which return the default state values.
@@ -33,27 +32,27 @@ interface IMarkerLayerToolDefaults extends ILayerToolDefaults {
     /**
      * It returns the default geo data dimension.
      */
-    getGeoDataDimension(map?: IMap): IMapDimension<IGeoData>;
+    getGeoDataDimension(map?: IMap): IMapDomainDimension<IGeoData>;
 
     /**
      * It returns the default geo ID dimension.
      */
-    getGeoIdDimension(map?: IMap): IMapDimension<IMapDataDomain>;
+    getGeoIdDimension(map?: IMap): IMapDomainDimension<IMapDataDomain>;
 
     /**
      * It returns the default value dimension.
      */
-    getValueDimension(map?: IMap): IMapDimension<IMapDataDomain>;
+    getValueDimension(map?: IMap): IMapDomainDimension<IMapDataDomain>;
 
     /**
      * It returns the default aggregation function dimension.
      */
-    getAggregationDimension(): IMapDimension<IMapAggregationFunction>;
+    getAggregationDimension(): IMapDomainDimension<IMapAggregationFunction>;
 
     /**
      * It returns the default category dimension.
      */
-    getCategoryDimension(map?: IMap): IMapDimension<IMapDataDomain>;
+    getCategoryDimension(map?: IMap): IMapDomainDimension<IMapDataDomain>;
     
     /**
      * It returns the default geo data.
@@ -66,13 +65,13 @@ interface IMarkerLayerToolDefaults extends ILayerToolDefaults {
      * @param latlng 
      * @param options
      */
-    getMarker(latlng: LatLngExpression, options?: MarkerOptions): IMarker<Icon<IMarkerIconOptions>>;
+    getMarker(latlng: LatLngExpression, options?: IMarkerOptions): IMarker<IMarkerIcon<IMarkerIconOptions>>;
 
     /**
      * It returns new icon for the given options.
      * 
      * @param options 
      */
-     getMarkerIcon(options: IMarkerIconOptions): Icon<IMarkerIconOptions>;
+     getMarkerIcon(options: IMarkerIconOptions): IMarkerIcon<IMarkerIconOptions>;
 }
 export default IMarkerLayerToolDefaults;

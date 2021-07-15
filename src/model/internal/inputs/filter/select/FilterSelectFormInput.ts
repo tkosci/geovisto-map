@@ -112,6 +112,24 @@ class FilterSelectFormInput extends AbstractMapFormInput {
         };
     }
 
+    /*
+     * Sets/removes attribute 'disabled' from input box.
+     */
+    public setDisabled(disabled: boolean): void {
+        if(this.input) {
+            if(disabled == true) {
+                this.input.data?.setAttribute("disabled", "true");
+                this.input.op?.setAttribute("disabled", "true");
+                this.input.val?.setAttribute("disabled", "true");
+            } else {
+                this.input.data?.removeAttribute("disabled");
+                this.input.op?.removeAttribute("disabled");
+                this.input.val?.removeAttribute("disabled");
+            }
+        }
+    }
+      
+
     /**
      * It sets values of the inputs.
      * 

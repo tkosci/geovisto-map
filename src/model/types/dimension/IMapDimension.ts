@@ -1,12 +1,11 @@
 import IMapDomain from "../domain/IMapDomain";
-import IMapDomainManager from "../domain/IMapDomainManager";
 
 /**
  * This interface declares functions for using a map dimension which allows to set a data domain.
  * 
  * @author Jiri Hynek
  */
-interface IMapDimension<T extends IMapDomain> extends IMapDomain {
+interface IMapDimension<T> extends IMapDomain {
 
     /**
      * It sets the name of the dimension.
@@ -14,34 +13,29 @@ interface IMapDimension<T extends IMapDomain> extends IMapDomain {
     setName(name: string): void;
 
     /**
-     * It returns the map domain manager which provides options to the map dimension.
-     */
-    getDomainManager(): IMapDomainManager<T>;
-
-    /**
-     * It sets a map domain which provides options to the map dimension.
-     * 
-     * @param domain 
-     */
-    setDomainManager(domain: IMapDomainManager<T>): void;
-
-    /**
      * It returns the map domain which is set to the map dimension.
      */
-    getDomain(): T | undefined;
+    getValue(): T | undefined;
 
     /**
      * It sets a new map domain to the map dimension.
      * 
      * @param domain 
      */
-    setDomain(domain: T | undefined): void;
+    setValue(domain: T | undefined): void;
 
     /**
-     * It looks for the map domain of the given name and sets it the map dimension.
+     * It finds the value of given string.
      * 
-     * @param domainName 
+     * @param value 
      */
-    setDomainByName(domainName: string): void;
+    findValue(value: string): T | undefined;
+
+    /**
+     * It deserializes the string representation of a given value.
+     * 
+     * @param value 
+     */
+    setStringValue(value: string): void;
 }
 export default IMapDimension;

@@ -59,6 +59,7 @@ class D3PathForceSimulator {
     private forceProps?: SimulationProps;
     private segmentLength: number;
     private paths!: IConnectionLayerPath[];
+    private pathsMap!: Record<string, IConnectionLayerPath[]>;
     private points!: IConnectionLayerPoint[];
     private links!: SimulationLinkDatum<IConnectionLayerPoint>[];
 
@@ -78,6 +79,26 @@ class D3PathForceSimulator {
     protected getDefaultSegmentLength(): number {
         return 50;
     }
+    
+    /**
+     * It returns a structure composed of records (id of connection, list of paths).
+     * 
+     * id of connections is a string value "from-to".
+     * 
+     * This function is used for animated rendering of paths.
+     */
+    public getPathsMap(): Record<string, IConnectionLayerPath []> {
+        if(this.pathsMap == undefined) {
+            this.pathsMap = this.createPathsMap();
+
+            // store paths as well (combine arrays of all identifiers into one array)
+            this.paths = Object.values(this.pathsMap).reduce(
+                (allPaths: IConnectionLayerPath[], curPaths: IConnectionLayerPath[]) => {
+                    return [...allPaths, ...curPaths];
+                }, []);
+        }
+        return this.pathsMap;
+    }
 
     /**
      * It returns the paths.
@@ -88,6 +109,25 @@ class D3PathForceSimulator {
         }
         return this.paths;
     }
+
+    /**
+     * It creates a structure composed of records (id of connection, list of paths).
+     * 
+     * id of connections is a string value "from-to".
+     * 
+     * This function is used for animated rendering of paths.
+     */
+     protected createPathsMap(): Record<string, IConnectionLayerPath[]> {
+        if (!this.props.connections || this.props.connections.length < 1) return {};
+
+        // go through all connections, create path for every connection and add to to the map of paths (indexed by the connection ID)
+        return this.props.connections.reduce(
+            (paths: Record<string, IConnectionLayerPath[]>, connection: IConnectionLayerConnection) => {
+                const path: { id: string; path: IConnectionLayerPath; } = this.createIdPath(connection);
+                // take cumulative array 
+                return { ...paths , [path.id]: [...(paths[path.id] || []), path.path] };
+            }, {});
+     }
 
     /**
      * It creates paths (split connections into segments).
@@ -102,6 +142,20 @@ class D3PathForceSimulator {
         }
 
         return paths;
+    }
+    
+    /**
+     * Help function which cretes a struture composed of id of connection and path.
+     * 
+     * This function is used for animated rendering of paths.
+     * 
+     * @param connection 
+     */
+    protected createIdPath(connection: IConnectionLayerConnection): { id: string, path: IConnectionLayerPath } {
+        const path: IConnectionLayerPath = this.createPath(connection);
+
+        const id = `${connection.source.id}-${connection.target.id}`;
+        return { id, path };
     }
 
     /**

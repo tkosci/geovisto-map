@@ -19,6 +19,13 @@ type IChoroplethLayerToolDimensionsConfig = ILayerToolDimensionsConfig & {
     geoData?: string,
     geoId?: string,
     value?: string,
-    aggregation?: string
+    aggregation?: string,
+    customColor?: boolean,
+    color?: string,
+    range?: number,
+    scaling?: string,
+    customMinMax?: boolean,
+    minValue?: number,
+    maxValue?: number,
 }
 export type { IChoroplethLayerToolConfig, IChoroplethLayerToolDimensionsConfig };

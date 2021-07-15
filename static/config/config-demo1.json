@@ -59,6 +59,13 @@
           "name": "Connection layer settings",
           "icon": "<i class=\"fa fa-road\"></i>",
           "checkButton": true
+        },
+        {
+          "tool": "geovisto-tool-timeline",
+          "enabled": true,
+          "name": "Timeline",
+          "icon": "<i class=\"fa fa-clock-o\" />",
+          "checkButton": true
         }
       ]
     },
@@ -110,7 +117,11 @@
       "data": {
         "country": "from",
         "value": "value",
-        "aggregation": "sum"
+        "aggregation": "sum",
+        "scaling": "median",
+        "range": 7,
+        "customColor": true,
+        "color": "#e32400"
       }
     },
     {
@@ -132,8 +143,28 @@
       "layerName": "Connection layer",
       "data": {
         "from": "from",
-        "to": "to"
+        "to": "to",
+        "animateDirection": false
       }
+    },
+    {
+      "type": "geovisto-tool-timeline",
+      "id": "geovisto-tool-timeline",
+      "enabled": false,
+      "layerName": "Timeline",
+      "data": {
+        "timePath": "",
+        "stepTimeLength": 3000,
+        "transitionDuration": 2500,
+        "storyEnabled": false,
+        "story": "",
+        "realTimeEnabled": false,
+        "granularity": "",
+        "chartEnabled": false,
+        "chartValuePath": "",
+        "chartAggregationFn": ""
+      },
+      "stories": []
     }
   ]
 }

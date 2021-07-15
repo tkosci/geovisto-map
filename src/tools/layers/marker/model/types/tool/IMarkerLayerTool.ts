@@ -25,5 +25,4 @@ interface IMarkerLayerTool<
      */
     copy(): IMarkerLayerTool;
 }
-
 export default IMarkerLayerTool;

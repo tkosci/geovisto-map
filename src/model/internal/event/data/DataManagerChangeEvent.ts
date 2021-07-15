@@ -1,14 +1,14 @@
-import IMapObject from "../../../types/object/IMapObject";
-import IMapChangeEvent from "../../../types/event/IMapChangeEvent";
-import MapChangeEvent from "../generic/MapChangeEvent";
 import IMapDataManager from "../../../types/data/IMapDataManager";
+import IMapDataManagerChangeEvent from "../../../types/event/data/IMapDataManagerChangeEvent";
+import IMapObject from "../../../types/object/IMapObject";
+import MapChangeEvent from "../generic/MapChangeEvent";
 
 /**
  * This class provides the data change event object.
  * 
  * @author Jiri Hynek
  */
-class DataManagerChangeEvent<TSource extends IMapObject> extends MapChangeEvent<TSource, IMapDataManager> implements IMapChangeEvent {
+class DataManagerChangeEvent<TSource extends IMapObject> extends MapChangeEvent<TSource, IMapDataManager> implements IMapDataManagerChangeEvent {
 
     /**
      * It initializes event.

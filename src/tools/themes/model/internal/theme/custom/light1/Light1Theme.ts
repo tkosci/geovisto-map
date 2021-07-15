@@ -4,12 +4,11 @@ import IMapTilesModel from '../../../../../../../model/types/tiles/IMapTilesMode
 import BasicTheme from '../../basic/BasicTheme';
 import IMapTheme from '../../../../types/theme/IMapTheme';
 
-import './style.scss';
-
 /**
  * This class defines a custom theme.
  * 
  * @author Jiri Hynek
+ * @author Jakub Kachlik - advanced color model
  */
 class Light1Theme extends BasicTheme implements IMapTheme {
 
