@@ -22,14 +22,13 @@
 .leaflet-sidebar-tabs>ul>li {
     background-color: var(--leaflet-sidebar-secondary-bg);
     color: var(--leaflet-sidebar-secondary-fg);
-    border: 1px, solid, black;
 }
 
 .leaflet-bar a:hover,
 .leaflet-sidebar-tabs>ul>li:hover {
     background-color: var(--leaflet-sidebar-primary-bg);
     color: var(--leaflet-sidebar-primary-fg);
-    opacity: 80%;
+    opacity: 0.8;
 }
 
 .leaflet-container {
