@@ -41,7 +41,7 @@ class MapDomainDimension<T extends IMapDomain> extends AbstractMapDimension<T> i
     }
 
     /**
-     * It finds the value of given string
+     * It finds the value of given string.
      * 
      * @param domainName 
      */

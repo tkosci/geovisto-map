@@ -6,7 +6,7 @@ import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
 import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
 import IMapTypeDimension from "../../../../../../model/types/dimension/IMapTypeDimension";
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
-import MapDomainDimension from "../../../../../../model/internal/dimension/MapDomainDimension";
+import MapDynamicDomainDimension from "../../../../../../model/internal/dimension/MapDynamicDomainDimension";
 import MapTypeDimension from "../../../../../../model/internal/dimension/MapTypeDimension";
 
 import IConnectionLayerToolDefaults from "../../types/tool/IConnectionLayerToolDefaults";
@@ -67,10 +67,10 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
      * It returns the default geo ID dimension.
      */
     public getGeoDataDimension(map?: IMap): IMapDomainDimension<IGeoData> {
-        return new MapDomainDimension(
+        return new MapDynamicDomainDimension(
             "geo data",
-            map?.getState().getGeoDataManager() ?? this.getGeoDataManager(this.getGeoData()),
-            undefined
+            () => map?.getState().getGeoDataManager() ?? this.getGeoDataManager(this.getGeoData()),
+            ""
         );
     }
 
@@ -78,10 +78,10 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
      * It returns the source geo ID dimension.
      */
     public getFromDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
-        return new MapDomainDimension(
+        return new MapDynamicDomainDimension(
             "from",
-            map?.getState().getMapData() ?? this.getDataManager(),
-            undefined
+            () => map?.getState().getMapData() ?? this.getDataManager(),
+            ""
         );
     }
 
@@ -89,10 +89,10 @@ class ConnectionLayerToolDefaults extends LayerToolDefaults implements IConnecti
      * It returns the target geo ID dimension.
      */
     public getToDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
-        return new MapDomainDimension(
+        return new MapDynamicDomainDimension(
             "to",
-            map?.getState().getMapData() ?? this.getDataManager(),
-            undefined
+            () => map?.getState().getMapData() ?? this.getDataManager(),
+            ""
         );
     }
 

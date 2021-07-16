@@ -3,12 +3,9 @@ import MapThemesManager from "./model/internal/theme/basic/MapThemesManager";
 import Dark1Theme from "./model/internal/theme/custom/dark1/Dark1Theme";
 import Dark2Theme from "./model/internal/theme/custom/dark2/Dark2Theme";
 import Dark3Theme from "./model/internal/theme/custom/dark3/Dark3Theme";
-import GoogleSatTheme from "./model/internal/theme/custom/google/GoogleSatTheme";
-import GoogleTheme from "./model/internal/theme/custom/google/GoogleTheme";
 import Light1Theme from "./model/internal/theme/custom/light1/Light1Theme";
 import Light2Theme from "./model/internal/theme/custom/light2/Light2Theme";
 import Light3Theme from "./model/internal/theme/custom/light3/Light3Theme";
-import MapyCZTheme from "./model/internal/theme/custom/mapycz/MapyCZTheme";
 import ThemesTool from "./model/internal/tool/ThemesTool";
 import ThemesToolAPI from "./model/internal/tool/ThemesToolAPI";
 import IMapTheme from "./model/types/theme/IMapTheme";
@@ -27,10 +24,7 @@ export const GeovistoThemesTool: IThemesToolAPI & {
     createThemeLight3: () => IMapTheme,
     createThemeDark1: () => IMapTheme,
     createThemeDark2: () => IMapTheme,
-    createThemeDark3: () => IMapTheme,
-    createThemeMapyCZ: () => IMapTheme,
-    createThemeGoogle: () => IMapTheme,
-    createThemeGoogleSat: () => IMapTheme,
+    createThemeDark3: () => IMapTheme
 } = { ...ThemesToolAPI,
     createTool: (props) => new ThemesTool(props),
     createThemesManager: (themes) => new MapThemesManager(themes),
@@ -40,8 +34,5 @@ export const GeovistoThemesTool: IThemesToolAPI & {
     createThemeLight3: () => new Light3Theme(),
     createThemeDark1: () => new Dark1Theme(),
     createThemeDark2: () => new Dark2Theme(),
-    createThemeDark3: () => new Dark3Theme(),
-    createThemeMapyCZ: () => new MapyCZTheme(),
-    createThemeGoogle: () => new GoogleTheme(),
-    createThemeGoogleSat: () => new GoogleSatTheme(),
+    createThemeDark3: () => new Dark3Theme()
 };

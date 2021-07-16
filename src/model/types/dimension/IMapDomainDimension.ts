@@ -15,7 +15,7 @@ interface IMapDomainDimension<T extends IMapDomain> extends IMapDimension<T> {
     getDomainManager(): IMapDomainManager<T>;
 
     /**
-     * It sets a map domain which provides options to the map dimension.
+     * It sets a map domain manager which provides options to the map dimension.
      * 
      * @param domain 
      */

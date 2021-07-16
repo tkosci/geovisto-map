@@ -18,6 +18,7 @@ import MapConfigManagerFactory from '../config/MapConfigManagerFactory';
 import MapDataManagerFactory from '../data/MapDataManagerFactory';
 import MapDomainDimension from '../dimension/MapDomainDimension';
 import MapDomainManagerFactory from '../domain/MapDomainManagerFactory';
+import MapDynamicDomainDimension from '../dimension/MapDynamicDomainDimension';
 import MapEventFactory from '../event/MapEventFactory';
 import MapObjectsManager from '../object/MapObjectsManager';
 import MapToolsManager from '../tool/MapToolsManager';
@@ -39,6 +40,7 @@ export const Geovisto: IMapAPI = {
     getIntegerTypeManager: () => new IntegerTypeManager(),
     getStringTypeManager: () => new StringTypeManager(),
     createMapDomainDimension: <T extends IMapDomain>(name: string, domainManager: IMapDomainManager<T>, dataDomain: T | undefined) => new MapDomainDimension<T>(name, domainManager, dataDomain),
+    createMapDynamicDomainDimension: <T extends IMapDomain>(name: string, domainManagerLoader: () => IMapDomainManager<T>, domainName: string) => new MapDynamicDomainDimension<T>(name, domainManagerLoader, domainName),
     createMapTypeDimension: <T, C extends ITypeManager<T> = ITypeManager<T>>(name: string, typeManager: C, value: T | undefined) => new MapTypeDimension<T, C>(name, typeManager, value),
     createMapObjectsManager: <T extends IMapObject>(objects: T[] | undefined) => new MapObjectsManager<T>(objects),
     createMapToolsManager: (tools: IMapTool[]) => new MapToolsManager(tools),

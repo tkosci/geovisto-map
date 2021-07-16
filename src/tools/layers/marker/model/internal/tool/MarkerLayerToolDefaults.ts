@@ -13,6 +13,7 @@ import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDom
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
 import MapDomainDimension from "../../../../../../model/internal/dimension/MapDomainDimension";
 import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
+import MapDynamicDomainDimension from "../../../../../../model/internal/dimension/MapDynamicDomainDimension";
 import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
 
 import IMarker from "../../types/marker/IMarker";
@@ -81,10 +82,10 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
      * It returns the default geo ID dimension.
      */
     public getGeoDataDimension(map?: IMap): IMapDomainDimension<IGeoData> {
-        return new MapDomainDimension(
+        return new MapDynamicDomainDimension(
             "geo-data",
-            map?.getState().getGeoDataManager() ?? this.getGeoDataManager(this.getGeoData()),
-            undefined
+            () => map?.getState().getGeoDataManager() ?? this.getGeoDataManager(this.getGeoData()),
+            ""
         );
     }
 
@@ -92,10 +93,10 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
      * It returns the default geo ID dimension.
      */
     public getGeoIdDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
-        return new MapDomainDimension(
+        return new MapDynamicDomainDimension(
             "geo",
-            map?.getState().getMapData() ?? this.getDataManager(),
-            undefined
+            () => map?.getState().getMapData() ?? this.getDataManager(),
+            ""
         );
     }
 
@@ -103,10 +104,10 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
      * It returns the default value dimension.
      */
     public getValueDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
-        return new MapDomainDimension(
+        return new MapDynamicDomainDimension(
             "value",
-            map?.getState().getMapData() ?? this.getDataManager(),
-            undefined
+            () => map?.getState().getMapData() ?? this.getDataManager(),
+            ""
         );
     }
 
@@ -132,10 +133,10 @@ class MarkerLayerToolDefaults extends LayerToolDefaults implements IMarkerLayerT
      * It returns the default category dimension.
      */
     public getCategoryDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
-        return new MapDomainDimension(
+        return new MapDynamicDomainDimension(
             "category",
-            map?.getState().getMapData() ?? this.getDataManager(),
-            undefined
+            () => map?.getState().getMapData() ?? this.getDataManager(),
+            ""
         );
     }
     

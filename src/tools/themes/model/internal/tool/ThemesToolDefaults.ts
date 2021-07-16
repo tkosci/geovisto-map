@@ -73,7 +73,8 @@ class ThemesToolDefaults extends MapToolDefaults implements IThemesToolDefaults 
             new Light3Theme(),
             new Dark1Theme(),
             new Dark2Theme(),
-            new Dark3Theme()
+            new Dark3Theme(),
+            new BasicTheme()
         ]);
     }
 

@@ -13,6 +13,7 @@ import IntegerTypeManager from "../../../../../../model/internal/type/IntegerTyp
 import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
 import MapDomainDimension from "../../../../../../model/internal/dimension/MapDomainDimension";
 import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
+import MapDynamicDomainDimension from "../../../../../../model/internal/dimension/MapDynamicDomainDimension";
 import MapTypeDimension from "../../../../../../model/internal/dimension/MapTypeDimension";
 import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
 import StringTypeManager from "../../../../../../model/internal/type/StringTypeManager";
@@ -88,10 +89,10 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
      * It returns the default geo ID dimension.
      */
     public getGeoDataDimension(map?: IMap): IMapDomainDimension<IGeoData> {
-        return new MapDomainDimension(
+        return new MapDynamicDomainDimension(
             "geo data",
-            map?.getState().getGeoDataManager() ?? this.getGeoDataManager(this.getGeoData()),
-            undefined
+            () => map?.getState().getGeoDataManager() ?? this.getGeoDataManager(this.getGeoData()),
+            ""
         );
     }
 
@@ -99,10 +100,10 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
      * It returns the default geo ID dimension.
      */
     public getGeoIdDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
-        return new MapDomainDimension(
+        return new MapDynamicDomainDimension(
             "geo id",
-            map?.getState().getMapData() ?? this.getDataManager(),
-            undefined
+            () => map?.getState().getMapData() ?? this.getDataManager(),
+            ""
         );
     }
 
@@ -110,10 +111,10 @@ class ChoroplethLayerToolDefaults extends LayerToolDefaults implements IChorople
      * It returns the default value dimension.
      */
     public getValueDimension(map?: IMap): IMapDomainDimension<IMapDataDomain> {
-        return new MapDomainDimension(
+        return new MapDynamicDomainDimension(
             "value",
-            map?.getState().getMapData() ?? this.getDataManager(),
-            undefined
+            () => map?.getState().getMapData() ?? this.getDataManager(),
+            ""
         );
     }
 

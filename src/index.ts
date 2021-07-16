@@ -25,6 +25,7 @@ export type { default as IMapDataRecordItem } from './model/types/data/IMapDataR
 // dimension
 export type { default as IMapDimension } from './model/types/dimension/IMapDimension';
 export type { default as IMapDomainDimension } from './model/types/dimension/IMapDomainDimension';
+export type { default as IMapDynamicDomainDimension } from './model/types/dimension/IMapDynamicDomainDimension';
 export type { default as IMapTypeDimension } from './model/types/dimension/IMapTypeDimension';
 
 // domain
@@ -130,6 +131,7 @@ export { default as JsonMapDataManager } from './model/internal/data/json/JsonMa
 // dimension
 export { default as AbstractMapDimension } from './model/internal/dimension/AbstractMapDimension';
 export { default as MapDomainDimension } from './model/internal/dimension/MapDomainDimension';
+export { default as MapDynamicDomainDimension } from './model/internal/dimension/MapDynamicDomainDimension';
 export { default as MapTypeDimension } from './model/internal/dimension/MapTypeDimension';
 
 // domain

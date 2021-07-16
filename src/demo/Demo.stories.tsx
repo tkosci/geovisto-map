@@ -247,6 +247,7 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
                                     GeovistoThemesTool.createThemeDark1(),
                                     GeovistoThemesTool.createThemeDark2(),
                                     GeovistoThemesTool.createThemeDark3(),
+                                    GeovistoThemesTool.createThemeBasic()
                                 ])
                             }),
                             GeovistoSelectionTool.createTool({

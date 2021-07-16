@@ -10,6 +10,7 @@ import IMapDomainDimension from "../dimension/IMapDomainDimension";
 import IMapDomain from "../domain/IMapDomain";
 import IMapDomainManager from "../domain/IMapDomainManager";
 import IMapDomainManagerFactory from "../domain/IMapDomainManagerFactory";
+import IMapDynamicDomainDimension from "../dimension/IMapDynamicDomainDimension";
 import IMapEventFactory from "../event/IMapEventFactory";
 import IMapObject from "../object/IMapObject";
 import IMapObjectsManager from "../object/IMapObjectsManager";
@@ -39,6 +40,7 @@ type IMapAPI = {
     getIntegerTypeManager: () => ITypeManager<number>,
     getStringTypeManager: () => ITypeManager<string>,
     createMapDomainDimension: <T extends IMapDomain>(name: string, domainManager: IMapDomainManager<T>, dataDomain: T | undefined) => IMapDomainDimension<T>,
+    createMapDynamicDomainDimension: <T extends IMapDomain>(name: string, domainManagerLoader: () => IMapDomainManager<T>, domainName: string) => IMapDynamicDomainDimension<T>,
     createMapTypeDimension: <T, C extends ITypeManager<T> = ITypeManager<T>>(name: string, typeManager: C, value: T | undefined) => IMapTypeDimension<T, C>,
     createMapObjectsManager: <T extends IMapObject>(objects: T[] | undefined) => IMapObjectsManager<T>
     createMapToolsManager: <T extends IMapTool>(tools: T[]) => IMapToolsManager
