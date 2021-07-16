@@ -1,9 +1,12 @@
 import { createCheck, createIntervalInput } from '../../../components/inputs';
 import { EraseTool, PaintTool } from '../../../tools';
 import { getIntervalStep } from '../../../util/functionUtils';
+import AbstractControl from '../AbstractControl/AbstractControl';
 
-class BrushControl {
+class BrushControl extends AbstractControl {
   constructor(props) {
+    super(props);
+
     this.tabControl = props.tabControl;
     this.tabState = props.tabControl.getState();
   }

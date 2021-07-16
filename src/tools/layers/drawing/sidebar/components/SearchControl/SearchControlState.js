@@ -6,17 +6,20 @@ import osmtogeojson from 'osmtogeojson';
 import { SearchTool, TopologyTool } from '../../../tools';
 import { ADMIN_LEVELS, ICON_SRCS, normalStyles } from '../../../util/constants';
 import { simplifyFeature } from '../../../util/Poly';
+import AbstractControlState from '../AbstractControl/AbstractControlState';
 
-class SearchControlState {
+class SearchControlState extends AbstractControlState {
   constructor(props) {
+    super(props);
+
     this.countries = require('/static/geo/iso3166_countries.json');
     this.countryCode = '';
+
     this.adminLevel = ADMIN_LEVELS[1].value;
+    this.searchOpts = [];
+
     this.highQuality = false;
     this.connectActivated = false;
-
-    this.tabControl = props.tabControl;
-    this.tool = props.tabControl.getTool();
   }
 
   /**

@@ -1,10 +1,13 @@
 import SidebarInputFactory from '../../../../../../inputs/SidebarInputFactory';
 import { createCheck } from '../../../components/inputs';
 import { ADMIN_LEVELS } from '../../../util/constants';
+import AbstractControl from '../AbstractControl/AbstractControl';
 import SearchControlState from './SearchControlState';
 
-class SearchControl {
+class SearchControl extends AbstractControl {
   constructor(props) {
+    super(props);
+
     this.tabControl = props.tabControl;
     this.tabState = props.tabControl.getState();
 

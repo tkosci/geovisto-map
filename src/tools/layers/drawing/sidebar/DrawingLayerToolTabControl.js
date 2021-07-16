@@ -6,7 +6,6 @@ import { MarkerTool, PaintTool, PolygonTool, SearchTool } from '../tools';
 
 import DataControl from './components/DataControl/DataControl';
 import MarkerControl from './components/MarkerControl/MarkerControl';
-import FilterControl from './components/FilterControl/FilterControl';
 import PolyControl from './components/PolyControl/PolyControl';
 import BrushControl from './components/BrushControl/BrushControl';
 import SearchControl from './components/SearchControl/SearchControl';
@@ -62,24 +61,16 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     tabContent.appendChild(this.getTabContent(layerType, enabled));
   }
 
-  /**
-   * gets selected object
-   *
-   * @returns {Layer}
-   */
-  _getSelected() {
-    return this.getTool().getState().selectedLayer;
-  }
-
   initializeControls = () => {
     const controls = {};
 
     controls['DataControl'] = new DataControl({ tabControl: this });
     controls['MarkerControl'] = new MarkerControl({ tabControl: this });
-    controls['FilterControl'] = new FilterControl({ tabControl: this });
     controls['PolyControl'] = new PolyControl({ tabControl: this });
     controls['SearchControl'] = new SearchControl({ tabControl: this });
     controls['BrushControl'] = new BrushControl({ tabControl: this });
+
+    this.getState().controls = controls;
 
     return controls;
   };
@@ -106,19 +97,19 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     if (brushControl) elem.appendChild(brushControl);
 
     if (!layerType) {
-      this.getState().clearFilters();
+      controls['DataControl'].state.clearFilters();
       return tab;
     }
 
     if (layerType === SearchTool.result) {
       controls['SearchControl'].renderSearchInputs(elem, model);
-      this.getState().clearFilters();
+      controls['DataControl'].state.clearFilters();
       return tab;
     }
 
     controls['DataControl'].renderDataInputs(elem, model);
-    controls['FilterControl'].renderDataFilters(elem, model);
-    controls['FilterControl'].renderFilterInputs(elem, model);
+    controls['DataControl'].renderDataFilters(elem, model);
+    controls['DataControl'].renderFilterInputs(elem, model);
 
     if (layerType === PaintTool.result || layerType === PolygonTool.result) {
       const intersectCheck = controls['PolyControl'].createIntersectionCheck();

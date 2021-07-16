@@ -1,8 +1,14 @@
 import SidebarInputFactory from '../../../../../../inputs/SidebarInputFactory';
+import AbstractControl from '../AbstractControl/AbstractControl';
+import DataControlState from './DataControlState';
 
-class DataControl {
+class DataControl extends AbstractControl {
   constructor(props) {
+    super(props);
+
     this.tabControl = props.tabControl;
+
+    this.state = new DataControlState({ tabControl: props.tabControl, control: this });
   }
 
   /**
@@ -17,8 +23,8 @@ class DataControl {
 
     const result = SidebarInputFactory.createSidebarInput(model.idKey.input, {
       label: model.idKey.label,
-      action: this.tabControl.getState().changeWhichIdUseAction,
-      value: this.tabControl.getState().getIdentifierType(),
+      action: this.state.changeWhichIdUseAction,
+      value: this.state.getIdentifierType(),
       options: [{ value: '', label: '' }, ...idOpts],
     });
 
@@ -33,15 +39,15 @@ class DataControl {
   createIdentifierInput = (model) => {
     const data = this.tabControl.getTool()?.getState()?.map?.state?.data;
 
-    const idKey = this.tabControl.getState().getIdentifierType();
+    const idKey = this.state.getIdentifierType();
 
     let idOpts = data && data[0][idKey] ? data.map((d) => d[idKey]) : [];
     idOpts = Array.from(new Set(idOpts));
 
     const result = SidebarInputFactory.createSidebarInput(model.identifier.input, {
       label: model.identifier.label,
-      action: (e) => this.tabControl.getState().changeIdentifierAction(e.target.value),
-      value: this.tabControl._getSelected()?.identifier || '',
+      action: (e) => this.state.changeIdentifierAction(e.target.value),
+      value: this.state._getSelected()?.identifier || '',
       options: idOpts,
       placeholder: 'e.g. CZ',
     });
@@ -50,7 +56,7 @@ class DataControl {
   };
 
   renderDataInputs = (elem, model) => {
-    let disableTextFields = !Boolean(this.tabControl._getSelected());
+    let disableTextFields = !Boolean(this.state._getSelected());
     // Select Pick Identifier
     const inputPickIdentifier = this.createPickIdentifier(model);
     elem.appendChild(inputPickIdentifier.create());
@@ -62,9 +68,9 @@ class DataControl {
     // textarea Description
     const inputDesc = SidebarInputFactory.createSidebarInput(model.description.input, {
       label: model.description.label,
-      action: this.tabControl.getState().changeDescriptionAction,
+      action: this.state.changeDescriptionAction,
       value: DataControl.convertDescfromPopText(
-        this.tabControl._getSelected()?.getPopup()?.getContent(),
+        this.state._getSelected()?.getPopup()?.getContent(),
       ),
     });
     elem.appendChild(inputDesc.create());

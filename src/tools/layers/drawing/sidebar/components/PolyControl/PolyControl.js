@@ -1,10 +1,16 @@
 import SidebarInputFactory from '../../../../../../inputs/SidebarInputFactory';
 import { createCheck } from '../../../components/inputs';
+import AbstractControl from '../AbstractControl/AbstractControl';
+import PolyControlState from './PolyControlState';
 
-class PolyControl {
+class PolyControl extends AbstractControl {
   constructor(props) {
+    super(props);
+
     this.tabControl = props.tabControl;
     this.tabState = props.tabControl.getState();
+
+    this.state = new PolyControlState({ tabControl: props.tabControl, control: this });
   }
 
   /**
