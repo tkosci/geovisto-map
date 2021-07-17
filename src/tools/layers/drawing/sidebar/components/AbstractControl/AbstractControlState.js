@@ -6,7 +6,7 @@ class AbstractControlState {
   }
 
   _getSelected = () => {
-    return this.tool.getState().extraSelected;
+    return this.tool.getState().selectedLayer;
   };
 
   _getExtraSelected = () => {

@@ -4,13 +4,8 @@ import AbstractLayerToolTabControl from '../../abstract/sidebar/AbstractLayerToo
 
 import { MarkerTool, PaintTool, PolygonTool, SearchTool } from '../tools';
 
-import DataControl from './components/DataControl/DataControl';
-import MarkerControl from './components/MarkerControl/MarkerControl';
-import PolyControl from './components/PolyControl/PolyControl';
-import BrushControl from './components/BrushControl/BrushControl';
-import SearchControl from './components/SearchControl/SearchControl';
-
 import '../style/drawingLayerTabControl.scss';
+import { isEmpty } from '../util/functionUtils';
 
 const POLYS = ['polyline', 'polygon', 'painted', 'vertice'];
 
@@ -61,20 +56,6 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     tabContent.appendChild(this.getTabContent(layerType, enabled));
   }
 
-  initializeControls = () => {
-    const controls = {};
-
-    controls['DataControl'] = new DataControl({ tabControl: this });
-    controls['MarkerControl'] = new MarkerControl({ tabControl: this });
-    controls['PolyControl'] = new PolyControl({ tabControl: this });
-    controls['SearchControl'] = new SearchControl({ tabControl: this });
-    controls['BrushControl'] = new BrushControl({ tabControl: this });
-
-    this.getState().controls = controls;
-
-    return controls;
-  };
-
   /**
    * It returns the sidebar tab pane.
    *
@@ -83,12 +64,14 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
    * @returns
    */
   getTabContent(layerType = null, enabled = false) {
-    const controls = this.initializeControls();
+    const { controls } = this.getState();
 
     // tab content
     let tab = document.createElement('div');
     let elem = tab.appendChild(document.createElement('div'));
     elem.classList.add('drawing-sidebar');
+
+    if (isEmpty(controls)) return tab;
 
     // get data mapping model
     let model = this.getDefaults().getDataMappingModel();

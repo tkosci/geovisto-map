@@ -9,7 +9,6 @@ class MarkerControl extends AbstractControl {
     super(props);
 
     this.tabControl = props.tabControl;
-    this.tabState = props.tabControl.getState();
 
     this.state = new MarkerControlState({ tabControl: props.tabControl, control: this });
   }
@@ -21,7 +20,7 @@ class MarkerControl extends AbstractControl {
    */
   createIconPalette() {
     const iconsSet = this.state.iconSrcs;
-    const iconUrl = this.tabControl._getSelected()?.options?.icon?.options?.iconUrl;
+    const iconUrl = this.state._getSelected()?.options?.icon?.options?.iconUrl;
     if (iconUrl) iconsSet.add(iconUrl);
     const activeIcon = this.state.getSelectedIcon();
     const iconsArr = Array.from(iconsSet);
@@ -42,7 +41,7 @@ class MarkerControl extends AbstractControl {
    * @returns {Object} HTML element
    */
   createIconAnchorSlider = (coordinate: 'x' | 'y') => {
-    const selectedEl = this.tabControl._getSelected();
+    const selectedEl = this.state._getSelected();
 
     let iconOptions = selectedEl?.options?.icon?.options || {};
     const iconAnchor = iconOptions.iconAnchor || iconStarter.iconAnchor;

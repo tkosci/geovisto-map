@@ -194,7 +194,7 @@ class PaintTool extends AbstractTool {
    * got through all accumulated circles and out put them on the map
    */
   _redrawShapes = () => {
-    const selectedLayer = this.tabState.getToolState().selectedLayer;
+    const selectedLayer = this.tabState.getTool().getState().selectedLayer;
 
     let simplified = simplifyFeature(this._accumulatedShape);
     let coords = simplified.geometry.coordinates;

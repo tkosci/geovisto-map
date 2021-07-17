@@ -7,9 +7,6 @@ class PolyControl extends AbstractControl {
   constructor(props) {
     super(props);
 
-    this.tabControl = props.tabControl;
-    this.tabState = props.tabControl.getState();
-
     this.state = new PolyControlState({ tabControl: props.tabControl, control: this });
   }
 
@@ -19,8 +16,8 @@ class PolyControl extends AbstractControl {
    * @returns {Object} HTML element
    */
   createIntersectionCheck = () => {
-    const onChange = (val) => this.tabState.setIntersectActivated(val);
-    const { intersectActivated } = this.tabState;
+    const onChange = (val) => this.state.setIntersectActivated(val);
+    const { intersectActivated } = this.state;
 
     const result = createCheck(
       intersectActivated,
@@ -39,12 +36,12 @@ class PolyControl extends AbstractControl {
    */
   renderPolyInputs = (elem, model) => {
     // select stroke thickness
-    const thicknessOpts = this.tabState.strokes;
+    const thicknessOpts = this.state.strokes;
     const inputThickness = SidebarInputFactory.createSidebarInput(model.strokeThickness.input, {
       label: model.strokeThickness.label,
       options: thicknessOpts,
-      action: this.tabState.changeWeightAction,
-      value: this.tabControl._getSelected()?.options?.weight || this.tabState.getSelectedStroke(),
+      action: this.state.changeWeightAction,
+      value: this.state._getSelected()?.options?.weight || this.state.getSelectedStroke(),
     });
     elem.appendChild(inputThickness.create());
 
@@ -63,9 +60,8 @@ class PolyControl extends AbstractControl {
     inputWrapper.appendChild(document.createTextNode('Pick color: '));
     const colorPicker = document.createElement('input');
     colorPicker.setAttribute('type', 'color');
-    colorPicker.onchange = (e) => this.tabState.changeColorAction(e.target.value);
-    colorPicker.value =
-      this.tabControl._getSelected()?.options?.color || this.tabState.getSelectedColor();
+    colorPicker.onchange = (e) => this.state.changeColorAction(e.target.value);
+    colorPicker.value = this.state._getSelected()?.options?.color || this.state.getSelectedColor();
     inputWrapper.appendChild(colorPicker);
     return inputWrapper;
   }

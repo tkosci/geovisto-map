@@ -5,6 +5,8 @@ class DataControlState extends AbstractControlState {
   constructor(props) {
     super(props);
 
+    this.data = props.tabControl.getTool()?.getState()?.map?.state?.data;
+
     this.identifierType = '';
 
     this.filtersAmount = 0;

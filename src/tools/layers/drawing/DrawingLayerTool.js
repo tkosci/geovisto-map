@@ -140,6 +140,7 @@ class DrawingLayerTool extends AbstractLayerTool {
     console.log('%c ...creating', 'color: #ff5108');
     const map = this.getMap().getState().getLeafletMap();
 
+    this.getSidebarTabControl().getState().initializeControls();
     this.initializeDrawingTools();
     useDrawingToolbar();
     this.setGlobalSimplificationTolerance();
@@ -171,7 +172,6 @@ class DrawingLayerTool extends AbstractLayerTool {
     const handleSpaceDown = (e) => handleSpacePress(e, (enabledEl) => enabledEl?.disable());
     const handleSpaceUp = (e) => handleSpacePress(e, (enabledEl) => enabledEl?.enable());
 
-    // TODO:
     document.addEventListener('keydown', handleSpaceDown);
     document.addEventListener('keyup', handleSpaceUp);
 
@@ -335,7 +335,7 @@ class DrawingLayerTool extends AbstractLayerTool {
     TransformTool.initTransform(drawObject);
     this.redrawSidebarTabControl(drawObject.layerType);
 
-    this.tabControl.state.callIdentifierChange(true);
+    this.tabControl.getState().callIdentifierChange(true);
 
     document.querySelector('.leaflet-container').style.cursor = '';
     // * at this point user clicked without holdin 'CTRL' key

@@ -8,9 +8,6 @@ class SearchControl extends AbstractControl {
   constructor(props) {
     super(props);
 
-    this.tabControl = props.tabControl;
-    this.tabState = props.tabControl.getState();
-
     this.state = new SearchControlState({ tabControl: props.tabControl, control: this });
   }
 
@@ -74,10 +71,10 @@ class SearchControl extends AbstractControl {
     // * labeled text Search
     this.inputSearch = SidebarInputFactory.createSidebarInput(model.search.input, {
       label: model.search.label,
-      action: this.tabState.searchAction,
+      action: this.state.searchAction,
       options: [],
       placeholder: 'Press enter for search',
-      setData: this.tabState.onInputOptClick,
+      setData: this.state.onInputOptClick,
     });
     elem.appendChild(this.inputSearch.create());
 
@@ -90,17 +87,17 @@ class SearchControl extends AbstractControl {
     // * labeled text Search
     const inputSearchForArea = SidebarInputFactory.createSidebarInput(model.searchForArea.input, {
       label: model.searchForArea.label,
-      options: this.tabState.getSelectCountries(),
-      action: this.tabState.searchForAreaAction,
-      value: this.tabState.countryCode || '',
+      options: this.state.getSelectCountries(),
+      action: this.state.searchForAreaAction,
+      value: this.state.countryCode || '',
     });
     elem.appendChild(inputSearchForArea.create());
 
     const inputAdminLevel = SidebarInputFactory.createSidebarInput(model.adminLevel.input, {
       label: model.adminLevel.label,
       options: ADMIN_LEVELS,
-      action: this.tabState.pickAdminLevelAction,
-      value: this.tabState.adminLevel,
+      action: this.state.pickAdminLevelAction,
+      value: this.state.adminLevel,
     });
     elem.appendChild(inputAdminLevel.create());
 
@@ -114,7 +111,7 @@ class SearchControl extends AbstractControl {
 
     this.searchForAreasBtn = document.createElement('button');
     this.searchForAreasBtn.innerText = 'Submit';
-    this.searchForAreasBtn.addEventListener('click', this.tabState.fetchAreas);
+    this.searchForAreasBtn.addEventListener('click', this.state.fetchAreas);
     elem.appendChild(this.searchForAreasBtn);
   };
 }
