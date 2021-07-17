@@ -76,14 +76,13 @@ export const polyDiff = (layer, state, intersect = false) => {
   let layerFeature = getFirstGeoJSONFeature(layer);
   let isCurrentLayerPoly = isLayerPoly(layer);
   let createdIsNotEraser = layer.layerType !== 'erased';
-  let createdIsEraser = layer.layerType === 'erased';
 
   if (isCurrentLayerPoly) {
     let selectedLayer = state.selectedLayer;
     // * - if intersect is active execute difference with only selected polygon
     // * - part of condition with 'selectedLayer' is here b/c, when you have intersect on\
     // * without selecting object stroke/object user creates stayes on top of everything
-    if (intersect && createdIsNotEraser && selectedLayer) {
+    if (intersect && createdIsNotEraser && selectedLayer && isLayerPoly(selectedLayer)) {
       diffLayers(selectedLayer, layerFeature, state, true);
     } else {
       let fgLayers = state.featureGroup._layers;
@@ -93,7 +92,7 @@ export const polyDiff = (layer, state, intersect = false) => {
         .forEach((geoObject) => {
           // * we want to avoid damaging selected layer
           let objectIsNotSelected = geoObject?._leaflet_id !== selectedLayer?._leaflet_id;
-          let canDiff = createdIsEraser ? true : objectIsNotSelected;
+          let canDiff = objectIsNotSelected;
           diffLayers(geoObject, layerFeature, state, canDiff);
         });
     }

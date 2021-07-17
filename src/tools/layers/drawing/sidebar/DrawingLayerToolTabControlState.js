@@ -61,6 +61,10 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     return this.controls['DataControl']?.state?.callIdentifierChange(haveToCheckFilters);
   }
 
+  appendToIconSrcs(iconUrl: string) {
+    return this.controls['MarkerControl']?.state?.appendToIconSrcs(iconUrl);
+  }
+
   /**
    * adds guide layer for snapping
    *

@@ -1,4 +1,5 @@
 import union from '@turf/union';
+import { isLayerPoly } from '../util/polyHelpers';
 import { operateOnSelectedAndCurrectLayer } from './shared';
 
 /**
@@ -10,6 +11,7 @@ import { operateOnSelectedAndCurrectLayer } from './shared';
  */
 export const polyJoin = (layer, state) => {
   const selectedLayer = state.selectedLayer;
+  if (!isLayerPoly(selectedLayer)) return layer;
   const { layer: updatedLayer, result } = operateOnSelectedAndCurrectLayer(
     layer,
     union,

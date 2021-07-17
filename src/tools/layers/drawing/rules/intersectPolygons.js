@@ -1,4 +1,5 @@
 import * as turf from '@turf/turf';
+import { isLayerPoly } from '../util/polyHelpers';
 import { operateOnSelectedAndCurrectLayer } from './shared';
 
 /**
@@ -10,6 +11,7 @@ import { operateOnSelectedAndCurrectLayer } from './shared';
  */
 export const polyIntersect = (layer, state) => {
   const selectedLayer = state.selectedLayer;
+  if (!isLayerPoly(selectedLayer)) return layer;
   const { layer: updatedLayer, result } = operateOnSelectedAndCurrectLayer(
     layer,
     turf.intersect,

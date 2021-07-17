@@ -102,13 +102,12 @@ class SearchControlState extends AbstractControlState {
       connectActivated,
     );
     this.tool.applyEventListeners(marker);
-    this.tool.applyTopologyMarkerListeners(marker);
     this.selectedIcon = iconUrl;
-    this.appendToIconSrcs(iconUrl);
+    this.tabControl.getState().appendToIconSrcs(iconUrl);
     if (connectActivated) {
       this.tool.drawingTools[TopologyTool.NAME()].plotTopology();
     }
-    this.tabControl.redrawTabContent('search');
+    this._redrawSidebar('search');
   };
 
   /**
