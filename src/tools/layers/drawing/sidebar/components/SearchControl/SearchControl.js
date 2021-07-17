@@ -1,5 +1,5 @@
 import SidebarInputFactory from '../../../../../../inputs/SidebarInputFactory';
-import { createCheck } from '../../../components/inputs';
+import { createCheck } from '../../../util/inputs';
 import { ADMIN_LEVELS } from '../../../util/constants';
 import AbstractControl from '../AbstractControl/AbstractControl';
 import SearchControlState from './SearchControlState';

@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import difference from '@turf/difference';
-import { getConversionDepth, getFirstGeoJSONFeature, isLayerPoly } from '../util/Poly';
+import { getConversionDepth, getFirstGeoJSONFeature, isLayerPoly } from '../util/polyHelpers';
 import { FIRST, normalStyles } from '../util/constants';
 
 const replaceLayer = (state, replacement, replacedLayer, replacementCoords) => {

@@ -5,7 +5,7 @@ import 'leaflet-draw';
 
 import 'leaflet/dist/leaflet.css';
 
-import { STROKES, COLORS, normalStyles } from '../util/constants';
+import { STROKES, COLORS, normalStyles } from './constants';
 
 import * as turf from '@turf/turf';
 

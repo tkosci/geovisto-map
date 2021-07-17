@@ -9,7 +9,7 @@ import {
   getConversionDepth,
   isLayerPoly,
   simplifyFeature,
-} from '../../util/Poly';
+} from '../../util/polyHelpers';
 import circle from '@turf/circle';
 import { STROKES, highlightStyles, normalStyles } from '../../util/constants';
 import union from '@turf/union';

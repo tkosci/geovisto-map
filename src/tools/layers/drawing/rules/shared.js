@@ -3,7 +3,7 @@ import {
   getFirstGeoJSONFeature,
   isFeaturePoly,
   morphFeatureToPolygon,
-} from '../util/Poly';
+} from '../util/polyHelpers';
 
 /**
  * @brief - takes selected object and currently created object

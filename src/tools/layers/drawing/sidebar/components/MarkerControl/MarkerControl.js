@@ -1,5 +1,5 @@
 import SidebarInputFactory from '../../../../../../inputs/SidebarInputFactory';
-import { createCheck, createIntervalInput, createPalette } from '../../../components/inputs';
+import { createCheck, createIntervalInput, createPalette } from '../../../util/inputs';
 import { iconStarter } from '../../../util/constants';
 import AbstractControl from '../AbstractControl/AbstractControl';
 import MarkerControlState from './MarkerControlState';

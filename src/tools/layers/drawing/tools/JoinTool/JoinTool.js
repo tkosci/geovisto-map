@@ -8,9 +8,9 @@ import {
   isFeaturePoly,
   isLayerPoly,
   morphFeatureToPolygon,
-} from '../../util/Poly';
+} from '../../util/polyHelpers';
 import union from '@turf/union';
-import { isEmpty } from '../../util/functionUtils';
+import { isEmpty } from '../../util/baseHelpers';
 import { FIRST } from '../../util/constants';
 import { TopologyTool } from '../TopologyTool';
 

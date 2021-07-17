@@ -5,7 +5,7 @@ import AbstractLayerToolTabControl from '../../abstract/sidebar/AbstractLayerToo
 import { MarkerTool, PaintTool, PolygonTool, SearchTool } from '../tools';
 
 import '../style/drawingLayerTabControl.scss';
-import { isEmpty } from '../util/functionUtils';
+import { isEmpty } from '../util/baseHelpers';
 
 const POLYS = ['polyline', 'polygon', 'painted', 'vertice'];
 

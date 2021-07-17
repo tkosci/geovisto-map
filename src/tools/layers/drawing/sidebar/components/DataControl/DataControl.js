@@ -1,5 +1,5 @@
 import SidebarInputFactory from '../../../../../../inputs/SidebarInputFactory';
-import { createButton } from '../../../components/inputs';
+import { createButton } from '../../../util/inputs';
 import AbstractControl from '../AbstractControl/AbstractControl';
 import DataControlState from './DataControlState';
 

@@ -5,8 +5,8 @@ import 'leaflet-draw';
 import * as turf from '@turf/turf';
 
 import { AbstractTool } from '../AbstractTool';
-import '../../components/Knife';
-import { getFirstGeoJSONFeature, isFeaturePoly } from '../../util/Poly';
+import '../../components/useKnife';
+import { getFirstGeoJSONFeature, isFeaturePoly } from '../../util/polyHelpers';
 import { normalStyles } from '../../util/constants';
 
 class GeometricSliceTool extends AbstractTool {

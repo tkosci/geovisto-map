@@ -7,8 +7,8 @@ import {
   getConversionDepth,
   getLeafletTypeFromFeature,
   isLayerPoly,
-} from './util/Poly';
-import { isEmpty, sortReverseAlpha } from './util/functionUtils';
+} from './util/polyHelpers';
+import { isEmpty, sortReverseAlpha } from './util/baseHelpers';
 import { NOT_FOUND, iconStarter, normalStyles } from './util/constants';
 import { EditTool, TransformTool } from './tools';
 

@@ -5,7 +5,7 @@ import 'leaflet-draw';
 import osmtogeojson from 'osmtogeojson';
 import { SearchTool, TopologyTool } from '../../../tools';
 import { ADMIN_LEVELS, ICON_SRCS, normalStyles } from '../../../util/constants';
-import { simplifyFeature } from '../../../util/Poly';
+import { simplifyFeature } from '../../../util/polyHelpers';
 import AbstractControlState from '../AbstractControl/AbstractControlState';
 
 class SearchControlState extends AbstractControlState {

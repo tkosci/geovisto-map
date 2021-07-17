@@ -1,6 +1,6 @@
-import { createCheck, createIntervalInput } from '../../../components/inputs';
+import { createCheck, createIntervalInput } from '../../../util/inputs';
 import { EraseTool, PaintTool } from '../../../tools';
-import { getIntervalStep } from '../../../util/functionUtils';
+import { getIntervalStep } from '../../../util/baseHelpers';
 import AbstractControl from '../AbstractControl/AbstractControl';
 
 class BrushControl extends AbstractControl {
