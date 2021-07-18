@@ -176,10 +176,6 @@ class DrawingLayerTool extends AbstractLayerTool {
     document.addEventListener('keyup', handleSpaceUp);
 
     const { featureGroup } = this.getState();
-    featureGroup.eachLayer((layer) => {
-      layer.addTo(map);
-      this.applyEventListeners(layer);
-    });
     return [featureGroup];
   }
 

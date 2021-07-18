@@ -2,13 +2,23 @@ type LocalProps = {
   drawingTool: object,
 };
 
+/**
+ * Class is Abstract for Drawing tool/feature
+ *
+ * Drawing tool/feature enables user to create geospatial objects
+ *
+ * Each tool/feature creates different objects or has different approach for the object creation
+ */
 class AbstractTool {
   constructor(props: LocalProps) {
+    // * keeps DrawingLayerTool class/object
     this.drawingTool = props.drawingTool;
     this.sidebar = props.drawingTool.getSidebarTabControl();
     this.leafletMap = props.drawingTool.getMap().getState().getLeafletMap();
 
+    // * variable for keeping L.Draw object so it is possible to enable/disable it
     this.tool = null;
+    // * flag to find out if tool/feature is active
     this._isActive = false;
   }
 

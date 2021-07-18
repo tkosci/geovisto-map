@@ -92,14 +92,14 @@ export default function useDrawingToolbar() {
 
         L.DomEvent.on(btn, 'click', (e) => handleClick(e, tool), this);
 
+        L.DomEvent.off(btn, 'click', (e) => handleClick(e, tool), this);
+
         this.options.drawingBtns[key] = btn;
       });
 
       L.DomEvent.disableClickPropagation(topContainer);
       return topContainer;
     },
-
-    onRemove: function (map) {},
 
     /**
      * disables enabled tool (markers, polylines, polygons, brush tool, eraser)

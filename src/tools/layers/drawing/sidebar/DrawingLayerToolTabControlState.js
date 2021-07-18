@@ -32,6 +32,9 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     this.controls = {};
   }
 
+  /**
+   * method initializes controls for objects manipulation
+   */
   initializeControls = () => {
     const { tabControl } = this;
     const controls = {};
@@ -45,22 +48,37 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     this.controls = controls;
   };
 
+  /**
+   * method if defined for easier access through tabControlState class/object
+   */
   getSelectedColor() {
     return this.controls['PolyControl']?.state?.getSelectedColor();
   }
 
+  /**
+   * method if defined for easier access through tabControlState class/object
+   */
   getSelectedStroke() {
     return this.controls['PolyControl']?.state?.getSelectedStroke();
   }
 
+  /**
+   * method if defined for easier access through tabControlState class/object
+   */
   getSelectedIcon() {
     return this.controls['MarkerControl']?.state?.getSelectedIcon();
   }
 
+  /**
+   * method if defined for easier access through tabControlState class/object
+   */
   callIdentifierChange(haveToCheckFilters = false) {
     return this.controls['DataControl']?.state?.callIdentifierChange(haveToCheckFilters);
   }
 
+  /**
+   * method if defined for easier access through tabControlState class/object
+   */
   appendToIconSrcs(iconUrl: string) {
     return this.controls['MarkerControl']?.state?.appendToIconSrcs(iconUrl);
   }
@@ -74,6 +92,11 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     this.guideLayers.push(layer);
   }
 
+  /**
+   * setter for enabledEl variable
+   *
+   * @param {any} val
+   */
   setEnabledTool(val) {
     this.enabledEl?.disable();
     this.enabledEl = val;
