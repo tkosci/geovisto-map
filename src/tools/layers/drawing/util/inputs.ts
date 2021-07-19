@@ -4,16 +4,8 @@
 
 /**
  * creates a slider with displayed value on side
- *
- * @param {String} label
- * @param {Number} min
- * @param {Number} max
- * @param {Function} onChange
- * @param {Number} value
- * @param {Number} step
- * @returns {Object} HTML element
  */
-export const createIntervalInput = (label, min, max, onChange, value, step = 1) => {
+export const createIntervalInput = (label: string, min: number | string, max: number | string, onChange: (val: string) =>  void, value: string, step = 1): HTMLDivElement => {
   const controlWrapper = document.createElement('div');
   controlWrapper.style.display = 'flex';
   controlWrapper.style.justifyContent = 'space-between';
@@ -23,12 +15,12 @@ export const createIntervalInput = (label, min, max, onChange, value, step = 1) 
   inputWrapper.appendChild(document.createTextNode(label));
   const control = document.createElement('input');
   control.setAttribute('type', 'range');
-  control.setAttribute('min', min);
-  control.setAttribute('max', max);
-  control.setAttribute('step', step);
+  control.setAttribute('min', String(min));
+  control.setAttribute('max', String(max));
+  control.setAttribute('step', String(step));
   control.onchange = (e) => {
-    onChange(e.target.value);
-    displayAmount.innerText = e.target.value;
+    onChange((<HTMLInputElement>e.target).value);
+    displayAmount.innerText = (<HTMLInputElement>e.target).value;
   };
   control.value = value;
   inputWrapper.appendChild(control);
@@ -44,16 +36,10 @@ export const createIntervalInput = (label, min, max, onChange, value, step = 1) 
 
 /**
  * creates checkbox
- *
- * @param {Boolean} value
- * @param {Function} onCheck
- * @param {String} prefix
- * @param {String} label
- * @returns {Object} HTML element
  */
-export const createCheck = (value, onCheck, prefix, label) => {
-  const onChange = (e) => {
-    const val = e.target.checked;
+export const createCheck = (value: boolean, onCheck: (val: boolean) => void, prefix: string, label: string):  HTMLDivElement => {
+  const onChange = (e: Event) => {
+    const val = (<HTMLInputElement>e.target).checked;
     onCheck(val);
   };
   const ID = prefix + '-check-input';
@@ -65,7 +51,7 @@ export const createCheck = (value, onCheck, prefix, label) => {
   check.id = ID;
   check.onchange = onChange;
   const checkLabel = document.createElement('label');
-  checkLabel.for = ID;
+  // checkLabel.for = ID;
   checkLabel.innerText = label;
   inputWrapper.appendChild(check);
   inputWrapper.appendChild(checkLabel);
@@ -75,15 +61,8 @@ export const createCheck = (value, onCheck, prefix, label) => {
 /**
  * creates a grid of options, when a tile is clicked passed function runs
  * was made for colors and icons, if img is true it expects icon urls as options
- *
- * @param {String} label
- * @param {Array<String>} opts
- * @param {Number} activeIdx
- * @param {Function} changeAction
- * @param {Boolean} img
- * @returns {Object} HTML element
  */
-export const createPalette = (label, opts, activeIdx, changeAction, img = false) => {
+export const createPalette = (label: string, opts: string[], activeIdx: number, changeAction: (opt: string) => void, img = false): HTMLDivElement => {
   const inputPalette = document.createElement('div');
   if (label) inputPalette.appendChild(document.createTextNode(label + ': '));
   const wrapper = document.createElement('div');
@@ -92,7 +71,7 @@ export const createPalette = (label, opts, activeIdx, changeAction, img = false)
   wrapper.style.gridTemplateColumns = 'repeat(4, 1fr)';
   inputPalette.appendChild(wrapper);
   opts.forEach((opt, idx) => {
-    let elem = document.createElement('div');
+    const elem = document.createElement('div');
     elem.style.boxSizing = 'border-box';
     elem.style.background = img ? `url(${opt})` : opt;
     elem.style.backgroundRepeat = 'no-repeat';
@@ -110,12 +89,12 @@ export const createPalette = (label, opts, activeIdx, changeAction, img = false)
   return inputPalette;
 };
 
-export const createButton = (text, onClick, disabled) => {
+export const createButton = (text: string, onClick: () => void, disabled: boolean): HTMLButtonElement => {
   const btn = document.createElement('button');
   btn.innerText = text;
   btn.addEventListener('click', onClick);
   if (disabled) {
-    btn.setAttribute('disabled', disabled);
+    btn.setAttribute('disabled', String(disabled));
   } else {
     btn.removeAttribute('disabled');
   }

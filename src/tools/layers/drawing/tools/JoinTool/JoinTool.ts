@@ -73,7 +73,7 @@ class JoinTool extends TopologyTool {
    */
   canPushToChosen = (layer) => {
     const acceptableType = this.isConnectMarker(layer) || isLayerPoly(layer);
-    if (isEmpty(this.chosenLayers)) {
+    if (isEmpty<Object[]>(this.chosenLayers)) {
       if (acceptableType) return true;
     } else {
       let firstChosen = this.chosenLayers[FIRST];

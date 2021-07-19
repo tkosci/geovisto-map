@@ -22,11 +22,11 @@ export const iconStarter = {
   iconSize: new L.Point(24, 24),
 };
 
-export const ICON_SRCS = [
+export const ICON_SRCS: string[] = [
   'https://upload.wikimedia.org/wikipedia/commons/0/0a/Marker_location.png',
   'https://icons.iconarchive.com/icons/icons-land/vista-map-markers/32/Map-Marker-Flag-1-Right-Azure-icon.png',
 ];
-export const COLORS = [
+export const COLORS: string[] = [
   '#1ABC9C',
   '#16A085',
   '#2ECC71',
@@ -48,12 +48,15 @@ export const COLORS = [
   '#95A5A6',
   '#7F8C8D',
 ];
-export const STROKES = [
+
+type SelectOpts = Array<{ label: string, value: number, selected?: boolean }>
+
+export const STROKES: SelectOpts = [
   { label: 'thin', value: 3 },
   { label: 'medium', value: 5, selected: true },
   { label: 'bold', value: 7 },
 ];
-export const ADMIN_LEVELS = [
+export const ADMIN_LEVELS: SelectOpts = [
   { label: 'State', value: 2 },
   { label: 'Province', value: 4, selected: true },
   { label: '5 (depends on country)', value: 5 },

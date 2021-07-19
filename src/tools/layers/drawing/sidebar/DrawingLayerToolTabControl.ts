@@ -71,7 +71,7 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
     let elem = tab.appendChild(document.createElement('div'));
     elem.classList.add('drawing-sidebar');
 
-    if (isEmpty(controls)) return tab;
+    if (isEmpty<Object>(controls)) return tab;
 
     // get data mapping model
     let model = this.getDefaults().getDataMappingModel();

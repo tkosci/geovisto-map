@@ -1,9 +1,19 @@
-import L from 'leaflet';
+import L, { DrawMap, DrawOptions } from 'leaflet';
 import 'leaflet-draw';
 
 /**
  * @author Andrej Tlcina
  */
+
+declare module 'leaflet' {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Draw {
+    class Slice extends Control {
+       constructor ();
+       static TYPE: string
+     }
+  }
+}
 
 /**
  * extends polyline, it does not change a lot just its type to 'knife'
@@ -13,7 +23,7 @@ L.Draw.Slice = L.Draw.Polyline.extend({
     TYPE: 'knife',
   },
   // @method initialize(): void
-  initialize: function (map, options) {
+  initialize: function (map: DrawMap, options: DrawOptions.PolylineOptions) {
     // if touch, switch to touch icon
     if (L.Browser.touch) {
       this.options.icon = this.options.touchIcon;
@@ -32,10 +42,10 @@ L.Draw.Slice = L.Draw.Polyline.extend({
 
     L.Draw.Feature.prototype.initialize.call(this, map, options);
   },
-  _calculateFinishDistance: function (potentialLatLng) {
-    var lastPtDistance;
+  _calculateFinishDistance: function (potentialLatLng: any) {
+    let lastPtDistance;
     if (this._markers.length > 0) {
-      var finishMarker;
+      let finishMarker;
       if (this.type === L.Draw.Polyline.TYPE || this.type === L.Draw.Slice.TYPE) {
         finishMarker = this._markers[this._markers.length - 1];
       } else if (this.type === L.Draw.Polygon.TYPE) {
@@ -43,12 +53,12 @@ L.Draw.Slice = L.Draw.Polyline.extend({
       } else {
         return Infinity;
       }
-      var lastMarkerPoint = this._map.latLngToContainerPoint(finishMarker.getLatLng()),
+      const lastMarkerPoint = this._map.latLngToContainerPoint(finishMarker.getLatLng()),
         potentialMarker = new L.Marker(potentialLatLng, {
           icon: this.options.icon,
           zIndexOffset: this.options.zIndexOffset * 2,
         });
-      var potentialMarkerPint = this._map.latLngToContainerPoint(potentialMarker.getLatLng());
+      const potentialMarkerPint = this._map.latLngToContainerPoint(potentialMarker.getLatLng());
       lastPtDistance = lastMarkerPoint.distanceTo(potentialMarkerPint);
     } else {
       lastPtDistance = Infinity;

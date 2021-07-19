@@ -281,7 +281,7 @@ class DrawingLayerToolState extends AbstractLayerToolState {
     Object.keys(mappedVertices).forEach((key) => {
       mappedProperty[key] = mappedVertices[key]._leaflet_id;
     });
-    if (!isEmpty(mappedProperty)) result.mappedVertices = mappedProperty;
+    if (!isEmpty<Object>(mappedProperty)) result.mappedVertices = mappedProperty;
   };
 
   /**

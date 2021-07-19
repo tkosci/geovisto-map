@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 import 'leaflet-draw';
@@ -7,21 +7,38 @@ import 'leaflet-draw/dist/leaflet.draw.css';
 import '../style/drawingLayer.scss';
 import { EditTool, TransformTool } from '../tools';
 
+
+type Options = { map?: L.Map }
+declare module 'leaflet' {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Control {
+    class DrawingToolbar extends Control {
+       constructor (options: Options);
+     }
+  }
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace control {
+    function drawingToolbar(options?: Options): Control.DrawingToolbar;
+  }
+}
+
+
 /**
  * @author Andrej Tlcina
  */
-export default function useDrawingToolbar() {
+export default function useDrawingToolbar(): void {
   L.Control.DrawingToolbar = L.Control.extend({
     options: {
       position: 'topleft',
       drawingBtns: {},
+      map: {},
     },
     /**
      * runs whenever you create instance
      *
      * @param {Object} options
      */
-    initialize: function (options) {
+    initialize: function (options: Options) {
       if (options) {
         L.setOptions(this, options);
       }
@@ -32,7 +49,7 @@ export default function useDrawingToolbar() {
      * @param {Object} map
      * @returns
      */
-    onAdd: function (map) {
+    onAdd: function (map: L.Map) {
       this.options.map = map;
       return this.createUi();
     },
@@ -42,16 +59,16 @@ export default function useDrawingToolbar() {
      * @param {Object} map
      * @returns HTML element wrapping all the buttons
      */
-    createUi: function (map) {
+    createUi: function () {
       const topContainer = L.DomUtil.create('div', 'drawingtoolbar');
       const toolContainer = L.DomUtil.create('div', 'leaflet-bar leaflet-control', topContainer);
       toolContainer.style.cursor = 'pointer';
-      const cancelables = [];
+      const cancelables: HTMLAnchorElement[] = [];
 
-      const toggleExtra = (e, tool) => {
-        cancelables.forEach((btn) => btn.lastChild.classList.add('hide'));
-        let extraBtn = e.target.lastChild;
-        if (!extraBtn) extraBtn = e.target.nextSibling;
+      const toggleExtra = (e: L.LeafletEvent, tool) => {
+        cancelables.forEach((btn) => btn?.lastElementChild?.classList?.add('hide'));
+        let extraBtn = e?.target?.lastChild;
+        if (!extraBtn) extraBtn = e?.target?.nextSibling;
         // * careful not to hide the icon
         if (extraBtn?.tagName === 'I') return;
         if (extraBtn) {
@@ -62,7 +79,7 @@ export default function useDrawingToolbar() {
 
       const drawingTools = this.options.tool.drawingTools;
 
-      const handleClick = (e, tool) => {
+      const handleClick = (e: Event, tool) => {
         const selectedEl = this.getSelectedEl();
         // * functions are called so user is not drawing over object that has transform handles
         if (tool.getName() !== 'transform-drawing-tool') {
@@ -72,15 +89,15 @@ export default function useDrawingToolbar() {
           EditTool.disableNodeEdit(selectedEl);
         }
 
-        toggleExtra(e, tool);
+        toggleExtra(e as unknown as L.LeafletEvent, tool);
         tool.activate();
       };
 
       Object.keys(drawingTools).forEach((key) => {
-        let tool = drawingTools[key];
-        let canBeCanceled = tool.canBeCanceled();
+        const tool = drawingTools[key];
+        const canBeCanceled = tool.canBeCanceled();
 
-        let btn = this.createToolbarBtn(
+        const btn = this.createToolbarBtn(
           tool.getName(),
           toolContainer,
           tool.getTitle(),
@@ -106,31 +123,23 @@ export default function useDrawingToolbar() {
      *
      * @param {Object} e
      */
-    _disableDrawing: function (e, tool) {
-      e.stopPropagation();
+    _disableDrawing: function (e: L.LeafletEvent, tool) {
       e?.target?.classList?.add('hide');
       tool.deactivate();
     },
 
     /**
      * creates toolbar button
-     *
-     * @param {String} className
-     * @param {Object} btnContainer
-     * @param {String} title
-     * @param {String} icon
-     * @param {Boolean} extra
-     * @returns button to put into toolbar
      */
-    createToolbarBtn: function (className, btnContainer, title, icon, extra = false) {
+    createToolbarBtn: function (className: string, btnContainer: HTMLDivElement, title: string, icon: string, extra = false) {
       const returnBtn = L.DomUtil.create('a', `${className} d-side-button`, btnContainer);
       returnBtn.title = title;
       returnBtn.innerHTML = `<i class="${icon}" aria-hidden="true"></i>`;
-      returnBtn.role = 'button';
+      // returnBtn.role = 'button';
       if (extra) {
         const extraBtn = L.DomUtil.create('a', 'extra-btn hide', returnBtn);
         extraBtn.innerHTML = `Cancel`;
-        extraBtn.role = 'button';
+        // extraBtn.role = 'button';
       }
       return returnBtn;
     },
@@ -144,7 +153,7 @@ export default function useDrawingToolbar() {
     },
   });
 
-  L.control.drawingToolbar = function (options) {
+  L.control.drawingToolbar = function (options?: Options) {
     if (!options) {
       options = {};
     }
