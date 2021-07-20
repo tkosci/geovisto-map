@@ -5,7 +5,14 @@
 /**
  * creates a slider with displayed value on side
  */
-export const createIntervalInput = (label: string, min: number | string, max: number | string, onChange: (val: string) =>  void, value: string, step = 1): HTMLDivElement => {
+export const createIntervalInput = (
+  label: string,
+  min: number | string,
+  max: number | string,
+  onChange: (val: string) => void,
+  value: string,
+  step = 1,
+): HTMLDivElement => {
   const controlWrapper = document.createElement('div');
   controlWrapper.style.display = 'flex';
   controlWrapper.style.justifyContent = 'space-between';
@@ -37,7 +44,12 @@ export const createIntervalInput = (label: string, min: number | string, max: nu
 /**
  * creates checkbox
  */
-export const createCheck = (value: boolean, onCheck: (val: boolean) => void, prefix: string, label: string):  HTMLDivElement => {
+export const createCheck = (
+  value: boolean,
+  onCheck: (val: boolean) => void,
+  prefix: string,
+  label: string,
+): HTMLDivElement => {
   const onChange = (e: Event) => {
     const val = (<HTMLInputElement>e.target).checked;
     onCheck(val);
@@ -62,7 +74,13 @@ export const createCheck = (value: boolean, onCheck: (val: boolean) => void, pre
  * creates a grid of options, when a tile is clicked passed function runs
  * was made for colors and icons, if img is true it expects icon urls as options
  */
-export const createPalette = (label: string, opts: string[], activeIdx: number, changeAction: (opt: string) => void, img = false): HTMLDivElement => {
+export const createPalette = (
+  label: string,
+  opts: string[],
+  activeIdx: number,
+  changeAction: (opt: string) => void,
+  img = false,
+): HTMLDivElement => {
   const inputPalette = document.createElement('div');
   if (label) inputPalette.appendChild(document.createTextNode(label + ': '));
   const wrapper = document.createElement('div');
@@ -89,7 +107,11 @@ export const createPalette = (label: string, opts: string[], activeIdx: number, 
   return inputPalette;
 };
 
-export const createButton = (text: string, onClick: () => void, disabled: boolean): HTMLButtonElement => {
+export const createButton = (
+  text: string,
+  onClick: () => void,
+  disabled: boolean,
+): HTMLButtonElement => {
   const btn = document.createElement('button');
   btn.innerText = text;
   btn.addEventListener('click', onClick);

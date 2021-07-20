@@ -7,21 +7,19 @@ import 'leaflet-draw/dist/leaflet.draw.css';
 import '../style/drawingLayer.scss';
 import { EditTool, TransformTool } from '../tools';
 
-
-type Options = { map?: L.Map }
+type Options = { map?: L.Map };
 declare module 'leaflet' {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Control {
     class DrawingToolbar extends Control {
-       constructor (options: Options);
-     }
+      constructor(options: Options);
+    }
   }
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace control {
     function drawingToolbar(options?: Options): Control.DrawingToolbar;
   }
 }
-
 
 /**
  * @author Andrej Tlcina
@@ -89,7 +87,7 @@ export default function useDrawingToolbar(): void {
           EditTool.disableNodeEdit(selectedEl);
         }
 
-        toggleExtra(e as unknown as L.LeafletEvent, tool);
+        toggleExtra((e as unknown) as L.LeafletEvent, tool);
         tool.activate();
       };
 
@@ -131,7 +129,13 @@ export default function useDrawingToolbar(): void {
     /**
      * creates toolbar button
      */
-    createToolbarBtn: function (className: string, btnContainer: HTMLDivElement, title: string, icon: string, extra = false) {
+    createToolbarBtn: function (
+      className: string,
+      btnContainer: HTMLDivElement,
+      title: string,
+      icon: string,
+      extra = false,
+    ) {
       const returnBtn = L.DomUtil.create('a', `${className} d-side-button`, btnContainer);
       returnBtn.title = title;
       returnBtn.innerHTML = `<i class="${icon}" aria-hidden="true"></i>`;

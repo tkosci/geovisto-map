@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import L, { Map } from 'leaflet';
 import AbstractLayerTool from '../abstract/AbstractLayerTool';
 import DrawingLayerToolState from './DrawingLayerToolState';
 import DrawingLayerToolDefaults from './DrawingLayerToolDefaults';
@@ -39,6 +39,13 @@ window.d3 = d33;
 L.Draw.Feature.include(L.Evented.prototype);
 L.Draw.Feature.include(L.Draw.Feature.SnapMixin);
 L.Draw.Feature.addInitHook(L.Draw.Feature.SnapMixin._snap_initialize);
+
+declare global {
+  interface Window {
+    customTolerance: number;
+    map: Map;
+  }
+}
 
 export const DRAWING_TOOL_LAYER_TYPE = 'geovisto-tool-layer-drawing';
 

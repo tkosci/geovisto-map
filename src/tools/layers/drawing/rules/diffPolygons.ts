@@ -1,15 +1,21 @@
-import L from 'leaflet';
+import L, { FeatureGroup, LatLng } from 'leaflet';
 import difference from '@turf/difference';
 import { getConversionDepth, getFirstGeoJSONFeature, isLayerPoly } from '../util/polyHelpers';
 import { FIRST, normalStyles } from '../util/constants';
+import { DrawnObject, TurfPolygon } from '../model/types';
 
-const replaceLayer = (state, replacement, replacedLayer, replacementCoords) => {
+const replaceLayer = (
+  state: any,
+  replacement: DrawnObject,
+  replacedLayer: DrawnObject,
+  replacementCoords?: LatLng[],
+) => {
   replacement?.dragging?.disable();
   replacement.layerType = 'polygon';
   if (replacementCoords) replacement._latlngs = replacementCoords;
   replacement.identifier = replacedLayer.identifier;
   replacement.setStyle({ ...replacement.options, ...normalStyles });
-  let content = replacedLayer.popupContent;
+  const content = replacedLayer.popupContent;
   if (content) {
     replacement.bindPopup(content, {
       closeOnClick: false,
@@ -21,38 +27,42 @@ const replaceLayer = (state, replacement, replacedLayer, replacementCoords) => {
   state.removeLayer(replacedLayer);
 };
 
-const diffLayers = (geoObject, layerFeature, state, canDiff) => {
+const diffLayers = (
+  geoObject: DrawnObject,
+  layerFeature: GeoJSON.Feature,
+  state: any,
+  canDiff: boolean,
+) => {
   if (!geoObject) return;
-  let feature = getFirstGeoJSONFeature(geoObject);
+  const feature = getFirstGeoJSONFeature(geoObject);
 
   if (canDiff) {
-    let diffFeature = difference(feature, layerFeature);
+    const diffFeature = difference(feature as TurfPolygon, layerFeature as TurfPolygon);
 
     if (diffFeature) {
-      let coords;
       let latlngs;
-      coords = diffFeature.geometry.coordinates;
-      let isJustPoly = diffFeature.geometry.type === 'Polygon';
+      const coords = diffFeature.geometry.coordinates;
+      const isJustPoly = diffFeature.geometry.type === 'Polygon';
       // * when substracting you can basically slice polygon into more parts,\
       // * then we have to increase depth by one because we have an array within an array
-      let depth = getConversionDepth(diffFeature);
+      const depth = getConversionDepth(diffFeature);
       try {
         // * - this conditional asks if created polygon is polygon with hole punched in it
         // * - for the rest of cases i.e. when polygon is split into multiple parts or not, we use loop\
         // * otherwise we create polygon, where hole should be
         if (isJustPoly && coords.length !== 1) {
           latlngs = L.GeoJSON.coordsToLatLngs(coords, 1);
-          let result = new L.polygon(latlngs, {
+          const result = new L.polygon(latlngs, {
             ...geoObject.options,
           });
           replaceLayer(state, result, geoObject);
         } else {
           coords.forEach((coord) => {
             latlngs = L.GeoJSON.coordsToLatLngs([coord], depth);
-            let result = new L.polygon(latlngs, {
+            const result = new L.polygon(latlngs, {
               ...geoObject.options,
             });
-            let newLatLngs = depth === 1 ? result._latlngs : result._latlngs[FIRST];
+            const newLatLngs = depth === 1 ? result._latlngs : result._latlngs[FIRST];
             replaceLayer(state, result, geoObject, newLatLngs);
           });
         }
@@ -72,27 +82,27 @@ const diffLayers = (geoObject, layerFeature, state, canDiff) => {
  * @param {Layer} layer
  * @param {Boolean} intersect
  */
-export const polyDiff = (layer, state, intersect = false) => {
-  let layerFeature = getFirstGeoJSONFeature(layer);
-  let isCurrentLayerPoly = isLayerPoly(layer);
-  let createdIsNotEraser = layer.layerType !== 'erased';
+export const polyDiff = (layer: DrawnObject, state: any, intersect = false): void => {
+  const layerFeature = getFirstGeoJSONFeature(layer);
+  const isCurrentLayerPoly = isLayerPoly(layer);
+  const createdIsNotEraser = layer.layerType !== 'erased';
 
-  if (isCurrentLayerPoly) {
-    let selectedLayer = state.selectedLayer;
+  if (isCurrentLayerPoly && layerFeature) {
+    const selectedLayer = state.selectedLayer;
     // * - if intersect is active execute difference with only selected polygon
     // * - part of condition with 'selectedLayer' is here b/c, when you have intersect on\
     // * without selecting object stroke/object user creates stayes on top of everything
     if (intersect && createdIsNotEraser && selectedLayer && isLayerPoly(selectedLayer)) {
       diffLayers(selectedLayer, layerFeature, state, true);
     } else {
-      let fgLayers = state.featureGroup._layers;
+      const fgLayers: FeatureGroup = state.featureGroup._layers;
       // * else we execute difference with each geo. object
       Object.values(fgLayers)
         .filter((geoObject) => isLayerPoly(geoObject))
         .forEach((geoObject) => {
           // * we want to avoid damaging selected layer
-          let objectIsNotSelected = geoObject?._leaflet_id !== selectedLayer?._leaflet_id;
-          let canDiff = objectIsNotSelected;
+          const objectIsNotSelected = geoObject?._leaflet_id !== selectedLayer?._leaflet_id;
+          const canDiff = objectIsNotSelected;
           diffLayers(geoObject, layerFeature, state, canDiff);
         });
     }

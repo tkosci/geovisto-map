@@ -1,3 +1,4 @@
+import { DrawnObject, TurfPolygon } from './../model/types/index';
 import * as turf from '@turf/turf';
 import { isLayerPoly } from '../util/polyHelpers';
 import { operateOnSelectedAndCurrectLayer } from './shared';
@@ -9,12 +10,13 @@ import { operateOnSelectedAndCurrectLayer } from './shared';
  * @param {Number | undefined} eKeyIndex
  * @returns
  */
-export const polyIntersect = (layer, state) => {
+export const polyIntersect = (layer: DrawnObject, state: any): DrawnObject => {
   const selectedLayer = state.selectedLayer;
   if (!isLayerPoly(selectedLayer)) return layer;
   const { layer: updatedLayer, result } = operateOnSelectedAndCurrectLayer(
     layer,
-    turf.intersect,
+    (a: GeoJSON.Feature, b: GeoJSON.Feature) =>
+      turf.intersect(a as TurfPolygon, b as TurfPolygon) as GeoJSON.Feature,
     selectedLayer,
   );
 

@@ -1,6 +1,31 @@
+import { Map } from 'leaflet';
+import { DrawnObject, LayerType } from '../../model/types';
+
 type LocalProps = {
-  drawingTool: object,
+  drawingTool: any;
 };
+
+interface TAbstractTool {
+  drawingTool: any;
+  sidebar: any;
+  leafletMap: Map;
+  tool: any;
+  _isActive: boolean;
+  NAME(): string;
+  getName(): string;
+  getIconName(): string;
+  getTitle(): string;
+  result(): LayerType | '';
+  canBeCanceled(): boolean;
+  _redrawSidebar(type?: LayerType | ''): void;
+  setCurrentToolAsEnabled(): void;
+  activate(): void;
+  deactivate(): void;
+  enable(): void;
+  disable(): void;
+  getSelectedEl(): DrawnObject;
+  isToolActive(): boolean;
+}
 
 /**
  * Class is Abstract for Drawing tool/feature
@@ -9,7 +34,13 @@ type LocalProps = {
  *
  * Each tool/feature creates different objects or has different approach for the object creation
  */
-class AbstractTool {
+class AbstractTool implements TAbstractTool {
+  private drawingTool;
+  private sidebar;
+  private leafletMap;
+  private tool;
+  private _isActive;
+
   constructor(props: LocalProps) {
     // * keeps DrawingLayerTool class/object
     this.drawingTool = props.drawingTool;
@@ -50,7 +81,7 @@ class AbstractTool {
   /**
    * to be extended
    */
-  result(): string {
+  result(): LayerType | '' {
     return '';
   }
 
@@ -58,7 +89,7 @@ class AbstractTool {
     return false;
   }
 
-  _redrawSidebar(type?: string): void {
+  _redrawSidebar(type?: LayerType | ''): void {
     this.drawingTool.redrawSidebarTabControl(type);
   }
 
@@ -95,7 +126,7 @@ class AbstractTool {
    * to be extended
    */
   disable(): void {
-    let activeTool = this.tool;
+    const activeTool = this.tool;
     if (activeTool) {
       activeTool.disable();
     }
@@ -105,7 +136,7 @@ class AbstractTool {
    *
    * @returns currently selected geo. object
    */
-  getSelectedEl(): object {
+  getSelectedEl(): DrawnObject {
     return this.drawingTool.getState().selectedLayer;
   }
 
