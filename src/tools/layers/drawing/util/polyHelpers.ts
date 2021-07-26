@@ -131,7 +131,7 @@ export const isLayerPoly = (layer: DrawnObject): boolean => {
   return feature ? isFeaturePoly(feature) : false;
 };
 
-export const getConversionDepth = (feature: GeoJSON.Feature): 1 | 2 => {
+export const getConversionDepth = (feature: GeoJSON.Feature | null): 1 | 2 => {
   let depth: 1 | 2 = 1;
   if (feature?.geometry?.type === 'MultiPolygon') {
     depth = 2;

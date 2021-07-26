@@ -1,4 +1,4 @@
-import L, { Map } from 'leaflet';
+import L, { DrawEvents, Map } from 'leaflet';
 import AbstractLayerTool from '../abstract/AbstractLayerTool';
 import DrawingLayerToolState from './DrawingLayerToolState';
 import DrawingLayerToolDefaults from './DrawingLayerToolDefaults';
@@ -31,6 +31,7 @@ import {
   TopologyTool,
   TransformTool,
 } from './tools';
+import { CreatedEvent, DrawnObject } from './model/types';
 
 // ! pather throws errors without this line
 window.d3 = d33;
@@ -188,11 +189,9 @@ class DrawingLayerTool extends AbstractLayerTool {
 
   /**
    * @brief called whenever new geo. object is created
-   *
-   * @param {Object} e
    */
-  createdListener = (e) => {
-    let layer = e.layer;
+  createdListener = (e: CreatedEvent): void => {
+    let layer: DrawnObject = e.layer;
     if (!layer) return;
 
     layer.layerType = e.layerType;

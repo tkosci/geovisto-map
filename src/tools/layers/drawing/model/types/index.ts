@@ -7,7 +7,7 @@ import {
   Point,
   Polygon,
 } from '@turf/turf';
-import { LatLng, Layer } from 'leaflet';
+import { DrawEvents, LatLng, Layer } from 'leaflet';
 
 export type LatLngs = LatLng[];
 
@@ -18,10 +18,16 @@ export type DrawnObject = Layer & {
   options: { [key: string]: string | number };
   identifier: string;
   dragging?: { disable: () => void; enable: () => void };
+  editing?: { _enabled: boolean; disable: () => void; enable: () => void };
   setStyle: (val: { [key: string]: string | number }) => void;
   popupContent?: string;
   _latlngs: LatLngs;
   toGeoJSON: () => GeoJSON.Feature | GeoJSON.FeatureCollection;
+};
+
+export type CreatedEvent = DrawEvents.Created & {
+  layer: DrawnObject;
+  layerType: LayerType;
 };
 
 export type TurfPolygon = Feature<Polygon | MultiPolygon> | Polygon | MultiPolygon;

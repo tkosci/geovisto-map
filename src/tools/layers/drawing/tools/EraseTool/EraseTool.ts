@@ -1,16 +1,18 @@
-import L from 'leaflet';
+import L, { LeafletEvent } from 'leaflet';
 import 'leaflet-path-drag';
 import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import { PaintTool } from '../PaintTool';
+import { ToolProps } from '../AbstractTool/types';
+import { CreatedEvent, LayerType } from '../../model/types';
 
 const ERASER_COLOR = '#ee000055';
 
 class EraseTool extends PaintTool {
   static result = 'erased';
 
-  constructor(props) {
+  constructor(props: ToolProps) {
     super(props);
 
     this.leafletMap.on('draw:created', this.created);
@@ -32,7 +34,7 @@ class EraseTool extends PaintTool {
     return 'Eraser tool';
   }
 
-  result = (): string => {
+  result = (): LayerType => {
     return 'erased';
   };
 
@@ -40,8 +42,8 @@ class EraseTool extends PaintTool {
     return true;
   };
 
-  created = (e) => {
-    let layer = e.layer;
+  created = (e: CreatedEvent): void => {
+    const layer = e.layer;
     if (!layer) return;
     if (e.layerType === this.result()) this.leafletMap.removeLayer(layer);
   };
@@ -57,7 +59,7 @@ class EraseTool extends PaintTool {
   /**
    * creates circle around mouse cursor and applies event listeners
    */
-  startErase = () => {
+  startErase = (): void => {
     this.stop();
     this._action = 'erase';
     this._addMouseListener();
@@ -70,11 +72,8 @@ class EraseTool extends PaintTool {
 
   /**
    * button for erasing is clicked
-   *
-   * @param {Object} event
-   * @returns
    */
-  erase = (event) => {
+  erase = (event: LeafletEvent): void => {
     if (event.type == 'mousedown') {
       L.DomEvent.stop(event);
       return;

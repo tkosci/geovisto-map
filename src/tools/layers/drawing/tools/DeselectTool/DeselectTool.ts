@@ -5,39 +5,42 @@ import 'leaflet-draw';
 
 import { AbstractTool } from '../AbstractTool';
 import { EditTool } from '../EditTool';
+import { DrawnObject } from '../../model/types';
+import { TDeselectTool } from './types';
+import { ToolProps } from '../AbstractTool/types';
 
-class DeselectTool extends AbstractTool {
-  constructor(props) {
+class DeselectTool extends AbstractTool implements TDeselectTool {
+  constructor(props: ToolProps) {
     super(props);
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'deselect-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return DeselectTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-star-half-o';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Deselect tool';
   }
 
-  result = (): string => {
+  public result = (): '' => {
     return '';
   };
 
-  enable = (): void => {
+  public enable = (): void => {
     const selected = this.getSelectedEl();
 
     DeselectTool.deselect(selected, this.drawingTool);
   };
 
-  static deselect(selected, tool) {
+  public static deselect(selected: DrawnObject, tool: any): void {
     if (selected?.editing?._enabled) {
       selected.editing.disable();
     }
@@ -46,7 +49,7 @@ class DeselectTool extends AbstractTool {
       EditTool.initNodeEdit(selected, true);
       tool?.getState().clearSelectedLayer();
       tool?.redrawSidebarTabControl();
-      document.querySelector('.leaflet-container').style.cursor = '';
+      (document.querySelector('.leaflet-container') as HTMLElement).style.cursor = '';
     }
   }
 }

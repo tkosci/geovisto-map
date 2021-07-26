@@ -4,9 +4,12 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import { AbstractTool } from '../AbstractTool';
+import { TEditTool } from './types';
+import { ToolProps } from '../AbstractTool/types';
+import { DrawnObject } from '../../model/types';
 
-class EditTool extends AbstractTool {
-  constructor(props) {
+class EditTool extends AbstractTool implements TEditTool {
+  constructor(props: ToolProps) {
     super(props);
   }
 
@@ -26,7 +29,7 @@ class EditTool extends AbstractTool {
     return 'Edit nodes tool';
   }
 
-  result = (): string => {
+  result = (): '' => {
     return '';
   };
 
@@ -36,7 +39,7 @@ class EditTool extends AbstractTool {
     EditTool.initNodeEdit(selectedLayer);
   };
 
-  static initNodeEdit(selectedLayer: object, disable = false): void {
+  static initNodeEdit(selectedLayer: DrawnObject, disable = false): void {
     if (selectedLayer?.editing) {
       if (selectedLayer.editing._enabled || disable) {
         selectedLayer.editing.disable();
@@ -46,7 +49,7 @@ class EditTool extends AbstractTool {
     }
   }
 
-  static disableNodeEdit = (selectedEl) => {
+  static disableNodeEdit = (selectedEl: DrawnObject): void => {
     EditTool.initNodeEdit(selectedEl, true);
   };
 }

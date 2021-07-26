@@ -1,31 +1,5 @@
-import { Map } from 'leaflet';
 import { DrawnObject, LayerType } from '../../model/types';
-
-type LocalProps = {
-  drawingTool: any;
-};
-
-interface TAbstractTool {
-  drawingTool: any;
-  sidebar: any;
-  leafletMap: Map;
-  tool: any;
-  _isActive: boolean;
-  NAME(): string;
-  getName(): string;
-  getIconName(): string;
-  getTitle(): string;
-  result(): LayerType | '';
-  canBeCanceled(): boolean;
-  _redrawSidebar(type?: LayerType | ''): void;
-  setCurrentToolAsEnabled(): void;
-  activate(): void;
-  deactivate(): void;
-  enable(): void;
-  disable(): void;
-  getSelectedEl(): DrawnObject;
-  isToolActive(): boolean;
-}
+import { TAbstractTool, ToolProps } from './types';
 
 /**
  * Class is Abstract for Drawing tool/feature
@@ -35,13 +9,13 @@ interface TAbstractTool {
  * Each tool/feature creates different objects or has different approach for the object creation
  */
 class AbstractTool implements TAbstractTool {
-  private drawingTool;
-  private sidebar;
-  private leafletMap;
-  private tool;
-  private _isActive;
+  public drawingTool;
+  public sidebar;
+  public leafletMap;
+  public tool;
+  public _isActive;
 
-  constructor(props: LocalProps) {
+  constructor(props: ToolProps) {
     // * keeps DrawingLayerTool class/object
     this.drawingTool = props.drawingTool;
     this.sidebar = props.drawingTool.getSidebarTabControl();
@@ -53,61 +27,61 @@ class AbstractTool implements TAbstractTool {
     this._isActive = false;
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'abstract-drawing-tool';
   }
 
   /**
    * to be extended
    */
-  getName(): string {
+  public getName(): string {
     return AbstractTool.NAME();
   }
 
   /**
    * to be extended
    */
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-pencil';
   }
 
   /**
    * to be extended
    */
-  getTitle(): string {
+  public getTitle(): string {
     return 'Abstract drawing tool';
   }
 
   /**
    * to be extended
    */
-  result(): LayerType | '' {
+  public result(): '' {
     return '';
   }
 
-  canBeCanceled(): boolean {
+  public canBeCanceled(): boolean {
     return false;
   }
 
-  _redrawSidebar(type?: LayerType | ''): void {
+  public _redrawSidebar(type?: LayerType | ''): void {
     this.drawingTool.redrawSidebarTabControl(type);
   }
 
-  setCurrentToolAsEnabled(): void {
+  public setCurrentToolAsEnabled(): void {
     this.sidebar.getState().setEnabledTool(this);
   }
 
   /**
    * because I want to run setCurrentToolAsEnabled every time enabled is run I wrap it with this function
    */
-  activate(): void {
+  public activate(): void {
     this.setCurrentToolAsEnabled();
     this.enable();
     this._isActive = true;
     this._redrawSidebar(this.result());
   }
 
-  deactivate(): void {
+  public deactivate(): void {
     this.disable();
     this.tool = null;
     this._isActive = false;
@@ -118,14 +92,14 @@ class AbstractTool implements TAbstractTool {
   /**
    * to be extended
    */
-  enable(): void {
+  public enable(): void {
     this._redrawSidebar(this.result());
   }
 
   /**
    * to be extended
    */
-  disable(): void {
+  public disable(): void {
     const activeTool = this.tool;
     if (activeTool) {
       activeTool.disable();
@@ -136,11 +110,11 @@ class AbstractTool implements TAbstractTool {
    *
    * @returns currently selected geo. object
    */
-  getSelectedEl(): DrawnObject {
+  public getSelectedEl(): DrawnObject {
     return this.drawingTool.getState().selectedLayer;
   }
 
-  isToolActive(): boolean {
+  public isToolActive(): boolean {
     return this._isActive;
   }
 }
