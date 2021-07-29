@@ -1,6 +1,8 @@
 // Geovisto core
-import IGeoDataManager from "../../../../../../model/types/geodata/IGeoDataManager";
-import ILayerToolProps from "../../../../../../model/types/layer/ILayerToolProps";
+import {
+    IGeoDataManager,
+    ILayerToolProps
+} from "../../../../../../index.core";
 
 import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
 

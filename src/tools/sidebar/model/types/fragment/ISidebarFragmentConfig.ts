@@ -1,5 +1,7 @@
 // Geovisto core
-import IMapObjectConfig from "../../../../../model/types/object/IMapObjectConfig";
+import {
+    IMapObjectConfig
+} from "../../../../../index.core";
 
 /**
  * This type provides specification of sidebar fragment config model.

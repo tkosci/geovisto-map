@@ -1,5 +1,7 @@
 // Geovisto core
-import IMapToolConfig from "../../../../../model/types/tool/IMapToolConfig";
+import {
+    IMapToolConfig
+} from "../../../../../index.core";
 
 /**
  * This type provides specification of the themes tool config model.

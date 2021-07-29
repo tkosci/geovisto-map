@@ -1,5 +1,7 @@
 // Geovisto core
-import MapDomain from "../../../../../../model/internal/domain/generic/MapDomain";
+import {
+    MapDomain
+} from "../../../../../../index.core";
 
 import IScale from "../../types/scale/IScale";
 

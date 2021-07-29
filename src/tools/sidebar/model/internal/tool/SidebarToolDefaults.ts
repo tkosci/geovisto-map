@@ -1,5 +1,7 @@
 // Geovisto core
-import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
+import {
+    MapToolDefaults
+} from "../../../../../index.core";
 
 import ISidebarToolConfig from "../../types/tool/ISidebarToolConfig";
 import ISidebarToolDefaults from "../../types/tool/ISidebarToolDefaults";

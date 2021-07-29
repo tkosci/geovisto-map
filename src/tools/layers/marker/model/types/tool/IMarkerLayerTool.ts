@@ -1,6 +1,8 @@
 // Geovisto core
-import ILayerTool from "../../../../../../model/types/layer/ILayerTool";
-import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
+import {
+    ILayerTool,
+    IMapToolInitProps
+} from "../../../../../../index.core";
 
 import { IMarkerLayerToolConfig } from "./IMarkerLayerToolConfig";
 import IMarkerLayerToolDefaults from "./IMarkerLayerToolDefaults";

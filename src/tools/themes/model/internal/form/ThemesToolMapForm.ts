@@ -1,6 +1,8 @@
 // Geovisto core
-import LabeledAutocompleteFormInput from '../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput';
-import MapObjectForm from '../../../../../model/internal/form/MapObjectForm';
+import {
+    LabeledAutocompleteFormInput,
+    MapObjectForm
+} from '../../../../../index.core';
 
 import IMapTheme from '../../types/theme/IMapTheme';
 import IMapThemesManager from '../../types/theme/IMapThemesManager';

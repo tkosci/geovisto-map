@@ -9,9 +9,12 @@ import {
 } from "leaflet";
 
 // Geovisto core
-import IMapFormControl, { instanceOfMapForm } from "../../../../../model/types/form/IMapFormControl";
-import IMapTool from "../../../../../model/types/tool/IMapTool";
-import MapObject from "../../../../../model/internal/object/MapObject";
+import {
+    IMapFormControl,
+    instanceOfMapForm,
+    IMapTool,
+    MapObject
+} from "../../../../../index.core";
 
 import ISidebarTab from "../../types/tab/ISidebarTab";
 import ISidebarFragment from "../../types/fragment/ISidebarFragment";

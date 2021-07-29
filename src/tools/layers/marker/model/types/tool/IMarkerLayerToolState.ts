@@ -1,6 +1,8 @@
 // Geovisto core
-import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
-import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
+import {
+    IMapAggregationBucket,
+    ILayerToolState
+} from "../../../../../../index.core";
 
 import IMarker from "../marker/IMarker";
 import IMarkerIcon from "../marker/IMarkerIcon";

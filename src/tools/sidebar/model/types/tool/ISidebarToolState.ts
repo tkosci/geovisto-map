@@ -3,7 +3,9 @@ import {
 } from "leaflet";
 
 // Geovisto core
-import IMapToolState from "../../../../../model/types/tool/IMapToolState";
+import {
+    IMapToolState
+} from "../../../../../index.core";
 
 import ISidebarTab from "../tab/ISidebarTab";
 import ISidebarTabConfig from "../tab/ISidebarTabConfig";

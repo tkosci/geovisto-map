@@ -1,4 +1,6 @@
-import IMapDomain from "../../../../../../model/types/domain/IMapDomain";
+import {
+    IMapDomain
+} from "../../../../../../index.core";
 
 /**
  * This interface declares functions for using choropleth scale.

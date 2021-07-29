@@ -1,5 +1,7 @@
 // Geovisto core
-import IMapToolState from "../../../../../model/types/tool/IMapToolState";
+import {
+    IMapToolState
+} from "../../../../../index.core";
 
 import IMapFilterManager from "../filter/IMapFilterManager";
 import IMapFilterRule from "../filter/IMapFilterRule";

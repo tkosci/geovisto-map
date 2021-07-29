@@ -1,5 +1,7 @@
 // Geovisto core
-import IMapChangeEvent from "../../../../../model/types/event/IMapChangeEvent";
+import {
+    IMapChangeEvent
+} from "../../../../../index.core";
 
 import IMapTheme from "../theme/IMapTheme";
 import IThemesTool from "../tool/IThemesTool";

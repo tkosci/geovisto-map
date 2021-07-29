@@ -1,6 +1,8 @@
 // Geovisto core
-import IMapObjectState from "../../../../../model/types/object/IMapObjectState";
-import IMapTool from "../../../../../model/types/tool/IMapTool";
+import {
+    IMapObjectState,
+    IMapTool
+} from "../../../../../index.core";
 
 import ISidebarFragment from "../fragment/ISidebarFragment";
 import ISidebarTabConfig from "./ISidebarTabConfig";

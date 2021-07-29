@@ -1,11 +1,13 @@
 // Geovisto core
-import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
-import IMapForm from "../../../../../../model/types/form/IMapForm";
-import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
-import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
+import {
+    IGeoData,
+    IMapAggregationFunction,
+    IMapDataDomain,
+    IMapDomainDimension,
+    IMapForm,
+    IMapFormInput,
+    MapLayerToolForm
+} from "../../../../../../index.core";
 
 import IMarkerLayerTool from "../../types/tool/IMarkerLayerTool";
 import IMarkerLayerToolDimensions from "../../types/tool/IMarkerLayerToolDimensions";

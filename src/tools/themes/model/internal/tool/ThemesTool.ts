@@ -1,8 +1,10 @@
 // Geovisto core
-import IMapForm from "../../../../../model/types/form/IMapForm";
-import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
-import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
-import MapTool from "../../../../../model/internal/tool/MapTool";
+import {
+    IMapForm,
+    IMapFormControl,
+    IMapToolInitProps,
+    MapTool
+} from "../../../../../index.core";
 
 import IMapTheme from "../../types/theme/IMapTheme";
 import IThemesTool from "../../types/tool/IThemesTool";

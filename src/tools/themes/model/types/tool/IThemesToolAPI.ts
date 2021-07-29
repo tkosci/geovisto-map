@@ -1,5 +1,7 @@
 // Geovisto core
-import IMapToolAPI from "../../../../../model/types/api/IMapToolAPI";
+import {
+    IMapToolAPI
+} from "../../../../../index.core";
 
 import IMapTheme from "../theme/IMapTheme";
 

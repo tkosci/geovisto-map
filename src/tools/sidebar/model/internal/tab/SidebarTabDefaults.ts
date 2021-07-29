@@ -1,5 +1,7 @@
 // Geovisto core
-import MapObjectDefaults from "../../../../../model/internal/object/MapObjectDefaults";
+import {
+    MapObjectDefaults
+} from "../../../../../index.core";
 
 import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
 import ISidebarTabDefaults from "../../types/tab/ISidebarTabDefaults";

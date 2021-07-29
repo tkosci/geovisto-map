@@ -4,7 +4,9 @@ import {
 } from "leaflet";
 
 // Geovisto core
-import IDataChangeAnimateOptions from "../../../../../../model/types/event/data/IDataChangeAnimateOptions";
+import {
+    IDataChangeAnimateOptions
+} from "../../../../../../index.core";
 
 import { IMarkerIconOptions, IMarkerIconValueOptions } from "./IMarkerIconOptions";
 

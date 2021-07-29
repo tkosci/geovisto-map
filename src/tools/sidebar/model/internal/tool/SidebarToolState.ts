@@ -4,7 +4,10 @@ import {
 } from "leaflet";
 
 // Geovisto core
-import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
+import {
+    IMapToolInitProps,
+    MapToolState
+} from "../../../../../index.core";
 
 import ISidebarTab from "../../types/tab/ISidebarTab";
 import ISidebarTabConfig from "../../types/tab/ISidebarTabConfig";
@@ -13,7 +16,6 @@ import ISidebarToolConfig from "../../types/tool/ISidebarToolConfig";
 import ISidebarToolDefaults from "../../types/tool/ISidebarToolDefaults";
 import ISidebarToolProps from "../../types/tool/ISidebarToolProps";
 import ISidebarToolState from "../../types/tool/ISidebarToolState";
-import MapToolState from "../../../../../model/internal/tool/MapToolState";
 import SidebarToolDefaults from "./SidebarToolDefaults";
 
 /**

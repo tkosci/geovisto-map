@@ -1,10 +1,12 @@
 // Geovisto core
-import IMapForm from "../../../../../model/types/form/IMapForm";
-import IMapDataManager from "../../../../../model/types/data/IMapDataManager";
-import FilterAutocompleteFormInput from "../../../../../model/internal/inputs/filter/autocomplete/FilterAutocompleteFormInput";
-import LabeledAutocompleteFormInput from "../../../../../model/internal/inputs/labeled/autocomplete/LabeledAutocompleteFormInput";
-import MapObjectForm from "../../../../../model/internal/form/MapObjectForm";
-import TabDOMUtil from "../../../../../util/TabDOMUtil";
+import {
+    IMapForm,
+    IMapDataManager,
+    FilterAutocompleteFormInput,
+    LabeledAutocompleteFormInput,
+    MapObjectForm,
+    TabDOMUtil
+} from "../../../../../index.core";
 
 import IFiltersTool from "../../types/tool/IFiltersTool";
 import IMapFilterManager from "../../types/filter/IMapFilterManager";

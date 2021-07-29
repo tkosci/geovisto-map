@@ -1,12 +1,15 @@
 // Geovisto core
-import IDummyTabTool from "../../types/dummy/IDummyTabTool";
-import IMapForm from "../../../../../model/types/form/IMapForm";
-import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
-import IMapTool from "../../../../../model/types/tool/IMapTool";
-import { IMapToolProps } from "../../../../../model/types/tool/IMapToolProps";
-import MapTool from "../../../../../model/internal/tool/MapTool";
+import {
+    IMapForm,
+    IMapFormControl,
+    IMapTool,
+    IMapToolProps,
+    MapTool
+} from "../../../../../index.core";
 
 import DummyTabToolMapForm from "./DummyTabToolMapForm";
+import IDummyTabTool from "../../types/dummy/IDummyTabTool";
+
 /**
  * This class represents dummy tool which provides empty map form. It provides empty sidebar which can be used be other tools via tab fragments.
  * 

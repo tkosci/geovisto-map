@@ -1,7 +1,9 @@
 // Geovisto core
-import IMapDataDomain from "../../../../../model/types/data/IMapDataDomain";
-import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
-import MapToolState from "../../../../../model/internal/tool/MapToolState";
+import {
+    IMapDataDomain,
+    IMapToolInitProps,
+    MapToolState
+} from "../../../../../index.core";
 
 import IFiltersToolState from "../../types/tool/IFiltersToolState";
 import IFiltersTool from "../../types/tool/IFiltersTool";

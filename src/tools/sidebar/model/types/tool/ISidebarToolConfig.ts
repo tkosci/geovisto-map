@@ -1,5 +1,7 @@
 // Geovisto core
-import IMapToolConfig from "../../../../../model/types/tool/IMapToolConfig";
+import {
+    IMapToolConfig
+} from "../../../../../index.core";
 
 import ISidebarTabConfig from "../tab/ISidebarTabConfig";
 

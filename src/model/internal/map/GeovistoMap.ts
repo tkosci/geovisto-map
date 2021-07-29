@@ -92,9 +92,9 @@ class GeovistoMap extends MapObject implements IMap {
     public redraw(configManager: IMapConfigManager, props?: IMapProps): HTMLElement | null {
         // get map and remove map children
         let mapContainer: HTMLElement | null = document.getElementById(this.getState().getId());
-        if(mapContainer && mapContainer.childNodes.length > 0) {
+        if(mapContainer && mapContainer.children.length > 0) {
             // remove old elements
-            mapContainer.childNodes[0].remove();
+            mapContainer.children[0].remove();
 
             if(props) {
                 this.setProps(props);

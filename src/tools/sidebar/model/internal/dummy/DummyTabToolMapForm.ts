@@ -1,6 +1,8 @@
 // Geovisto core
-import IMapForm from "../../../../../model/types/form/IMapForm";
-import MapObjectForm from "../../../../../model/internal/form/MapObjectForm";
+import {
+    IMapForm,
+    MapObjectForm
+} from "../../../../../index.core";
 
 import IDummyTabTool from "../../types/dummy/IDummyTabTool";
 

@@ -1,6 +1,8 @@
 // Geovisto core
-import IMapTool from "../../../../../model/types/tool/IMapTool";
-import IMapToolAPI from "../../../../../model/types/api/IMapToolAPI";
+import {
+    IMapTool,
+    IMapToolAPI
+} from "../../../../../index.core";
 
 import IMapSelection from "../selection/IMapSelection";
 

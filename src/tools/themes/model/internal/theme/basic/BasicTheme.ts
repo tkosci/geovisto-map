@@ -1,6 +1,8 @@
 // Geovisto core
-import AbstractMapDomain from "../../../../../../model/internal/domain/abstract/AbstractMapDomain";
-import IMapTilesModel from "../../../../../../model/types/tiles/IMapTilesModel";
+import {
+    AbstractMapDomain,
+    IMapTilesModel
+} from "../../../../../../index.core";
 
 import IMapTheme from "../../../types/theme/IMapTheme";
 

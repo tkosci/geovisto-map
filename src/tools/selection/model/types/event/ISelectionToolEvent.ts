@@ -1,5 +1,7 @@
 // Geovisto core
-import IMapChangeEvent from "../../../../../model/types/event/IMapChangeEvent";
+import {
+    IMapChangeEvent
+} from "../../../../../index.core";
 
 /**
  * This class provides the map selection change event.

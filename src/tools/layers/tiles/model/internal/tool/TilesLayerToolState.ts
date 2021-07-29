@@ -1,7 +1,9 @@
 // Geovisto core
-import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
-import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
-import IMapTilesModel from "../../../../../../model/types/tiles/IMapTilesModel";
+import {
+    LayerToolState,
+    IMapToolInitProps,
+    IMapTilesModel
+} from "../../../../../../index.core";
 
 import ITilesLayerToolState from "../../types/tool/ITilesLayerToolState";
 import ITilesLayerTool from "../../types/tool/ITilesLayerTool";

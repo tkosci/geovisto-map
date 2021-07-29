@@ -2,8 +2,7 @@
 import {
     LatLngExpression,
     Marker as LMarker
-}
-from "leaflet";
+} from "leaflet";
 
 import IMarker from "../../types/marker/IMarker";
 import IMarkerIcon from "../../types/marker/IMarkerIcon";

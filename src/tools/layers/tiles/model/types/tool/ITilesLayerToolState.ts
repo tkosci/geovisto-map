@@ -1,8 +1,10 @@
 // Geovisto core
-import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
-import { ILayerToolDimensionsConfig } from "../../../../../../model/types/layer/ILayerToolConfig";
-import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
-import IMapTilesModel from "../../../../../../model/types/tiles/IMapTilesModel";
+import {
+    ILayerToolDimensions,
+    ILayerToolDimensionsConfig,
+    ILayerToolState,
+    IMapTilesModel
+} from "../../../../../../index.core";
 
 import ITilesLayerToolConfig from "./ITilesLayerToolConfig";
 import ITilesLayerToolDefaults from "./ITilesLayerToolDefaults";

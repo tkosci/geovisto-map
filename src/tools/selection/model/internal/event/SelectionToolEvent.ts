@@ -1,6 +1,8 @@
 // Geovisto core
-import IMapTool from "../../../../../model/types/tool/IMapTool";
-import MapChangeEvent from "../../../../../model/internal/event/generic/MapChangeEvent";
+import {
+    IMapTool,
+    MapChangeEvent
+} from "../../../../../index.core";
 
 import IMapSelection from "../../types/selection/IMapSelection";
 import ISelectionToolEvent from "../../types/event/ISelectionToolEvent";

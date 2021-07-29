@@ -1,12 +1,14 @@
 // Geovisto core
-import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
-import IMapTool from "../../../../../model/types/tool/IMapTool";
-import ISidebarFragmentDefaults from "../../types/fragment/ISidebarFragmentDefaults";
-import { ISidebarFragmentProps, ISidebarFragmentInitProps } from "../../types/fragment/ISidebarFragmentProps";
-import MapObject from "../../../../../model/internal/object/MapObject";
+import {
+    IMapFormControl,
+    IMapTool,
+    MapObject
+} from "../../../../../index.core";
 
 import ISidebarFragment from "../../types/fragment/ISidebarFragment";
 import ISidebarFragmentConfig from "../../types/fragment/ISidebarFragmentConfig";
+import ISidebarFragmentDefaults from "../../types/fragment/ISidebarFragmentDefaults";
+import { ISidebarFragmentProps, ISidebarFragmentInitProps } from "../../types/fragment/ISidebarFragmentProps";
 import ISidebarFragmentState from "../../types/fragment/ISidebarFragmentState";
 import SidebarFragmentDefaults from "./SidebarFragmentDefaults";
 import SidebarFragmentState from "./SidebarFragmentState";

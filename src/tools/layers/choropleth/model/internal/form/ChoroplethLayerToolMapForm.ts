@@ -1,13 +1,15 @@
 // Geovisto core
-import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import IIntegerRangeManager from "../../../../../../model/types/type/IIntegerRangeManager";
-import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
-import IMapForm from "../../../../../../model/types/form/IMapForm";
-import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
-import IMapTypeDimension from "../../../../../../model/types/dimension/IMapTypeDimension";
-import MapLayerToolForm from "../../../../../../model/internal/form/MapLayerToolForm";
+import {
+    IGeoData,
+    IIntegerRangeManager,
+    IMapAggregationFunction,
+    IMapDataDomain,
+    IMapDomainDimension,
+    IMapForm,
+    IMapFormInput,
+    IMapTypeDimension,
+    MapLayerToolForm
+} from "../../../../../../index.core";
 
 import IChoroplethLayerTool from "../../types/tool/IChoroplethLayerTool";
 import IChoroplethLayerToolDimensions from "../../types/tool/IChoroplethLayerToolDimensions";

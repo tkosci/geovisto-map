@@ -1,4 +1,8 @@
-import AbstractMapDomain from "../../../../../../model/internal/domain/abstract/AbstractMapDomain";
+// Geovisto core
+import {
+    AbstractMapDomain
+} from "../../../../../../index.core";
+
 import IMapFilterOperation from "../../../types/filter/IMapFilterOperation";
 
 /**

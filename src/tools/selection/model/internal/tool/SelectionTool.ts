@@ -1,12 +1,14 @@
 // Geovisto core
-import DataChangeEvent from "../../../../../model/internal/event/data/DataChangeEvent";
-import IMapDataChangeEvent from "../../../../../model/types/event/data/IMapDataChangeEvent";
-import IMapEvent from "../../../../../model/types/event/IMapEvent";
-import IMapForm from "../../../../../model/types/form/IMapForm";
-import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
-import IMapTool from "../../../../../model/types/tool/IMapTool";
-import { IMapToolInitProps } from "../../../../../model/types/tool/IMapToolProps";
-import MapTool from "../../../../../model/internal/tool/MapTool";
+import {
+    DataChangeEvent,
+    IMapDataChangeEvent,
+    IMapEvent,
+    IMapForm,
+    IMapFormControl,
+    IMapTool,
+    IMapToolInitProps,
+    MapTool
+} from "../../../../../index.core";
 
 import IMapSelection from "../../types/selection/IMapSelection";
 import ISelectionTool from "../../types/tool/ISelectionTool";

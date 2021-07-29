@@ -4,18 +4,20 @@ import "leaflet-sidebar-v2";
 import "leaflet-sidebar-v2/css/leaflet-sidebar.min.css";
 
 // styles
-import 'font-awesome/css/font-awesome.min.css';
+import "font-awesome/css/font-awesome.min.css";
 import "../../../styles/style.scss";
 
 // Geovisto core
-import IMapEvent from '../../../../../model/types/event/IMapEvent';
-import { IMapToolInitProps } from '../../../../../model/types/tool/IMapToolProps';
-import { instanceOfMapForm } from '../../../../../model/types/form/IMapFormControl';
-import MapTool from '../../../../../model/internal/tool/MapTool';
+import {
+    DataManagerChangeEvent,
+    IMapEvent,
+    IMapTool,
+    IMapToolInitProps,
+    instanceOfMapForm,
+    MapTool
+} from '../../../../../index.core';
 
-import DataManagerChangeEvent from '../../../../../model/internal/event/data/DataManagerChangeEvent';
 import DummyTabTool from '../dummy/DummyTabTool';
-import IMapTool from '../../../../../model/types/tool/IMapTool';
 import ISidebarTab from '../../types/tab/ISidebarTab';
 import ISidebarTabConfig from '../../types/tab/ISidebarTabConfig';
 import ISidebarTool from '../../types/tool/ISidebarTool';

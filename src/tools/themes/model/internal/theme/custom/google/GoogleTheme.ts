@@ -1,5 +1,7 @@
 // Geovisto core
-import IMapTilesModel from '../../../../../../../model/types/tiles/IMapTilesModel';
+import {
+    IMapTilesModel
+} from '../../../../../../../index.core';
 
 import BasicTheme from '../../basic/BasicTheme';
 import IMapTheme from '../../../../types/theme/IMapTheme';

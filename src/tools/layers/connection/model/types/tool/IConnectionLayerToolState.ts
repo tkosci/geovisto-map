@@ -1,10 +1,12 @@
 // Geovisto core
-import { IConnectionLayerToolConfig, IConnectionLayerToolDimensionsConfig } from "./IConnectionLayerToolConfig";
-import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
-import ILayerToolState from "../../../../../../model/types/layer/ILayerToolState";
-import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
+import {
+    ILayerToolState,
+    IMapAggregationBucket
+} from "../../../../../../index.core";
 
+import { IConnectionLayerToolConfig, IConnectionLayerToolDimensionsConfig } from "./IConnectionLayerToolConfig";
 import IConnectionLayerToolDefaults from "./IConnectionLayerToolDefaults";
+import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
 import IConnectionLayerToolProps from "./IConnectionLayerToolProps";
 /**
  * This interface declares functions for using the state of the layer tool.

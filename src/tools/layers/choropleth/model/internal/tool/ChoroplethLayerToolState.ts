@@ -1,7 +1,9 @@
 // Geovisto core
-import IMapAggregationBucket from "../../../../../../model/types/aggregation/IMapAggregationBucket";
-import { IMapToolInitProps } from "../../../../../../model/types/tool/IMapToolProps";
-import LayerToolState from "../../../../../../model/internal/layer/LayerToolState";
+import {
+    IMapAggregationBucket,
+    IMapToolInitProps,
+    LayerToolState
+} from "../../../../../../index.core";
 
 import IChoroplethLayerTool from "../../types/tool/IChoroplethLayerTool";
 import { IChoroplethLayerToolConfig, IChoroplethLayerToolDimensionsConfig } from "../../types/tool/IChoroplethLayerToolConfig";

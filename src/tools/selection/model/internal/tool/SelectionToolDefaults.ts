@@ -1,5 +1,7 @@
 // Geovisto core
-import MapToolDefaults from "../../../../../model/internal/tool/MapToolDefaults";
+import {
+    MapToolDefaults
+} from "../../../../../index.core";
 
 import IMapSelection from "../../types/selection/IMapSelection";
 import ISelectionToolConfig from "../../types/tool/ISelectionToolConfig";

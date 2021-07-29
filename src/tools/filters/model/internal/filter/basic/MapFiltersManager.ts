@@ -1,8 +1,10 @@
 // Geovisto core
-import IMapData from "../../../../../../model/types/data/IMapData";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDataManager from "../../../../../../model/types/data/IMapDataManager";
-import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
+import {
+    IMapData,
+    IMapDataDomain,
+    IMapDataManager,
+    MapDomainArrayManager
+} from "../../../../../../index.core";
 
 import IMapFilterManager from "../../../types/filter/IMapFilterManager";
 import IMapFilterOperation from "../../../types/filter/IMapFilterOperation";

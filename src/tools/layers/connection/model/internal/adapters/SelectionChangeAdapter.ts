@@ -4,8 +4,10 @@ import {
 } from "d3";
 
 // Geovisto core
-import IMapChangeEvent from "../../../../../../model/types/event/IMapChangeEvent";
-import IMapEvent from "../../../../../../model/types/event/IMapEvent";
+import {
+    IMapChangeEvent,
+    IMapEvent
+} from "../../../../../../index.core";
 
 // Geovisto Selection Tool API
 import {

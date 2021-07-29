@@ -13,9 +13,13 @@ import {
 import {
     Icon
 } from "leaflet";
-import IDataChangeAnimateOptions from "../../../../../../model/types/event/data/IDataChangeAnimateOptions";
-import IMarkerIcon from "../../types/marker/IMarkerIcon";
 
+// Geovisto core
+import {
+    IDataChangeAnimateOptions
+} from "../../../../../../index.core";
+
+import IMarkerIcon from "../../types/marker/IMarkerIcon";
 import { IMarkerIconOptions, IMarkerIconValueOptions } from "../../types/marker/IMarkerIconOptions";
 
 /**

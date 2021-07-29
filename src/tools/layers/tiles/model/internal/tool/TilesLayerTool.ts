@@ -10,13 +10,15 @@ import {
 } from '../../../../../themes';
 
 // Geovisto core
-import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
-import IMapChangeEvent from '../../../../../../model/types/event/IMapChangeEvent';
-import IMapEvent from '../../../../../../model/types/event/IMapEvent';
-import IMapForm from '../../../../../../model/types/form/IMapForm';
-import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
-import IMapTilesModel from '../../../../../../model/types/tiles/IMapTilesModel';
-import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
+import {
+    AbstractLayerTool,
+    IMapChangeEvent,
+    IMapEvent,
+    IMapForm,
+    IMapFormControl,
+    IMapTilesModel,
+    IMapToolInitProps
+} from '../../../../../../index.core';
 
 import ITilesLayerTool from '../../types/tool/ITilesLayerTool';
 import ITilesLayerToolConfig from '../../types/tool/ITilesLayerToolConfig';

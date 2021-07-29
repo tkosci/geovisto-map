@@ -29,24 +29,26 @@ import {
 } from '../../../../../themes';
 
 // Geovisto core
-import AbstractLayerTool from '../../../../../../model/internal/layer/AbstractLayerTool';
-import DataChangeEvent from '../../../../../../model/internal/event/data/DataChangeEvent';
-import DataManagerChangeEvent from '../../../../../../model/internal/event/data/DataManagerChangeEvent';
-import GeoJSONTypes from '../../../../../../model/types/geodata/GeoJSONTypes';
-import IDataChangeAnimateOptions from '../../../../../../model/types/event/data/IDataChangeAnimateOptions';
-import IMapAggregationBucket from '../../../../../../model/types/aggregation/IMapAggregationBucket';
-import IMapAggregationFunction from '../../../../../../model/types/aggregation/IMapAggregationFunction';
-import IMapData from '../../../../../../model/types/data/IMapData';
-import IMapDataChangeEvent from '../../../../../../model/types/event/data/IMapDataChangeEvent';
-import IMapDataDomain from '../../../../../../model/types/data/IMapDataDomain';
-import IMapDataManager from '../../../../../../model/types/data/IMapDataManager';
-import IMapDomainDimension from '../../../../../../model/types/dimension/IMapDomainDimension';
-import IMapDomain from '../../../../../../model/types/domain/IMapDomain';
-import IMapEvent from '../../../../../../model/types/event/IMapEvent';
-import IMapForm from '../../../../../../model/types/form/IMapForm';
-import IMapFormControl from '../../../../../../model/types/form/IMapFormControl';
-import { IMapToolInitProps } from '../../../../../../model/types/tool/IMapToolProps';
-import LayerToolRenderType from '../../../../../../model/types/layer/LayerToolRenderType';
+import {
+    AbstractLayerTool,
+    DataChangeEvent,
+    DataManagerChangeEvent,
+    GeoJSONTypes,
+    IDataChangeAnimateOptions,
+    IMapAggregationBucket,
+    IMapAggregationFunction,
+    IMapData,
+    IMapDataChangeEvent,
+    IMapDataDomain,
+    IMapDataManager,
+    IMapDomainDimension,
+    IMapDomain,
+    IMapEvent,
+    IMapForm,
+    IMapFormControl,
+    IMapToolInitProps,
+    LayerToolRenderType
+} from '../../../../../../index.core';
 
 import IChoroplethLayerTool from '../../types/tool/IChoroplethLayerTool';
 import { IChoroplethLayerToolConfig } from '../../types/tool/IChoroplethLayerToolConfig';

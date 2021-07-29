@@ -4,17 +4,19 @@ import {
 } from "leaflet";
 
 // Geovisto core
-import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
-import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import IMap from "../../../../../../model/types/map/IMap";
-import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
-import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
-import MapDomainDimension from "../../../../../../model/internal/dimension/MapDomainDimension";
-import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
-import MapDynamicDomainDimension from "../../../../../../model/internal/dimension/MapDynamicDomainDimension";
-import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
+import {
+    CountAggregationFunction,
+    IGeoData,
+    IMap,
+    IMapAggregationFunction,
+    IMapDataDomain,
+    IMapDomainDimension,
+    LayerToolDefaults,
+    MapDomainDimension,
+    MapDomainArrayManager,
+    MapDynamicDomainDimension,
+    SumAggregationFunction
+} from "../../../../../../index.core";
 
 import IMarker from "../../types/marker/IMarker";
 import IMarkerIcon from "../../types/marker/IMarkerIcon";

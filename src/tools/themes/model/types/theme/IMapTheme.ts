@@ -1,6 +1,8 @@
 // Geovisto core
-import IMapDomain from "../../../../../model/types/domain/IMapDomain";
-import IMapTilesModel from "../../../../../model/types/tiles/IMapTilesModel";
+import {
+    IMapDomain,
+    IMapTilesModel
+} from "../../../../../index.core";
 
 /**
  * This interface declares a map theme API.

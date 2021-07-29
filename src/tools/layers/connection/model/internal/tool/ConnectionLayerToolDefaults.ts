@@ -1,13 +1,15 @@
 // Geovisto core
-import BooleanTypeManager from "../../../../../../model/internal/type/BooleanTypeManager";
-import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import IMap from "../../../../../../model/types/map/IMap";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
-import IMapTypeDimension from "../../../../../../model/types/dimension/IMapTypeDimension";
-import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
-import MapDynamicDomainDimension from "../../../../../../model/internal/dimension/MapDynamicDomainDimension";
-import MapTypeDimension from "../../../../../../model/internal/dimension/MapTypeDimension";
+import {
+    BooleanTypeManager,
+    IGeoData,
+    IMap,
+    IMapDataDomain,
+    IMapDomainDimension,
+    IMapTypeDimension,
+    LayerToolDefaults,
+    MapDynamicDomainDimension,
+    MapTypeDimension
+} from "../../../../../../index.core";
 
 import IConnectionLayerToolDefaults from "../../types/tool/IConnectionLayerToolDefaults";
 import IConnectionLayerToolDimensions from "../../types/tool/IConnectionLayerToolDimensions";

@@ -1,22 +1,24 @@
 // Geovisto core
-import BooleanTypeManager from "../../../../../../model/internal/type/BooleanTypeManager";
-import CountAggregationFunction from "../../../../../../model/internal/aggregation/basic/CountAggregationFunction";
-import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import IIntegerRangeManager from "../../../../../../model/types/type/IIntegerRangeManager";
-import IMap from "../../../../../../model/types/map/IMap";
-import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
-import IMapTypeDimension from "../../../../../../model/types/dimension/IMapTypeDimension";
-import IntegerRangeManager from "../../../../../../model/internal/type/IntegerRangeManager";
-import IntegerTypeManager from "../../../../../../model/internal/type/IntegerTypeManager";
-import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
-import MapDomainDimension from "../../../../../../model/internal/dimension/MapDomainDimension";
-import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
-import MapDynamicDomainDimension from "../../../../../../model/internal/dimension/MapDynamicDomainDimension";
-import MapTypeDimension from "../../../../../../model/internal/dimension/MapTypeDimension";
-import SumAggregationFunction from "../../../../../../model/internal/aggregation/basic/SumAggregationFunction";
-import StringTypeManager from "../../../../../../model/internal/type/StringTypeManager";
+import {
+    BooleanTypeManager,
+    CountAggregationFunction,
+    IGeoData,
+    IIntegerRangeManager,
+    IMap,
+    IMapAggregationFunction,
+    IMapDataDomain,
+    IMapDomainDimension,
+    IMapTypeDimension,
+    IntegerRangeManager,
+    IntegerTypeManager,
+    LayerToolDefaults,
+    MapDomainDimension,
+    MapDomainArrayManager,
+    MapDynamicDomainDimension,
+    MapTypeDimension,
+    SumAggregationFunction,
+    StringTypeManager
+} from "../../../../../../index.core";
 
 import DecimalScale from "../scale/DecimalScale";
 import IChoroplethLayerToolDefaults from "../../types/tool/IChoroplethLayerToolDefaults";

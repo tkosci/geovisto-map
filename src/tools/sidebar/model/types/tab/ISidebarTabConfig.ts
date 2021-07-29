@@ -1,5 +1,7 @@
 // Geovisto core
-import IMapObjectConfig from "../../../../../model/types/object/IMapObjectConfig";
+import {
+    IMapObjectConfig
+} from "../../../../../index.core";
 
 import ISidebarFragmentConfig from "../fragment/ISidebarFragmentConfig";
 

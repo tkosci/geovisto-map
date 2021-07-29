@@ -4,12 +4,14 @@ import {
 } from "leaflet";
 
 // Geovisto core
-import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import ILayerToolDefaults from "../../../../../../model/types/layer/ILayerToolDefaults";
-import IMap from "../../../../../../model/types/map/IMap";
-import IMapAggregationFunction from "../../../../../../model/types/aggregation/IMapAggregationFunction";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
+import {
+    IGeoData,
+    ILayerToolDefaults,
+    IMap,
+    IMapAggregationFunction,
+    IMapDataDomain,
+    IMapDomainDimension
+} from "../../../../../../index.core";
 
 import IMarker from "../marker/IMarker";
 import IMarkerIcon from "../marker/IMarkerIcon";

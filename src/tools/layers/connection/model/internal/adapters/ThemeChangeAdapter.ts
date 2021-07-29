@@ -1,5 +1,7 @@
 // Geovisto core
-import IMapEvent from "../../../../../../model/types/event/IMapEvent";
+import {
+    IMapEvent
+} from "../../../../../../index.core";
 
 // Geovisto Themes Tool API
 import {

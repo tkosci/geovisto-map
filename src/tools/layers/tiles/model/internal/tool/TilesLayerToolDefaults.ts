@@ -1,6 +1,8 @@
 // Geovisto core
-import IMapTilesModel from "../../../../../../model/types/tiles/IMapTilesModel";
-import LayerToolDefaults from "../../../../../../model/internal/layer/LayerToolDefaults";
+import {
+    IMapTilesModel,
+    LayerToolDefaults
+} from "../../../../../../index.core";
 
 import ITilesLayerToolDefaults from "../../types/tool/ITilesLayerToolDefaults";
 
@@ -56,7 +58,7 @@ class TilesLayerToolDefaults extends LayerToolDefaults implements ITilesLayerToo
             maxZoom: 20,
             maxNativeZoom: 19
             //subdomains:['mt0','mt1','mt2','mt3']
-        }
+        };
         
     }
 }

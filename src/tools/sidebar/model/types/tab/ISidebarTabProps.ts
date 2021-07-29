@@ -1,7 +1,10 @@
 // Geovisto core
-import IMapFormControl from "../../../../../model/types/form/IMapFormControl";
-import { IMapObjectProps, IMapObjectInitProps } from "../../../../../model/types/object/IMapObjectProps";
-import IMapTool from "../../../../../model/types/tool/IMapTool";
+import {
+    IMapFormControl,
+    IMapObjectInitProps,
+    IMapObjectProps,
+    IMapTool
+} from "../../../../../index.core";
 
 import ISidebarFragment from "../fragment/ISidebarFragment";
 import ISidebarTabConfig from "./ISidebarTabConfig";

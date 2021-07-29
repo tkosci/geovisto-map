@@ -1,6 +1,8 @@
 // Geovisto core
-import ILayerToolDefaults from "../../../../../../model/types/layer/ILayerToolDefaults";
-import IMapTilesModel from "../../../../../../model/types/tiles/IMapTilesModel";
+import {
+    ILayerToolDefaults,
+    IMapTilesModel
+} from "../../../../../../index.core";
 
 /**
  * This interface declares functions which return the default state values.

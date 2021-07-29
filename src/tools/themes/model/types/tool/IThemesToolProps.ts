@@ -1,5 +1,7 @@
 // Geovisto core
-import { IMapToolProps } from "../../../../../model/types/tool/IMapToolProps";
+import {
+    IMapToolProps
+} from "../../../../../index.core";
 
 import IMapTheme from "../theme/IMapTheme";
 import IMapThemesManager from "../theme/IMapThemesManager";

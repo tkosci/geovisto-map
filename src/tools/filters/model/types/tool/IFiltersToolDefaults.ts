@@ -1,5 +1,7 @@
 // Geovisto core
-import IMapToolDefaults from "../../../../../model/types/tool/IMapToolDefaults";
+import {
+    IMapToolDefaults
+} from "../../../../../index.core";
 
 import IFiltersToolConfig from "./IFiltersToolConfig";
 import IMapFilterManager from "../filter/IMapFilterManager";

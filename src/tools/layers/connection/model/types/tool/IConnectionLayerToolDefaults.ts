@@ -1,10 +1,12 @@
 // Geovisto core
-import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import ILayerToolDefaults from "../../../../../../model/types/layer/ILayerToolDefaults";
-import IMap from "../../../../../../model/types/map/IMap";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
-import IMapTypeDimension from "../../../../../../model/types/dimension/IMapTypeDimension";
+import {
+    IGeoData,
+    ILayerToolDefaults,
+    IMap,
+    IMapDataDomain,
+    IMapDomainDimension,
+    IMapTypeDimension
+} from "../../../../../../index.core";
 
 import IConnectionLayerToolDimensions from "./IConnectionLayerToolDimensions";
 /**

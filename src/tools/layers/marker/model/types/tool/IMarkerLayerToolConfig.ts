@@ -1,5 +1,8 @@
 // Geovisto core
-import { ILayerToolConfig, ILayerToolDimensionsConfig } from "../../../../../../model/types/layer/ILayerToolConfig";
+import {
+    ILayerToolConfig,
+    ILayerToolDimensionsConfig
+} from "../../../../../../index.core";
 
 /**
  * This type provides specification of the marker layer tool config model.

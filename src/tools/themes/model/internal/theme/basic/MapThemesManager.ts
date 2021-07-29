@@ -1,5 +1,7 @@
 // Geovisto core
-import MapDomainArrayManager from "../../../../../../model/internal/domain/generic/MapDomainArrayManager";
+import {
+    MapDomainArrayManager
+} from "../../../../../../index.core";
 
 import IMapTheme from "../../../types/theme/IMapTheme";
 import IMapThemesManager from "../../../types/theme/IMapThemesManager";

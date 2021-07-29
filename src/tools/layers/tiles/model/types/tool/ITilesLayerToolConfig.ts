@@ -1,5 +1,7 @@
 // Geovisto core
-import { ILayerToolConfig } from "../../../../../../model/types/layer/ILayerToolConfig";
+import {
+    ILayerToolConfig
+} from "../../../../../../index.core";
 
 /**
  * This type provides specification of the tiles layer tool config model.

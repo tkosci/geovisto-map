@@ -1,9 +1,11 @@
 // Geovisto core
-import IGeoData from "../../../../../../model/types/geodata/IGeoData";
-import ILayerToolDimensions from "../../../../../../model/types/layer/ILayerToolDimensions";
-import IMapDataDomain from "../../../../../../model/types/data/IMapDataDomain";
-import IMapDomainDimension from "../../../../../../model/types/dimension/IMapDomainDimension";
-import IMapTypeDimension from "../../../../../../model/types/dimension/IMapTypeDimension";
+import {
+    IGeoData,
+    ILayerToolDimensions,
+    IMapDataDomain,
+    IMapDomainDimension,
+    IMapTypeDimension
+} from "../../../../../../index.core";
 
 /**
  * This type provides the specification of the connection layer tool dimensions model.
