@@ -8,38 +8,45 @@ import { AbstractTool } from '../AbstractTool';
 import '../../components/useKnife';
 import { getFirstGeoJSONFeature, isFeaturePoly } from '../../util/polyHelpers';
 import { normalStyles } from '../../util/constants';
+import { ToolProps } from '../AbstractTool/types';
+import { CreatedEvent, DrawnObject } from '../../model/types';
+import { Geometry, LineString, MultiLineString, MultiPolygon, Polygon } from '@turf/turf';
+import { TGeometricSliceTool } from './types';
 
-class GeometricSliceTool extends AbstractTool {
+type LineObject = GeoJSON.Feature<LineString | MultiLineString>;
+type PolyObject = GeoJSON.Feature<Polygon | MultiPolygon>;
+
+class GeometricSliceTool extends AbstractTool implements TGeometricSliceTool {
   static result = 'knife';
 
-  constructor(props) {
+  constructor(props: ToolProps) {
     super(props);
 
     this.leafletMap.on('draw:created', this.created);
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'geometric-slice-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return GeometricSliceTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-scissors';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Division tool';
   }
 
-  canBeCanceled = (): boolean => {
+  public canBeCanceled = (): boolean => {
     return true;
   };
 
-  created = (e) => {
-    let layer = e.layer;
+  private created = (e: CreatedEvent): void => {
+    const layer = e.layer;
     if (!layer) return;
 
     // * SLICE
@@ -52,22 +59,22 @@ class GeometricSliceTool extends AbstractTool {
   /**
    * @brief - inspired by https://gis.stackexchange.com/questions/344068/splitting-a-polygon-by-multiple-linestrings-leaflet-and-turf-js
    *        - slices selected object with currently created one
-   *
-   * @param {Layer} layer
    */
-  polySlice(layer): void {
-    let lineFeat = getFirstGeoJSONFeature(layer);
-    let selectedLayer = this.drawingTool.getState().selectedLayer;
+  public polySlice(layer: DrawnObject): void {
+    // * I can retype this b/c this function runs only if created is of result type
+    const lineFeat = getFirstGeoJSONFeature(layer) as LineObject;
+
+    const selectedLayer = this.drawingTool.getState().selectedLayer;
 
     if (selectedLayer) {
       const THICK_LINE_WIDTH = 0.00001;
       const THICK_LINE_UNITS = 'kilometers';
       let offsetLine;
-      let selectedFeature = getFirstGeoJSONFeature(selectedLayer);
+      const selectedFeature = getFirstGeoJSONFeature(selectedLayer) as PolyObject;
 
-      let isFeatPoly = isFeaturePoly(selectedFeature);
+      const isFeatPoly = isFeaturePoly(selectedFeature);
 
-      if (isFeatPoly) {
+      if (isFeatPoly && lineFeat && selectedFeature) {
         let coords;
         let latlngs;
         try {
@@ -75,28 +82,30 @@ class GeometricSliceTool extends AbstractTool {
             units: THICK_LINE_UNITS,
           });
 
-          let polyCoords = [];
+          // * Position is simply type 'number[] '
+          const polyCoords: number[] = [];
           // * push all of the coordinates of original line
-          for (let j = 0; j < lineFeat.geometry.coordinates.length; j++) {
-            polyCoords.push(lineFeat.geometry.coordinates[j]);
+          for (let j = 0; j < (lineFeat.geometry as Geometry).coordinates.length; j++) {
+            polyCoords.push((lineFeat.geometry as Geometry).coordinates[j] as number);
           }
           // * push all of the coordinates of offset line
           for (let j = offsetLine.geometry.coordinates.length - 1; j >= 0; j--) {
-            polyCoords.push(offsetLine.geometry.coordinates[j]);
+            polyCoords.push((offsetLine.geometry.coordinates[j] as unknown) as number);
           }
           // * to create linear ring
-          polyCoords.push(lineFeat.geometry.coordinates[0]);
+          polyCoords.push((lineFeat.geometry as Geometry).coordinates[0] as number);
 
-          let thickLineString = turf.lineString(polyCoords);
-          let thickLinePolygon = turf.lineToPolygon(thickLineString);
-          let clipped = turf.difference(selectedFeature, thickLinePolygon);
+          // TODO: TEST
+          const thickLineString = turf.lineString([polyCoords]);
+          const thickLinePolygon = turf.lineToPolygon(thickLineString);
+          const clipped = turf.difference(selectedFeature, thickLinePolygon);
           // clipped = simplifyFeature(clipped);
-
+          if (!clipped) return;
           coords = clipped.geometry.coordinates;
           this.drawingTool.getState().removeSelectedLayer();
           coords.forEach((coord) => {
             latlngs = L.GeoJSON.coordsToLatLngs(coord, 1);
-            let result = new L.polygon(latlngs, {
+            const result = new L.polygon(latlngs, {
               ...selectedLayer.options,
               ...normalStyles,
             });
@@ -110,7 +119,7 @@ class GeometricSliceTool extends AbstractTool {
     }
   }
 
-  _dividePoly = (): void => {
+  private _dividePoly = (): void => {
     this.tool = new L.Draw.Slice(this.leafletMap, {
       shapeOptions: {
         color: '#333',
@@ -123,12 +132,12 @@ class GeometricSliceTool extends AbstractTool {
     this.tool.enable();
   };
 
-  enable = (): void => {
+  public enable = (): void => {
     this._dividePoly();
   };
 
-  disable = () => {
-    let activeTool = this.tool;
+  public disable = (): void => {
+    const activeTool = this.tool;
     if (activeTool) {
       activeTool.disable();
     }

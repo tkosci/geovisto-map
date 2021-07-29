@@ -1,5 +1,6 @@
 import L, { DrawMap, DrawOptions } from 'leaflet';
 import 'leaflet-draw';
+import { LooseObject } from '../model/types';
 
 /**
  * @author Andrej Tlcina
@@ -9,9 +10,9 @@ declare module 'leaflet' {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Draw {
     class Slice extends Control {
-       constructor ();
-       static TYPE: string
-     }
+      constructor(map: Map, params: LooseObject);
+      static TYPE: string;
+    }
   }
 }
 

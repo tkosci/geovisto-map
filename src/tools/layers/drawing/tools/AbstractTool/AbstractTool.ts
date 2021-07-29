@@ -55,7 +55,7 @@ class AbstractTool implements TAbstractTool {
   /**
    * to be extended
    */
-  public result(): '' {
+  public result(): LayerType | '' {
     return '';
   }
 

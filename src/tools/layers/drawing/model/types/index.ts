@@ -11,7 +11,14 @@ import { DrawEvents, LatLng, Layer } from 'leaflet';
 
 export type LatLngs = LatLng[];
 
-export type LayerType = 'marker' | 'polyline' | 'polygon' | 'painted' | 'vertice' | 'erased';
+export type LayerType =
+  | 'marker'
+  | 'polyline'
+  | 'polygon'
+  | 'painted'
+  | 'vertice'
+  | 'erased'
+  | 'search';
 
 export type DrawnObject = Layer & {
   layerType: LayerType;

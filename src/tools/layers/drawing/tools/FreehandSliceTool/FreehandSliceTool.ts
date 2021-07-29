@@ -1,18 +1,26 @@
-import L from 'leaflet';
+import L, { Path } from 'leaflet';
 import 'leaflet-path-drag';
 import 'leaflet-path-transform';
 import 'leaflet-draw';
 import 'leaflet-pather';
 
 import { GeometricSliceTool } from '../GeometricSliceTool';
+import { ToolProps } from '../AbstractTool/types';
+import { TFreehandSliceTool } from './types';
 
-class FreehandSliceTool extends GeometricSliceTool {
+type PatherEvent = Event & { polyline: { polyline: Path } };
+
+class FreehandSliceTool extends GeometricSliceTool implements TFreehandSliceTool {
   static result = '';
 
-  constructor(props) {
+  private pather: Path;
+  private patherActive: boolean;
+
+  constructor(props: ToolProps) {
     super(props);
 
-    this.pather = new L.Pather({
+    // * using any b/c I dont know how to declare class Pather in leaflet module :(
+    this.pather = new (L as any).Pather({
       strokeWidth: 3,
       smoothFactor: 5,
       moduleClass: 'leaflet-pather',
@@ -21,30 +29,30 @@ class FreehandSliceTool extends GeometricSliceTool {
 
     this.patherActive = false;
 
-    this.pather.on('created', this.createdPath);
+    this.pather.on('created' as any, this.createdPath as any);
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'freehand-slice-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return FreehandSliceTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-cutlery';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Freehand slice tool';
   }
 
-  canBeCanceled = (): boolean => {
+  public canBeCanceled = (): boolean => {
     return true;
   };
 
-  _enableSlicing = (): void => {
+  private _enableSlicing = (): void => {
     const pather = this.pather;
     const patherStatus = this.patherActive;
     if (!patherStatus) {
@@ -58,10 +66,8 @@ class FreehandSliceTool extends GeometricSliceTool {
 
   /**
    * @brief slices selected polygon with pather's freehand line
-   *
-   * @param {Object} e
    */
-  createdPath = (e) => {
+  private createdPath = (e: PatherEvent) => {
     // * get polyline object
     const layer = e.polyline.polyline;
 
@@ -83,14 +89,14 @@ class FreehandSliceTool extends GeometricSliceTool {
     this.deactivate();
   };
 
-  enable = (): void => {
+  public enable = (): void => {
     this._enableSlicing();
   };
 
-  disable = (): void => {
+  public disable = (): void => {
     this.leafletMap.removeLayer(this.pather);
     this.patherActive = false;
-    let activeTool = this.tool;
+    const activeTool = this.tool;
     if (activeTool) {
       activeTool.disable();
     }

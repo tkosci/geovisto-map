@@ -1,4 +1,4 @@
-import L from 'leaflet';
+import L, { FeatureGroup, LatLng } from 'leaflet';
 import 'leaflet-path-drag';
 import 'leaflet-path-transform';
 import 'leaflet-draw';
@@ -7,11 +7,14 @@ import { OpenStreetMapProvider } from 'leaflet-geosearch';
 
 import { AbstractTool } from '../AbstractTool';
 import { iconStarter, ICON_SRCS } from '../../util/constants';
+import { DrawnObject, LayerType, LooseObject } from '../../model/types';
+import { TSearchTool } from './types';
+import { ToolProps } from '../AbstractTool/types';
 
-class SearchTool extends AbstractTool {
+class SearchTool extends AbstractTool implements TSearchTool {
   static result = 'search';
 
-  constructor(props) {
+  constructor(props: ToolProps) {
     super(props);
   }
 
@@ -31,7 +34,7 @@ class SearchTool extends AbstractTool {
     return 'Search drawing tool';
   }
 
-  result = (): string => {
+  result = (): LayerType => {
     return 'search';
   };
 
@@ -41,22 +44,21 @@ class SearchTool extends AbstractTool {
 
   /**
    * append marker on map with given latlng
-   *
-   * @param {Object} featureGroup
-   * @param {*} latlng
-   * @param {String} popup
-   * @param {String} iconUrl
-   * @param {Boolean} connectClick
-   * @returns {Layer}
    */
-  static putMarkerOnMap = (featureGroup, latlng, popup, iconUrl, connectClick = false) => {
+  static putMarkerOnMap = (
+    featureGroup: FeatureGroup,
+    latlng: LatLng,
+    popup: string,
+    iconUrl: string,
+    connectClick = false,
+  ): DrawnObject => {
     const additionalOpts = { iconUrl: iconUrl || ICON_SRCS[0], connectClick };
     const icon = new L.Icon({
       ...iconStarter,
       ...additionalOpts,
     });
 
-    let marker = new L.Marker.Touch(latlng, { icon });
+    const marker = new (L.Marker as any).Touch(latlng, { icon });
     if (popup) {
       marker.bindPopup(popup, { closeOnClick: false, autoClose: false });
       marker.popupContent = popup;
@@ -70,12 +72,11 @@ class SearchTool extends AbstractTool {
 
   /**
    * sends request to OSM with given query
-   *
-   * @param {Object} featureGroup
-   * @param {String} query
-   * @returns
    */
-  static geoSearch = async (featureGroup, query = '') => {
+  static geoSearch = async (
+    featureGroup: FeatureGroup,
+    query = '',
+  ): Promise<LooseObject[] | undefined> => {
     if (!query) return;
 
     // setup

@@ -101,7 +101,9 @@ export const getFirstGeoJSONFeature = (layer: DrawnObject): GeoJSON.Feature | nu
 /**
  * checks if feature is polygon
  */
-export const isFeaturePoly = (feature: GeoJSON.Feature | GeoJSON.FeatureCollection): boolean => {
+export const isFeaturePoly = (
+  feature: GeoJSON.Feature | GeoJSON.FeatureCollection | null,
+): boolean => {
   if (!feature) return false;
   if (feature?.type === 'FeatureCollection') {
     const f = feature.features[0];
