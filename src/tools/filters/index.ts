@@ -1,6 +1,3 @@
-// styles
-import "./styles/style.scss";
-
 export { GeovistoFiltersTool } from './GeovistoFiltersTool';
 
 // types

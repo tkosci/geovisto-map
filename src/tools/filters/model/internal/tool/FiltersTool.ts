@@ -17,6 +17,9 @@ import FiltersToolDefaults from "./FiltersToolDefaults";
 import FiltersToolState from "./FiltersToolState";
 import FiltersToolMapForm from "../form/FiltersToolMapForm";
 
+// styles
+import "../../../styles/style.scss";
+
 /**
  * This class wraps filters, sidebar tab and state. It provides methods for filters management.
  * 
