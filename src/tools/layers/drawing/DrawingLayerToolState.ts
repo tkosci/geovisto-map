@@ -1,5 +1,5 @@
 import { AbstractLayerToolState } from '../abstract';
-import L from 'leaflet';
+import L, { Polyline } from 'leaflet';
 import {
   convertCoords,
   convertOptionsToProperties,
@@ -11,6 +11,10 @@ import {
 import { isEmpty, sortReverseAlpha } from './util/baseHelpers';
 import { NOT_FOUND, iconStarter, normalStyles } from './util/constants';
 import { EditTool, TransformTool } from './tools';
+
+export type mappedMarkersToVertices = {
+  [vertKey: string]: Polyline;
+};
 
 /**
  * This class provide functions for using the state of the layer tool.

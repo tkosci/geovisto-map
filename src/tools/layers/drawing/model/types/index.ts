@@ -8,6 +8,7 @@ import {
   Polygon,
 } from '@turf/turf';
 import { DrawEvents, LatLng, Layer } from 'leaflet';
+import { LeafletDrag } from '../../tools/TopologyTool/types';
 
 export type LatLngs = LatLng[];
 
@@ -30,6 +31,7 @@ export type DrawnObject = Layer & {
   popupContent?: string;
   _latlngs: LatLngs;
   toGeoJSON: () => GeoJSON.Feature | GeoJSON.FeatureCollection;
+  on(type: 'drag', fn: (e: LeafletDrag) => void): void;
 };
 
 export type CreatedEvent = DrawEvents.Created & {
@@ -46,3 +48,5 @@ export type GeoFeature = Feature<
 export interface LooseObject {
   [key: string]: any;
 }
+
+export type Optional<T> = T | null;

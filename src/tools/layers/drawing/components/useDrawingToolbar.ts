@@ -70,6 +70,7 @@ export default function useDrawingToolbar(): void {
         // * careful not to hide the icon
         if (extraBtn?.tagName === 'I') return;
         if (extraBtn) {
+          console.log({ extraBtn });
           extraBtn.classList.toggle('hide');
           L.DomEvent.on(extraBtn, 'click', (e) => this._disableDrawing(e, tool), this);
         }
@@ -107,8 +108,6 @@ export default function useDrawingToolbar(): void {
 
         L.DomEvent.on(btn, 'click', (e) => handleClick(e, tool), this);
 
-        L.DomEvent.off(btn, 'click', (e) => handleClick(e, tool), this);
-
         this.options.drawingBtns[key] = btn;
       });
 
@@ -122,6 +121,7 @@ export default function useDrawingToolbar(): void {
      * @param {Object} e
      */
     _disableDrawing: function (e: L.LeafletEvent, tool) {
+      (e as any).stopPropagation();
       e?.target?.classList?.add('hide');
       tool.deactivate();
     },

@@ -13,70 +13,72 @@ import union from '@turf/union';
 import { isEmpty } from '../../util/baseHelpers';
 import { FIRST } from '../../util/constants';
 import { TopologyTool } from '../TopologyTool';
+import { TJoinTool } from './types';
+import { ToolProps } from '../AbstractTool/types';
+import { DrawnObject, Optional, TurfPolygon } from '../../model/types';
 
 const MAX_CHOSEN = 2;
 
-class JoinTool extends TopologyTool {
-  constructor(props) {
+class JoinTool extends TopologyTool implements TJoinTool {
+  private chosenLayers: DrawnObject[];
+
+  constructor(props: ToolProps) {
     super(props);
 
     // * selected for join
     this.chosenLayers = [];
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'join-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return JoinTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-plus-circle';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Join drawing tool';
   }
 
-  result(): string {
+  public result = (): '' => {
     return '';
-  }
+  };
 
-  canBeCanceled(): boolean {
+  public canBeCanceled = (): boolean => {
     return true;
-  }
+  };
 
-  enable = () => {
+  public enable = (): void => {
     this._redrawSidebar(this.result());
     this._isActive = true;
     const toolState = this.drawingTool.getState();
     toolState.setSelecting(true);
-    document.querySelector('.leaflet-container').style.cursor = 'crosshair';
+    (document.querySelector('.leaflet-container') as HTMLElement).style.cursor = 'crosshair';
   };
 
-  disable = () => {
+  public disable = (): void => {
     this._redrawSidebar(this.result());
     this._isActive = false;
     const toolState = this.drawingTool.getState();
     toolState.setSelecting(false);
-    document.querySelector('.leaflet-container').style.cursor = '';
+    (document.querySelector('.leaflet-container') as HTMLElement).style.cursor = '';
     this.deselectChosenLayers();
   };
 
   /**
    * checks if geo. object may be push to an array and be joined later on
-   *
-   * @param {Layer} layer
-   * @returns {Boolean}
    */
-  canPushToChosen = (layer) => {
+  private canPushToChosen = (layer: DrawnObject): boolean => {
     const acceptableType = this.isConnectMarker(layer) || isLayerPoly(layer);
-    if (isEmpty<Object[]>(this.chosenLayers)) {
+    if (isEmpty<DrawnObject[]>(this.chosenLayers)) {
       if (acceptableType) return true;
     } else {
-      let firstChosen = this.chosenLayers[FIRST];
+      const firstChosen = this.chosenLayers[FIRST];
       if (this.isConnectMarker(firstChosen) && this.isConnectMarker(layer)) return true;
       if (isLayerPoly(firstChosen) && isLayerPoly(layer)) return true;
     }
@@ -84,35 +86,31 @@ class JoinTool extends TopologyTool {
     return false;
   };
 
-  chosenLayersArePolys = () => {
-    let firstChosen = this.chosenLayers[FIRST];
+  private chosenLayersArePolys = (): boolean => {
+    const firstChosen = this.chosenLayers[FIRST];
     return isLayerPoly(firstChosen);
   };
 
   /**
    * checks if layers, to be joined, are markers
-   *
-   * @returns boolean
    */
-  chosenLayersAreMarkers = () => {
-    let firstChosen = this.chosenLayers[FIRST];
+  private chosenLayersAreMarkers = (): boolean => {
+    const firstChosen = this.chosenLayers[FIRST];
     return this.isConnectMarker(firstChosen);
   };
 
   /**
    * checks if maximum size of an array is reached
    */
-  chosenLayersMaxed = () => {
+  private chosenLayersMaxed = (): boolean => {
     return this.chosenLayers.length === MAX_CHOSEN;
   };
 
   /**
    * pushes passed object into array, if length exceeds maximum array is shifted
    * so the lenght is constant
-   *
-   * @param {Layer} layer
    */
-  pushChosenLayer = (layer) => {
+  private pushChosenLayer = (layer: DrawnObject): void => {
     if (this.chosenLayers.length >= MAX_CHOSEN) {
       this.chosenLayers.shift();
     }
@@ -123,7 +121,7 @@ class JoinTool extends TopologyTool {
   /**
    * deselects all selected ones
    */
-  deselectChosenLayers = () => {
+  private deselectChosenLayers = (): void => {
     this.chosenLayers.forEach((chosen) => this.drawingTool.normalizeElement(chosen));
     this.chosenLayers = [];
   };
@@ -131,17 +129,15 @@ class JoinTool extends TopologyTool {
   /**
    * removes all selected ones
    */
-  clearChosenLayers = () => {
+  private clearChosenLayers = (): void => {
     this.chosenLayers.forEach((chosen) => this.drawingTool.getState().removeLayer(chosen));
     this.chosenLayers = [];
   };
 
   /**
    * layers are joined which means remove previous ones and append joined
-   *
-   * @param {Layer} joined
    */
-  pushJoinedToChosenLayers = (joined) => {
+  private pushJoinedToChosenLayers = (joined: DrawnObject): void => {
     this.clearChosenLayers();
     this.drawingTool.highlightElement(joined);
     this.chosenLayers.push(joined);
@@ -150,27 +146,25 @@ class JoinTool extends TopologyTool {
 
   /**
    * @brief unifies all the features in array
-   *
-   * @param {Array<Layer>} features
-   * @returns
    */
-  _getSummedFeature = (features) => {
+  private _getSummedFeature = (features: Optional<GeoJSON.Feature[]>): Optional<TurfPolygon> => {
     if (!features || !Array.isArray(features)) return null;
 
     let summedFeature = features[0];
     for (let index = 1; index < features.length; index++) {
       const feature = features[index];
-      let isfeaturePoly = isFeaturePoly(feature);
+      const isfeaturePoly = isFeaturePoly(feature);
 
       if (isfeaturePoly) {
-        summedFeature = union(feature, summedFeature);
+        const result = union(feature as TurfPolygon, summedFeature as TurfPolygon);
+        if (result) summedFeature = result;
       }
     }
 
-    return summedFeature;
+    return summedFeature as TurfPolygon;
   };
 
-  joinChosen = (drawObject) => {
+  public joinChosen = (drawObject: DrawnObject): void => {
     const unfit = !this.canPushToChosen(drawObject);
     if (unfit) return;
     this.pushChosenLayer(drawObject);
@@ -188,10 +182,12 @@ class JoinTool extends TopologyTool {
         const first = this._getSummedFeature(chosenFeatures[0]);
         const second = this._getSummedFeature(chosenFeatures[1]);
 
-        const resultFeature = union(first, second);
-        const opts = { ...chosenLayers[0].options, ...chosenLayers[1].options };
-        const result = morphFeatureToPolygon(resultFeature, opts);
-        this.pushJoinedToChosenLayers(result);
+        if (first && second) {
+          const resultFeature = union(first, second);
+          const opts = { ...chosenLayers[0].options, ...chosenLayers[1].options };
+          const result = morphFeatureToPolygon(resultFeature, opts);
+          this.pushJoinedToChosenLayers(result);
+        }
 
         this._redrawSidebar(drawObject.layerType);
       }
@@ -204,7 +200,7 @@ class JoinTool extends TopologyTool {
         this.deselectChosenLayers();
         this.clearChosenLayers();
 
-        this._redrawSidebar(null);
+        this._redrawSidebar();
       }
     }
   };

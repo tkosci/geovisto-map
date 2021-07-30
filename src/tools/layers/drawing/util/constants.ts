@@ -17,7 +17,7 @@ export const normalStyles = { fillOpacity: 0.2, opacity: 0.5 };
  * icon options default
  */
 export const iconStarter = {
-  shadowUrl: null,
+  shadowUrl: undefined,
   iconAnchor: new L.Point(12, 12),
   iconSize: new L.Point(24, 24),
 };
@@ -49,7 +49,7 @@ export const COLORS: string[] = [
   '#7F8C8D',
 ];
 
-type SelectOpts = Array<{ label: string, value: number, selected?: boolean }>
+type SelectOpts = Array<{ label: string; value: number; selected?: boolean }>;
 
 export const STROKES: SelectOpts = [
   { label: 'thin', value: 3 },

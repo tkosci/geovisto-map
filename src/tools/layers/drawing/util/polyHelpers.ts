@@ -1,4 +1,4 @@
-import { DrawnObject, GeoFeature, LatLngs } from './../model/types/index';
+import { DrawnObject, GeoFeature, LatLngs, TurfPolygon } from './../model/types/index';
 import L, { LatLng } from 'leaflet';
 import 'leaflet-path-drag';
 import 'leaflet-path-transform';

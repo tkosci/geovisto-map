@@ -1,44 +1,48 @@
-import L from 'leaflet';
+import L, { FeatureGroup, LatLng, Marker, Polyline } from 'leaflet';
 import 'leaflet-path-drag';
 import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import { MarkerTool } from '../MarkerTool';
 import { normalStyles } from '../../util/constants';
+import { CreatedEvent, DrawnObject, LayerType, LooseObject, Optional } from '../../model/types';
+import { CustomMarker, LeafletDrag, TTopologyTool } from './types';
+import { mappedMarkersToVertices } from '../../DrawingLayerToolState';
+import { ToolProps } from '../AbstractTool/types';
 
-class TopologyTool extends MarkerTool {
-  constructor(props) {
+class TopologyTool extends MarkerTool implements TTopologyTool {
+  constructor(props: ToolProps) {
     super(props);
 
     this.leafletMap.on('draw:created', this.created);
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'topology-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return TopologyTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-sitemap';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Topology drawing tool';
   }
 
-  result = (): string => {
+  public result = (): LayerType | '' => {
     return 'marker';
   };
 
-  canBeCanceled = (): boolean => {
+  public canBeCanceled = (): boolean => {
     return true;
   };
 
-  created = (e) => {
-    let layer = e.layer;
+  public created = (e: CreatedEvent): void => {
+    const layer = e.layer;
     if (!layer) return;
     layer.layerType = e.layerType;
 
@@ -48,19 +52,22 @@ class TopologyTool extends MarkerTool {
     }
   };
 
-  isConnectMarker = (layer) => {
+  public isConnectMarker = (layer: DrawnObject): boolean => {
     return this.drawingTool.getState().isConnectMarker(layer);
   };
 
-  enable = (): void => {
+  public enable = (): void => {
     this._markerCreate(true);
   };
 
-  plotTopology(chosen = null, createdMarker = null): void {
+  public plotTopology(
+    chosen: Optional<DrawnObject[]> = null,
+    createdMarker: Optional<DrawnObject> = null,
+  ): void {
     const toolState = this.drawingTool.getState();
     const selectedLayer = toolState.selectedLayer;
 
-    const layersObj = toolState.featureGroup._layers;
+    const layersObj: LooseObject = toolState.featureGroup._layers;
     const layerArr = [...Object.values(layersObj)];
     const allConnected = layerArr.filter((_) => toolState.isConnectMarker(_)).reverse();
     let _markers = chosen || allConnected;
@@ -80,8 +87,8 @@ class TopologyTool extends MarkerTool {
       const { lat: sLat, lng: sLng } = secondMarker.getLatLng();
 
       // * create vertice
-      let _latlng = [L.latLng(fLat, fLng), L.latLng(sLat, sLng)];
-      let poly = new L.polyline(_latlng, {
+      const _latlng = [L.latLng(fLat, fLng), L.latLng(sLat, sLng)];
+      const poly = new L.polyline(_latlng, {
         color: '#563412',
         weight: 3,
         ...normalStyles,
@@ -100,13 +107,18 @@ class TopologyTool extends MarkerTool {
    * @brief loops through each of the vertices and checks if
    *        vertice with certain coordinates is already created
    */
-  _haveSameVertice(current: object): boolean {
-    const found = this.drawingTool.getState().createdVertices.find((vertice) => {
+  private _haveSameVertice(current: Polyline): boolean {
+    const found = this.drawingTool.getState().createdVertices.find((vertice: Polyline) => {
+      const firstPointOfVertice = vertice.getLatLngs()[0] as LatLng;
+      const secondPointOfVertice = vertice.getLatLngs()[1] as LatLng;
+      const firstPointOfCurrent = current.getLatLngs()[0] as LatLng;
+      const secondPointOfCurrent = current.getLatLngs()[1] as LatLng;
+
       return (
-        (vertice.getLatLngs()[0].equals(current.getLatLngs()[0]) &&
-          vertice.getLatLngs()[1].equals(current.getLatLngs()[1])) ||
-        (vertice.getLatLngs()[0].equals(current.getLatLngs()[1]) &&
-          vertice.getLatLngs()[1].equals(current.getLatLngs()[0]))
+        (firstPointOfVertice.equals(firstPointOfCurrent) &&
+          secondPointOfVertice.equals(secondPointOfCurrent)) ||
+        (firstPointOfVertice.equals(secondPointOfCurrent) &&
+          secondPointOfVertice.equals(firstPointOfCurrent))
       );
     });
 
@@ -117,21 +129,24 @@ class TopologyTool extends MarkerTool {
    * @brief maps through each of the markes and if its coordinates fit vertice's coordinates
    *        then vertice is mapped onto marker id
    */
-  _mapMarkersToVertices(_markers: object[]): void {
+  private _mapMarkersToVertices(_markers: CustomMarker[]): void {
     const toolState = this.drawingTool.getState();
 
     _markers
       .map((marker) => ({ latlng: marker.getLatLng(), lId: marker._leaflet_id, marker }))
       .forEach(({ latlng, lId }) => {
-        toolState.createdVertices.forEach((vertice, index) => {
+        toolState.createdVertices.forEach((vertice: Polyline, index: number) => {
           // * used indexing instead of another loop (vertices have only 2 points)
 
-          let spread = toolState.mappedMarkersToVertices[lId] || {};
+          const firstPoint = vertice.getLatLngs()[0] as LatLng;
+          const secondPoint = vertice.getLatLngs()[1] as LatLng;
+
+          const spread = toolState.mappedMarkersToVertices[lId] || {};
           // * depending on if first or second latlng of vertice matches with marker's latlng
           // * we save this information so we know which side we should move on drag
-          if (vertice.getLatLngs()[0].equals(latlng)) {
+          if (firstPoint.equals(latlng)) {
             toolState.setVerticesToMarker(lId, { ...spread, [`${index}-0`]: vertice });
-          } else if (vertice.getLatLngs()[1].equals(latlng)) {
+          } else if (secondPoint.equals(latlng)) {
             toolState.setVerticesToMarker(lId, { ...spread, [`${index}-1`]: vertice });
           }
         });
@@ -140,15 +155,11 @@ class TopologyTool extends MarkerTool {
 
   /**
    * @brief event listener so vetice is dragged with marker
-   *
-   * @param {Layers} layer
    */
-  static applyTopologyMarkerListeners(layer, state) {
-    layer.on('drag', (event) => {
-      const { latlng, oldLatLng, target } = event;
+  private static applyTopologyMarkerListeners(layer: DrawnObject, state: any): void {
+    layer.on('drag', (event: LeafletDrag) => {
+      const { latlng, target } = event;
       const markerVertices = state.mappedMarkersToVertices[target._leaflet_id];
-
-      // console.log({ lat: latlng.lat, lng: latlng.lng, oldlat: oldLatLng.lat, oldlng: oldLatLng.lng });
 
       TopologyTool.changeVerticesLocation(latlng, markerVertices);
     });
@@ -156,31 +167,23 @@ class TopologyTool extends MarkerTool {
 
   /**
    * @brief called on drag to change vertice's point location
-   *
-   * @param {Object} latlng
-   * @param {String} markerID
-   * @returns
    */
-  static changeVerticesLocation(latlng, markerVertices) {
+  private static changeVerticesLocation(
+    latlng: LatLng,
+    markerVertices?: mappedMarkersToVertices,
+  ): void {
     if (!markerVertices) return;
 
-    TopologyTool.setVerticesCoordinates(markerVertices, latlng);
-  }
-
-  /**
-   * @brief takes in mapped vertices and markes and depending on index from key, new latlng is set to vertice
-   *
-   * @param {Object} markerVertices
-   * @param {Object} latlng
-   */
-  static setVerticesCoordinates(markerVertices, latlng) {
     Object.keys(markerVertices).forEach((key) => {
-      let vertice = markerVertices[key];
-      let splitKey = key?.split('-');
-      let idx = splitKey ? splitKey[1] : undefined;
+      const vertice: Polyline = markerVertices[key];
+      const splitKey = key?.split('-');
+      const idx = splitKey ? splitKey[1] : undefined;
       if (idx === undefined) return;
-      let latLngs = L.LatLngUtil.cloneLatLngs(vertice.getLatLngs());
-      latLngs[idx] = latlng;
+      // ? for some reason cloneLatLngs has return type of LatLng[][] even though it returns value of type LatLng[]
+      const latLngs = (L.LatLngUtil.cloneLatLngs(
+        vertice.getLatLngs() as LatLng[],
+      ) as unknown) as LatLng[];
+      latLngs[Number(idx)] = latlng;
       vertice.setLatLngs(latLngs);
     });
   }
