@@ -13,33 +13,33 @@ class EditTool extends AbstractTool implements TEditTool {
     super(props);
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'edit-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return EditTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-square';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Edit nodes tool';
   }
 
-  result = (): '' => {
+  public result = (): '' => {
     return '';
   };
 
-  enable = (): void => {
+  public enable = (): void => {
     const selectedLayer = this.getSelectedEl();
 
     EditTool.initNodeEdit(selectedLayer);
   };
 
-  static initNodeEdit(selectedLayer: DrawnObject, disable = false): void {
+  public static initNodeEdit(selectedLayer: DrawnObject, disable = false): void {
     if (selectedLayer?.editing) {
       if (selectedLayer.editing._enabled || disable) {
         selectedLayer.editing.disable();
@@ -49,7 +49,7 @@ class EditTool extends AbstractTool implements TEditTool {
     }
   }
 
-  static disableNodeEdit = (selectedEl: DrawnObject): void => {
+  public static disableNodeEdit = (selectedEl: DrawnObject): void => {
     EditTool.initNodeEdit(selectedEl, true);
   };
 }

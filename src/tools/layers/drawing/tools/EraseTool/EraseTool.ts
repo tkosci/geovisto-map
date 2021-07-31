@@ -18,37 +18,37 @@ class EraseTool extends PaintTool {
     this.leafletMap.on('draw:created', this.created);
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'eraser-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return EraseTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-eraser';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Eraser tool';
   }
 
-  result = (): LayerType => {
+  public result = (): LayerType => {
     return 'erased';
   };
 
-  canBeCanceled = (): boolean => {
+  public canBeCanceled = (): boolean => {
     return true;
   };
 
-  created = (e: CreatedEvent): void => {
+  private created = (e: CreatedEvent): void => {
     const layer = e.layer;
     if (!layer) return;
     if (e.layerType === this.result()) this.leafletMap.removeLayer(layer);
   };
 
-  enable = (): void => {
+  public enable = (): void => {
     if (this._action == 'erase') {
       this.disable();
     } else {
@@ -59,7 +59,7 @@ class EraseTool extends PaintTool {
   /**
    * creates circle around mouse cursor and applies event listeners
    */
-  startErase = (): void => {
+  private startErase = (): void => {
     this.stop();
     this._action = 'erase';
     this._addMouseListener();
@@ -73,7 +73,7 @@ class EraseTool extends PaintTool {
   /**
    * button for erasing is clicked
    */
-  erase = (event: LeafletEvent): void => {
+  public erase = (event: LeafletEvent): void => {
     if (event.type == 'mousedown') {
       L.DomEvent.stop(event);
       return;

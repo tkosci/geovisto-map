@@ -1,42 +1,45 @@
+import { ToolProps } from './../AbstractTool/types';
 import L from 'leaflet';
 import 'leaflet-path-drag';
 import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import { AbstractTool } from '../AbstractTool';
+import { TPolygonTool } from './types';
+import { LayerType } from '../../model/types';
 
-class PolygonTool extends AbstractTool {
+class PolygonTool extends AbstractTool implements TPolygonTool {
   static result = 'polygon';
 
-  constructor(props) {
+  constructor(props: ToolProps) {
     super(props);
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'polygon-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return PolygonTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-star';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Polygon drawing tool';
   }
 
-  result = (): string => {
+  public result = (): LayerType => {
     return 'polygon';
   };
 
-  canBeCanceled = (): boolean => {
+  public canBeCanceled = (): boolean => {
     return true;
   };
 
-  _polygonCreate = (): void => {
+  private _polygonCreate = (): void => {
     this.tool = new L.Draw.Polygon(this.leafletMap, {
       allowIntersection: false,
       drawError: {
@@ -52,11 +55,11 @@ class PolygonTool extends AbstractTool {
       guideLayers: this.sidebar.getState().guideLayers,
       snapDistance: 5,
       repeatMode: true,
-    });
+    } as any);
     this.tool.enable();
   };
 
-  enable = (): void => {
+  public enable = (): void => {
     this._polygonCreate();
   };
 }

@@ -4,58 +4,61 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import { AbstractTool } from '../AbstractTool';
+import { TTransformTool } from './types';
+import { ToolProps } from '../AbstractTool/types';
+import { DrawnObject } from '../../model/types';
 
-class TransformTool extends AbstractTool {
-  constructor(props) {
+class TransformTool extends AbstractTool implements TTransformTool {
+  constructor(props: ToolProps) {
     super(props);
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'transform-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return TransformTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-arrows-alt';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Transform tool';
   }
 
-  result = (): string => {
+  public result = (): '' => {
     return '';
   };
 
-  enable = (): void => {
+  public enable = (): void => {
     const selected = this.getSelectedEl();
 
     TransformTool.initTransform(selected);
   };
 
-  static initTransform(drawObject: object, disable = false): void {
+  public static initTransform(drawObject: DrawnObject, disable = false): void {
     const layer = drawObject;
     if (layer?.transform) {
       if (layer.transform._enabled || disable) {
         layer.transform.disable();
-        layer.dragging.disable();
+        layer?.dragging?.disable();
       } else {
         layer.transform.enable({ rotation: true, scaling: true });
-        layer.dragging.enable();
+        layer?.dragging?.enable();
       }
     } else if (layer?.layerType === 'marker') {
-      if (layer.dragging._enabled || disable) {
-        layer.dragging.disable();
+      if (layer?.dragging?._enabled || disable) {
+        layer?.dragging?.disable();
       } else {
-        layer.dragging.enable();
+        layer?.dragging?.enable();
       }
     }
   }
 
-  static disableTransform = (selectedEl: object) => {
+  public static disableTransform = (selectedEl: DrawnObject) => {
     TransformTool.initTransform(selectedEl, true);
   };
 }

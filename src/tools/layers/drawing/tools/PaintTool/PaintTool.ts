@@ -55,31 +55,31 @@ class PaintTool extends AbstractTool implements TPaintTool {
     this._shapeLayer = null;
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'paint-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return PaintTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-paint-brush';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Brush drawing tool';
   }
 
-  result = (): LayerType => {
+  public result = (): LayerType => {
     return 'painted';
   };
 
-  canBeCanceled = (): boolean => {
+  public canBeCanceled = (): boolean => {
     return true;
   };
 
-  enable = (): void => {
+  public enable = (): void => {
     if (this._action == 'draw') {
       this.disable();
     } else {
@@ -90,28 +90,28 @@ class PaintTool extends AbstractTool implements TPaintTool {
   /**
    * enables painting
    */
-  enablePaint = (): void => {
+  private enablePaint = (): void => {
     this.startPaint();
   };
 
   /**
    * getter
    */
-  getMouseDown = (): boolean => {
+  public getMouseDown = (): boolean => {
     return this._mouseDown;
   };
 
   /**
    * getter
    */
-  getBrushSize = (): number => {
+  public getBrushSize = (): number => {
     return this._circleRadius;
   };
 
   /**
    * getter
    */
-  getBrushSizeConstraints = (): { maxBrushSize: number; minBrushSize: number } => {
+  public getBrushSizeConstraints = (): { maxBrushSize: number; minBrushSize: number } => {
     return { maxBrushSize: this._maxCircleRadius, minBrushSize: this._minCircleRadius };
   };
 
@@ -120,7 +120,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
    *
    * @param {Number} val
    */
-  resizeBrush = (val: number): void => {
+  public resizeBrush = (val: number): void => {
     if (val && val <= this._maxCircleRadius && val >= this._minCircleRadius) {
       this._circleRadius = val;
       this._circle?.setRadius(val);
@@ -130,7 +130,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
   /**
    * stops brush tool, and removes circle object from mouse cursor
    */
-  stop = (): void => {
+  public stop = (): void => {
     this._action = null;
     if (this._circle) {
       this._circle.remove();
@@ -141,7 +141,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
   /**
    * creates circle around mouse cursor and applies event listeners
    */
-  startPaint = (): void => {
+  private startPaint = (): void => {
     this.stop();
     this._action = 'draw';
     this._addMouseListener();
@@ -155,7 +155,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
   /**
    * removes all accumulated circles (painted polygons)
    */
-  clearPainted = (): void => {
+  private clearPainted = (): void => {
     this._accumulatedShape = null;
     this._shapeLayer = null;
   };
@@ -163,7 +163,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
   /**
    * taken from https://stackoverflow.com/questions/27545098/leaflet-calculating-meters-per-pixel-at-zoom-level
    */
-  _pixelsToMeters = (): number => {
+  private _pixelsToMeters = (): number => {
     const metersPerPixel =
       (40075016.686 * Math.abs(Math.cos((this._latlng.lat * Math.PI) / 180))) /
       Math.pow(2, this.leafletMap.getZoom() + 8);
@@ -174,7 +174,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
   /**
    * creates circle and appends it to accumulated circles object
    */
-  drawCircle = (): void => {
+  private drawCircle = (): void => {
     const brushColor = this.tabState.getSelectedColor() || DEFAULT_COLOR;
     const brushStroke = this.tabState.getSelectedStroke() || STROKES[1].value;
     const turfCircle = circle([this._latlng.lng, this._latlng.lat], this._pixelsToMeters(), {
@@ -197,7 +197,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
   /**
    * got through all accumulated circles and out put them on the map
    */
-  _redrawShapes = (): void => {
+  private _redrawShapes = (): void => {
     const selectedLayer = this.tabState.getTool().getState().selectedLayer;
 
     const simplified = simplifyFeature(this._accumulatedShape as turf.AllGeoJSON);
@@ -235,7 +235,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
    * when fired brush stroke is appended to map
    * created object is passed to 'createdListener' function of tool
    */
-  _fireCreatedShapes = (): void => {
+  private _fireCreatedShapes = (): void => {
     // console.log('%cfired', 'color: #085f89');
 
     this.leafletMap.fire(L.Draw.Event.CREATED, {
@@ -247,27 +247,27 @@ class PaintTool extends AbstractTool implements TPaintTool {
   };
 
   // ================= EVENT LISTENERS =================
-  _addMouseListener = (): void => {
+  public _addMouseListener = (): void => {
     this.leafletMap.on('mousemove', this._onMouseMove);
     this.leafletMap.on('mousedown', this._onMouseDown);
     this.leafletMap.on('mouseup', this._onMouseUp);
   };
-  _removeMouseListener = (): void => {
+  public _removeMouseListener = (): void => {
     this.leafletMap.off('mousemove', this._onMouseMove);
     this.leafletMap.off('mousedown', this._onMouseDown);
     this.leafletMap.off('mouseup', this._onMouseUp);
   };
-  _onMouseDown = (event: LeafletMouseEvent): void => {
+  public _onMouseDown = (event: LeafletMouseEvent): void => {
     this.leafletMap.dragging.disable();
     this._mouseDown = true;
     this._onMouseMove(event);
   };
-  _onMouseUp = (): void => {
+  public _onMouseUp = (): void => {
     this.leafletMap.dragging.enable();
     this._mouseDown = false;
     this._fireCreatedShapes();
   };
-  _onMouseMove = (event: LeafletMouseEvent): void => {
+  public _onMouseMove = (event: LeafletMouseEvent): void => {
     this._setLatLng(event.latlng);
     if (this._mouseDown) {
       this.drawCircle();
@@ -278,7 +278,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
   /**
    * updates latlng so circle around mouse cursor follows it
    */
-  _setLatLng = (latlng: LatLng): void => {
+  public _setLatLng = (latlng: LatLng): void => {
     if (latlng !== undefined) {
       this._latlng = latlng;
     }
@@ -290,7 +290,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
   /**
    * disables tool
    */
-  disable = (): void => {
+  public disable = (): void => {
     this.stop();
   };
 }

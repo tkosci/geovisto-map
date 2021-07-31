@@ -4,37 +4,39 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import { AbstractTool } from '../AbstractTool';
+import { ToolProps } from '../AbstractTool/types';
+import { TRemoveTool } from './types';
 
-class RemoveTool extends AbstractTool {
-  constructor(props) {
+class RemoveTool extends AbstractTool implements TRemoveTool {
+  constructor(props: ToolProps) {
     super(props);
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'remove-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return RemoveTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-times';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Remove tool';
   }
 
-  result = (): string => {
+  public result = (): '' => {
     return '';
   };
 
-  enable = (): void => {
+  public enable = (): void => {
     this.removeElement();
   };
 
-  removeElement(): void {
+  private removeElement(): void {
     const state = this.drawingTool.getState();
     const selectedLayer = this.getSelectedEl();
     // * if marker is being removed, remove its vertices if any
@@ -45,7 +47,7 @@ class RemoveTool extends AbstractTool {
       state.removeGivenVertice(selectedLayer._leaflet_id);
     }
     state.removeSelectedLayer();
-    this._redrawSidebar(null);
+    this._redrawSidebar();
   }
 }
 

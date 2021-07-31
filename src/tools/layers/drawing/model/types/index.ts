@@ -25,11 +25,17 @@ export type DrawnObject = Layer & {
   layerType: LayerType;
   options: { [key: string]: string | number };
   identifier: string;
-  dragging?: { disable: () => void; enable: () => void };
+  dragging?: { _enabled: boolean; disable: () => void; enable: () => void };
   editing?: { _enabled: boolean; disable: () => void; enable: () => void };
+  transform?: {
+    _enabled: boolean;
+    disable: () => void;
+    enable: (opt: { rotation: boolean; scaling: boolean }) => void;
+  };
   setStyle: (val: { [key: string]: string | number }) => void;
   popupContent?: string;
   _latlngs: LatLngs;
+  _leaflet_id: LatLngs;
   toGeoJSON: () => GeoJSON.Feature | GeoJSON.FeatureCollection;
   on(type: 'drag', fn: (e: LeafletDrag) => void): void;
 };

@@ -4,37 +4,40 @@ import 'leaflet-path-transform';
 import 'leaflet-draw';
 
 import { AbstractTool } from '../AbstractTool';
+import { LayerType } from '../../model/types';
+import { ToolProps } from '../AbstractTool/types';
+import { TLineTool } from './types';
 
-class LineTool extends AbstractTool {
-  constructor(props) {
+class LineTool extends AbstractTool implements TLineTool {
+  constructor(props: ToolProps) {
     super(props);
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'line-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return LineTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-minus';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Line drawing tool';
   }
 
-  result = (): string => {
+  public result = (): LayerType => {
     return 'polyline';
   };
 
-  canBeCanceled = (): boolean => {
+  public canBeCanceled = (): boolean => {
     return true;
   };
 
-  _polylineCreate = (): void => {
+  private _polylineCreate = (): void => {
     this.tool = new L.Draw.Polyline(this.leafletMap, {
       shapeOptions: {
         color: this.sidebar.getState().getSelectedColor(),
@@ -44,11 +47,11 @@ class LineTool extends AbstractTool {
       },
       guideLayers: this.sidebar.getState().guideLayers,
       repeatMode: true,
-    });
+    } as any);
     this.tool.enable();
   };
 
-  enable = (): void => {
+  public enable = (): void => {
     this._polylineCreate();
   };
 }

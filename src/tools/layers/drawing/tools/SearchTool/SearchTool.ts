@@ -18,34 +18,34 @@ class SearchTool extends AbstractTool implements TSearchTool {
     super(props);
   }
 
-  static NAME(): string {
+  public static NAME(): string {
     return 'search-drawing-tool';
   }
 
-  getName(): string {
+  public getName(): string {
     return SearchTool.NAME();
   }
 
-  getIconName(): string {
+  public getIconName(): string {
     return 'fa fa-search';
   }
 
-  getTitle(): string {
+  public getTitle(): string {
     return 'Search drawing tool';
   }
 
-  result = (): LayerType => {
+  public result = (): LayerType => {
     return 'search';
   };
 
-  enable = (): void => {
+  public enable = (): void => {
     this._redrawSidebar(this.result());
   };
 
   /**
    * append marker on map with given latlng
    */
-  static putMarkerOnMap = (
+  public static putMarkerOnMap = (
     featureGroup: FeatureGroup,
     latlng: LatLng,
     popup: string,
@@ -73,7 +73,7 @@ class SearchTool extends AbstractTool implements TSearchTool {
   /**
    * sends request to OSM with given query
    */
-  static geoSearch = async (
+  public static geoSearch = async (
     featureGroup: FeatureGroup,
     query = '',
   ): Promise<LooseObject[] | undefined> => {
