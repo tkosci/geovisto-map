@@ -25,7 +25,7 @@ export const isInt = (n: number): boolean => Number(n) === n && n % 1 === 0;
 
 export const isFloat = (n: number): boolean => Number(n) === n && n % 1 !== 0;
 
-export const getIntervalStep = (n: string): number => {
+export const getIntervalStep = (n: number): number => {
   if (!n) return 0.0;
   const split = String(n).split('.');
   if (split.length === 2) {

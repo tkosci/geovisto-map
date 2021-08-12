@@ -5,8 +5,6 @@
  *
  * class should should contain only methods for rendering of inputs, not logic
  */
-class AbstractControl {
-  constructor(props) {}
-}
+class AbstractControl {}
 
 export default AbstractControl;

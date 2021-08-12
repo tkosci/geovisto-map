@@ -9,7 +9,7 @@ export const createIntervalInput = (
   label: string,
   min: number | string,
   max: number | string,
-  onChange: (val: string) => void,
+  onChange: (val: number) => void,
   value: string,
   step = 1,
 ): HTMLDivElement => {
@@ -26,7 +26,7 @@ export const createIntervalInput = (
   control.setAttribute('max', String(max));
   control.setAttribute('step', String(step));
   control.onchange = (e) => {
-    onChange((<HTMLInputElement>e.target).value);
+    onChange(Number((<HTMLInputElement>e.target).value));
     displayAmount.innerText = (<HTMLInputElement>e.target).value;
   };
   control.value = value;

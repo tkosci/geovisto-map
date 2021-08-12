@@ -69,6 +69,10 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
     return this.controls['MarkerControl']?.state?.getSelectedIcon();
   }
 
+  setSelectedIcon(icon: string) {
+    this.controls['MarkerControl']?.state?.setSelectedIcon(icon);
+  }
+
   /**
    * method if defined for easier access through tabControlState class/object
    */

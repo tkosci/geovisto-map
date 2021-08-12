@@ -1,23 +1,36 @@
+import { TSearchControlState } from './types';
+import { ControlProps } from './../AbstractControl/types';
 import SidebarInputFactory from '../../../../../../inputs/SidebarInputFactory';
 import { createCheck } from '../../../util/inputs';
 import { ADMIN_LEVELS } from '../../../util/constants';
 import AbstractControl from '../AbstractControl/AbstractControl';
 import SearchControlState from './SearchControlState';
+import AbstractSidebarInput from '../../../../../../inputs/AbstractSidebarInput';
+import AutocompleteSidebarInput from '../../../../../../inputs/input/AutocompleteSidebarInput';
 
 class SearchControl extends AbstractControl {
-  constructor(props) {
-    super(props);
+  private state: TSearchControlState;
+  public inputSearch: AbstractSidebarInput | AutocompleteSidebarInput | null;
+  public inputConnect: HTMLDivElement | null;
+  public errorMsg: HTMLDivElement | null;
+  public searchForAreasBtn: HTMLButtonElement | null;
+
+  constructor(props: ControlProps) {
+    super();
 
     this.state = new SearchControlState({ tabControl: props.tabControl, control: this });
+
+    this.inputSearch = null;
+    this.inputConnect = null;
+    this.errorMsg = null;
+    this.searchForAreasBtn = null;
   }
 
   /**
    * checkbox to be able to create topology with place search
-   *
-   * @returns {Object} HTML element
    */
-  createConnectCheck = () => {
-    const onChange = (val) => this.state.setConnectActivated(val);
+  createConnectCheck = (): HTMLDivElement => {
+    const onChange = (val: boolean) => this.state.setConnectActivated(val);
     const { connectActivated } = this.state;
 
     const result = createCheck(
@@ -32,11 +45,9 @@ class SearchControl extends AbstractControl {
 
   /**
    * checkbox to set if result of area search will be HQ
-   *
-   * @returns {Object} HTML element
    */
-  createHighQualityCheck = () => {
-    const onChange = (val) => this.state.setHighQuality(val);
+  createHighQualityCheck = (): HTMLDivElement => {
+    const onChange = (val: boolean) => this.state.setHighQuality(val);
     const { highQuality } = this.state;
 
     const result = createCheck(
@@ -50,12 +61,9 @@ class SearchControl extends AbstractControl {
 
   /**
    * creates heading element
-   *
-   * @param {String} title
-   * @param {Object} elem HTML element wrapper
    */
-  addHeading = (title, elem) => {
-    let headingTag = document.createElement('h3');
+  addHeading = (title: string, elem: HTMLDivElement): void => {
+    const headingTag = document.createElement('h3');
     headingTag.innerText = title;
     elem.appendChild(headingTag);
   };
@@ -66,7 +74,7 @@ class SearchControl extends AbstractControl {
    * @param {Object} elem HTML element wrapper
    * @param {Object} model
    */
-  renderSearchInputs = (elem, model) => {
+  renderSearchInputs = (elem: HTMLDivElement, model: any): void => {
     this.addHeading('Search for place', elem);
     // * labeled text Search
     this.inputSearch = SidebarInputFactory.createSidebarInput(model.search.input, {
@@ -76,7 +84,7 @@ class SearchControl extends AbstractControl {
       placeholder: 'Press enter for search',
       setData: this.state.onInputOptClick,
     });
-    elem.appendChild(this.inputSearch.create());
+    elem.appendChild(this.inputSearch.create() as Node);
 
     this.inputConnect = this.createConnectCheck();
     elem.appendChild(this.inputConnect);
@@ -91,7 +99,7 @@ class SearchControl extends AbstractControl {
       action: this.state.searchForAreaAction,
       value: this.state.countryCode || '',
     });
-    elem.appendChild(inputSearchForArea.create());
+    elem.appendChild(inputSearchForArea.create() as Node);
 
     const inputAdminLevel = SidebarInputFactory.createSidebarInput(model.adminLevel.input, {
       label: model.adminLevel.label,
@@ -99,7 +107,7 @@ class SearchControl extends AbstractControl {
       action: this.state.pickAdminLevelAction,
       value: this.state.adminLevel,
     });
-    elem.appendChild(inputAdminLevel.create());
+    elem.appendChild(inputAdminLevel.create() as Node);
 
     const hqCheck = this.createHighQualityCheck();
     elem.appendChild(hqCheck);

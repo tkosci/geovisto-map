@@ -1,3 +1,6 @@
+import { AllGeoJSON, Feature, Geometry } from '@turf/turf';
+import { LooseObject, DrawnObject } from './../../../model/types/index';
+import { ControlStateProps } from './../AbstractControl/types';
 import L from 'leaflet';
 import 'leaflet-path-drag';
 import 'leaflet-path-transform';
@@ -9,7 +12,14 @@ import { simplifyFeature } from '../../../util/polyHelpers';
 import AbstractControlState from '../AbstractControl/AbstractControlState';
 
 class SearchControlState extends AbstractControlState {
-  constructor(props) {
+  public countries: Array<{ name: string; 'alpha-2': string; 'country-code': string }>;
+  public countryCode: string;
+  public adminLevel: number;
+  public searchOpts: LooseObject[];
+  public highQuality: boolean;
+  public connectActivated: boolean;
+
+  constructor(props: ControlStateProps) {
     super(props);
 
     this.countries = require('/static/geo/iso3166_countries.json');
@@ -25,7 +35,7 @@ class SearchControlState extends AbstractControlState {
   /**
    * takes countries from static file and maps through them
    */
-  getSelectCountries(): { value: string, label: string }[] {
+  getSelectCountries(): { value: string; label: string }[] {
     const result = this.countries.map((c) => ({ value: c['alpha-2'], label: c['name'] }));
     return [{ value: '', label: '' }, ...result];
   }
@@ -33,64 +43,56 @@ class SearchControlState extends AbstractControlState {
   /**
    * sets whether displayed polygon will be of high quality
    */
-  setHighQuality(val: boolean) {
+  setHighQuality(val: boolean): void {
     this.highQuality = val;
   }
 
   /**
    * sets whether we are creating topology with search
    */
-  setConnectActivated(val: boolean) {
+  setConnectActivated(val: boolean): void {
     this.connectActivated = val;
   }
 
   /**
    * sets for what area we are searching for
-   *
-   * @param {Object} e
    */
-  searchForAreaAction = (e) => {
-    const val = e.target.value;
+  searchForAreaAction = (e: InputEvent): void => {
+    const val = (e.target as HTMLSelectElement).value;
     this.countryCode = val;
   };
 
   /**
    * sets for what administration level we are searching for
-   *
-   * @param {Object} e
    */
-  pickAdminLevelAction = (e) => {
-    const val = e.target.value;
-    this.adminLevel = val;
+  pickAdminLevelAction = (e: InputEvent): void => {
+    const val = (e.target as HTMLSelectElement).value;
+    this.adminLevel = Number(val);
   };
 
   /**
    * sets new options for place search
-   *
-   * @param {Object} e
    */
-  searchAction = async (e: Object) => {
-    const value = e.target.value;
+  searchAction = async (e: InputEvent): Promise<void> => {
+    const value = (e.target as HTMLInputElement).value;
     const featureGroup = this.tool.getState().featureGroup;
 
     const opts = await SearchTool.geoSearch(featureGroup, value);
 
-    this.searchOpts = opts;
+    this.searchOpts = opts || [];
     this.control.inputSearch.changeOptions(opts ? opts.map((opt) => opt.label || '') : []);
   };
 
   /**
    * called when user picks a place from displayed options
-   *
-   * @param {String} value
    */
-  onInputOptClick = (value) => {
+  onInputOptClick = (value: string): void => {
     const featureGroup = this.tabControl.getTool().getState().featureGroup;
     const { searchOpts: opts, connectActivated } = this;
 
     const found = opts.find((opt) => opt.label === value);
 
-    let latlng = L.latLng(0, 0);
+    const latlng = L.latLng(0, 0);
     latlng.lat = found?.y || 0;
     latlng.lng = found?.x || 0;
     const iconUrl = found?.raw?.icon || ICON_SRCS[0];
@@ -102,7 +104,7 @@ class SearchControlState extends AbstractControlState {
       connectActivated,
     );
     this.tool.applyEventListeners(marker);
-    this.selectedIcon = iconUrl;
+    this.tabControl.getState().setSelectedIcon(iconUrl);
     this.tabControl.getState().appendToIconSrcs(iconUrl);
     if (connectActivated) {
       this.tool.drawingTools[TopologyTool.NAME()].plotTopology();
@@ -115,7 +117,7 @@ class SearchControlState extends AbstractControlState {
    *
    * @returns
    */
-  fetchAreas = async () => {
+  fetchAreas = async (): Promise<void> => {
     const { countryCode, adminLevel, highQuality } = this;
 
     if (!countryCode || !adminLevel) return;
@@ -125,7 +127,7 @@ class SearchControlState extends AbstractControlState {
     const endPoint = 'https://overpass-api.de/api/interpreter?data=[out:json];';
     const query = `area["ISO3166-1"="${countryCode}"]->.searchArea;(relation["admin_level"="${adminLevel}"](area.searchArea););out;>;out skel qt;`;
 
-    document.querySelector('.leaflet-container').style.cursor = 'wait';
+    (document.querySelector('.leaflet-container') as HTMLDivElement).style.cursor = 'wait';
     this.control.searchForAreasBtn.setAttribute('disabled', true);
 
     fetch(endPoint + query)
@@ -134,25 +136,25 @@ class SearchControlState extends AbstractControlState {
         const gJSON = osmtogeojson(data);
 
         const opts = {
-          color: this.selectedColor,
+          color: this.tabControl.getState().getSelectedColor(),
           draggable: true,
           transform: true,
         };
 
-        toolState.featureGroup.eachLayer((layer) => {
+        toolState.featureGroup.eachLayer((layer: DrawnObject) => {
           if (layer.countryCode === countryCode) toolState.removeLayer(layer);
         });
 
         gJSON?.features
           ?.filter((feat) => feat?.geometry?.type === 'Polygon')
           ?.forEach((feat) => {
-            let coords = feat.geometry.coordinates;
+            let coords = (feat.geometry as Geometry).coordinates;
             if (!highQuality) {
-              let simplified = simplifyFeature(feat, 0.01);
-              coords = simplified.geometry.coordinates;
+              const simplified = simplifyFeature(feat as AllGeoJSON, 0.01);
+              coords = ((simplified as Feature).geometry as Geometry).coordinates;
             }
-            let latlngs = L.GeoJSON.coordsToLatLngs(coords, 1);
-            let result = new L.polygon(latlngs, { ...opts, ...normalStyles });
+            const latlngs = L.GeoJSON.coordsToLatLngs(coords, 1);
+            const result = new L.polygon(latlngs, { ...opts, ...normalStyles });
             result?.dragging?.disable();
             result.layerType = 'polygon';
             result.countryCode = countryCode;
@@ -165,7 +167,7 @@ class SearchControlState extends AbstractControlState {
         console.error(err);
       })
       .finally(() => {
-        document.querySelector('.leaflet-container').style.cursor = '';
+        (document.querySelector('.leaflet-container') as HTMLDivElement).style.cursor = '';
         this.control.searchForAreasBtn.removeAttribute('disabled');
       });
   };

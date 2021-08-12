@@ -2,21 +2,23 @@ import { createCheck, createIntervalInput } from '../../../util/inputs';
 import { EraseTool, PaintTool } from '../../../tools';
 import { getIntervalStep } from '../../../util/baseHelpers';
 import AbstractControl from '../AbstractControl/AbstractControl';
+import { ControlProps } from '../AbstractControl/types';
 
 class BrushControl extends AbstractControl {
-  constructor(props) {
-    super(props);
+  private tabControl: any;
+  private customToleranceInput: HTMLDivElement;
+
+  constructor(props: ControlProps) {
+    super();
 
     this.tabControl = props.tabControl;
-    this.tabState = props.tabControl.getState();
+    this.customToleranceInput = document.createElement('div');
   }
 
   /**
    * creates a field for brush size input
-   *
-   * @returns {Object} HTML element
    */
-  createBrushSizeControl = () => {
+  createBrushSizeControl = (): HTMLDivElement | null => {
     const { drawingTools = {} } = this.tabControl.getTool();
 
     const paintTool = drawingTools[PaintTool.NAME()];
@@ -28,7 +30,7 @@ class BrushControl extends AbstractControl {
 
     if (!brush) return null;
 
-    let { maxBrushSize, minBrushSize } = brush.getBrushSizeConstraints();
+    const { maxBrushSize, minBrushSize } = brush.getBrushSizeConstraints();
 
     const controlWrapper = document.createElement('div');
     const brushControl = createIntervalInput(
@@ -43,60 +45,54 @@ class BrushControl extends AbstractControl {
     const customToleranceCheck = this.createCustomToleranceCheck();
     controlWrapper.appendChild(customToleranceCheck);
 
-    this.customToleranceInput = document.createElement('div');
     controlWrapper.appendChild(this.customToleranceInput);
     return controlWrapper;
   };
 
-  toleranceChange = (val) => {
+  toleranceChange = (val: number): void => {
     window.customTolerance = val;
   };
 
-  onChange = (check) => {
+  onChange = (check: boolean): void => {
     if (check) {
-      let val = window.customTolerance;
-      let step = getIntervalStep(val);
+      const val = window.customTolerance;
+      const step = getIntervalStep(val);
       const customTolerance = createIntervalInput(
         'Custom tolerance',
         0.0,
         val * 2,
         this.toleranceChange,
-        val || '',
+        String(val || ''),
         step,
       );
       this.customToleranceInput.appendChild(customTolerance);
     } else {
-      let firstChild = this.customToleranceInput.firstChild;
+      const firstChild = this.customToleranceInput.firstChild;
       if (firstChild) this.customToleranceInput.removeChild(firstChild);
       this.tabControl.getTool().setGlobalSimplificationTolerance();
     }
   };
 
-  /**
-   * slider to change tolerance of brush stroke a.k.a how smooth it will be
-   *
-   * @returns {Object} HTML element
-   */
-  createCustomToleranceCheck = () => {
+  createCustomToleranceCheck = (): HTMLDivElement => {
     // * tolerance changes with zoom
     window.map.on('zoomend', () => {
-      let firstChild = this.customToleranceInput.firstChild;
+      const firstChild = this.customToleranceInput.firstChild;
       if (firstChild) {
-        let interval = firstChild.firstChild.lastChild;
-        let display = firstChild.lastChild;
-        let val = window.customTolerance;
-        if (display) display.innerText = val;
+        const interval = firstChild?.firstChild?.lastChild as HTMLInputElement;
+        const display = firstChild.lastChild;
+        const val = window.customTolerance;
+        if (display) (display as HTMLElement).innerText = String(val);
         if (interval) {
-          interval.value = val;
-          let step = getIntervalStep(val);
-          interval.step = step;
-          interval.max = val * 2;
+          interval.value = String(val);
+          const step = getIntervalStep(val);
+          interval.step = String(step);
+          interval.max = String(val * 2);
         }
       }
     });
 
     const result = createCheck(
-      '',
+      false,
       this.onChange,
       'custom-tolerance',
       'By selecting the option you can custom level of detail for brush strokes',

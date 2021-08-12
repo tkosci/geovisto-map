@@ -1,3 +1,4 @@
+import { LooseObject } from './index';
 import {
   Feature,
   LineString,
@@ -7,7 +8,7 @@ import {
   Point,
   Polygon,
 } from '@turf/turf';
-import { DrawEvents, LatLng, Layer } from 'leaflet';
+import { DrawEvents, Icon, LatLng, Layer } from 'leaflet';
 import { LeafletDrag } from '../../tools/TopologyTool/types';
 
 export type LatLngs = LatLng[];
@@ -23,7 +24,7 @@ export type LayerType =
 
 export type DrawnObject = Layer & {
   layerType: LayerType;
-  options: { [key: string]: string | number };
+  options: { [key: string]: string | number } & { icon?: { options: LooseObject } };
   identifier: string;
   dragging?: { _enabled: boolean; disable: () => void; enable: () => void };
   editing?: { _enabled: boolean; disable: () => void; enable: () => void };
@@ -32,12 +33,14 @@ export type DrawnObject = Layer & {
     disable: () => void;
     enable: (opt: { rotation: boolean; scaling: boolean }) => void;
   };
-  setStyle: (val: { [key: string]: string | number }) => void;
+  setStyle: (val: { [key: string]: string | number } | string) => void;
   popupContent?: string;
   _latlngs: LatLngs;
   _leaflet_id: LatLngs;
   toGeoJSON: () => GeoJSON.Feature | GeoJSON.FeatureCollection;
   on(type: 'drag', fn: (e: LeafletDrag) => void): void;
+  setIcon: (icon: Icon<LooseObject>) => void;
+  countryCode?: string;
 };
 
 export type CreatedEvent = DrawEvents.Created & {

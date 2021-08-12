@@ -1,8 +1,15 @@
-import { COLORS, STROKES } from '../../../util/constants';
+import { COLORS, SelectOpts, STROKES } from '../../../util/constants';
 import AbstractControlState from '../AbstractControl/AbstractControlState';
+import { ControlStateProps } from '../AbstractControl/types';
 
 class PolyControlState extends AbstractControlState {
-  constructor(props) {
+  public intersectActivated: boolean;
+  public colors: string[];
+  public selectedColor: string;
+  public strokes: SelectOpts;
+  public selectedStroke: number;
+
+  constructor(props: ControlStateProps) {
     super(props);
 
     this.intersectActivated = false;
@@ -16,37 +23,29 @@ class PolyControlState extends AbstractControlState {
 
   /**
    * getter
-   *
-   * @returns {String}
    */
-  getSelectedColor() {
+  getSelectedColor(): string {
     return this.selectedColor;
   }
 
   /**
    * getter
-   *
-   * @returns {String}
    */
-  getSelectedStroke() {
+  getSelectedStroke(): number {
     return this.selectedStroke;
   }
 
   /**
    * sets whether we are creating new polygons within selected one
-   *
-   * @param {Boolean} val
    */
-  setIntersectActivated(val) {
+  setIntersectActivated(val: boolean): void {
     this.intersectActivated = val;
   }
 
   /**
    * sets new color to selected object and to extra selected ones
-   *
-   * @param {string} color
    */
-  changeColorAction = (color) => {
+  changeColorAction = (color: string): void => {
     const selectedEl = this._getSelected();
     this.selectedColor = color;
     if (selectedEl?.setStyle) selectedEl.setStyle({ color });
@@ -57,11 +56,9 @@ class PolyControlState extends AbstractControlState {
 
   /**
    * sets new stroke weight to selected object and to extra selected ones
-   *
-   * @param {Object} e
    */
-  changeWeightAction = (e) => {
-    const weight = Number(e.target.value);
+  changeWeightAction = (e: Event): void => {
+    const weight = Number((e.target as HTMLSelectElement).value);
     const selectedEl = this._getSelected();
     this.selectedStroke = weight;
     if (selectedEl?.setStyle) selectedEl.setStyle({ weight });

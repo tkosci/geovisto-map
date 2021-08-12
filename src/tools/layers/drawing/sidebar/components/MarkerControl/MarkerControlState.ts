@@ -1,3 +1,5 @@
+import { TMarkerControlState } from './types';
+import { DrawnObject } from './../../../model/types/index';
 import L from 'leaflet';
 import 'leaflet-path-drag';
 import 'leaflet-path-transform';
@@ -5,9 +7,13 @@ import 'leaflet-draw';
 
 import { FIRST, iconStarter, ICON_SRCS } from '../../../util/constants';
 import AbstractControlState from '../AbstractControl/AbstractControlState';
+import { ControlStateProps } from '../AbstractControl/types';
 
-class MarkerControlState extends AbstractControlState {
-  constructor(props) {
+class MarkerControlState extends AbstractControlState implements TMarkerControlState {
+  public iconSrcs: Set<string>;
+  public selectedIcon: string;
+
+  constructor(props: ControlStateProps) {
     super(props);
 
     this.iconSrcs = new Set(ICON_SRCS);
@@ -16,21 +22,23 @@ class MarkerControlState extends AbstractControlState {
 
   /**
    * getter
-   *
-   * @returns {String}
    */
-  getSelectedIcon() {
+  getSelectedIcon(): string {
     return this.selectedIcon;
   }
 
   /**
-   * sets new marker icon options (iconUrl, anchor...) to selected object and to extra selected ones
-   *
-   * @param {Object} iconOpt
-   * @returns {Layer}
+   * setter
    */
-  changeIconOpts = (iconOpt = {}) => {
-    const { enabledEl } = this;
+  setSelectedIcon(icon: string): void {
+    this.selectedIcon = icon;
+  }
+
+  /**
+   * sets new marker icon options (iconUrl, anchor...) to selected object and to extra selected ones
+   */
+  changeIconOpts = (iconOpt = {}): DrawnObject => {
+    const { enabledEl } = this.tabControl;
 
     let selectedEl = this._getSelected();
     let marker = selectedEl;
@@ -40,8 +48,8 @@ class MarkerControlState extends AbstractControlState {
       marker = enabledEl._marker;
     }
 
-    let oldIconOptions = selectedEl?.options?.icon?.options || {};
-    let newIconOptions = {
+    const oldIconOptions = selectedEl?.options?.icon?.options || {};
+    const newIconOptions = {
       ...oldIconOptions,
       ...iconOpt,
     };
@@ -63,7 +71,7 @@ class MarkerControlState extends AbstractControlState {
    *
    * @param {String} icon
    */
-  changeIconAction = (icon) => {
+  changeIconAction = (icon: string): void => {
     this.changeIconOpts({ iconUrl: icon });
 
     this.selectedIcon = icon;
@@ -72,13 +80,10 @@ class MarkerControlState extends AbstractControlState {
 
   /**
    * sets new anchor to marker
-   *
-   * @param {Number} val
-   * @param {'x' | 'y'} coordinate
    */
-  changeIconAnchor = (val, coordinate) => {
-    const selectedEl = this.enabledEl || this._getSelected();
-    let iconOptions = selectedEl?.options?.icon?.options || {};
+  changeIconAnchor = (val: number, coordinate: 'x' | 'y'): void => {
+    const selectedEl = this.tabControl.enabledEl || this._getSelected();
+    const iconOptions = selectedEl?.options?.icon?.options || {};
     const iconAnchor = iconOptions.iconAnchor || iconStarter.iconAnchor;
     iconAnchor[coordinate] = val;
     this.changeIconOpts({ iconAnchor });
@@ -86,21 +91,17 @@ class MarkerControlState extends AbstractControlState {
 
   /**
    * runs on 'Enter' whenever user adds new icon to list of icons
-   *
-   * @param {Object} e
    */
-  addIconAction = (e) => {
-    const iconUrl = e.target.value;
+  addIconAction = (e: InputEvent): void => {
+    const iconUrl = (e.target as HTMLInputElement).value;
     this.appendToIconSrcs(iconUrl);
     this._redrawSidebar('marker');
   };
 
   /**
    * append to icon Set
-   *
-   * @param {string} iconUrl
    */
-  appendToIconSrcs(iconUrl) {
+  appendToIconSrcs(iconUrl: string): void {
     this.iconSrcs.add(iconUrl);
   }
 }
