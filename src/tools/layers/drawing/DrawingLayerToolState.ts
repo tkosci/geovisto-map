@@ -1,10 +1,15 @@
-import { AbstractLayerToolState } from "../abstract";
-import L, { FeatureGroup, Polyline } from "leaflet";
+import { Feature } from "@turf/turf";
+import {
+  LooseObject,
+  LayerType,
+  DrawnOptions,
+  LatLngs,
+} from "./model/types/index";
+import L, { FeatureGroup, LatLng } from "leaflet";
 import {
   convertCoords,
   convertOptionsToProperties,
   convertPropertiesToOptions,
-  getConversionDepth,
   getLeafletTypeFromFeature,
   isLayerPoly,
 } from "./util/polyHelpers";
@@ -13,18 +18,28 @@ import { NOT_FOUND, iconStarter, normalStyles } from "./util/constants";
 import { EditTool, TransformTool } from "./tools";
 import { DrawnObject } from "./model/types";
 import IDrawingLayerTool from "./model/types/tool/IDrawingLayerTool";
-
-export type MappedMarkersToVertices = {
-  [vertKey: string]: Polyline;
-};
+import LayerToolState from "../../../model/internal/layer/LayerToolState";
+import ILayerToolDefaults from "../../../model/types/layer/ILayerToolDefaults";
+import { ILayerToolConfig } from "../../../model/types/layer/ILayerToolConfig";
+import IDrawingLayerToolState, {
+  DrawnGroup,
+  ExportGeoJSON,
+  IndexedVertices,
+  MappedMarkersToVertices,
+  Source,
+} from "./model/types/tool/IDrawingLayerToolState";
+import { IDrawingLayerToolConfig } from "./model/types/tool/IDrawingLayerToolConfig";
+import IDrawingLayerToolDefaults from "./model/types/tool/IDrawingLayerToolDefaults";
 
 /**
  * This class provide functions for using the state of the layer tool.
  *
  * @author Andrej Tlcina
  */
-class DrawingLayerToolState extends AbstractLayerToolState {
-  public featureGroup: FeatureGroup;
+class DrawingLayerToolState
+  extends LayerToolState
+  implements IDrawingLayerToolState {
+  public featureGroup: DrawnGroup;
   public selecting: boolean;
   public selectedLayer: DrawnObject | null;
   public enabledTool: DrawnObject | null;
@@ -36,9 +51,9 @@ class DrawingLayerToolState extends AbstractLayerToolState {
    * It creates a tool state.
    */
   public constructor(tool: IDrawingLayerTool) {
-    super();
-
-    this.featureGroup = new L.FeatureGroup();
+    super(tool);
+    // * retyping because I'm accessing private attribute '_layers'
+    this.featureGroup = new L.FeatureGroup() as DrawnGroup;
     // * for knowing if we are using select tool
     this.selecting = false;
     // * for knowing if we already selected layer
@@ -240,7 +255,7 @@ class DrawingLayerToolState extends AbstractLayerToolState {
    * sets selected layer and highlights it
    */
   public setSelectedLayer(layer: DrawnObject): void {
-    this.tool.normalizeElement(this.selectedLayer);
+    if (this.selectedLayer) this.tool.normalizeElement(this.selectedLayer);
     this.selectedLayer = layer;
     this.tool.highlightElement(layer);
     this.clearExtraSelected();
@@ -256,35 +271,32 @@ class DrawingLayerToolState extends AbstractLayerToolState {
   /**
    * sets vertices to marker
    */
-  setVerticesToMarker(lId, val) {
+  public setVerticesToMarker(lId: string, val: IndexedVertices): void {
     this.mappedMarkersToVertices[lId] = val;
   }
 
   /**
    * saving topology information to marker
-   *
-   * @param {Layer} layer
-   * @param {Layer} result
    */
-  addMappedVertices = (layer, result) => {
-    let lId = layer._leaflet_id;
-    let mappedVertices = this.mappedMarkersToVertices[lId];
-    let mappedProperty = {};
+  private addMappedVertices = (layer: DrawnObject, result: Source): void => {
+    const lId = layer._leaflet_id;
+    const mappedVertices = this.mappedMarkersToVertices[lId];
+    const mappedProperty: LooseObject = {};
     Object.keys(mappedVertices).forEach((key) => {
       mappedProperty[key] = mappedVertices[key]._leaflet_id;
     });
-    if (!isEmpty<Object>(mappedProperty))
+    if (!isEmpty<LooseObject>(mappedProperty))
       result.mappedVertices = mappedProperty;
   };
 
   /**
    * called so when we import topology dragging of vertices works
-   *
-   * @param {*} lType
-   * @param {*} result
-   * @param {*} source
    */
-  initMappedMarkersToVertices = (lType, result, source) => {
+  private initMappedMarkersToVertices = (
+    lType: LayerType | "",
+    result: DrawnObject,
+    source: Source
+  ) => {
     if (lType === "marker" && source.mappedVertices) {
       this.mappedMarkersToVertices[result._leaflet_id] = source.mappedVertices;
     }
@@ -292,15 +304,15 @@ class DrawingLayerToolState extends AbstractLayerToolState {
       // * keys are marker leaflet ids
       Object.keys(this.mappedMarkersToVertices).forEach((markerId) => {
         // * values are index of vertice
-        let verticesKeyArr = Object.keys(
+        const verticesKeyArr = Object.keys(
           this.mappedMarkersToVertices[markerId]
         );
         // * leaflet id of vertice
-        let vertLeafId = source.mappedVerticeId;
-        let verticesObj = this.mappedMarkersToVertices[markerId];
+        const vertLeafId = source.mappedVerticeId;
+        const verticesObj = this.mappedMarkersToVertices[markerId];
         verticesKeyArr.forEach((vertKey) => {
           if (verticesObj[vertKey] === vertLeafId) {
-            let spreadable = this.mappedMarkersToVertices[markerId] || {};
+            const spreadable = this.mappedMarkersToVertices[markerId] || {};
             this.mappedMarkersToVertices[markerId] = {
               ...spreadable,
               [vertKey]: result,
@@ -313,34 +325,34 @@ class DrawingLayerToolState extends AbstractLayerToolState {
 
   /**
    * serializes map state to GeoJSON
-   *
-   * @returns {Object}
    */
-  serializeToGeoJSON() {
-    const geo = {
+  public serializeToGeoJSON(): ExportGeoJSON {
+    const geo: ExportGeoJSON = {
       type: "FeatureCollection",
       features: [],
     };
 
     this.featureGroup.eachLayer((l) => {
-      let feature = l.toGeoJSON();
+      const layer = l as DrawnObject;
+      const feature = layer.toGeoJSON() as Feature;
 
-      let properties = convertOptionsToProperties(l.options);
+      const properties = convertOptionsToProperties(layer.options);
       feature.properties = properties;
 
-      if (l.popupContent) feature.properties.popupContent = l.popupContent;
-      if (l.identifier) feature.id = l.identifier;
+      if (layer.popupContent)
+        feature.properties.popupContent = layer.popupContent;
+      if (layer.identifier) feature.id = layer.identifier;
 
-      let iconOptions = l?.options?.icon?.options;
+      const iconOptions = layer?.options?.icon?.options;
       if (iconOptions) feature.properties.iconOptions = iconOptions;
 
-      if (this.isConnectMarker(l)) {
-        this.addMappedVertices(l, feature.properties);
+      if (this.isConnectMarker(layer)) {
+        this.addMappedVertices(layer, feature.properties as Source);
       }
-      if (l.layerType === "vertice")
-        feature.properties.mappedVerticeId = l._leaflet_id;
+      if (layer.layerType === "vertice")
+        feature.properties.mappedVerticeId = layer._leaflet_id;
 
-      geo.features.push(feature);
+      (geo.features as Feature[]).push(feature);
     });
 
     return geo;
@@ -352,16 +364,18 @@ class DrawingLayerToolState extends AbstractLayerToolState {
    * @param {Object} geojson
    * @returns
    */
-  deserializeGeoJSON(geojson) {
+  public deserializeGeoJSON(geojson: ExportGeoJSON): void {
     const sidebarState = this.tool.getSidebarTabControl().getState();
     // console.log({ geojson });
     if (geojson.type === "FeatureCollection" && geojson.features) {
       geojson.features
-        .sort((a, b) => sortReverseAlpha(a.geometry.type, b.geometry.type))
+        .sort((a, b) =>
+          sortReverseAlpha(Number(a.geometry.type), Number(b.geometry.type))
+        )
         .forEach((f) => {
-          let opts = convertPropertiesToOptions(f.properties);
-          let lType = getLeafletTypeFromFeature(f);
-          let latlng = convertCoords(f);
+          const opts = convertPropertiesToOptions(f.properties || {});
+          const lType = getLeafletTypeFromFeature(f);
+          const latlng = convertCoords(f);
 
           let result;
           if (lType === "polygon") {
@@ -369,16 +383,16 @@ class DrawingLayerToolState extends AbstractLayerToolState {
           } else if (lType === "polyline") {
             result = new L.polyline(latlng, opts);
           } else if (lType === "marker") {
-            let spreadable = f?.properties?.iconOptions || {};
+            const spreadable = f?.properties?.iconOptions || {};
             if (spreadable.iconUrl)
               sidebarState.appendToIconSrcs(spreadable.iconUrl);
-            let options = {
+            const options = {
               ...iconStarter,
               iconUrl: sidebarState.getSelectedIcon(),
               ...spreadable,
             };
 
-            let icon = new L.Icon(options);
+            const icon = new L.Icon(options);
             result = new L.Marker.Touch(latlng, { icon });
           }
           if (result) {
@@ -399,7 +413,11 @@ class DrawingLayerToolState extends AbstractLayerToolState {
               result.identifier = f.id;
             }
             if (result.dragging) result.dragging.disable();
-            this.initMappedMarkersToVertices(lType, result, f.properties);
+            this.initMappedMarkersToVertices(
+              lType,
+              result,
+              f.properties as Source
+            );
             this.addLayer(result);
           }
         });
@@ -410,21 +428,29 @@ class DrawingLayerToolState extends AbstractLayerToolState {
 
   /**
    * serializes map state to internal JSON representation
-   *
-   * @param {Object} defaults
-   * @returns
    */
-  serialize(defaults) {
-    let config = super.serialize(defaults);
+  public serialize(
+    defaults: IDrawingLayerToolDefaults | undefined
+  ): IDrawingLayerToolConfig {
+    const config = super.serialize(defaults);
 
-    const exportSettings = [];
+    const exportSettings: {
+      layerType: LayerType;
+      options: DrawnOptions;
+      latlngs: LatLngs | LatLng;
+      popupContent: string;
+      [key: string]: any;
+    }[] = [];
 
-    const pushPolygon = (layer, layerType, extra = {}) => {
+    const pushPolygon = (
+      layer: DrawnObject,
+      layerType: LayerType,
+      extra = {}
+    ) => {
       const { options, _latlngs: latlngs, popupContent = "" } = layer;
       exportSettings.push({
         layerType,
-        options: {
-          ...options,
+        options: options && {
           ...normalStyles,
           draggable: true,
           transform: true,
@@ -435,11 +461,11 @@ class DrawingLayerToolState extends AbstractLayerToolState {
       });
     };
 
-    const pushMarker = (layer, layerType) => {
+    const pushMarker = (layer: DrawnObject, layerType: LayerType) => {
       const { popupContent = "" } = layer;
-      let extra = {};
+      const extra = {};
       if (this.isConnectMarker(layer)) {
-        this.addMappedVertices(layer, extra);
+        this.addMappedVertices(layer, extra as Source);
       }
       exportSettings.push({
         layerType,
@@ -454,17 +480,19 @@ class DrawingLayerToolState extends AbstractLayerToolState {
       });
     };
 
-    this.featureGroup.eachLayer((layer) => {
+    this.featureGroup.eachLayer((l) => {
+      const layer = l as DrawnObject;
       const { layerType } = layer;
       if (layerType === "marker") {
         pushMarker(layer, layerType);
       } else {
+        // TODO: CHECK
         if (layer._layers) {
           layer.eachLayer((l) => {
             pushPolygon(l, layerType);
           });
         } else {
-          let extra =
+          const extra =
             layerType === "vertice"
               ? { mappedVerticeId: layer._leaflet_id }
               : {};
@@ -479,10 +507,8 @@ class DrawingLayerToolState extends AbstractLayerToolState {
 
   /**
    * deserializes internal JSON representation to map state
-   *
-   * @param {Object} config
    */
-  deserialize(config) {
+  public deserialize(config: IDrawingLayerToolConfig): void {
     super.deserialize(config);
 
     const sidebarState = this.tool.getSidebarTabControl().getState();
@@ -493,11 +519,11 @@ class DrawingLayerToolState extends AbstractLayerToolState {
       let layerToAdd;
       // decide what type they are according to it render what is needed
       if (layer.layerType === "marker") {
-        let { latlngs } = layer;
-        let latlng = L.latLng(latlngs.lat, latlngs.lng);
+        const { latlngs } = layer;
+        const latlng = L.latLng(latlngs.lat, latlngs.lng);
         if (layer?.options?.iconUrl)
           sidebarState.appendToIconSrcs(layer.options.iconUrl);
-        let options = {
+        const options = {
           ...layer.options,
           iconAnchor: new L.Point(
             layer.options.iconAnchor.x,
@@ -508,24 +534,24 @@ class DrawingLayerToolState extends AbstractLayerToolState {
             layer.options.iconSize.y
           ),
         };
-        let MyCustomMarker = L.Icon.extend({
+        const MyCustomMarker = L.Icon.extend({
           options,
         });
 
-        let icon = new MyCustomMarker();
+        const icon = new MyCustomMarker();
         icon.options = options;
-        let marker = new L.Marker.Touch(latlng, { icon });
+        const marker = new L.Marker.Touch(latlng, { icon });
 
         layerToAdd = marker;
       } else {
         let _latlng;
         let poly;
         if (layer.layerType === "polyline" || layer.layerType === "vertice") {
-          _latlng = layer.latlngs[0].map((l) => L.latLng(l.lat, l.lng));
+          _latlng = layer.latlngs[0].map((l: LatLng) => L.latLng(l.lat, l.lng));
           poly = new L.polyline(_latlng, layer.options);
         }
         if (layer.layerType === "polygon" || layer.layerType === "painted") {
-          _latlng = layer.latlngs[0].map((l) => L.latLng(l.lat, l.lng));
+          _latlng = layer.latlngs[0].map((l: LatLng) => L.latLng(l.lat, l.lng));
           poly = new L.polygon(_latlng, layer.options);
         }
 

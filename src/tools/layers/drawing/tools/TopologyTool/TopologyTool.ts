@@ -13,8 +13,8 @@ import {
   Optional,
 } from "../../model/types";
 import { CustomMarker, LeafletDrag, TTopologyTool } from "./types";
-import { MappedMarkersToVertices } from "../../DrawingLayerToolState";
 import { ToolProps } from "../AbstractTool/types";
+import { MappedMarkersToVertices } from "../../model/types/tool/IDrawingLayerToolState";
 
 class TopologyTool extends MarkerTool implements TTopologyTool {
   constructor(props: ToolProps) {
@@ -180,7 +180,7 @@ class TopologyTool extends MarkerTool implements TTopologyTool {
   /**
    * @brief event listener so vetice is dragged with marker
    */
-  private static applyTopologyMarkerListeners(
+  public static applyTopologyMarkerListeners(
     layer: DrawnObject,
     state: any
   ): void {

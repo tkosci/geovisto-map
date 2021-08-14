@@ -1,5 +1,5 @@
-import L, { DrawEvents, Map } from "leaflet";
-import AbstractLayerTool from "../abstract/AbstractLayerTool";
+import L, { FeatureGroup, LeafletMouseEvent, Map, TileEvent } from "leaflet";
+
 import DrawingLayerToolState from "./DrawingLayerToolState";
 import DrawingLayerToolDefaults from "./DrawingLayerToolDefaults";
 import DrawingLayerToolTabControl from "./sidebar/DrawingLayerToolTabControl";
@@ -31,15 +31,25 @@ import {
   TopologyTool,
   TransformTool,
 } from "./tools";
-import { CreatedEvent, DrawnObject } from "./model/types";
+import {
+  CreatedEvent,
+  LooseObject,
+  DrawnObject,
+  LayerType,
+} from "./model/types";
+import IDrawingLayerToolProps from "./model/types/tool/IDrawingLayerToolProps";
+import IDrawingLayerTool from "./model/types/tool/IDrawingLayerTool";
+import AbstractLayerTool from "../../../model/internal/layer/AbstractLayerTool";
+import IDrawingLayerToolDefaults from "./model/types/tool/IDrawingLayerToolDefaults";
+import IDrawingLayerToolState from "./model/types/tool/IDrawingLayerToolState";
 
 // ! pather throws errors without this line
 window.d3 = d33;
 
 // * as advised in https://github.com/makinacorpus/Leaflet.Snap/issues/52
 L.Draw.Feature.include(L.Evented.prototype);
-L.Draw.Feature.include(L.Draw.Feature.SnapMixin);
-L.Draw.Feature.addInitHook(L.Draw.Feature.SnapMixin._snap_initialize);
+L.Draw.Feature.include((L.Draw.Feature as any).SnapMixin);
+L.Draw.Feature.addInitHook((L.Draw.Feature as any).SnapMixin._snap_initialize);
 
 declare global {
   interface Window {
@@ -48,62 +58,77 @@ declare global {
   }
 }
 
-export const DRAWING_TOOL_LAYER_TYPE = "geovisto-tool-layer-drawing";
-
 /**
  * This class represents Drawing layer tool.
  *
  * @author Andrej Tlcina
  */
-class DrawingLayerTool extends AbstractLayerTool {
-  /**
-   * It creates a new tool with respect to the props.
-   *
-   * @param {*} props
-   */
-  constructor(props) {
-    super(props);
-  }
+class DrawingLayerTool extends AbstractLayerTool implements IDrawingLayerTool {
+  public drawingTools: LooseObject;
 
   /**
-   * A unique string of the tool type.
+   * It creates a new tool with respect to the props.
    */
-  static TYPE() {
-    return DRAWING_TOOL_LAYER_TYPE;
+  public constructor(props?: IDrawingLayerToolProps) {
+    super(props);
+    this.drawingTools = {};
   }
 
   /**
    * It creates a copy of the uninitialized tool.
    */
-  copy() {
+  public copy(): IDrawingLayerTool {
     return new DrawingLayerTool(this.getProps());
+  }
+
+  /**
+   * It returns the props given by the programmer.
+   */
+  public getProps(): IDrawingLayerToolProps {
+    return <IDrawingLayerToolProps>super.getProps();
+  }
+
+  /**
+   * It returns default values of the state properties.
+   */
+  public getDefaults(): IDrawingLayerToolDefaults {
+    return <IDrawingLayerToolDefaults>super.getDefaults();
+  }
+  /**
+   * It returns the layer tool state.
+   */
+  public getState(): IDrawingLayerToolState {
+    return <IDrawingLayerToolState>super.getState();
   }
 
   /**
    * It creates new defaults of the tool.
    */
-  createDefaults() {
+  protected createDefaults(): IDrawingLayerToolDefaults {
     return new DrawingLayerToolDefaults();
   }
 
   /**
    * It returns default tool state.
    */
-  createState() {
+  protected createState(): IDrawingLayerToolState {
     return new DrawingLayerToolState(this);
   }
 
   /**
    * It returns a tab control.
    */
-  getSidebarTabControl() {
+  public getSidebarTabControl(): any {
     if (this.tabControl == undefined) {
       this.tabControl = this.createSidebarTabControl();
     }
     return this.tabControl;
   }
 
-  redrawSidebarTabControl(layerType, enabled = false) {
+  public redrawSidebarTabControl(
+    layerType: LayerType | "",
+    enabled = false
+  ): void {
     if (this.tabControl == undefined) return;
     this.tabControl.redrawTabContent(layerType, enabled);
   }
@@ -111,12 +136,12 @@ class DrawingLayerTool extends AbstractLayerTool {
   /**
    * It creates new tab control.
    */
-  createSidebarTabControl() {
+  public createSidebarTabControl(): any {
     return new DrawingLayerToolTabControl({ tool: this });
   }
 
-  initializeDrawingTools() {
-    const tools = {};
+  public initializeDrawingTools(): void {
+    const tools: LooseObject = {};
 
     tools[LineTool.NAME()] = new LineTool({ drawingTool: this });
     tools[MarkerTool.NAME()] = new MarkerTool({ drawingTool: this });
@@ -148,43 +173,48 @@ class DrawingLayerTool extends AbstractLayerTool {
   /**
    * It creates layer items.
    */
-  createLayerItems() {
+  protected createLayerItems(): FeatureGroup[] {
     console.log("%c ...creating", "color: #ff5108");
-    const map = this.getMap().getState().getLeafletMap();
+    const map = this.getMap()?.getState()?.getLeafletMap();
 
     this.getSidebarTabControl().getState().initializeControls();
     this.initializeDrawingTools();
     useDrawingToolbar();
     this.setGlobalSimplificationTolerance();
 
-    map.addControl(L.control.drawingToolbar({ tool: this }));
+    map?.addControl(L.control.drawingToolbar({ tool: this }));
 
     // * eventlistener for when object is created
-    map.on("draw:created", this.createdListener);
-    map.on("zoomend", () => this.setGlobalSimplificationTolerance());
-    map.on("click", () => {
+    map?.on("draw:created" as any, this.createdListener as any);
+    map?.on("zoomend", () => this.setGlobalSimplificationTolerance());
+    map?.on("click", () => {
       const sidebar = this.getSidebarTabControl();
       if (sidebar.getState()?.enabledEl?.isToolActive()) return;
-      if (document.querySelector(".leaflet-container").style.cursor === "wait")
+      if (
+        (document.querySelector(".leaflet-container") as HTMLDivElement).style
+          .cursor === "wait"
+      )
         return;
-      let selected = this.getState().selectedLayer;
-      DeselectTool.deselect(selected, this);
-      TransformTool.initTransform(selected, true);
+      const selected = this.getState().selectedLayer;
+      if (selected) {
+        DeselectTool.deselect(selected, this);
+        TransformTool.initTransform(selected, true);
+      }
       this.getState().clearExtraSelected();
     });
 
     const sidebarState = this.getSidebarTabControl().getState();
-    const handleSpacePress = (e, exec) => {
+    const handleSpacePress = (e: KeyboardEvent, exec: (el: any) => void) => {
       if (e.keyCode === SPACE_BAR) {
-        let enabledEl = sidebarState.enabledEl;
+        const enabledEl = sidebarState.enabledEl;
         if (enabledEl?.isToolActive()) {
           exec(enabledEl);
         }
       }
     };
-    const handleSpaceDown = (e) =>
+    const handleSpaceDown = (e: KeyboardEvent) =>
       handleSpacePress(e, (enabledEl) => enabledEl?.disable());
-    const handleSpaceUp = (e) =>
+    const handleSpaceUp = (e: KeyboardEvent) =>
       handleSpacePress(e, (enabledEl) => enabledEl?.enable());
 
     document.addEventListener("keydown", handleSpaceDown);
@@ -197,7 +227,7 @@ class DrawingLayerTool extends AbstractLayerTool {
   /**
    * @brief called whenever new geo. object is created
    */
-  createdListener = (e: CreatedEvent): void => {
+  private createdListener = (e: CreatedEvent): void => {
     let layer: DrawnObject = e.layer;
     if (!layer) return;
 
@@ -243,21 +273,21 @@ class DrawingLayerTool extends AbstractLayerTool {
    *
    * @param {Layer} layer
    */
-  applyEventListeners(layer) {
+  public applyEventListeners(layer: DrawnObject): void {
     layer
       .on("click", L.DomEvent.stopPropagation)
       .on("click", this.initChangeStyle, this);
-    layer.on("mouseover", this.hightlightOnHover, this);
-    layer.on("mouseout", this.normalizeOnHover, this);
+    layer.on("mouseover" as any, this.hightlightOnHover, this);
+    layer.on("mouseout" as any, this.normalizeOnHover, this);
     if (layer.layerType === "marker") {
-      TopologyTool.applyTopologyMarkerListeners(layer, this.state);
+      TopologyTool.applyTopologyMarkerListeners(layer, this.getState());
     }
   }
 
   /**
    * @brief sets global tolerance for brush stroke
    */
-  setGlobalSimplificationTolerance() {
+  protected setGlobalSimplificationTolerance(): void {
     const map = window.map;
     const metersPerPixel =
       (40075016.686 *
@@ -271,10 +301,8 @@ class DrawingLayerTool extends AbstractLayerTool {
 
   /**
    * @brief highlights element
-   *
-   * @param {Object} el
    */
-  highlightElement(el) {
+  public highlightElement(el: DrawnObject): void {
     if (el?._icon) {
       L.DomUtil.addClass(el._icon, "highlight-marker");
     } else {
@@ -284,21 +312,16 @@ class DrawingLayerTool extends AbstractLayerTool {
 
   /**
    * @brief highlights element on mouse hover
-   *
-   * @param {Object} e
-   * @returns
    */
-  hightlightOnHover(e) {
+  private hightlightOnHover(e: TileEvent): void {
     if (this.getState().getSelecting()) return;
-    this.highlightElement(e.target);
+    this.highlightElement(e.target as DrawnObject);
   }
 
   /**
    * @brief sets normal styles for element
-   *
-   * @param {Object} el
    */
-  normalizeElement(el) {
+  public normalizeElement(el: DrawnObject): void {
     if (el?._icon) {
       L.DomUtil.removeClass(el._icon, "highlight-marker");
     } else {
@@ -311,21 +334,21 @@ class DrawingLayerTool extends AbstractLayerTool {
    *
    * @param {Object} el
    */
-  normalizeOnHover(e) {
+  private normalizeOnHover(e: TileEvent): void {
     if (this.getState().getSelecting()) return;
-    if (this.getState()?.selectedLayer?._leaflet_id === e.target._leaflet_id)
+    if (
+      this.getState()?.selectedLayer?._leaflet_id ===
+      (e.target as DrawnObject)._leaflet_id
+    )
       return;
-    this.normalizeElement(e.target);
+    this.normalizeElement(e.target as DrawnObject);
   }
 
   /**
    * @brief called on object click to change its style accordingly
-   *
-   * @param {Object} e
-   * @returns
    */
-  initChangeStyle = (e) => {
-    const drawObject = e.target;
+  private initChangeStyle = (e: LeafletMouseEvent): void => {
+    const drawObject = e.target as DrawnObject;
     const state = this.getState();
 
     const selecting = state.getSelecting();
@@ -342,7 +365,7 @@ class DrawingLayerTool extends AbstractLayerTool {
       return;
     }
 
-    let fgLayers = state.featureGroup._layers;
+    const fgLayers = state.featureGroup._layers;
     Object.values(fgLayers).forEach((_) => {
       this.normalizeElement(_);
       _?.dragging?.disable();
@@ -352,11 +375,13 @@ class DrawingLayerTool extends AbstractLayerTool {
     });
     state.setSelectedLayer(drawObject);
     TransformTool.initTransform(drawObject);
-    this.redrawSidebarTabControl(drawObject.layerType);
+    this.redrawSidebarTabControl(drawObject?.layerType);
 
     this.tabControl.getState().callIdentifierChange(true);
 
-    document.querySelector(".leaflet-container").style.cursor = "";
+    (document.querySelector(
+      ".leaflet-container"
+    ) as HTMLDivElement).style.cursor = "";
     // * at this point user clicked without holdin 'CTRL' key
     // state.clearExtraSelected();
   };

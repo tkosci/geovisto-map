@@ -4,6 +4,8 @@ import LabeledTextSidebarInput from "../../../inputs/input/LabeledTextSidebarInp
 import LabeledTextAreaSidebarInput from "../../../inputs/input/LabeledTextAreaSidebarInput";
 import LabeledSelectSidebarInput from "../../../inputs/select/LabeledSelectSidebarInput";
 import AutocompleteSidebarInput from "../../../inputs/input/AutocompleteSidebarInput";
+import LayerToolDefaults from "../../../model/internal/layer/LayerToolDefaults";
+import IDrawingLayerToolDefaults from "./model/types/tool/IDrawingLayerToolDefaults";
 
 /**
  * TODO: refactorization needed!
@@ -83,19 +85,21 @@ const MAPPING_MODEL = {
  *
  * @author Andrej Tlcina
  */
-class DrawingLayerToolDefaults extends AbstractLayerToolDefaults {
+class DrawingLayerToolDefaults
+  extends LayerToolDefaults
+  implements IDrawingLayerToolDefaults {
+  public static TYPE = "geovisto-tool-layer-drawing";
   /**
    * It initializes tool defaults.
    */
   public constructor() {
     super();
   }
-
   /**
-   * It returns a unique type string of the tool which is based on the layer it wraps.
+   * A unique string of the tool type.
    */
   public getType(): string {
-    return DrawingLayerTool.TYPE();
+    return DrawingLayerToolDefaults.TYPE;
   }
 
   /**
@@ -103,6 +107,20 @@ class DrawingLayerToolDefaults extends AbstractLayerToolDefaults {
    */
   public getLayerName(): string {
     return "Drawing layer";
+  }
+
+  /**
+   * It returns the label of the tool.
+   */
+  public getLabel(): string {
+    return this.getLayerName();
+  }
+
+  /**
+   * It returns the icon of the tool.
+   */
+  public getIcon(): string {
+    return '<i class="fa fa-pencil"></i>';
   }
 }
 export default DrawingLayerToolDefaults;

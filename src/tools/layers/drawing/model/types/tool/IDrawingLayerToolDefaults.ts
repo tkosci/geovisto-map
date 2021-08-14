@@ -9,5 +9,7 @@ import { ILayerToolDefaults } from "../../../../../../index.core";
 interface IDrawingLayerToolDefaults extends ILayerToolDefaults {
   getType(): string;
   getLayerName(): string;
+  getLabel(): string;
+  getIcon(): string;
 }
 export default IDrawingLayerToolDefaults;

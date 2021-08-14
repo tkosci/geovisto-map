@@ -1,5 +1,5 @@
-import DrawingLayerTool from "./model/internal/tool/DrawingLayerTool";
-import DrawingLayerToolDefaults from "./model/internal/tool/DrawingLayerToolDefaults";
+import DrawingLayerTool from "./DrawingLayerTool";
+import DrawingLayerToolDefaults from "./DrawingLayerToolDefaults";
 import IDrawingLayerTool from "./model/types/tool/IDrawingLayerTool";
 import IDrawingLayerToolProps from "./model/types/tool/IDrawingLayerToolProps";
 

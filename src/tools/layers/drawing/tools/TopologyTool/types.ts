@@ -1,7 +1,7 @@
 import { LatLng, Marker, Polyline } from "leaflet";
 import { DragEvent } from "react";
-import { MappedMarkersToVertices } from "../../DrawingLayerToolState";
 import { DrawnObject, LooseObject, Optional } from "../../model/types";
+import { MappedMarkersToVertices } from "../../model/types/tool/IDrawingLayerToolState";
 import { TMarkerTool } from "../MarkerTool/types";
 
 export interface TTopologyTool extends TMarkerTool {
