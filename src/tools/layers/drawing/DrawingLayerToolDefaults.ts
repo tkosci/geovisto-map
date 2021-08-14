@@ -1,9 +1,3 @@
-import { AbstractLayerToolDefaults } from "../abstract";
-import DrawingLayerTool from "./DrawingLayerTool";
-import LabeledTextSidebarInput from "../../../inputs/input/LabeledTextSidebarInput";
-import LabeledTextAreaSidebarInput from "../../../inputs/input/LabeledTextAreaSidebarInput";
-import LabeledSelectSidebarInput from "../../../inputs/select/LabeledSelectSidebarInput";
-import AutocompleteSidebarInput from "../../../inputs/input/AutocompleteSidebarInput";
 import LayerToolDefaults from "../../../model/internal/layer/LayerToolDefaults";
 import IDrawingLayerToolDefaults from "./model/types/tool/IDrawingLayerToolDefaults";
 
@@ -17,7 +11,7 @@ const INPUT_ID_PREFIX = "geovisto-input-" + TYPE;
 /**
  * Data mapping model which can be used in the sidebar form.
  */
-const MAPPING_MODEL = {
+export const MAPPING_MODEL = {
   idKey: {
     id: INPUT_ID_PREFIX + "-idKey",
     name: "idKey",

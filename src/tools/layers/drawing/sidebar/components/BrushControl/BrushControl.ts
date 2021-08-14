@@ -8,7 +8,7 @@ class BrushControl extends AbstractControl {
   private tabControl: any;
   private customToleranceInput: HTMLDivElement;
 
-  private constructor(props: ControlProps) {
+  public constructor(props: ControlProps) {
     super();
 
     this.tabControl = props.tabControl;

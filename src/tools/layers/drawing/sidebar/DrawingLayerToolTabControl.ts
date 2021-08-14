@@ -1,59 +1,66 @@
-import DrawingLayerToolTabControlDefaults from './DrawingLayerToolTabControlDefaults';
-import DrawingLayerToolTabControlState from './DrawingLayerToolTabControlState';
-import AbstractLayerToolTabControl from '../../abstract/sidebar/AbstractLayerToolTabControl';
+import DrawingLayerToolTabControlState from "./DrawingLayerToolTabControlState";
 
-import { MarkerTool, PaintTool, PolygonTool, SearchTool } from '../tools';
+import { MarkerTool, PaintTool, PolygonTool, SearchTool } from "../tools";
 
-import '../style/drawingLayerTabControl.scss';
-import { isEmpty } from '../util/baseHelpers';
+import "../style/drawingLayerTabControl.scss";
+import { isEmpty } from "../util/baseHelpers";
+import MapLayerToolForm from "../../../../model/internal/form/MapLayerToolForm";
+import IDrawingLayerTool, {
+  DrawingForm,
+  TabState,
+} from "../model/types/tool/IDrawingLayerTool";
+import { LayerType, LooseObject } from "../model/types";
+import { MAPPING_MODEL } from "../DrawingLayerToolDefaults";
+import IDrawingLayerToolDimensions from "../model/types/tool/IDrawingLayerToolDimensions";
+import { FIRST } from "../util/constants";
 
-const POLYS = ['polyline', 'polygon', 'painted', 'vertice'];
+const POLYS = ["polyline", "polygon", "painted", "vertice"];
 
-const C_sidebar_tab_content_class = 'leaflet-sidebar-tab-content';
+const tabContentClassName = "drawing-sidebar";
 
 /**
  * This class provides controls for management of the layer sidebar tab.
  *
  * @author Andrej Tlcina
  */
-class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
-  constructor(tool) {
+class DrawingLayerToolTabControl
+  extends MapLayerToolForm<IDrawingLayerTool>
+  implements DrawingForm {
+  private state: TabState;
+
+  public constructor(tool: IDrawingLayerTool) {
     super(tool);
+
+    this.state = new DrawingLayerToolTabControlState(this);
   }
 
-  /**
-   * It creates new defaults of the tab control.
-   */
-  createDefaults() {
-    return new DrawingLayerToolTabControlDefaults();
+  public setInputValues(dimensions: IDrawingLayerToolDimensions): void {
+    return;
   }
 
   /**
    * It creates new state of the tab control.
    */
-  createState() {
-    return new DrawingLayerToolTabControlState(this);
+  public getState(): TabState {
+    return this.state;
   }
 
   /**
    * removes all elements of a sidebar and calls function to create new content of the sidebar
-   *
-   * @param {String} layerType
-   * @param {Boolean} enabled
    */
-  redrawTabContent(layerType, enabled = false) {
-    console.log('redrawing sidebar...');
-    // get rendered sidebar tab
-    let tabElement = document.getElementById(this.getState().getId());
+  public redrawTabContent(layerType: LayerType | ""): void {
+    console.log("redrawing sidebar...");
 
     // create sidebar tab content
-    let tabContent = tabElement.getElementsByClassName(C_sidebar_tab_content_class)[0];
+    const tabContent = document.getElementsByClassName(tabContentClassName)[
+      FIRST
+    ];
 
     while (tabContent.firstChild) {
       tabContent.removeChild(tabContent.firstChild);
     }
 
-    tabContent.appendChild(this.getTabContent(layerType, enabled));
+    tabContent.appendChild(this.getContent(layerType));
   }
 
   /**
@@ -63,48 +70,48 @@ class DrawingLayerToolTabControl extends AbstractLayerToolTabControl {
    * @param {boolean} enabled
    * @returns
    */
-  getTabContent(layerType = null, enabled = false) {
+  public getContent(layerType: LayerType | "" = ""): HTMLDivElement {
     const { controls } = this.getState();
 
     // tab content
-    let tab = document.createElement('div');
-    let elem = tab.appendChild(document.createElement('div'));
-    elem.classList.add('drawing-sidebar');
+    const tab = document.createElement("div");
+    const elem = tab.appendChild(document.createElement("div"));
+    elem.classList.add(tabContentClassName);
 
-    if (isEmpty<Object>(controls)) return tab;
+    if (isEmpty<LooseObject>(controls)) return tab;
 
     // get data mapping model
-    let model = this.getDefaults().getDataMappingModel();
+    const model = MAPPING_MODEL;
 
-    let brushControl = controls['BrushControl'].createBrushSizeControl();
+    const brushControl = controls["BrushControl"].createBrushSizeControl();
     if (brushControl) elem.appendChild(brushControl);
 
     if (!layerType) {
-      controls['DataControl'].state.clearFilters();
+      controls["DataControl"].state.clearFilters();
       return tab;
     }
 
     if (layerType === SearchTool.result) {
-      controls['SearchControl'].renderSearchInputs(elem, model);
-      controls['DataControl'].state.clearFilters();
+      controls["SearchControl"].renderSearchInputs(elem, model);
+      controls["DataControl"].state.clearFilters();
       return tab;
     }
 
-    controls['DataControl'].renderDataInputs(elem, model);
-    controls['DataControl'].renderDataFilters(elem, model);
-    controls['DataControl'].renderFilterInputs(elem, model);
+    controls["DataControl"].renderDataInputs(elem, model);
+    controls["DataControl"].renderDataFilters(elem, model);
+    controls["DataControl"].renderFilterInputs(elem, model);
 
     if (layerType === PaintTool.result || layerType === PolygonTool.result) {
-      const intersectCheck = controls['PolyControl'].createIntersectionCheck();
+      const intersectCheck = controls["PolyControl"].createIntersectionCheck();
       elem.appendChild(intersectCheck);
     }
 
     if (POLYS.includes(layerType)) {
-      controls['PolyControl'].renderPolyInputs(elem, model);
+      controls["PolyControl"].renderPolyInputs(elem, model);
     }
 
     if (layerType === MarkerTool.result) {
-      controls['MarkerControl'].renderIconInputs(elem, model);
+      controls["MarkerControl"].renderIconInputs(elem, model);
     }
 
     return tab;

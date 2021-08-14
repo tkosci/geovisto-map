@@ -1,14 +1,17 @@
-import L from "leaflet";
-
-import AbstractLayerToolTabControlState from "../../abstract/sidebar/AbstractLayerToolTabControlState";
-
-import "../style/drawingLayerTabControl.scss";
-
+import { TMarkerControlState } from "./components/MarkerControl/types";
 import DataControl from "./components/DataControl/DataControl";
 import MarkerControl from "./components/MarkerControl/MarkerControl";
 import PolyControl from "./components/PolyControl/PolyControl";
 import BrushControl from "./components/BrushControl/BrushControl";
 import SearchControl from "./components/SearchControl/SearchControl";
+import {
+  DrawingForm,
+  EnabledEl,
+  TabState,
+} from "../model/types/tool/IDrawingLayerTool";
+import { TPolyControlState } from "./components/PolyControl/types";
+import { TDataControlState } from "./components/DataControl/types";
+import { DrawnObject, LooseObject } from "../model/types";
 
 /**
  * This class manages the state of the sidebar tab.
@@ -16,12 +19,15 @@ import SearchControl from "./components/SearchControl/SearchControl";
  *
  * @author Andrej Tlcina
  */
-class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
+class DrawingLayerToolTabControlState implements TabState {
+  public tabControl: DrawingForm;
+  public enabledEl: EnabledEl;
+  public guideLayers: DrawnObject[];
+  public controls: LooseObject;
   /**
    * It creates a tab control state.
    */
-  constructor(tabControl) {
-    super();
+  public constructor(tabControl: DrawingForm) {
     this.tabControl = tabControl;
 
     // * element/layer that was enabled and not created yet
@@ -35,9 +41,9 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
   /**
    * method initializes controls for objects manipulation
    */
-  initializeControls = () => {
+  public initializeControls = (): void => {
     const { tabControl } = this;
-    const controls = {};
+    const controls: LooseObject = {};
 
     controls["DataControl"] = new DataControl({ tabControl });
     controls["MarkerControl"] = new MarkerControl({ tabControl });
@@ -51,69 +57,66 @@ class DrawingLayerToolTabControlState extends AbstractLayerToolTabControlState {
   /**
    * method if defined for easier access through tabControlState class/object
    */
-  getSelectedColor() {
-    return this.controls["PolyControl"]?.state?.getSelectedColor();
+  public getSelectedColor(): string {
+    const state = this.controls["PolyControl"]?.state as TPolyControlState;
+    return state?.getSelectedColor();
   }
 
   /**
    * method if defined for easier access through tabControlState class/object
    */
-  getSelectedStroke() {
-    return this.controls["PolyControl"]?.state?.getSelectedStroke();
+  public getSelectedStroke(): number {
+    const state = this.controls["PolyControl"]?.state as TPolyControlState;
+    return state?.getSelectedStroke();
   }
 
   /**
    * method if defined for easier access through tabControlState class/object
    */
-  getSelectedIcon() {
-    return this.controls["MarkerControl"]?.state?.getSelectedIcon();
+  public getSelectedIcon(): string {
+    const state = this.controls["MarkerControl"]?.state as TMarkerControlState;
+    return state?.getSelectedIcon();
   }
 
-  setSelectedIcon(icon: string) {
+  public setSelectedIcon(icon: string): void {
     this.controls["MarkerControl"]?.state?.setSelectedIcon(icon);
   }
 
   /**
    * method if defined for easier access through tabControlState class/object
    */
-  callIdentifierChange(haveToCheckFilters = false) {
-    return this.controls["DataControl"]?.state?.callIdentifierChange(
-      haveToCheckFilters
-    );
+  public callIdentifierChange(haveToCheckFilters = false): void {
+    const state = this.controls["DataControl"]?.state as TDataControlState;
+    return state?.callIdentifierChange(haveToCheckFilters);
   }
 
   /**
    * method if defined for easier access through tabControlState class/object
    */
-  appendToIconSrcs(iconUrl: string) {
-    return this.controls["MarkerControl"]?.state?.appendToIconSrcs(iconUrl);
+  public appendToIconSrcs(iconUrl: string): void {
+    const state = this.controls["MarkerControl"]?.state as TMarkerControlState;
+    return state?.appendToIconSrcs(iconUrl);
   }
 
   /**
    * adds guide layer for snapping
-   *
-   * @param {Layer} layer
    */
-  pushGuideLayer(layer) {
+  public pushGuideLayer(layer: DrawnObject): void {
     this.guideLayers.push(layer);
   }
 
   /**
    * setter for enabledEl variable
-   *
-   * @param {any} val
    */
-  setEnabledTool(val) {
+  public setEnabledTool(val: EnabledEl): void {
     this.enabledEl?.disable();
     this.enabledEl = val;
   }
 
   /**
    * getter
-   *
-   * @returns {object}
    */
-  getEnabledTool() {
+  public getEnabledTool(): EnabledEl {
     return this.enabledEl;
   }
 }

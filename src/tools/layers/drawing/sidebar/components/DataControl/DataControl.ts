@@ -8,9 +8,9 @@ import DataControlState from "./DataControlState";
 import { TDataControlState } from "./types";
 
 class DataControl extends AbstractControl {
-  private state: TDataControlState;
+  public state: TDataControlState;
 
-  private constructor(props: ControlProps) {
+  public constructor(props: ControlProps) {
     super();
 
     this.state = new DataControlState({

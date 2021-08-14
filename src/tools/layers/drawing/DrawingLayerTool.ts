@@ -38,10 +38,13 @@ import {
   LayerType,
 } from "./model/types";
 import IDrawingLayerToolProps from "./model/types/tool/IDrawingLayerToolProps";
-import IDrawingLayerTool from "./model/types/tool/IDrawingLayerTool";
+import IDrawingLayerTool, {
+  DrawingForm,
+} from "./model/types/tool/IDrawingLayerTool";
 import AbstractLayerTool from "../../../model/internal/layer/AbstractLayerTool";
 import IDrawingLayerToolDefaults from "./model/types/tool/IDrawingLayerToolDefaults";
 import IDrawingLayerToolState from "./model/types/tool/IDrawingLayerToolState";
+import IMapFormControl from "../../../model/types/form/IMapFormControl";
 
 // ! pather throws errors without this line
 window.d3 = d33;
@@ -63,8 +66,11 @@ declare global {
  *
  * @author Andrej Tlcina
  */
-class DrawingLayerTool extends AbstractLayerTool implements IDrawingLayerTool {
+class DrawingLayerTool
+  extends AbstractLayerTool
+  implements IDrawingLayerTool, IMapFormControl {
   public drawingTools: LooseObject;
+  private mapForm!: DrawingForm;
 
   /**
    * It creates a new tool with respect to the props.
@@ -118,25 +124,22 @@ class DrawingLayerTool extends AbstractLayerTool implements IDrawingLayerTool {
   /**
    * It returns a tab control.
    */
-  public getSidebarTabControl(): any {
-    if (this.tabControl == undefined) {
-      this.tabControl = this.createSidebarTabControl();
+  public getMapForm(): DrawingForm {
+    if (this.mapForm == undefined) {
+      this.mapForm = this.createMapForm();
     }
-    return this.tabControl;
+    return this.mapForm;
   }
 
-  public redrawSidebarTabControl(
-    layerType: LayerType | "",
-    enabled = false
-  ): void {
-    if (this.tabControl == undefined) return;
-    this.tabControl.redrawTabContent(layerType, enabled);
+  public redrawMapForm(layerType: LayerType | ""): void {
+    if (this.mapForm == undefined) return;
+    this.mapForm.redrawTabContent(layerType);
   }
 
   /**
    * It creates new tab control.
    */
-  public createSidebarTabControl(): any {
+  protected createMapForm(): DrawingForm {
     return new DrawingLayerToolTabControl({ tool: this });
   }
 
@@ -177,7 +180,7 @@ class DrawingLayerTool extends AbstractLayerTool implements IDrawingLayerTool {
     console.log("%c ...creating", "color: #ff5108");
     const map = this.getMap()?.getState()?.getLeafletMap();
 
-    this.getSidebarTabControl().getState().initializeControls();
+    this.getMapForm().getState().initializeControls();
     this.initializeDrawingTools();
     useDrawingToolbar();
     this.setGlobalSimplificationTolerance();
@@ -188,7 +191,7 @@ class DrawingLayerTool extends AbstractLayerTool implements IDrawingLayerTool {
     map?.on("draw:created" as any, this.createdListener as any);
     map?.on("zoomend", () => this.setGlobalSimplificationTolerance());
     map?.on("click", () => {
-      const sidebar = this.getSidebarTabControl();
+      const sidebar = this.getMapForm();
       if (sidebar.getState()?.enabledEl?.isToolActive()) return;
       if (
         (document.querySelector(".leaflet-container") as HTMLDivElement).style
@@ -203,7 +206,7 @@ class DrawingLayerTool extends AbstractLayerTool implements IDrawingLayerTool {
       this.getState().clearExtraSelected();
     });
 
-    const sidebarState = this.getSidebarTabControl().getState();
+    const sidebarState = this.getMapForm().getState();
     const handleSpacePress = (e: KeyboardEvent, exec: (el: any) => void) => {
       if (e.keyCode === SPACE_BAR) {
         const enabledEl = sidebarState.enabledEl;
@@ -232,7 +235,7 @@ class DrawingLayerTool extends AbstractLayerTool implements IDrawingLayerTool {
     if (!layer) return;
 
     layer.layerType = e.layerType;
-    const sidebarState = this.getSidebarTabControl().getState();
+    const sidebarState = this.getMapForm().getState();
     const state = this.getState();
 
     const { intersectActivated } = sidebarState;
@@ -377,7 +380,7 @@ class DrawingLayerTool extends AbstractLayerTool implements IDrawingLayerTool {
     TransformTool.initTransform(drawObject);
     this.redrawSidebarTabControl(drawObject?.layerType);
 
-    this.tabControl.getState().callIdentifierChange(true);
+    this.mapForm.getState().callIdentifierChange(true);
 
     (document.querySelector(
       ".leaflet-container"
