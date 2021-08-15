@@ -12,9 +12,9 @@ import { TSearchTool } from "./types";
 import { ToolProps } from "../AbstractTool/types";
 
 class SearchTool extends AbstractTool implements TSearchTool {
-  static result = "search";
+  public static result = "search";
 
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
   }
 

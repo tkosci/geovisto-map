@@ -10,7 +10,7 @@ import { TDeselectTool } from "./types";
 import { ToolProps } from "../AbstractTool/types";
 
 class DeselectTool extends AbstractTool implements TDeselectTool {
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
   }
 

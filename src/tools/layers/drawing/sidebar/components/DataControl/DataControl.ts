@@ -32,10 +32,11 @@ class DataControl extends AbstractControl {
 
     const result = model.idKey.input({
       ...model.idKey.props,
-      action: this.state.changeWhichIdUseAction,
-      value: this.state.getIdentifierType(),
+      onChangeAction: this.state.changeWhichIdUseAction,
       options: [{ value: "", label: "" }, ...idOpts],
     });
+
+    result.setValue(this.state.getIdentifierType());
 
     return result;
   };
@@ -53,11 +54,12 @@ class DataControl extends AbstractControl {
 
     const result = model.identifier.input({
       ...model.identifier.props,
-      action: (e) => this.state.changeIdentifierAction(e.target.value),
-      value: this.state._getSelected()?.identifier || "",
+      onChangeAction: (e) => this.state.changeIdentifierAction(e.target.value),
       options: idOpts,
       placeholder: "e.g. CZ",
     });
+
+    result.setValue(this.state._getSelected()?.identifier || "");
 
     return result;
   };
@@ -78,11 +80,13 @@ class DataControl extends AbstractControl {
     // textarea Description
     const inputDesc = model.description.input({
       ...model.description.props,
-      action: this.state.changeDescriptionAction,
-      value: DataControl.convertDescfromPopText(
-        (this.state._getSelected()?.getPopup()?.getContent() || "") as string
-      ),
+      onChangeAction: this.state.changeDescriptionAction,
     });
+    inputDesc.setValue(
+      DataControl.convertDescfromPopText(
+        (this.state._getSelected()?.getPopup()?.getContent() || "") as string
+      )
+    );
     elem.appendChild(inputDesc.create() as Node);
     inputDesc.setDisabled(disableTextFields);
   };
@@ -123,7 +127,10 @@ class DataControl extends AbstractControl {
   /**
    * creates the filter fields
    */
-  public renderDataFilters = (elem: HTMLDivElement, model: any): void => {
+  public renderDataFilters = (
+    elem: HTMLDivElement,
+    model: MappingModel
+  ): void => {
     const { data } = this.state;
 
     const idOpts = data[0]
@@ -135,10 +142,11 @@ class DataControl extends AbstractControl {
       // * input for key
       const inputKey = model.dataFilterKey.input({
         ...model.dataFilterKey.props,
-        action: (e: InputEvent) => this.setDataKey(e, index),
-        value: filtersKey,
+        onChangeAction: (e: InputEvent) => this.setDataKey(e, index),
         options: [{ value: "", label: "" }, ...idOpts],
       });
+
+      inputKey.setValue(filtersKey);
 
       // ***********************************************************
       let valueOpts =
@@ -147,10 +155,10 @@ class DataControl extends AbstractControl {
       // * input for value
       const inputValue = model.dataFilterValue.input({
         ...model.dataFilterValue.props,
-        action: (e: InputEvent) => this.setDataValue(e, index),
-        value: this.state.getFiltersValue(index),
+        onChangeAction: (e: InputEvent) => this.setDataValue(e, index),
         options: ["", ...valueOpts],
       });
+      inputValue.setValue(this.state.getFiltersValue(index));
 
       // * append elements
       elem.appendChild(document.createElement("hr"));
@@ -172,11 +180,8 @@ class DataControl extends AbstractControl {
 
   /**
    * creates the buttons for adding/removing buttons
-   *
-   * @param {Object} elem
-   * @param {Object} model
    */
-  public renderFilterInputs = (elem: HTMLDivElement, model: any): void => {
+  public renderFilterInputs = (elem: HTMLDivElement): void => {
     const disabled = !this.state._getSelected();
 
     const wrapper = document.createElement("div");

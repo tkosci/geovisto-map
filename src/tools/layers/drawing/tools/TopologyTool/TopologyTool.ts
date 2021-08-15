@@ -14,13 +14,16 @@ import {
 } from "../../model/types";
 import { CustomMarker, LeafletDrag, TTopologyTool } from "./types";
 import { ToolProps } from "../AbstractTool/types";
-import { MappedMarkersToVertices } from "../../model/types/tool/IDrawingLayerToolState";
+import IDrawingLayerToolState, {
+  IndexedVertices,
+  MappedMarkersToVertices,
+} from "../../model/types/tool/IDrawingLayerToolState";
 
 class TopologyTool extends MarkerTool implements TTopologyTool {
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
 
-    this.leafletMap.on("draw:created", this.created);
+    this.leafletMap?.on("draw:created" as any, this.created as any);
   }
 
   public static NAME(): string {
@@ -182,7 +185,7 @@ class TopologyTool extends MarkerTool implements TTopologyTool {
    */
   public static applyTopologyMarkerListeners(
     layer: DrawnObject,
-    state: any
+    state: IDrawingLayerToolState
   ): void {
     layer.on("drag", (event: LeafletDrag) => {
       const { latlng, target } = event;
@@ -197,12 +200,12 @@ class TopologyTool extends MarkerTool implements TTopologyTool {
    */
   private static changeVerticesLocation(
     latlng: LatLng,
-    markerVertices?: MappedMarkersToVertices
+    markerVertices?: IndexedVertices
   ): void {
     if (!markerVertices) return;
 
     Object.keys(markerVertices).forEach((key) => {
-      const vertice: Polyline = markerVertices[key];
+      const vertice: DrawnObject = markerVertices[key];
       const splitKey = key?.split("-");
       const idx = splitKey ? splitKey[1] : undefined;
       if (idx === undefined) return;

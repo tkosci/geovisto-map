@@ -20,7 +20,7 @@ class PolyControl extends AbstractControl {
   /**
    * checkbox to set if we can create within selected object
    */
-  private createIntersectionCheck = (): HTMLDivElement => {
+  public createIntersectionCheck = (): HTMLDivElement => {
     const onChange = (val: boolean) => this.state.setIntersectActivated(val);
     const { intersectActivated } = this.state;
 
@@ -49,10 +49,11 @@ class PolyControl extends AbstractControl {
       ...model.strokeThickness.props,
       options: thicknessOpts,
       action: this.state.changeWeightAction,
-      value:
-        this.state._getSelected()?.options?.weight ||
-        this.state.getSelectedStroke(),
     });
+    inputThickness.setValue(
+      this.state._getSelected()?.options?.weight ||
+        this.state.getSelectedStroke()
+    );
     elem.appendChild(inputThickness.create() as Node);
 
     // palette Colors

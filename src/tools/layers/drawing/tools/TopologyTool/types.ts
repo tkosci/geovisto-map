@@ -1,7 +1,6 @@
 import { LatLng, Marker, Polyline } from "leaflet";
 import { DragEvent } from "react";
 import { DrawnObject, LooseObject, Optional } from "../../model/types";
-import { MappedMarkersToVertices } from "../../model/types/tool/IDrawingLayerToolState";
 import { TMarkerTool } from "../MarkerTool/types";
 
 export interface TTopologyTool extends TMarkerTool {
@@ -12,11 +11,6 @@ export interface TTopologyTool extends TMarkerTool {
   ): void;
   _haveSameVertice(current: Polyline): boolean;
   _mapMarkersToVertices(_markers: CustomMarker[]): void;
-  applyTopologyMarkerListeners(layer: DrawnObject, state: any): void;
-  changeVerticesLocation(
-    latlng: LatLng,
-    markerVertices?: MappedMarkersToVertices
-  ): void;
 }
 
 export type CustomMarker = Marker & {

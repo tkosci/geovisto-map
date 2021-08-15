@@ -116,8 +116,8 @@ class MarkerControl extends AbstractControl {
     const inputUrl = model.iconUrl.input({
       ...model.iconUrl.props,
       action: this.state.addIconAction,
-      value: "",
     });
+    inputUrl.setValue("");
 
     elem.appendChild(inputUrl.create() as Node);
 

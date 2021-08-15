@@ -9,7 +9,7 @@ import { ToolProps } from "../AbstractTool/types";
 import { DrawnObject } from "../../model/types";
 
 class TransformTool extends AbstractTool implements TTransformTool {
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
   }
 
@@ -58,7 +58,7 @@ class TransformTool extends AbstractTool implements TTransformTool {
     }
   }
 
-  public static disableTransform = (selectedEl: DrawnObject) => {
+  public static disableTransform = (selectedEl: DrawnObject): void => {
     TransformTool.initTransform(selectedEl, true);
   };
 }

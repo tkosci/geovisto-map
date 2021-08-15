@@ -49,11 +49,13 @@ export const COLORS: string[] = [
   "#7F8C8D",
 ];
 
-export type SelectOpts = Array<{
+export type SelectOpt = {
   label: string;
-  value: number;
+  value: number | string;
   selected?: boolean;
-}>;
+};
+
+export type SelectOpts = Array<SelectOpt>;
 
 export const STROKES: SelectOpts = [
   { label: "thin", value: 3 },

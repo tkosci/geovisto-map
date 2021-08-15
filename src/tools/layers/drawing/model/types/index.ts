@@ -34,6 +34,7 @@ export type LayerType =
   | "painted"
   | "vertice"
   | "erased"
+  | "knife"
   | "search";
 
 export interface LooseObject {
@@ -66,6 +67,8 @@ export type DrawnObject = Layer & {
   countryCode?: string;
   mappedVertices: IndexedVertices;
   _icon: HTMLElement;
+  getLatLngs(): LatLngs;
+  setLatLngs(l: LatLngs): void;
 };
 
 export type CreatedEvent = DrawEvents.Created & {

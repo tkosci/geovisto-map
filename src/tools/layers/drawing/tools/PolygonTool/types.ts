@@ -1,5 +1,4 @@
-import { TAbstractTool } from './../AbstractTool/types';
+import { TAbstractTool } from "./../AbstractTool/types";
 
-export interface TPolygonTool extends TAbstractTool {
-  _polygonCreate(): void;
-}
+// * turn to interface when extending
+export type TPolygonTool = TAbstractTool;

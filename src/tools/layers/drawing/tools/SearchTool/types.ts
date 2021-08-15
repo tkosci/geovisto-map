@@ -1,14 +1,4 @@
-import { DrawnObject, LooseObject } from './../../model/types/index';
-import { TAbstractTool } from '../AbstractTool/types';
-import { FeatureGroup, LatLng } from 'leaflet';
+import { TAbstractTool } from "../AbstractTool/types";
 
-export interface TSearchTool extends TAbstractTool {
-  putMarkerOnMap(
-    featureGroup: FeatureGroup,
-    latlng: LatLng,
-    popup: string,
-    iconUrl: string,
-    connectClick: boolean,
-  ): DrawnObject;
-  geoSearch(featureGroup: FeatureGroup, query: string): Promise<LooseObject[] | undefined>;
-}
+// * turn to interface when extending
+export type TSearchTool = TAbstractTool;

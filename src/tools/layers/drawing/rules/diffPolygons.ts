@@ -1,4 +1,4 @@
-import L, { FeatureGroup, LatLng } from "leaflet";
+import L, { LatLng } from "leaflet";
 import difference from "@turf/difference";
 import {
   getConversionDepth,
@@ -7,9 +7,10 @@ import {
 } from "../util/polyHelpers";
 import { FIRST, normalStyles } from "../util/constants";
 import { DrawnObject, TurfPolygon } from "../model/types";
+import IDrawingLayerToolState from "../model/types/tool/IDrawingLayerToolState";
 
 const replaceLayer = (
-  state: any,
+  state: IDrawingLayerToolState,
   replacement: DrawnObject,
   replacedLayer: DrawnObject,
   replacementCoords?: LatLng[]
@@ -18,7 +19,7 @@ const replaceLayer = (
   replacement.layerType = "polygon";
   if (replacementCoords) replacement._latlngs = replacementCoords;
   replacement.identifier = replacedLayer.identifier;
-  replacement.setStyle({ ...replacement.options, ...normalStyles });
+  replacement.setStyle({ ...replacement.options, ...normalStyles } as any);
   const content = replacedLayer.popupContent;
   if (content) {
     replacement.bindPopup(content, {
@@ -34,7 +35,7 @@ const replaceLayer = (
 const diffLayers = (
   geoObject: DrawnObject,
   layerFeature: GeoJSON.Feature,
-  state: any,
+  state: IDrawingLayerToolState,
   canDiff: boolean
 ) => {
   if (!geoObject) return;
@@ -92,7 +93,7 @@ const diffLayers = (
  */
 export const polyDiff = (
   layer: DrawnObject,
-  state: any,
+  state: IDrawingLayerToolState,
   intersect = false
 ): void => {
   const layerFeature = getFirstGeoJSONFeature(layer);
@@ -112,7 +113,7 @@ export const polyDiff = (
     ) {
       diffLayers(selectedLayer, layerFeature, state, true);
     } else {
-      const fgLayers: FeatureGroup = state.featureGroup._layers;
+      const fgLayers = state.featureGroup._layers;
       // * else we execute difference with each geo. object
       Object.values(fgLayers)
         .filter((geoObject) => isLayerPoly(geoObject))

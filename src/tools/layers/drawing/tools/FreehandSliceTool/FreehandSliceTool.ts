@@ -1,4 +1,4 @@
-import L, { Path } from "leaflet";
+import L, { Layer } from "leaflet";
 import "leaflet-path-drag";
 import "leaflet-path-transform";
 import "leaflet-draw";
@@ -7,18 +7,25 @@ import "leaflet-pather";
 import { GeometricSliceTool } from "../GeometricSliceTool";
 import { ToolProps } from "../AbstractTool/types";
 import { TFreehandSliceTool } from "./types";
+import { DrawnObject, LayerType } from "../../model/types";
 
-type PatherEvent = Event & { polyline: { polyline: Path } };
+type PatherEvent = Event & { polyline: { polyline: DrawnObject } };
+
+type Pather = Layer & {
+  remove: (l: DrawnObject) => void;
+  on: (type: "created", callback: (e: PatherEvent) => void) => void;
+  removePath: (l: DrawnObject) => void;
+};
 
 class FreehandSliceTool
   extends GeometricSliceTool
   implements TFreehandSliceTool {
-  static result = "";
+  public static result: LayerType | "" = "";
 
-  private pather: Path;
+  private pather: Pather;
   private patherActive: boolean;
 
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
 
     // * using any b/c I dont know how to declare class Pather in leaflet module :(
@@ -31,7 +38,7 @@ class FreehandSliceTool
 
     this.patherActive = false;
 
-    this.pather.on("created" as any, this.createdPath as any);
+    this.pather.on("created", this.createdPath);
   }
 
   public static NAME(): string {
@@ -58,9 +65,9 @@ class FreehandSliceTool
     const pather = this.pather;
     const patherStatus = this.patherActive;
     if (!patherStatus) {
-      this.leafletMap.addLayer(pather);
+      this.leafletMap?.addLayer(pather);
     } else {
-      this.leafletMap.removeLayer(pather);
+      this.leafletMap?.removeLayer(pather);
     }
 
     this.patherActive = !patherStatus;
@@ -77,16 +84,14 @@ class FreehandSliceTool
     const map = this.leafletMap;
 
     // * get sidebar state and pather object
-    const sidebarState = this.drawingTool.getSidebarTabControl().getState();
-    const pather = sidebarState.pather;
+    const pather = this.pather;
     // * SLICE
     this.polySlice(layer);
 
     // * we do not want path to stay
     pather.removePath(layer);
     // * we do not want to keep cutting (drawing)
-    map.removeLayer(pather);
-    sidebarState.setPatherStatus(false);
+    map?.removeLayer(pather);
     // * restore state
     this.deactivate();
   };
@@ -96,7 +101,7 @@ class FreehandSliceTool
   };
 
   public disable = (): void => {
-    this.leafletMap.removeLayer(this.pather);
+    this.leafletMap?.removeLayer(this.pather);
     this.patherActive = false;
     const activeTool = this.tool;
     if (activeTool) {

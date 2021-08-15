@@ -9,7 +9,7 @@ import "../../components/useKnife";
 import { getFirstGeoJSONFeature, isFeaturePoly } from "../../util/polyHelpers";
 import { normalStyles } from "../../util/constants";
 import { ToolProps } from "../AbstractTool/types";
-import { CreatedEvent, DrawnObject } from "../../model/types";
+import { CreatedEvent, DrawnObject, LayerType } from "../../model/types";
 import {
   Geometry,
   LineString,
@@ -23,12 +23,12 @@ type LineObject = GeoJSON.Feature<LineString | MultiLineString>;
 type PolyObject = GeoJSON.Feature<Polygon | MultiPolygon>;
 
 class GeometricSliceTool extends AbstractTool implements TGeometricSliceTool {
-  static result = "knife";
+  public static result: LayerType | "" = "knife";
 
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
 
-    this.leafletMap.on("draw:created", this.created);
+    this.leafletMap?.on("draw:created" as any, this.created as any);
   }
 
   public static NAME(): string {
@@ -142,6 +142,7 @@ class GeometricSliceTool extends AbstractTool implements TGeometricSliceTool {
   }
 
   private _dividePoly = (): void => {
+    if (!this.leafletMap) return;
     this.tool = new L.Draw.Slice(this.leafletMap, {
       shapeOptions: {
         color: "#333",

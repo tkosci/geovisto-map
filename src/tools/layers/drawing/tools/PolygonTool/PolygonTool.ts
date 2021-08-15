@@ -9,9 +9,9 @@ import { TPolygonTool } from "./types";
 import { LayerType } from "../../model/types";
 
 class PolygonTool extends AbstractTool implements TPolygonTool {
-  static result = "polygon";
+  public static result: LayerType | "" = "polygon";
 
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
   }
 

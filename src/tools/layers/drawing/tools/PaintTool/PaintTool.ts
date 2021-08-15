@@ -14,7 +14,7 @@ import circle from "@turf/circle";
 import { STROKES, highlightStyles, normalStyles } from "../../util/constants";
 import union from "@turf/union";
 import { TPaintTool } from "./types";
-import { LayerType, TurfPolygon } from "../../model/types";
+import { GeoFeature, LayerType, TurfPolygon } from "../../model/types";
 import { ToolProps } from "../AbstractTool/types";
 import * as turf from "@turf/turf";
 
@@ -23,7 +23,7 @@ const DEFAULT_RADIUS = 30;
 const ERASER_COLOR = "#ee000055";
 
 class PaintTool extends AbstractTool implements TPaintTool {
-  static result: LayerType = "painted";
+  public static result: LayerType = "painted";
 
   public tabState: any;
   public _action: "draw" | "erase" | null;
@@ -36,10 +36,10 @@ class PaintTool extends AbstractTool implements TPaintTool {
   public _accumulatedShape: GeoJSON.Feature | null;
   public _shapeLayer: Layer | null;
 
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
 
-    const tabControl = this.drawingTool.getSidebarTabControl();
+    const tabControl = this.drawingTool.getMapForm();
     this.tabState = tabControl.getState();
 
     this._action = null;
@@ -151,11 +151,12 @@ class PaintTool extends AbstractTool implements TPaintTool {
     this.stop();
     this._action = "draw";
     this._addMouseListener();
-    this._circle = L.circleMarker(this._latlng, {
-      color: DEFAULT_COLOR,
-    })
-      .setRadius(this._circleRadius)
-      .addTo(this.leafletMap);
+    if (this.leafletMap)
+      this._circle = L.circleMarker(this._latlng, {
+        color: DEFAULT_COLOR,
+      })
+        .setRadius(this._circleRadius)
+        .addTo(this.leafletMap);
   };
 
   /**
@@ -170,6 +171,8 @@ class PaintTool extends AbstractTool implements TPaintTool {
    * taken from https://stackoverflow.com/questions/27545098/leaflet-calculating-meters-per-pixel-at-zoom-level
    */
   private _pixelsToMeters = (): number => {
+    if (!this.leafletMap) return 0;
+
     const metersPerPixel =
       (40075016.686 * Math.abs(Math.cos((this._latlng.lat * Math.PI) / 180))) /
       Math.pow(2, this.leafletMap.getZoom() + 8);
@@ -218,7 +221,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
 
     const simplified = simplifyFeature(
       this._accumulatedShape as turf.AllGeoJSON
-    );
+    ) as GeoFeature;
     const coords = simplified.geometry.coordinates;
     const depth = getConversionDepth(this._accumulatedShape);
     const latlngs = L.GeoJSON.coordsToLatLngs(coords, depth);
@@ -256,7 +259,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
   private _fireCreatedShapes = (): void => {
     // console.log('%cfired', 'color: #085f89');
 
-    this.leafletMap.fire(L.Draw.Event.CREATED, {
+    this?.leafletMap?.fire(L.Draw.Event.CREATED, {
       layer: this._shapeLayer,
       layerType: this._action === "erase" ? "erased" : "painted",
     });
@@ -266,21 +269,25 @@ class PaintTool extends AbstractTool implements TPaintTool {
 
   // ================= EVENT LISTENERS =================
   public _addMouseListener = (): void => {
+    if (!this.leafletMap) return;
     this.leafletMap.on("mousemove", this._onMouseMove);
     this.leafletMap.on("mousedown", this._onMouseDown);
     this.leafletMap.on("mouseup", this._onMouseUp);
   };
   public _removeMouseListener = (): void => {
+    if (!this.leafletMap) return;
     this.leafletMap.off("mousemove", this._onMouseMove);
     this.leafletMap.off("mousedown", this._onMouseDown);
     this.leafletMap.off("mouseup", this._onMouseUp);
   };
   public _onMouseDown = (event: LeafletMouseEvent): void => {
+    if (!this.leafletMap) return;
     this.leafletMap.dragging.disable();
     this._mouseDown = true;
     this._onMouseMove(event);
   };
   public _onMouseUp = (): void => {
+    if (!this.leafletMap) return;
     this.leafletMap.dragging.enable();
     this._mouseDown = false;
     this._fireCreatedShapes();

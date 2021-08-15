@@ -1,4 +1,4 @@
-import L, { LeafletEvent } from "leaflet";
+import L, { LeafletEvent, TileEvent } from "leaflet";
 import "leaflet-path-drag";
 import "leaflet-path-transform";
 import "leaflet-draw";
@@ -6,16 +6,19 @@ import "leaflet-draw";
 import { PaintTool } from "../PaintTool";
 import { ToolProps } from "../AbstractTool/types";
 import { CreatedEvent, LayerType } from "../../model/types";
+import { TEraseTool } from "./types";
 
 const ERASER_COLOR = "#ee000055";
 
-class EraseTool extends PaintTool {
-  static result = "erased";
+class EraseTool extends PaintTool implements TEraseTool {
+  public static result: LayerType = "erased";
 
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
 
-    this.leafletMap.on("draw:created", this.created);
+    this.leafletMap?.on("draw:created" as any, (e: TileEvent) =>
+      this.created((e as unknown) as CreatedEvent)
+    );
   }
 
   public static NAME(): string {
@@ -45,7 +48,7 @@ class EraseTool extends PaintTool {
   private created = (e: CreatedEvent): void => {
     const layer = e.layer;
     if (!layer) return;
-    if (e.layerType === this.result()) this.leafletMap.removeLayer(layer);
+    if (e.layerType === this.result()) this.leafletMap?.removeLayer(layer);
   };
 
   public enable = (): void => {

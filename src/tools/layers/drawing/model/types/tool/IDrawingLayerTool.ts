@@ -54,5 +54,6 @@ interface IDrawingLayerTool<
   highlightElement(el: DrawnObject): void;
   normalizeElement(el: DrawnObject): void;
   redrawMapForm(layerType: LayerType | ""): void;
+  getMapForm(): DrawingForm;
 }
 export default IDrawingLayerTool;

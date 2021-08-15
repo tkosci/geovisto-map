@@ -3,13 +3,17 @@ import union from "@turf/union";
 import { DrawnObject } from "../model/types";
 import { isLayerPoly } from "../util/polyHelpers";
 import { operateOnSelectedAndCurrectLayer } from "./shared";
+import IDrawingLayerToolState from "../model/types/tool/IDrawingLayerToolState";
 
 /**
  * @brief unifies selected object with the one being currently created
  */
-export const polyJoin = (layer: DrawnObject, state: any): DrawnObject => {
+export const polyJoin = (
+  layer: DrawnObject,
+  state: IDrawingLayerToolState
+): DrawnObject => {
   const selectedLayer = state.selectedLayer;
-  if (!isLayerPoly(selectedLayer)) return layer;
+  if (!selectedLayer || !isLayerPoly(selectedLayer)) return layer;
   const { layer: updatedLayer, result } = operateOnSelectedAndCurrectLayer(
     layer,
     (a: GeoJSON.Feature, b: GeoJSON.Feature) =>

@@ -101,7 +101,7 @@ class DrawingLayerToolMapForm
 
     controls["DataControl"].renderDataInputs(elem, model);
     controls["DataControl"].renderDataFilters(elem, model);
-    controls["DataControl"].renderFilterInputs(elem, model);
+    controls["DataControl"].renderFilterInputs(elem);
 
     if (layerType === PaintTool.result || layerType === PolygonTool.result) {
       const intersectCheck = controls["PolyControl"].createIntersectionCheck();

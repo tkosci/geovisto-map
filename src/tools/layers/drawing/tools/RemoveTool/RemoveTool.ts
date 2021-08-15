@@ -8,7 +8,7 @@ import { ToolProps } from "../AbstractTool/types";
 import { TRemoveTool } from "./types";
 
 class RemoveTool extends AbstractTool implements TRemoveTool {
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
   }
 

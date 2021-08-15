@@ -22,7 +22,7 @@ const MAX_CHOSEN = 2;
 class JoinTool extends TopologyTool implements TJoinTool {
   private chosenLayers: DrawnObject[];
 
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
 
     // * selected for join
@@ -124,7 +124,7 @@ class JoinTool extends TopologyTool implements TJoinTool {
   /**
    * deselects all selected ones
    */
-  private deselectChosenLayers = (): void => {
+  public deselectChosenLayers = (): void => {
     this.chosenLayers.forEach((chosen) =>
       this.drawingTool.normalizeElement(chosen)
     );
@@ -134,7 +134,7 @@ class JoinTool extends TopologyTool implements TJoinTool {
   /**
    * removes all selected ones
    */
-  private clearChosenLayers = (): void => {
+  public clearChosenLayers = (): void => {
     this.chosenLayers.forEach((chosen) =>
       this.drawingTool.getState().removeLayer(chosen)
     );

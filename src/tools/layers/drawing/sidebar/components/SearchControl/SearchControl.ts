@@ -84,7 +84,7 @@ class SearchControl extends AbstractControl {
     // * labeled text Search
     this.inputSearch = model.search.input({
       ...model.search.props,
-      action: this.state.searchAction,
+      onChangeAction: this.state.searchAction,
       placeholder: "Press enter for search",
       setData: this.state.onInputOptClick,
       options: [],
@@ -101,17 +101,17 @@ class SearchControl extends AbstractControl {
     const inputSearchForArea = model.searchForArea.input({
       ...model.searchForArea.props,
       options: this.state.getSelectCountries(),
-      action: this.state.searchForAreaAction,
-      value: this.state.countryCode || "",
+      onChangeAction: this.state.searchForAreaAction,
     });
+    inputSearchForArea.setValue(this.state.countryCode || "");
     elem.appendChild(inputSearchForArea.create() as Node);
 
     const inputAdminLevel = model.adminLevel.input({
       ...model.adminLevel.props,
       options: ADMIN_LEVELS,
-      action: this.state.pickAdminLevelAction,
-      value: this.state.adminLevel,
+      onChangeAction: this.state.pickAdminLevelAction,
     });
+    inputAdminLevel.setValue(this.state.adminLevel);
     elem.appendChild(inputAdminLevel.create() as Node);
 
     const hqCheck = this.createHighQualityCheck();

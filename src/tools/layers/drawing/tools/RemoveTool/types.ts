@@ -1,5 +1,4 @@
-import { TAbstractTool } from './../AbstractTool/types';
+import { TAbstractTool } from "./../AbstractTool/types";
 
-export interface TRemoveTool extends TAbstractTool {
-  removeElement(): void;
-}
+// * turn to interface when extending
+export type TRemoveTool = TAbstractTool;

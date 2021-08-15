@@ -1,4 +1,9 @@
-import { DrawnObject, LayerType } from "../../model/types";
+import { Map } from "leaflet";
+import { LayerType } from "../../model/types";
+import IDrawingLayerTool, {
+  DrawingForm,
+  EnabledEl,
+} from "../../model/types/tool/IDrawingLayerTool";
 import { TAbstractTool, ToolProps } from "./types";
 
 /**
@@ -9,17 +14,17 @@ import { TAbstractTool, ToolProps } from "./types";
  * Each tool/feature creates different objects or has different approach for the object creation
  */
 class AbstractTool implements TAbstractTool {
-  public drawingTool;
-  public sidebar;
-  public leafletMap;
-  public tool;
-  public _isActive;
+  public drawingTool: IDrawingLayerTool;
+  public sidebar: DrawingForm;
+  public leafletMap?: Map;
+  public tool: EnabledEl | null;
+  public _isActive: boolean;
 
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     // * keeps DrawingLayerTool class/object
     this.drawingTool = props.drawingTool;
-    this.sidebar = props.drawingTool.getSidebarTabControl();
-    this.leafletMap = props.drawingTool.getMap().getState().getLeafletMap();
+    this.sidebar = props.drawingTool.getMapForm();
+    this.leafletMap = props.drawingTool.getMap()?.getState()?.getLeafletMap();
 
     // * variable for keeping L.Draw object so it is possible to enable/disable it
     this.tool = null;
@@ -64,7 +69,7 @@ class AbstractTool implements TAbstractTool {
   }
 
   public _redrawSidebar(type?: LayerType | ""): void {
-    this.drawingTool.redrawSidebarTabControl(type);
+    this.drawingTool.redrawMapForm(type || "");
   }
 
   public setCurrentToolAsEnabled(): void {
@@ -110,7 +115,7 @@ class AbstractTool implements TAbstractTool {
    *
    * @returns currently selected geo. object
    */
-  public getSelectedEl(): DrawnObject {
+  public getSelectedEl(): EnabledEl | null {
     return this.drawingTool.getState().selectedLayer;
   }
 

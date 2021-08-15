@@ -9,7 +9,7 @@ import { ToolProps } from "../AbstractTool/types";
 import { DrawnObject } from "../../model/types";
 
 class EditTool extends AbstractTool implements TEditTool {
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
   }
 
