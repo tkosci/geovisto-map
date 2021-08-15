@@ -1,4 +1,4 @@
-import DrawingLayerToolTabControlState from "./DrawingLayerToolTabControlState";
+import DrawingLayerToolMapFormState from "./DrawingLayerToolMapFormState";
 
 import { MarkerTool, PaintTool, PolygonTool, SearchTool } from "../tools";
 
@@ -23,15 +23,17 @@ const tabContentClassName = "drawing-sidebar";
  *
  * @author Andrej Tlcina
  */
-class DrawingLayerToolTabControl
+class DrawingLayerToolMapForm
   extends MapLayerToolForm<IDrawingLayerTool>
   implements DrawingForm {
+  private htmlContent!: HTMLDivElement;
+
   private state: TabState;
 
   public constructor(tool: IDrawingLayerTool) {
     super(tool);
 
-    this.state = new DrawingLayerToolTabControlState(this);
+    this.state = new DrawingLayerToolMapFormState(this);
   }
 
   public setInputValues(dimensions: IDrawingLayerToolDimensions): void {
@@ -74,11 +76,11 @@ class DrawingLayerToolTabControl
     const { controls } = this.getState();
 
     // tab content
-    const tab = document.createElement("div");
-    const elem = tab.appendChild(document.createElement("div"));
+    this.htmlContent = document.createElement("div");
+    const elem = this.htmlContent.appendChild(document.createElement("div"));
     elem.classList.add(tabContentClassName);
 
-    if (isEmpty<LooseObject>(controls)) return tab;
+    if (isEmpty<LooseObject>(controls)) return this.htmlContent;
 
     // get data mapping model
     const model = MAPPING_MODEL;
@@ -88,13 +90,13 @@ class DrawingLayerToolTabControl
 
     if (!layerType) {
       controls["DataControl"].state.clearFilters();
-      return tab;
+      return this.htmlContent;
     }
 
     if (layerType === SearchTool.result) {
       controls["SearchControl"].renderSearchInputs(elem, model);
       controls["DataControl"].state.clearFilters();
-      return tab;
+      return this.htmlContent;
     }
 
     controls["DataControl"].renderDataInputs(elem, model);
@@ -114,7 +116,7 @@ class DrawingLayerToolTabControl
       controls["MarkerControl"].renderIconInputs(elem, model);
     }
 
-    return tab;
+    return this.htmlContent;
   }
 }
-export default DrawingLayerToolTabControl;
+export default DrawingLayerToolMapForm;

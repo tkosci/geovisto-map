@@ -1,76 +1,79 @@
+import MapFormInputFactory from "../../../model/internal/inputs/MapFormInputFactory";
 import LayerToolDefaults from "../../../model/internal/layer/LayerToolDefaults";
-import IDrawingLayerToolDefaults from "./model/types/tool/IDrawingLayerToolDefaults";
+import IDrawingLayerToolDefaults, {
+  MappingModel,
+} from "./model/types/tool/IDrawingLayerToolDefaults";
 
 /**
  * TODO: refactorization needed!
  */
-const TYPE = "drawing";
 
-const INPUT_ID_PREFIX = "geovisto-input-" + TYPE;
+const FormInput = new MapFormInputFactory();
 
 /**
  * Data mapping model which can be used in the sidebar form.
  */
-export const MAPPING_MODEL = {
+export const MAPPING_MODEL: MappingModel = {
   idKey: {
-    id: INPUT_ID_PREFIX + "-idKey",
-    name: "idKey",
-    label: "ID key",
-    input: LabeledSelectSidebarInput.ID(),
+    props: {
+      name: "idKey",
+      label: "ID key",
+    },
+    input: FormInput.labeledSelect,
   },
   identifier: {
-    id: INPUT_ID_PREFIX + "-identifier",
-    name: "identifier",
-    label: "Identifier",
-    input: AutocompleteSidebarInput.ID(),
+    props: { name: "identifier", label: "Identifier" },
+    input: FormInput.labeledAutocomplete,
   },
   description: {
-    id: INPUT_ID_PREFIX + "-description",
-    name: "description",
-    label: "Description",
-    input: LabeledTextAreaSidebarInput.ID(),
+    props: { name: "description", label: "Description" },
+    input: FormInput.textarea,
   },
   strokeThickness: {
-    id: INPUT_ID_PREFIX + "-stroke-thickness",
-    name: "stroke-thickness",
-    label: "Stroke thickness",
-    input: LabeledSelectSidebarInput.ID(),
+    props: {
+      name: "stroke-thickness",
+      label: "Stroke thickness",
+    },
+    input: FormInput.labeledSelect,
   },
   search: {
-    id: INPUT_ID_PREFIX + "-search",
-    name: "search",
-    label: "Search",
-    input: AutocompleteSidebarInput.ID(),
+    props: { name: "search", label: "Search" },
+    input: FormInput.labeledAutocomplete,
   },
   searchForArea: {
-    id: INPUT_ID_PREFIX + "-search-for-area",
-    name: "search-for-area",
-    label: "Search",
-    input: LabeledSelectSidebarInput.ID(),
+    props: {
+      name: "search-for-area",
+      label: "Search",
+    },
+    input: FormInput.labeledSelect,
   },
   adminLevel: {
-    id: INPUT_ID_PREFIX + "-admin-level",
-    name: "admin-level",
-    label: "Pick level of administration",
-    input: LabeledSelectSidebarInput.ID(),
+    props: {
+      name: "admin-level",
+      label: "Pick level of administration",
+    },
+    input: FormInput.labeledSelect,
   },
   iconUrl: {
-    id: INPUT_ID_PREFIX + "-iconUrl",
-    name: "iconUrl",
-    label: "Icon URL",
-    input: LabeledTextSidebarInput.ID(),
+    props: {
+      name: "iconUrl",
+      label: "Icon URL",
+    },
+    input: FormInput.labeledText,
   },
   dataFilterKey: {
-    id: INPUT_ID_PREFIX + "-data-filter-key",
-    name: "data-filter-key",
-    label: "Pick column",
-    input: LabeledSelectSidebarInput.ID(),
+    props: {
+      name: "data-filter-key",
+      label: "Pick column",
+    },
+    input: FormInput.labeledSelect,
   },
   dataFilterValue: {
-    id: INPUT_ID_PREFIX + "-data-filter-value",
-    name: "data-filter-value",
-    label: "Pick value",
-    input: LabeledSelectSidebarInput.ID(),
+    props: {
+      name: "data-filter-value",
+      label: "Pick value",
+    },
+    input: FormInput.labeledSelect,
   },
 };
 

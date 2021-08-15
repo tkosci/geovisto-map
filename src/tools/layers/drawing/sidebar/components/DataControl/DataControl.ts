@@ -1,6 +1,5 @@
-import AbstractSidebarInput from "../../../../../../inputs/AbstractSidebarInput";
-import AutocompleteSidebarInput from "../../../../../../inputs/input/AutocompleteSidebarInput";
-import SidebarInputFactory from "../../../../../../inputs/SidebarInputFactory";
+import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
+import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
 import { createButton } from "../../../util/inputs";
 import AbstractControl from "../AbstractControl/AbstractControl";
 import { ControlProps } from "../AbstractControl/types";
@@ -24,17 +23,15 @@ class DataControl extends AbstractControl {
   /**
    * creates a field for picking column name where to choose identifier from
    */
-  public createPickIdentifier = (
-    model: any
-  ): AbstractSidebarInput | AutocompleteSidebarInput => {
+  public createPickIdentifier = (model: MappingModel): IMapFormInput => {
     const { data } = this.state;
 
     const idOpts = data[0]
       ? Object.keys(data[0]).map((k) => ({ value: k, label: k }))
       : [];
 
-    const result = SidebarInputFactory.createSidebarInput(model.idKey.input, {
-      label: model.idKey.label,
+    const result = model.idKey.input({
+      ...model.idKey.props,
       action: this.state.changeWhichIdUseAction,
       value: this.state.getIdentifierType(),
       options: [{ value: "", label: "" }, ...idOpts],
@@ -46,9 +43,7 @@ class DataControl extends AbstractControl {
   /**
    * creates a field for identier input
    */
-  public createIdentifierInput = (
-    model: any
-  ): AbstractSidebarInput | AutocompleteSidebarInput => {
+  public createIdentifierInput = (model: MappingModel): IMapFormInput => {
     const { data } = this.state;
 
     const idKey = this.state.getIdentifierType();
@@ -56,21 +51,21 @@ class DataControl extends AbstractControl {
     let idOpts = data && data[0][idKey] ? data.map((d) => d[idKey]) : [];
     idOpts = Array.from(new Set(idOpts));
 
-    const result = SidebarInputFactory.createSidebarInput(
-      model.identifier.input,
-      {
-        label: model.identifier.label,
-        action: (e) => this.state.changeIdentifierAction(e.target.value),
-        value: this.state._getSelected()?.identifier || "",
-        options: idOpts,
-        placeholder: "e.g. CZ",
-      }
-    );
+    const result = model.identifier.input({
+      ...model.identifier.props,
+      action: (e) => this.state.changeIdentifierAction(e.target.value),
+      value: this.state._getSelected()?.identifier || "",
+      options: idOpts,
+      placeholder: "e.g. CZ",
+    });
 
     return result;
   };
 
-  public renderDataInputs = (elem: HTMLDivElement, model: any): void => {
+  public renderDataInputs = (
+    elem: HTMLDivElement,
+    model: MappingModel
+  ): void => {
     const disableTextFields = !this.state._getSelected();
     // Select Pick Identifier
     const inputPickIdentifier = this.createPickIdentifier(model);
@@ -81,16 +76,13 @@ class DataControl extends AbstractControl {
     elem.appendChild(inputId.create() as Node);
     inputId.setDisabled(disableTextFields);
     // textarea Description
-    const inputDesc = SidebarInputFactory.createSidebarInput(
-      model.description.input,
-      {
-        label: model.description.label,
-        action: this.state.changeDescriptionAction,
-        value: DataControl.convertDescfromPopText(
-          (this.state._getSelected()?.getPopup()?.getContent() || "") as string
-        ),
-      }
-    );
+    const inputDesc = model.description.input({
+      ...model.description.props,
+      action: this.state.changeDescriptionAction,
+      value: DataControl.convertDescfromPopText(
+        (this.state._getSelected()?.getPopup()?.getContent() || "") as string
+      ),
+    });
     elem.appendChild(inputDesc.create() as Node);
     inputDesc.setDisabled(disableTextFields);
   };
@@ -141,30 +133,24 @@ class DataControl extends AbstractControl {
     for (let index = 0; index < this.state.filtersAmount; index++) {
       const filtersKey = this.state.getFiltersKey(index);
       // * input for key
-      const inputKey = SidebarInputFactory.createSidebarInput(
-        model.dataFilterKey.input,
-        {
-          label: model.dataFilterKey.label,
-          action: (e: InputEvent) => this.setDataKey(e, index),
-          value: filtersKey,
-          options: [{ value: "", label: "" }, ...idOpts],
-        }
-      );
+      const inputKey = model.dataFilterKey.input({
+        ...model.dataFilterKey.props,
+        action: (e: InputEvent) => this.setDataKey(e, index),
+        value: filtersKey,
+        options: [{ value: "", label: "" }, ...idOpts],
+      });
 
       // ***********************************************************
       let valueOpts =
         data && data[0][filtersKey] ? data.map((d) => d[filtersKey]) : [];
       valueOpts = Array.from(new Set(valueOpts));
       // * input for value
-      const inputValue = SidebarInputFactory.createSidebarInput(
-        model.dataFilterValue.input,
-        {
-          label: model.dataFilterValue.label,
-          action: (e: InputEvent) => this.setDataValue(e, index),
-          value: this.state.getFiltersValue(index),
-          options: ["", ...valueOpts],
-        }
-      );
+      const inputValue = model.dataFilterValue.input({
+        ...model.dataFilterValue.props,
+        action: (e: InputEvent) => this.setDataValue(e, index),
+        value: this.state.getFiltersValue(index),
+        options: ["", ...valueOpts],
+      });
 
       // * append elements
       elem.appendChild(document.createElement("hr"));

@@ -1,27 +1,34 @@
-import { TMarkerControlState } from './types';
-import SidebarInputFactory from '../../../../../../inputs/SidebarInputFactory';
-import { createCheck, createIntervalInput, createPalette } from '../../../util/inputs';
-import { iconStarter } from '../../../util/constants';
-import AbstractControl from '../AbstractControl/AbstractControl';
-import MarkerControlState from './MarkerControlState';
-import { ControlProps } from '../AbstractControl/types';
+import { TMarkerControlState } from "./types";
+import {
+  createCheck,
+  createIntervalInput,
+  createPalette,
+} from "../../../util/inputs";
+import { iconStarter } from "../../../util/constants";
+import AbstractControl from "../AbstractControl/AbstractControl";
+import MarkerControlState from "./MarkerControlState";
+import { ControlProps } from "../AbstractControl/types";
+import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
 
 class MarkerControl extends AbstractControl {
   private tabControl: any;
-  private state: TMarkerControlState;
+  public state: TMarkerControlState;
 
-  constructor(props: ControlProps) {
+  public constructor(props: ControlProps) {
     super();
 
     this.tabControl = props.tabControl;
 
-    this.state = new MarkerControlState({ tabControl: props.tabControl, control: this });
+    this.state = new MarkerControlState({
+      tabControl: props.tabControl,
+      control: this,
+    });
   }
 
   /**
    * creates a icon grid
    */
-  createIconPalette(): HTMLDivElement {
+  private createIconPalette(): HTMLDivElement {
     const iconsSet = this.state.iconSrcs;
     const iconUrl = this.state._getSelected()?.options?.icon?.options?.iconUrl;
     if (iconUrl) iconsSet.add(iconUrl);
@@ -29,11 +36,11 @@ class MarkerControl extends AbstractControl {
     const iconsArr: string[] = Array.from(iconsSet);
     const activeIndex = iconsArr.indexOf(activeIcon);
     const res = createPalette(
-      'Pick icon',
+      "Pick icon",
       iconsArr,
       activeIndex,
       this.state.changeIconAction,
-      true,
+      true
     );
     return res;
   }
@@ -41,12 +48,12 @@ class MarkerControl extends AbstractControl {
   /**
    * slider for anchor change
    */
-  createIconAnchorSlider = (coordinate: 'x' | 'y'): HTMLDivElement => {
+  private createIconAnchorSlider = (coordinate: "x" | "y"): HTMLDivElement => {
     const selectedEl = this.state._getSelected();
 
     const iconOptions = selectedEl?.options?.icon?.options || {};
     const iconAnchor = iconOptions.iconAnchor || iconStarter.iconAnchor;
-    const value = iconAnchor[coordinate] || '';
+    const value = iconAnchor[coordinate] || "";
 
     const customAnchor = createIntervalInput(
       `Icon '${coordinate.toUpperCase()}' anchor`,
@@ -54,7 +61,7 @@ class MarkerControl extends AbstractControl {
       50,
       (val) => this.state.changeIconAnchor(val, coordinate),
       value,
-      1,
+      1
     );
 
     return customAnchor;
@@ -62,24 +69,20 @@ class MarkerControl extends AbstractControl {
 
   /**
    * X coordinate slider
-   *
-   * @returns {Object} HTML element
    */
-  createXAnchorSlider = (): HTMLDivElement => this.createIconAnchorSlider('x');
+  private createXAnchorSlider = (): HTMLDivElement =>
+    this.createIconAnchorSlider("x");
 
   /**
    * Y coordinate slider
-   *
-   * @returns {Object} HTML element
    */
-  createYAnchorSlider = (): HTMLDivElement => this.createIconAnchorSlider('y');
+  private createYAnchorSlider = (): HTMLDivElement =>
+    this.createIconAnchorSlider("y");
 
   /**
    * checkbox to set if marker is connect marker
-   *
-   * @returns {Object} HTML element
    */
-  createChangeConnectCheck = (): HTMLDivElement => {
+  private createChangeConnectCheck = (): HTMLDivElement => {
     const toolState = this.tabControl.getTool().getState();
     const onChange = (connectClick: boolean) => {
       const selected = this.state.changeIconOpts({ connectClick });
@@ -93,27 +96,27 @@ class MarkerControl extends AbstractControl {
     const result = createCheck(
       isConnect,
       onChange,
-      'change-connect',
-      'By selecting the option marker will be able to create topology',
+      "change-connect",
+      "By selecting the option marker will be able to create topology"
     );
     return result;
   };
 
   /**
    * creates the fields associated with marker
-   *
-   * @param {Object} elem
-   * @param {Object} model
    */
-  renderIconInputs = (elem: HTMLDivElement, model: any): void => {
+  public renderIconInputs = (
+    elem: HTMLDivElement,
+    model: MappingModel
+  ): void => {
     // palette Icons
     const inputIcon = this.createIconPalette();
     elem.appendChild(inputIcon);
 
-    const inputUrl = SidebarInputFactory.createSidebarInput(model.iconUrl.input, {
-      label: model.iconUrl.label,
+    const inputUrl = model.iconUrl.input({
+      ...model.iconUrl.props,
       action: this.state.addIconAction,
-      value: '',
+      value: "",
     });
 
     elem.appendChild(inputUrl.create() as Node);

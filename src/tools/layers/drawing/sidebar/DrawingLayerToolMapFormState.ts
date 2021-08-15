@@ -19,7 +19,7 @@ import { DrawnObject, LooseObject } from "../model/types";
  *
  * @author Andrej Tlcina
  */
-class DrawingLayerToolTabControlState implements TabState {
+class DrawingLayerToolMapFormState implements TabState {
   public tabControl: DrawingForm;
   public enabledEl: EnabledEl;
   public guideLayers: DrawnObject[];
@@ -120,4 +120,4 @@ class DrawingLayerToolTabControlState implements TabState {
     return this.enabledEl;
   }
 }
-export default DrawingLayerToolTabControlState;
+export default DrawingLayerToolMapFormState;

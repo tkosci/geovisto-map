@@ -5,6 +5,7 @@ import ILabeledSelectFormInputProps from "./labeled/select/ILabeledSelectFormInp
 import IMapFormInput from "./IMapFormInput";
 import ISelectFormInputProps from "./basic/select/ISelectFormInputProps";
 import ITextFormInputProps from "./basic/text/ITextFormInputProps";
+import ITextareaFormInputProps from "./basic/textarea/ITextareaFormInputProps";
 
 /**
  * This interface declares a factory for form inputs.
@@ -27,6 +28,11 @@ interface IMapFormInputFactory {
      * It creates the labeled text form input.
      */
     labeledText(props: ILabeledTextFormInputProps): IMapFormInput;
+    
+    /**
+     * It creates the textarea form input.
+     */
+    textarea(props: ITextareaFormInputProps): IMapFormInput
     
     /**
      * It creates the labeled select form input.

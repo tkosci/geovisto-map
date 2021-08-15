@@ -10,6 +10,8 @@ import FilterSelectFormInput from "./filter/select/FilterSelectFormInput";
 import LabeledAutocompleteFormInput from "./labeled/autocomplete/LabeledAutocompleteFormInput";
 import SelectFormInput from "./basic/select/SelectFormInput";
 import TextFormInput from "./basic/text/TextFormInput";
+import ITextareaFormInputProps from "../../types/inputs/basic/textarea/ITextareaFormInputProps";
+import TextAreaFormInput from "./basic/textarea/TextareaFormInput";
 
 /**
  * This class provides a factory for form inputs.
@@ -44,6 +46,13 @@ class MapFormInputFactory {
      */
     public labeledSelect(props: ILabeledSelectFormInputProps): IMapFormInput {
         return new SelectFormInput(props);
+    }
+    
+    /**
+     * It creates the textarea form input.
+     */
+    public textarea(props: ITextareaFormInputProps): IMapFormInput {
+        return new TextAreaFormInput(props);
     }
     
     /**

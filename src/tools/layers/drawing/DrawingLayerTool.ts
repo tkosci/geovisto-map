@@ -2,7 +2,7 @@ import L, { FeatureGroup, LeafletMouseEvent, Map, TileEvent } from "leaflet";
 
 import DrawingLayerToolState from "./DrawingLayerToolState";
 import DrawingLayerToolDefaults from "./DrawingLayerToolDefaults";
-import DrawingLayerToolTabControl from "./sidebar/DrawingLayerToolTabControl";
+import DrawingLayerToolMapForm from "./sidebar/DrawingLayerToolMapForm";
 import useDrawingToolbar from "./components/useDrawingToolbar";
 
 import "leaflet/dist/leaflet.css";
@@ -140,7 +140,7 @@ class DrawingLayerTool
    * It creates new tab control.
    */
   protected createMapForm(): DrawingForm {
-    return new DrawingLayerToolTabControl({ tool: this });
+    return new DrawingLayerToolMapForm({ tool: this });
   }
 
   public initializeDrawingTools(): void {
