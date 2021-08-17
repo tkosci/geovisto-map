@@ -1,11 +1,12 @@
-import { LooseObject } from './../../../model/types/index';
-import { TAbstractControlState } from '../AbstractControl/types';
+import { LooseObject } from "./../../../model/types/index";
+import { TAbstractControlState } from "../AbstractControl/types";
+import IMapData from "../../../../../../model/types/data/IMapData";
 
 export type TData = LooseObject;
 export type TFilterValue = string;
 
 export interface TDataControlState extends TAbstractControlState {
-  data: TData[];
+  data: IMapData;
   identifierType: string;
   filtersAmount: number;
   filtersKeys: string[];

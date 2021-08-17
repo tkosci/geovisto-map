@@ -13,6 +13,7 @@ export type EnabledEl = any; // TODO: create type
 export type DrawingForm = IMapForm & {
   redrawTabContent: (type: LayerType | "") => void;
   getState(): TabState;
+  getTool(): IDrawingLayerTool;
 };
 
 export type TabState = {

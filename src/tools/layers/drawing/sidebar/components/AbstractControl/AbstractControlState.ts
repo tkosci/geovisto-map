@@ -1,4 +1,7 @@
-import { DrawnObject } from "../../../model/types";
+import IDrawingLayerTool, {
+  DrawingForm,
+} from "./../../../model/types/tool/IDrawingLayerTool";
+import { DrawnObject, LayerType } from "../../../model/types";
 import { TAbstractControlState } from "./types";
 
 /**
@@ -9,17 +12,17 @@ import { TAbstractControlState } from "./types";
  * class should should contain only methods for data and logic of inputs, not rendering
  */
 class AbstractControlState implements TAbstractControlState {
-  public tabControl: any;
-  public tool: any;
+  public tabControl: DrawingForm;
+  public tool: IDrawingLayerTool;
   public control: any;
 
-  public constructor(props: { tabControl: any; control: any }) {
+  public constructor(props: { tabControl: DrawingForm; control: any }) {
     this.tabControl = props.tabControl;
     this.tool = props.tabControl.getTool();
     this.control = props.control;
   }
 
-  public _getSelected = (): DrawnObject => {
+  public _getSelected = (): DrawnObject | null => {
     return this.tool.getState().selectedLayer;
   };
 
@@ -27,8 +30,8 @@ class AbstractControlState implements TAbstractControlState {
     return this.tool.getState().extraSelected;
   };
 
-  public _redrawSidebar = (type?: string): void => {
-    return this.tabControl.redrawTabContent(type);
+  public _redrawSidebar = (type?: LayerType): void => {
+    return this.tabControl.redrawTabContent(type || "");
   };
 }
 

@@ -1,21 +1,30 @@
-import AbstractControlState from '../AbstractControl/AbstractControlState';
-import { ControlStateProps } from '../AbstractControl/types';
-import DataControl from './DataControl';
-import { TData, TDataControlState, TFilterValue } from './types';
+import IMapData from "../../../../../../model/types/data/IMapData";
+import AbstractControlState from "../AbstractControl/AbstractControlState";
+import { ControlStateProps } from "../AbstractControl/types";
+import DataControl from "./DataControl";
+import { TData, TDataControlState, TFilterValue } from "./types";
 
-class DataControlState extends AbstractControlState implements TDataControlState {
-  data: TData[];
-  identifierType: string;
-  filtersAmount: number;
-  filtersKeys: string[];
-  filtersValues: TFilterValue[];
+class DataControlState
+  extends AbstractControlState
+  implements TDataControlState {
+  public data: IMapData;
+  public identifierType: string;
+  public filtersAmount: number;
+  public filtersKeys: string[];
+  public filtersValues: TFilterValue[];
 
-  constructor(props: ControlStateProps) {
+  public constructor(props: ControlStateProps) {
     super(props);
 
-    this.data = props.tabControl.getTool()?.getState()?.map?.state?.data;
+    this.data =
+      props.tabControl
+        .getTool()
+        .getMap()
+        ?.getState()
+        ?.getMapData()
+        ?.getDataRecords() || [];
 
-    this.identifierType = '';
+    this.identifierType = "";
 
     this.filtersAmount = 0;
     this.filtersKeys = [];
@@ -25,7 +34,7 @@ class DataControlState extends AbstractControlState implements TDataControlState
   /**
    * clears all filters for data mapping
    */
-  clearFilters(): void {
+  public clearFilters(): void {
     this.filtersAmount = 0;
     this.filtersKeys = [];
     this.filtersValues = [];
@@ -34,7 +43,7 @@ class DataControlState extends AbstractControlState implements TDataControlState
   /**
    * gets filter key (column header)
    */
-  getFiltersKey(idx: number): string {
+  public getFiltersKey(idx: number): string {
     const key = this.filtersKeys[idx];
     return key;
   }
@@ -42,7 +51,7 @@ class DataControlState extends AbstractControlState implements TDataControlState
   /**
    * gets value in column
    */
-  getFiltersValue(idx: number): TFilterValue {
+  public getFiltersValue(idx: number): TFilterValue {
     const value = this.filtersValues[idx];
     return value;
   }
@@ -50,7 +59,7 @@ class DataControlState extends AbstractControlState implements TDataControlState
   /**
    * sets value in filterKeys array
    */
-  setFiltersKey(idx: number, value: string): void {
+  public setFiltersKey(idx: number, value: string): void {
     if (idx > this.filtersAmount) return;
     this.filtersKeys[idx] = value;
   }
@@ -62,7 +71,7 @@ class DataControlState extends AbstractControlState implements TDataControlState
    * @param {any} value
    * @returns
    */
-  setFiltersValue(idx: number, value: TFilterValue): void {
+  public setFiltersValue(idx: number, value: TFilterValue): void {
     if (idx > this.filtersAmount) return;
     this.filtersValues[idx] = value;
   }
@@ -71,16 +80,16 @@ class DataControlState extends AbstractControlState implements TDataControlState
    * runs whenever user clicks on 'Add Filter' button
    * essentially creates new filter
    */
-  increaseFilters = (): void => {
+  public increaseFilters = (): void => {
     this.filtersAmount += 1;
-    this.filtersKeys.push('');
-    this.filtersValues.push('');
+    this.filtersKeys.push("");
+    this.filtersValues.push("");
   };
   /**
    * runs whenever user clicks on 'Remove Filter' button
    * essentially removes last added filter and it's values
    */
-  decreaseFilters = (): void => {
+  public decreaseFilters = (): void => {
     if (this.filtersAmount === 0) return;
     this.filtersAmount -= 1;
     this.filtersKeys.pop();
@@ -90,14 +99,14 @@ class DataControlState extends AbstractControlState implements TDataControlState
   /**
    * returns "column header name"
    */
-  getIdentifierType(): string {
+  public getIdentifierType(): string {
     return this.identifierType;
   }
 
   /**
    * sets which column we should take identifier from
    */
-  changeWhichIdUseAction = (e: InputEvent): void => {
+  public changeWhichIdUseAction = (e: InputEvent): void => {
     const id = (e.target as HTMLSelectElement).value;
     const selectedEl = this._getSelected();
 
@@ -109,25 +118,28 @@ class DataControlState extends AbstractControlState implements TDataControlState
   /**
    * called on field change
    */
-  changeIdentifierAction = (id: string): void => {
+  public changeIdentifierAction = (id: string): void => {
     if (!id) return;
     const selectedEl = this._getSelected();
     if (selectedEl) selectedEl.identifier = id;
 
-    const data = this.tool.getState()?.map?.state?.data;
+    const data =
+      this.tool.getMap()?.getState()?.getMapData()?.getDataRecords() || [];
 
     // * create new variable and store imported data
     let filteredData = data;
     // * go through all appended filter keys
     this.filtersKeys.forEach((key, idx) => {
       // * loop through each row of imported data
-      filteredData = filteredData.filter((d) => String(d[key]) === this.filtersValues[idx]);
+      filteredData = filteredData.filter(
+        (d) => String(d[key]) === this.filtersValues[idx]
+      );
     });
 
     const idType = this.identifierType;
     const found = filteredData.find((d) => String(d[idType]) === id);
 
-    let popupText = '';
+    let popupText = "";
     if (found) {
       Object.keys(found).forEach((key) => {
         popupText += `${key}: ${found[key]}<br />`;
@@ -141,7 +153,7 @@ class DataControlState extends AbstractControlState implements TDataControlState
   /**
    * called on change of field
    */
-  changeDescriptionAction = (e: InputEvent): void => {
+  public changeDescriptionAction = (e: InputEvent): void => {
     this.changeDesc((e.target as HTMLTextAreaElement).value);
   };
 
@@ -150,15 +162,18 @@ class DataControlState extends AbstractControlState implements TDataControlState
    *
    * @param {String} inputText
    */
-  changeDesc = (inputText: string): void => {
+  public changeDesc = (inputText: string): void => {
     const selectedEl = this._getSelected();
     const modInputText = DataControl.convertDescToPopText(inputText);
 
-    const popup1 = selectedEl.getPopup();
+    const popup1 = selectedEl?.getPopup();
     if (popup1) {
       popup1.setContent(modInputText);
     } else {
-      selectedEl.bindPopup(modInputText, { closeOnClick: false, autoClose: false });
+      selectedEl?.bindPopup(modInputText, {
+        closeOnClick: false,
+        autoClose: false,
+      });
     }
     // store for import
     if (selectedEl) selectedEl.popupContent = modInputText;
@@ -168,10 +183,10 @@ class DataControlState extends AbstractControlState implements TDataControlState
   /**
    * forcefuly change identifier (not on field change)
    */
-  callIdentifierChange = (haveToCheckFilters = false): void => {
+  public callIdentifierChange = (haveToCheckFilters = false): void => {
     if (haveToCheckFilters && this.filtersAmount === 0) return;
     const selectedEl = this._getSelected();
-    this.changeIdentifierAction(selectedEl?.identifier);
+    this.changeIdentifierAction(selectedEl?.identifier || "");
   };
 }
 

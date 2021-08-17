@@ -28,16 +28,22 @@ class DrawingLayerToolMapForm
   implements DrawingForm {
   private htmlContent!: HTMLDivElement;
 
+  private tool: IDrawingLayerTool;
   private state: TabState;
 
-  public constructor(tool: IDrawingLayerTool) {
-    super(tool);
+  public constructor(props: { tool: IDrawingLayerTool }) {
+    super(props.tool);
 
+    this.tool = props.tool;
     this.state = new DrawingLayerToolMapFormState(this);
   }
 
   public setInputValues(dimensions: IDrawingLayerToolDimensions): void {
     return;
+  }
+
+  public getTool(): IDrawingLayerTool {
+    return this.tool;
   }
 
   /**

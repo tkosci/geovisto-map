@@ -14,13 +14,14 @@ type DrawingBtns = { [key: string]: HTMLAnchorElement };
 type Options = L.ControlOptions & {
   map?: L.Map;
   tool: Optional<IDrawingLayerTool>;
-  drawingBtns: DrawingBtns;
+  drawingBtns?: DrawingBtns;
 };
 
+// don't know how to define class DrawingToolbar that extends Control without needing to define method addTo and others...
 declare module "leaflet" {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Control {
-    class DrawingToolbar extends Control {
+    class DrawingToolbar {
       public options: Options;
       public constructor(options?: Options);
       public initialize(options: Options): void;
@@ -65,9 +66,6 @@ export default function useDrawingToolbar(): void {
     },
     /**
      * runs whenever control is being added
-     *
-     * @param {Object} map
-     * @returns
      */
     onAdd: function (map: L.Map) {
       this.options.map = map;
@@ -75,9 +73,6 @@ export default function useDrawingToolbar(): void {
     },
     /**
      * creates toolbar with multiple buttons
-     *
-     * @param {Object} map
-     * @returns HTML element wrapping all the buttons
      */
     createUi: function () {
       const topContainer = L.DomUtil.create("div", "drawingtoolbar");
@@ -191,22 +186,6 @@ export default function useDrawingToolbar(): void {
      */
     getSelectedEl: function () {
       return this.options.tool?.getState()?.selectedLayer;
-    },
-
-    getPosition() {
-      return this.options.position;
-    },
-    setPosition() {
-      return this;
-    },
-    getContainer() {
-      return undefined;
-    },
-    addTo() {
-      return this;
-    },
-    remove() {
-      return this;
     },
   });
 

@@ -1,6 +1,10 @@
-import { DrawnObject } from './../../../model/types/index';
+import IDrawingLayerTool, {
+  DrawingForm,
+} from "../../../model/types/tool/IDrawingLayerTool";
+import { DrawnObject } from "./../../../model/types/index";
+
 export type ControlProps = {
-  tabControl: any;
+  tabControl: DrawingForm;
 };
 
 export type ControlStateProps = ControlProps & {
@@ -8,10 +12,10 @@ export type ControlStateProps = ControlProps & {
 };
 
 export interface TAbstractControlState {
-  tabControl: any;
-  tool: any;
+  tabControl: DrawingForm;
+  tool: IDrawingLayerTool;
   control: any;
-  _getSelected(): DrawnObject;
+  _getSelected(): DrawnObject | null;
   _getExtraSelected(): DrawnObject[];
   _redrawSidebar(type?: string): void;
 }

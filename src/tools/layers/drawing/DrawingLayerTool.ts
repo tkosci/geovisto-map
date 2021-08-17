@@ -184,8 +184,8 @@ class DrawingLayerTool
     this.initializeDrawingTools();
     useDrawingToolbar();
     this.setGlobalSimplificationTolerance();
-
-    map?.addControl(L.control.drawingToolbar({ tool: this }));
+    const toolbar = L.control.drawingToolbar({ tool: this });
+    map?.addControl(toolbar);
 
     // * eventlistener for when object is created
     map?.on("draw:created" as any, this.createdListener as any);
@@ -292,6 +292,7 @@ class DrawingLayerTool
    */
   protected setGlobalSimplificationTolerance(): void {
     const map = window.map;
+    if (!map) return;
     const metersPerPixel =
       (40075016.686 *
         Math.abs(Math.cos((map.getCenter().lat * Math.PI) / 180))) /

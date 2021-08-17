@@ -54,7 +54,8 @@ class DataControl extends AbstractControl {
 
     const result = model.identifier.input({
       ...model.identifier.props,
-      onChangeAction: (e) => this.state.changeIdentifierAction(e.target.value),
+      onChangeAction: (e: Event) =>
+        this.state.changeIdentifierAction((e.target as HTMLInputElement).value),
       options: idOpts,
       placeholder: "e.g. CZ",
     });

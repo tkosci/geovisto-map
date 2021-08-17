@@ -5,7 +5,7 @@ import {
   DrawnOptions,
   LatLngs,
 } from "./model/types/index";
-import L, { FeatureGroup, LatLng } from "leaflet";
+import L, { LatLng } from "leaflet";
 import {
   convertCoords,
   convertOptionsToProperties,
@@ -19,8 +19,6 @@ import { EditTool, TransformTool } from "./tools";
 import { DrawnObject } from "./model/types";
 import IDrawingLayerTool from "./model/types/tool/IDrawingLayerTool";
 import LayerToolState from "../../../model/internal/layer/LayerToolState";
-import ILayerToolDefaults from "../../../model/types/layer/ILayerToolDefaults";
-import { ILayerToolConfig } from "../../../model/types/layer/ILayerToolConfig";
 import IDrawingLayerToolState, {
   DrawnGroup,
   ExportGeoJSON,
@@ -511,7 +509,7 @@ class DrawingLayerToolState
   public deserialize(config: IDrawingLayerToolConfig): void {
     super.deserialize(config);
 
-    const sidebarState = this.tool.getSidebarTabControl().getState();
+    const sidebarState = this.tool.getMapForm().getState();
 
     const { data = [] } = config;
 
