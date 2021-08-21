@@ -8,6 +8,7 @@ import { EditTool } from "../EditTool";
 import { DrawnObject } from "../../model/types";
 import { TDeselectTool } from "./types";
 import { ToolProps } from "../AbstractTool/types";
+import IDrawingLayerTool from "../../model/types/tool/IDrawingLayerTool";
 
 class DeselectTool extends AbstractTool implements TDeselectTool {
   public constructor(props: ToolProps) {
@@ -40,7 +41,7 @@ class DeselectTool extends AbstractTool implements TDeselectTool {
     DeselectTool.deselect(selected, this.drawingTool);
   };
 
-  public static deselect(selected: DrawnObject, tool: any): void {
+  public static deselect(selected: DrawnObject, tool: IDrawingLayerTool): void {
     if (selected?.editing?._enabled) {
       selected.editing.disable();
     }
@@ -48,7 +49,7 @@ class DeselectTool extends AbstractTool implements TDeselectTool {
       tool?.normalizeElement(selected);
       EditTool.initNodeEdit(selected, true);
       tool?.getState().clearSelectedLayer();
-      tool?.redrawSidebarTabControl();
+      tool?.redrawMapForm("");
       (document.querySelector(
         ".leaflet-container"
       ) as HTMLElement).style.cursor = "";

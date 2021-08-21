@@ -116,6 +116,7 @@ class GeovistoMap extends MapObject implements IMap {
       this.initialize({
         config: configManager.getMapConfig(),
         configManager: configManager,
+        geojson: props?.geojson || EmptyGeoJSON,
       });
 
       // render map and tools

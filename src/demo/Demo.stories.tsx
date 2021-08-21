@@ -231,7 +231,7 @@ class Demo extends Component<
       if (
         !(document.getElementById(C_ID_check_geojson) as HTMLInputElement)
           .checked ||
-        geo.json == EmptyGeoJSON
+        geo.json == undefined
       ) {
         geo.json = require("/static/geo/map.json");
       }
