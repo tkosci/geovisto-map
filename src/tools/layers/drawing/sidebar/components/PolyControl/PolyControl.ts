@@ -50,11 +50,11 @@ class PolyControl extends AbstractControl {
       options: thicknessOpts,
       action: this.state.changeWeightAction,
     });
+    elem.appendChild(inputThickness.create() as Node);
     inputThickness.setValue(
       this.state._getSelected()?.options?.weight ||
         this.state.getSelectedStroke()
     );
-    elem.appendChild(inputThickness.create() as Node);
 
     // palette Colors
     const inputColor = this.createColorPicker();

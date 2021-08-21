@@ -103,8 +103,8 @@ class SearchControl extends AbstractControl {
       options: this.state.getSelectCountries(),
       onChangeAction: this.state.searchForAreaAction,
     });
-    inputSearchForArea.setValue(this.state.countryCode || "");
     elem.appendChild(inputSearchForArea.create() as Node);
+    inputSearchForArea.setValue(this.state.countryCode || "");
 
     const inputAdminLevel = model.adminLevel.input({
       ...model.adminLevel.props,

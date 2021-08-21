@@ -36,8 +36,6 @@ class DataControl extends AbstractControl {
       options: [{ value: "", label: "" }, ...idOpts],
     });
 
-    result.setValue(this.state.getIdentifierType());
-
     return result;
   };
 
@@ -60,8 +58,6 @@ class DataControl extends AbstractControl {
       placeholder: "e.g. CZ",
     });
 
-    result.setValue(this.state._getSelected()?.identifier || "");
-
     return result;
   };
 
@@ -74,21 +70,23 @@ class DataControl extends AbstractControl {
     const inputPickIdentifier = this.createPickIdentifier(model);
     elem.appendChild(inputPickIdentifier.create() as Node);
     inputPickIdentifier.setDisabled(disableTextFields);
+    inputPickIdentifier.setValue(this.state.getIdentifierType());
     // textfield Identifier
     const inputId = this.createIdentifierInput(model);
     elem.appendChild(inputId.create() as Node);
     inputId.setDisabled(disableTextFields);
+    inputId.setValue(this.state._getSelected()?.identifier || "");
     // textarea Description
     const inputDesc = model.description.input({
       ...model.description.props,
       onChangeAction: this.state.changeDescriptionAction,
     });
+    elem.appendChild(inputDesc.create() as Node);
     inputDesc.setValue(
       DataControl.convertDescfromPopText(
         (this.state._getSelected()?.getPopup()?.getContent() || "") as string
       )
     );
-    elem.appendChild(inputDesc.create() as Node);
     inputDesc.setDisabled(disableTextFields);
   };
 
@@ -147,8 +145,6 @@ class DataControl extends AbstractControl {
         options: [{ value: "", label: "" }, ...idOpts],
       });
 
-      inputKey.setValue(filtersKey);
-
       // ***********************************************************
       let valueOpts =
         data && data[0][filtersKey] ? data.map((d) => d[filtersKey]) : [];
@@ -159,12 +155,14 @@ class DataControl extends AbstractControl {
         onChangeAction: (e: InputEvent) => this.setDataValue(e, index),
         options: ["", ...valueOpts],
       });
-      inputValue.setValue(this.state.getFiltersValue(index));
 
       // * append elements
       elem.appendChild(document.createElement("hr"));
       elem.appendChild(inputKey.create() as Node);
       elem.appendChild(inputValue.create() as Node);
+
+      inputKey.setValue(filtersKey);
+      inputValue.setValue(this.state.getFiltersValue(index));
     }
   };
 

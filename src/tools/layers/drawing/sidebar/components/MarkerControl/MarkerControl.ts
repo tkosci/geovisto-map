@@ -117,9 +117,9 @@ class MarkerControl extends AbstractControl {
       ...model.iconUrl.props,
       action: this.state.addIconAction,
     });
-    inputUrl.setValue("");
 
     elem.appendChild(inputUrl.create() as Node);
+    inputUrl.setValue("");
 
     const changeConnect = this.createChangeConnectCheck();
     elem.appendChild(changeConnect);

@@ -17,6 +17,7 @@ import { TPaintTool } from "./types";
 import { GeoFeature, LayerType, TurfPolygon } from "../../model/types";
 import { ToolProps } from "../AbstractTool/types";
 import * as turf from "@turf/turf";
+import { TabState } from "../../model/types/tool/IDrawingLayerTool";
 
 const DEFAULT_COLOR = "#333333";
 const DEFAULT_RADIUS = 30;
@@ -25,7 +26,7 @@ const ERASER_COLOR = "#ee000055";
 class PaintTool extends AbstractTool implements TPaintTool {
   public static result: LayerType = "painted";
 
-  public tabState: any;
+  public tabState: TabState;
   public _action: "draw" | "erase" | null;
   public _circle: CircleMarker | null;
   public _mouseDown: boolean;
@@ -217,7 +218,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
    * got through all accumulated circles and out put them on the map
    */
   private _redrawShapes = (): void => {
-    const selectedLayer = this.tabState.getTool().getState().selectedLayer;
+    const selectedLayer = this.drawingTool.getState().selectedLayer;
 
     const simplified = simplifyFeature(
       this._accumulatedShape as turf.AllGeoJSON
@@ -230,7 +231,10 @@ class PaintTool extends AbstractTool implements TPaintTool {
       ? this._accumulatedShape?.properties["stroke-width"]
       : STROKES[1].value;
 
-    const styles = isLayerPoly(selectedLayer) ? highlightStyles : normalStyles;
+    const styles =
+      selectedLayer && isLayerPoly(selectedLayer)
+        ? highlightStyles
+        : normalStyles;
 
     const opts =
       this._action === "erase"
