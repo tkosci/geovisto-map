@@ -43,6 +43,9 @@ export interface LooseObject {
 
 export type DrawnOptions = { [key: string]: string | number | boolean } & {
   icon?: { options: LooseObject };
+} & {
+  iconAnchor?: { x: number; y: number };
+  iconSize?: { x: number; y: number };
 };
 
 export type DrawnObject = Layer & {
@@ -59,6 +62,7 @@ export type DrawnObject = Layer & {
   setStyle: (val: { [key: string]: string | number } | string) => void;
   popupContent?: string;
   _latlngs: LatLngs;
+  latlngs: LatLng | [LatLngs]; //* if LayerType is 'marker' then LatLng otherwise LatLngs
   _latlng: LatLng;
   _leaflet_id: string;
   toGeoJSON: () => GeoJSON.Feature | GeoJSON.FeatureCollection;
@@ -66,9 +70,11 @@ export type DrawnObject = Layer & {
   setIcon: (icon: Icon<LooseObject>) => void;
   countryCode?: string;
   mappedVertices: IndexedVertices;
+  mappedVerticeId: string;
   _icon: HTMLElement;
   getLatLngs(): LatLngs;
   setLatLngs(l: LatLngs): void;
+  _layers: DrawnObject[];
 };
 
 export type CreatedEvent = DrawEvents.Created & {

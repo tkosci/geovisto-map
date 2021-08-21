@@ -3,7 +3,6 @@ import {
   ILayerToolConfig,
   ILayerToolDimensionsConfig,
 } from "../../../../../../index.core";
-import { ExportGeoJSON } from "./IDrawingLayerToolState";
 
 /**
  * This type provides specification of the Drawing layer tool config model.
@@ -11,7 +10,7 @@ import { ExportGeoJSON } from "./IDrawingLayerToolState";
  * @author Jiri Hynek
  */
 type IDrawingLayerToolConfig = ILayerToolConfig & {
-  data: IDrawingLayerToolDimensionsConfig;
+  data?: IDrawingLayerToolDimensionsConfig;
 };
 
 /**

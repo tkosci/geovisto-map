@@ -450,11 +450,13 @@ class DrawingLayerToolState
       const { options, _latlngs: latlngs, popupContent = "" } = layer;
       exportSettings.push({
         layerType,
-        options: options && {
-          ...normalStyles,
-          draggable: true,
-          transform: true,
-        },
+        options:
+          options &&
+          ({
+            ...normalStyles,
+            draggable: true,
+            transform: true,
+          } as any),
         latlngs,
         popupContent,
         ...extra,
@@ -473,7 +475,7 @@ class DrawingLayerToolState
           ...layer?.options?.icon?.options,
           draggable: true,
           transform: true,
-        },
+        } as any,
         latlngs: layer._latlng,
         popupContent,
         ...extra,
@@ -488,7 +490,7 @@ class DrawingLayerToolState
       } else {
         // TODO: CHECK
         if (layer._layers) {
-          layer.eachLayer((l) => {
+          layer._layers.forEach((l) => {
             pushPolygon(l, layerType);
           });
         } else {
@@ -515,24 +517,38 @@ class DrawingLayerToolState
 
     const { data = [] } = config;
 
-    data.forEach((layer) => {
+    (data as DrawnObject[]).forEach((layer) => {
       let layerToAdd;
       // decide what type they are according to it render what is needed
       if (layer.layerType === "marker") {
         const { latlngs } = layer;
-        const latlng = L.latLng(latlngs.lat, latlngs.lng);
+        const latlng = L.latLng(
+          (latlngs as LatLng).lat,
+          (latlngs as LatLng).lng
+        );
         if (layer?.options?.iconUrl)
-          sidebarState.appendToIconSrcs(layer.options.iconUrl);
+          sidebarState.appendToIconSrcs(layer.options.iconUrl as string);
+
+        const iconAnchor = layer.options.iconAnchor
+          ? {
+              iconAnchor: new L.Point(
+                layer.options.iconAnchor.x,
+                layer.options.iconAnchor.y
+              ),
+            }
+          : {};
+        const iconSize = layer.options.iconSize
+          ? {
+              iconSize: new L.Point(
+                layer.options.iconSize.x,
+                layer.options.iconSize.y
+              ),
+            }
+          : {};
         const options = {
           ...layer.options,
-          iconAnchor: new L.Point(
-            layer.options.iconAnchor.x,
-            layer.options.iconAnchor.y
-          ),
-          iconSize: new L.Point(
-            layer.options.iconSize.x,
-            layer.options.iconSize.y
-          ),
+          ...iconAnchor,
+          ...iconSize,
         };
         const MyCustomMarker = L.Icon.extend({
           options,
@@ -547,11 +563,15 @@ class DrawingLayerToolState
         let _latlng;
         let poly;
         if (layer.layerType === "polyline" || layer.layerType === "vertice") {
-          _latlng = layer.latlngs[0].map((l: LatLng) => L.latLng(l.lat, l.lng));
+          _latlng = (layer.latlngs as [LatLngs])[0].map((l: LatLng) =>
+            L.latLng(l.lat, l.lng)
+          );
           poly = new (L as any).polyline(_latlng, layer.options);
         }
         if (layer.layerType === "polygon" || layer.layerType === "painted") {
-          _latlng = layer.latlngs[0].map((l: LatLng) => L.latLng(l.lat, l.lng));
+          _latlng = (layer.latlngs as [LatLngs])[0].map((l: LatLng) =>
+            L.latLng(l.lat, l.lng)
+          );
           poly = new (L as any).polygon(_latlng, layer.options);
         }
 

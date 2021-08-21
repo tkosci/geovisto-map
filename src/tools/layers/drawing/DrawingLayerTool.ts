@@ -1,10 +1,4 @@
-import L, {
-  Control,
-  FeatureGroup,
-  LeafletMouseEvent,
-  Map,
-  TileEvent,
-} from "leaflet";
+import L, { FeatureGroup, LeafletMouseEvent, Map, TileEvent } from "leaflet";
 
 import DrawingLayerToolState, { EmptyGeoJSON } from "./DrawingLayerToolState";
 import DrawingLayerToolDefaults from "./DrawingLayerToolDefaults";
@@ -66,6 +60,7 @@ declare global {
   interface Window {
     customTolerance: number;
     map: Map;
+    d3: any; //* we do not care about this type, b/c we're not even using it, it's just used in pather package
   }
 }
 
