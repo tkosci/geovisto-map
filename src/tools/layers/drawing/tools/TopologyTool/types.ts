@@ -9,8 +9,6 @@ export interface TTopologyTool extends TMarkerTool {
     chosen: Optional<DrawnObject[]>,
     createdMarker: Optional<DrawnObject>
   ): void;
-  _haveSameVertice(current: Polyline): boolean;
-  _mapMarkersToVertices(_markers: CustomMarker[]): void;
 }
 
 export type CustomMarker = Marker & {

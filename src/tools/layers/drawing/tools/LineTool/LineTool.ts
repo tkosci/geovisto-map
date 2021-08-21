@@ -38,6 +38,7 @@ class LineTool extends AbstractTool implements TLineTool {
   };
 
   private _polylineCreate = (): void => {
+    if (!this.leafletMap) return;
     this.tool = new L.Draw.Polyline(this.leafletMap, {
       shapeOptions: {
         color: this.sidebar.getState().getSelectedColor(),

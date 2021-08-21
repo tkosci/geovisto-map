@@ -60,14 +60,14 @@ const diffLayers = (
         // * otherwise we create polygon, where hole should be
         if (isJustPoly && coords.length !== 1) {
           latlngs = L.GeoJSON.coordsToLatLngs(coords, 1);
-          const result = new L.polygon(latlngs, {
+          const result = new (L as any).polygon(latlngs, {
             ...geoObject.options,
           });
           replaceLayer(state, result, geoObject);
         } else {
           coords.forEach((coord) => {
             latlngs = L.GeoJSON.coordsToLatLngs([coord], depth);
-            const result = new L.polygon(latlngs, {
+            const result = new (L as any).polygon(latlngs, {
               ...geoObject.options,
             });
             const newLatLngs =

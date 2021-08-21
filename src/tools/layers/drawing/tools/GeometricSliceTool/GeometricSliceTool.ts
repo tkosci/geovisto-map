@@ -127,7 +127,7 @@ class GeometricSliceTool extends AbstractTool implements TGeometricSliceTool {
           this.drawingTool.getState().removeSelectedLayer();
           coords.forEach((coord) => {
             latlngs = L.GeoJSON.coordsToLatLngs(coord, 1);
-            const result = new L.polygon(latlngs, {
+            const result = new (L as any).polygon(latlngs, {
               ...selectedLayer.options,
               ...normalStyles,
             });

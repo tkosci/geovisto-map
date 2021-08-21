@@ -242,7 +242,7 @@ class PaintTool extends AbstractTool implements TPaintTool {
             transform: true,
           };
 
-    const result = new L.polygon(latlngs, { ...opts, ...styles });
+    const result = new (L as any).polygon(latlngs, { ...opts, ...styles });
 
     result?.dragging?.disable();
 

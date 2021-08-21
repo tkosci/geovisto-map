@@ -16,7 +16,6 @@ import { CustomMarker, LeafletDrag, TTopologyTool } from "./types";
 import { ToolProps } from "../AbstractTool/types";
 import IDrawingLayerToolState, {
   IndexedVertices,
-  MappedMarkersToVertices,
 } from "../../model/types/tool/IDrawingLayerToolState";
 
 class TopologyTool extends MarkerTool implements TTopologyTool {
@@ -101,7 +100,7 @@ class TopologyTool extends MarkerTool implements TTopologyTool {
 
       // * create vertice
       const _latlng = [L.latLng(fLat, fLng), L.latLng(sLat, sLng)];
-      const poly = new L.polyline(_latlng, {
+      const poly = new (L as any).polyline(_latlng, {
         color: "#563412",
         weight: 3,
         ...normalStyles,

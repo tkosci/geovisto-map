@@ -29,6 +29,11 @@ import IDrawingLayerToolState, {
 import { IDrawingLayerToolConfig } from "./model/types/tool/IDrawingLayerToolConfig";
 import IDrawingLayerToolDefaults from "./model/types/tool/IDrawingLayerToolDefaults";
 
+export const EmptyGeoJSON = {
+  type: "FeatureCollection",
+  features: [],
+};
+
 /**
  * This class provide functions for using the state of the layer tool.
  *
@@ -325,10 +330,7 @@ class DrawingLayerToolState
    * serializes map state to GeoJSON
    */
   public serializeToGeoJSON(): ExportGeoJSON {
-    const geo: ExportGeoJSON = {
-      type: "FeatureCollection",
-      features: [],
-    };
+    const geo: ExportGeoJSON = EmptyGeoJSON;
 
     this.featureGroup.eachLayer((l) => {
       const layer = l as DrawnObject;
@@ -363,7 +365,7 @@ class DrawingLayerToolState
    * @returns
    */
   public deserializeGeoJSON(geojson: ExportGeoJSON): void {
-    const sidebarState = this.tool.getSidebarTabControl().getState();
+    const sidebarState = this.tool.getMapForm().getState();
     // console.log({ geojson });
     if (geojson.type === "FeatureCollection" && geojson.features) {
       geojson.features
@@ -377,9 +379,9 @@ class DrawingLayerToolState
 
           let result;
           if (lType === "polygon") {
-            result = new L.polygon(latlng, opts);
+            result = new (L as any).polygon(latlng, opts);
           } else if (lType === "polyline") {
-            result = new L.polyline(latlng, opts);
+            result = new (L as any).polyline(latlng, opts);
           } else if (lType === "marker") {
             const spreadable = f?.properties?.iconOptions || {};
             if (spreadable.iconUrl)
@@ -391,7 +393,7 @@ class DrawingLayerToolState
             };
 
             const icon = new L.Icon(options);
-            result = new L.Marker.Touch(latlng, { icon });
+            result = new (L as any).Marker.Touch(latlng, { icon });
           }
           if (result) {
             result.layerType = lType;
@@ -538,7 +540,7 @@ class DrawingLayerToolState
 
         const icon = new MyCustomMarker();
         icon.options = options;
-        const marker = new L.Marker.Touch(latlng, { icon });
+        const marker = new (L as any).Marker.Touch(latlng, { icon });
 
         layerToAdd = marker;
       } else {
@@ -546,11 +548,11 @@ class DrawingLayerToolState
         let poly;
         if (layer.layerType === "polyline" || layer.layerType === "vertice") {
           _latlng = layer.latlngs[0].map((l: LatLng) => L.latLng(l.lat, l.lng));
-          poly = new L.polyline(_latlng, layer.options);
+          poly = new (L as any).polyline(_latlng, layer.options);
         }
         if (layer.layerType === "polygon" || layer.layerType === "painted") {
           _latlng = layer.latlngs[0].map((l: LatLng) => L.latLng(l.lat, l.lng));
-          poly = new L.polygon(_latlng, layer.options);
+          poly = new (L as any).polygon(_latlng, layer.options);
         }
 
         layerToAdd = poly;

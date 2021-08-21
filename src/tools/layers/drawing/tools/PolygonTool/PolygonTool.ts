@@ -1,5 +1,5 @@
 import { ToolProps } from "./../AbstractTool/types";
-import L from "leaflet";
+import L, { DrawMap } from "leaflet";
 import "leaflet-path-drag";
 import "leaflet-path-transform";
 import "leaflet-draw";
@@ -40,22 +40,26 @@ class PolygonTool extends AbstractTool implements TPolygonTool {
   };
 
   private _polygonCreate = (): void => {
-    this.tool = new L.Draw.Polygon(this.leafletMap, {
-      allowIntersection: false,
-      drawError: {
-        color: "#e1e100",
-        message: "<strong>You cannot draw that!<strong>",
-      },
-      shapeOptions: {
-        color: this.sidebar.getState().getSelectedColor(),
-        weight: this.sidebar.getState().getSelectedStroke(),
-        draggable: true,
-        transform: true,
-      },
-      guideLayers: this.sidebar.getState().guideLayers,
-      snapDistance: 5,
-      repeatMode: true,
-    } as any);
+    if (!this.leafletMap) return;
+    this.tool = new L.Draw.Polygon(
+      this.leafletMap as DrawMap,
+      {
+        allowIntersection: false,
+        drawError: {
+          color: "#e1e100",
+          message: "<strong>You cannot draw that!<strong>",
+        },
+        shapeOptions: {
+          color: this.sidebar.getState().getSelectedColor(),
+          weight: this.sidebar.getState().getSelectedStroke(),
+          draggable: true,
+          transform: true,
+        },
+        guideLayers: this.sidebar.getState().guideLayers,
+        snapDistance: 5,
+        repeatMode: true,
+      } as L.DrawOptions.PolygonOptions
+    );
     this.tool.enable();
   };
 

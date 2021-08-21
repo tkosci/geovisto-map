@@ -1,5 +1,3 @@
-import { TAbstractTool } from './../AbstractTool/types';
+import { TAbstractTool } from "./../AbstractTool/types";
 
-export interface TLineTool extends TAbstractTool {
-  _polylineCreate(): void;
-}
+export type TLineTool = TAbstractTool;

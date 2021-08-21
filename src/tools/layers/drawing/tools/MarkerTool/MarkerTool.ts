@@ -13,7 +13,8 @@ declare module "leaflet" {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Draw {
     class ExtendedMarker extends Marker {
-      setIconOptions(opts: LooseObject): void;
+      public constructor(map: Map, params: MarkerOptions);
+      public setIconOptions(opts: LooseObject): void;
     }
   }
 }
@@ -32,9 +33,9 @@ L.Draw.ExtendedMarker = L.Draw.Marker.extend({
 });
 
 class MarkerTool extends AbstractTool implements TMarkerTool {
-  static result = "marker";
+  public static result = "marker";
 
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
   }
 
@@ -63,6 +64,7 @@ class MarkerTool extends AbstractTool implements TMarkerTool {
   };
 
   public _markerCreate = (connectClick = false): void => {
+    if (!this.leafletMap) return;
     const additionalOpts = {
       iconUrl: this.sidebar.getState().getSelectedIcon(),
       connectClick,

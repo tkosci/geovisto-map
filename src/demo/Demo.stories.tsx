@@ -22,6 +22,8 @@ import {
   GeovistoDrawingLayerTool,
 } from "../tools";
 import { Geovisto } from "..";
+import { EmptyGeoJSON } from "../tools/layers/drawing/DrawingLayerToolState";
+import { ExportGeoJSON } from "../tools/layers/drawing/model/types/tool/IDrawingLayerToolState";
 
 /* example of screen component with grid layout and card wrapper usage */
 
@@ -39,7 +41,11 @@ const C_ID_input_choropleth = "leaflet-combined-map-input-choropleth";
 
 class Demo extends Component<
   Record<string, never>,
-  { data: unknown; config: Record<string, unknown>; geojsonConfig: unknown }
+  {
+    data: unknown;
+    config: Record<string, unknown>;
+    geojsonConfig: ExportGeoJSON;
+  }
 > {
   private polygons: unknown;
   private centroids: unknown;
@@ -225,7 +231,7 @@ class Demo extends Component<
       if (
         !(document.getElementById(C_ID_check_geojson) as HTMLInputElement)
           .checked ||
-        geo.json == undefined
+        geo.json == EmptyGeoJSON
       ) {
         geo.json = require("/static/geo/map.json");
       }
@@ -398,6 +404,7 @@ class Demo extends Component<
             config={Geovisto.getMapConfigManagerFactory().default(
               this.state.config
             )}
+            geojson={this.state.geojsonConfig}
             globals={undefined}
             templates={undefined}
             tools={Geovisto.createMapToolsManager([

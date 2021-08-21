@@ -1,18 +1,22 @@
-import { AllGeoJSON, Feature, Geometry } from '@turf/turf';
-import { LooseObject, DrawnObject } from './../../../model/types/index';
-import { ControlStateProps } from './../AbstractControl/types';
-import L from 'leaflet';
-import 'leaflet-path-drag';
-import 'leaflet-path-transform';
-import 'leaflet-draw';
-import osmtogeojson from 'osmtogeojson';
-import { SearchTool, TopologyTool } from '../../../tools';
-import { ADMIN_LEVELS, ICON_SRCS, normalStyles } from '../../../util/constants';
-import { simplifyFeature } from '../../../util/polyHelpers';
-import AbstractControlState from '../AbstractControl/AbstractControlState';
+import { AllGeoJSON, Feature, Geometry } from "@turf/turf";
+import { LooseObject, DrawnObject } from "./../../../model/types/index";
+import { ControlStateProps } from "./../AbstractControl/types";
+import L from "leaflet";
+import "leaflet-path-drag";
+import "leaflet-path-transform";
+import "leaflet-draw";
+import osmtogeojson from "osmtogeojson";
+import { SearchTool, TopologyTool } from "../../../tools";
+import { ADMIN_LEVELS, ICON_SRCS, normalStyles } from "../../../util/constants";
+import { simplifyFeature } from "../../../util/polyHelpers";
+import AbstractControlState from "../AbstractControl/AbstractControlState";
 
 class SearchControlState extends AbstractControlState {
-  public countries: Array<{ name: string; 'alpha-2': string; 'country-code': string }>;
+  public countries: Array<{
+    name: string;
+    "alpha-2": string;
+    "country-code": string;
+  }>;
   public countryCode: string;
   public adminLevel: number;
   public searchOpts: LooseObject[];
@@ -22,8 +26,8 @@ class SearchControlState extends AbstractControlState {
   constructor(props: ControlStateProps) {
     super(props);
 
-    this.countries = require('/static/geo/iso3166_countries.json');
-    this.countryCode = '';
+    this.countries = require("/static/geo/iso3166_countries.json");
+    this.countryCode = "";
 
     this.adminLevel = ADMIN_LEVELS[1].value;
     this.searchOpts = [];
@@ -36,8 +40,11 @@ class SearchControlState extends AbstractControlState {
    * takes countries from static file and maps through them
    */
   getSelectCountries(): { value: string; label: string }[] {
-    const result = this.countries.map((c) => ({ value: c['alpha-2'], label: c['name'] }));
-    return [{ value: '', label: '' }, ...result];
+    const result = this.countries.map((c) => ({
+      value: c["alpha-2"],
+      label: c["name"],
+    }));
+    return [{ value: "", label: "" }, ...result];
   }
 
   /**
@@ -80,7 +87,9 @@ class SearchControlState extends AbstractControlState {
     const opts = await SearchTool.geoSearch(featureGroup, value);
 
     this.searchOpts = opts || [];
-    this.control.inputSearch.changeOptions(opts ? opts.map((opt) => opt.label || '') : []);
+    this.control.inputSearch.changeOptions(
+      opts ? opts.map((opt) => opt.label || "") : []
+    );
   };
 
   /**
@@ -101,7 +110,7 @@ class SearchControlState extends AbstractControlState {
       latlng,
       found?.label,
       iconUrl,
-      connectActivated,
+      connectActivated
     );
     this.tool.applyEventListeners(marker);
     this.tabControl.getState().setSelectedIcon(iconUrl);
@@ -109,7 +118,7 @@ class SearchControlState extends AbstractControlState {
     if (connectActivated) {
       this.tool.drawingTools[TopologyTool.NAME()].plotTopology();
     }
-    this._redrawSidebar('search');
+    this._redrawSidebar("search");
   };
 
   /**
@@ -124,11 +133,13 @@ class SearchControlState extends AbstractControlState {
 
     const toolState = this.tool.getState();
 
-    const endPoint = 'https://overpass-api.de/api/interpreter?data=[out:json];';
+    const endPoint = "https://overpass-api.de/api/interpreter?data=[out:json];";
     const query = `area["ISO3166-1"="${countryCode}"]->.searchArea;(relation["admin_level"="${adminLevel}"](area.searchArea););out;>;out skel qt;`;
 
-    (document.querySelector('.leaflet-container') as HTMLDivElement).style.cursor = 'wait';
-    this.control.searchForAreasBtn.setAttribute('disabled', true);
+    (document.querySelector(
+      ".leaflet-container"
+    ) as HTMLDivElement).style.cursor = "wait";
+    this.control.searchForAreasBtn.setAttribute("disabled", true);
 
     fetch(endPoint + query)
       .then((response) => response.json())
@@ -146,29 +157,35 @@ class SearchControlState extends AbstractControlState {
         });
 
         gJSON?.features
-          ?.filter((feat) => feat?.geometry?.type === 'Polygon')
+          ?.filter((feat) => feat?.geometry?.type === "Polygon")
           ?.forEach((feat) => {
             let coords = (feat.geometry as Geometry).coordinates;
             if (!highQuality) {
               const simplified = simplifyFeature(feat as AllGeoJSON, 0.01);
-              coords = ((simplified as Feature).geometry as Geometry).coordinates;
+              coords = ((simplified as Feature).geometry as Geometry)
+                .coordinates;
             }
             const latlngs = L.GeoJSON.coordsToLatLngs(coords, 1);
-            const result = new L.polygon(latlngs, { ...opts, ...normalStyles });
+            const result = new (L as any).polygon(latlngs, {
+              ...opts,
+              ...normalStyles,
+            });
             result?.dragging?.disable();
-            result.layerType = 'polygon';
+            result.layerType = "polygon";
             result.countryCode = countryCode;
             toolState.addLayer(result);
           });
-        this.control.errorMsg.innerText = '';
+        this.control.errorMsg.innerText = "";
       })
       .catch((err) => {
-        this.control.errorMsg.innerText = 'There was a problem, re-try later.';
+        this.control.errorMsg.innerText = "There was a problem, re-try later.";
         console.error(err);
       })
       .finally(() => {
-        (document.querySelector('.leaflet-container') as HTMLDivElement).style.cursor = '';
-        this.control.searchForAreasBtn.removeAttribute('disabled');
+        (document.querySelector(
+          ".leaflet-container"
+        ) as HTMLDivElement).style.cursor = "";
+        this.control.searchForAreasBtn.removeAttribute("disabled");
       });
   };
 }

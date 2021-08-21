@@ -195,7 +195,7 @@ export const morphFeatureToPolygon = (
   const simplified = simplify ? simplifyFeature(feature) : feature;
   const coords = simplified.geometry.coordinates;
   const latlngs = L.GeoJSON.coordsToLatLngs(coords, depth);
-  const result = new L.polygon(latlngs, {
+  const result = new (L as any).polygon(latlngs, {
     ...options,
     draggable: true,
     transform: true,

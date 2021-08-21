@@ -1,6 +1,12 @@
-import L, { FeatureGroup, LeafletMouseEvent, Map, TileEvent } from "leaflet";
+import L, {
+  Control,
+  FeatureGroup,
+  LeafletMouseEvent,
+  Map,
+  TileEvent,
+} from "leaflet";
 
-import DrawingLayerToolState from "./DrawingLayerToolState";
+import DrawingLayerToolState, { EmptyGeoJSON } from "./DrawingLayerToolState";
 import DrawingLayerToolDefaults from "./DrawingLayerToolDefaults";
 import DrawingLayerToolMapForm from "./sidebar/DrawingLayerToolMapForm";
 import useDrawingToolbar from "./components/useDrawingToolbar";
@@ -45,6 +51,8 @@ import AbstractLayerTool from "../../../model/internal/layer/AbstractLayerTool";
 import IDrawingLayerToolDefaults from "./model/types/tool/IDrawingLayerToolDefaults";
 import IDrawingLayerToolState from "./model/types/tool/IDrawingLayerToolState";
 import IMapFormControl from "../../../model/types/form/IMapFormControl";
+import { IMapToolInitProps } from "../../../model/types/tool/IMapToolProps";
+import { IDrawingLayerToolConfig } from "./model/types/tool/IDrawingLayerToolConfig";
 
 // ! pather throws errors without this line
 window.d3 = d33;
@@ -78,6 +86,18 @@ class DrawingLayerTool
   public constructor(props?: IDrawingLayerToolProps) {
     super(props);
     this.drawingTools = {};
+  }
+
+  /**
+   * Overrides the super method.
+   *
+   * @param initProps
+   */
+  public initialize(
+    initProps: IMapToolInitProps<IDrawingLayerToolConfig>
+  ): this {
+    this.getState().deserializeGeoJSON(initProps.geojson || EmptyGeoJSON);
+    return super.initialize(initProps);
   }
 
   /**
@@ -185,7 +205,7 @@ class DrawingLayerTool
     useDrawingToolbar();
     this.setGlobalSimplificationTolerance();
     const toolbar = L.control.drawingToolbar({ tool: this });
-    map?.addControl(toolbar);
+    map?.addControl(toolbar as any);
 
     // * eventlistener for when object is created
     map?.on("draw:created" as any, this.createdListener as any);
@@ -379,7 +399,7 @@ class DrawingLayerTool
     });
     state.setSelectedLayer(drawObject);
     TransformTool.initTransform(drawObject);
-    this.redrawSidebarTabControl(drawObject?.layerType);
+    this.redrawMapForm(drawObject?.layerType);
 
     this.mapForm.getState().callIdentifierChange(true);
 
