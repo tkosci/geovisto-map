@@ -258,7 +258,7 @@ class DrawingLayerTool
     const sidebarState = this.getMapForm().getState();
     const state = this.getState();
 
-    const { intersectActivated } = sidebarState;
+    const intersectActivated = sidebarState.getIntersectActivated();
 
     if (layer?.dragging) layer.dragging.disable();
 

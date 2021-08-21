@@ -9,7 +9,7 @@ interface ILabeledAutocompleteFormInputProps extends IMapFormInputProps {
   onChangeAction: ((this: GlobalEventHandlers, ev: Event) => unknown) | null;
   label: string;
   options: string[];
-  placeholder: string;
+  placeholder?: string;
   setData?: (val: string) => void;
 }
 export default ILabeledAutocompleteFormInputProps;

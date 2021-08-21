@@ -200,8 +200,10 @@ class JoinTool extends TopologyTool implements TJoinTool {
             ...chosenLayers[0].options,
             ...chosenLayers[1].options,
           };
-          const result = morphFeatureToPolygon(resultFeature, opts);
-          this.pushJoinedToChosenLayers(result);
+          if (resultFeature) {
+            const result = morphFeatureToPolygon(resultFeature, opts);
+            this.pushJoinedToChosenLayers(result);
+          }
         }
 
         this._redrawSidebar(drawObject.layerType);

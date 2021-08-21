@@ -1,4 +1,4 @@
-import L from "leaflet";
+import L, { DrawMap } from "leaflet";
 import "leaflet-path-drag";
 import "leaflet-path-transform";
 import "leaflet-draw";
@@ -9,7 +9,7 @@ import { ToolProps } from "../AbstractTool/types";
 import { TLineTool } from "./types";
 
 class LineTool extends AbstractTool implements TLineTool {
-  constructor(props: ToolProps) {
+  public constructor(props: ToolProps) {
     super(props);
   }
 
@@ -39,16 +39,19 @@ class LineTool extends AbstractTool implements TLineTool {
 
   private _polylineCreate = (): void => {
     if (!this.leafletMap) return;
-    this.tool = new L.Draw.Polyline(this.leafletMap, {
-      shapeOptions: {
-        color: this.sidebar.getState().getSelectedColor(),
-        weight: this.sidebar.getState().getSelectedStroke(),
-        draggable: true,
-        transform: true,
-      },
-      guideLayers: this.sidebar.getState().guideLayers,
-      repeatMode: true,
-    } as any);
+    this.tool = new L.Draw.Polyline(
+      this.leafletMap as DrawMap,
+      {
+        shapeOptions: {
+          color: this.sidebar.getState().getSelectedColor(),
+          weight: this.sidebar.getState().getSelectedStroke(),
+          draggable: true,
+          transform: true,
+        },
+        guideLayers: this.sidebar.getState().guideLayers,
+        repeatMode: true,
+      } as any
+    );
     this.tool.enable();
   };
 

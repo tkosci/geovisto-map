@@ -170,13 +170,13 @@ class DataControl extends AbstractControl {
 
   private addFilter = (): void => {
     this.state.increaseFilters();
-    this.state._redrawSidebar(this.state._getSelected().layerType);
+    this.state._redrawSidebar(this.state._getSelected()?.layerType);
   };
 
   private removeFilter = (): void => {
     this.state.decreaseFilters();
     this.state.callIdentifierChange();
-    this.state._redrawSidebar(this.state._getSelected().layerType);
+    this.state._redrawSidebar(this.state._getSelected()?.layerType);
   };
 
   /**

@@ -17,6 +17,7 @@ import { STROKES, COLORS, normalStyles } from "./constants";
 
 import * as turf from "@turf/turf";
 import { LooseObject } from "../model/types";
+import { AllGeoJSON, Geometry } from "@turf/turf";
 
 type StyleOptions = DrawnOptions;
 
@@ -140,10 +141,10 @@ export const isFeaturePoly = (
 export const simplifyFeature = (
   feature: turf.AllGeoJSON,
   pixels?: number
-): turf.AllGeoJSON => {
+): GeoJSON.Feature => {
   const tolerance = pixels || window.customTolerance;
 
-  const result = turf.simplify(feature, { tolerance });
+  const result = turf.simplify(feature, { tolerance }) as GeoJSON.Feature;
   return result;
 };
 
@@ -187,13 +188,15 @@ export const convertCoords = (feature: GeoFeature): LatLng | LatLngs | null => {
  * helper function for morphing GeoJSON feature to Polygon {Layer} structure
  */
 export const morphFeatureToPolygon = (
-  feature,
+  feature: GeoJSON.Feature,
   options = {},
   simplify = false
-) => {
+): DrawnObject => {
   const depth = getConversionDepth(feature);
-  const simplified = simplify ? simplifyFeature(feature) : feature;
-  const coords = simplified.geometry.coordinates;
+  const simplified = simplify
+    ? simplifyFeature(feature as AllGeoJSON)
+    : feature;
+  const coords = (simplified.geometry as Geometry).coordinates;
   const latlngs = L.GeoJSON.coordsToLatLngs(coords, depth);
   const result = new (L as any).polygon(latlngs, {
     ...options,

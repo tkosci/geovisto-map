@@ -54,7 +54,7 @@ class LabeledAutocompleteFormInput
 
     this.options = props.options ? props.options : [];
 
-    this.placeholder = props.placeholder;
+    this.placeholder = props.placeholder || "";
     this.setData = props.setData;
 
     // index of selected item in the completion list

@@ -122,7 +122,7 @@ class TopologyTool extends MarkerTool implements TTopologyTool {
   private _haveSameVertice(current: Polyline): boolean {
     const found = this.drawingTool
       .getState()
-      .createdVertices.find((vertice: Polyline) => {
+      .createdVertices.find((vertice: DrawnObject) => {
         const firstPointOfVertice = vertice.getLatLngs()[0] as LatLng;
         const secondPointOfVertice = vertice.getLatLngs()[1] as LatLng;
         const firstPointOfCurrent = current.getLatLngs()[0] as LatLng;
@@ -154,7 +154,7 @@ class TopologyTool extends MarkerTool implements TTopologyTool {
       }))
       .forEach(({ latlng, lId }) => {
         toolState.createdVertices.forEach(
-          (vertice: Polyline, index: number) => {
+          (vertice: DrawnObject, index: number) => {
             // * used indexing instead of another loop (vertices have only 2 points)
 
             const firstPoint = vertice.getLatLngs()[0] as LatLng;

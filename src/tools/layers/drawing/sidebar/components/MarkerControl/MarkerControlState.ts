@@ -1,19 +1,21 @@
-import { TMarkerControlState } from './types';
-import { DrawnObject } from './../../../model/types/index';
-import L from 'leaflet';
-import 'leaflet-path-drag';
-import 'leaflet-path-transform';
-import 'leaflet-draw';
+import { TMarkerControlState } from "./types";
+import { DrawnObject } from "./../../../model/types/index";
+import L from "leaflet";
+import "leaflet-path-drag";
+import "leaflet-path-transform";
+import "leaflet-draw";
 
-import { FIRST, iconStarter, ICON_SRCS } from '../../../util/constants';
-import AbstractControlState from '../AbstractControl/AbstractControlState';
-import { ControlStateProps } from '../AbstractControl/types';
+import { FIRST, iconStarter, ICON_SRCS } from "../../../util/constants";
+import AbstractControlState from "../AbstractControl/AbstractControlState";
+import { ControlStateProps } from "../AbstractControl/types";
 
-class MarkerControlState extends AbstractControlState implements TMarkerControlState {
+class MarkerControlState
+  extends AbstractControlState
+  implements TMarkerControlState {
   public iconSrcs: Set<string>;
   public selectedIcon: string;
 
-  constructor(props: ControlStateProps) {
+  public constructor(props: ControlStateProps) {
     super(props);
 
     this.iconSrcs = new Set(ICON_SRCS);
@@ -23,27 +25,27 @@ class MarkerControlState extends AbstractControlState implements TMarkerControlS
   /**
    * getter
    */
-  getSelectedIcon(): string {
+  public getSelectedIcon(): string {
     return this.selectedIcon;
   }
 
   /**
    * setter
    */
-  setSelectedIcon(icon: string): void {
+  public setSelectedIcon(icon: string): void {
     this.selectedIcon = icon;
   }
 
   /**
    * sets new marker icon options (iconUrl, anchor...) to selected object and to extra selected ones
    */
-  changeIconOpts = (iconOpt = {}): DrawnObject => {
-    const { enabledEl } = this.tabControl;
+  public changeIconOpts = (iconOpt = {}): DrawnObject | null => {
+    const { enabledEl } = this.tabControl.getState();
 
     let selectedEl = this._getSelected();
     let marker = selectedEl;
 
-    if (enabledEl?.type === 'marker') {
+    if (enabledEl?.type === "marker") {
       selectedEl = enabledEl;
       marker = enabledEl._marker;
     }
@@ -56,12 +58,12 @@ class MarkerControlState extends AbstractControlState implements TMarkerControlS
 
     const markerIcon = new L.Icon(newIconOptions);
     if (marker) marker.setIcon(markerIcon);
-    this.tool.highlightElement(marker);
+    if (marker) this.tool.highlightElement(marker);
     this._getExtraSelected().forEach((layer) => {
       layer?.setIcon(markerIcon);
       this.tool.highlightElement(layer);
     });
-    if (enabledEl?.type === 'marker') enabledEl.setIconOptions(markerIcon);
+    if (enabledEl?.type === "marker") enabledEl.setIconOptions(markerIcon);
 
     return marker;
   };
@@ -71,18 +73,19 @@ class MarkerControlState extends AbstractControlState implements TMarkerControlS
    *
    * @param {String} icon
    */
-  changeIconAction = (icon: string): void => {
+  public changeIconAction = (icon: string): void => {
     this.changeIconOpts({ iconUrl: icon });
 
     this.selectedIcon = icon;
-    this._redrawSidebar('marker');
+    this._redrawSidebar("marker");
   };
 
   /**
    * sets new anchor to marker
    */
-  changeIconAnchor = (val: number, coordinate: 'x' | 'y'): void => {
-    const selectedEl = this.tabControl.enabledEl || this._getSelected();
+  public changeIconAnchor = (val: number, coordinate: "x" | "y"): void => {
+    const selectedEl =
+      this.tabControl.getState().enabledEl || this._getSelected();
     const iconOptions = selectedEl?.options?.icon?.options || {};
     const iconAnchor = iconOptions.iconAnchor || iconStarter.iconAnchor;
     iconAnchor[coordinate] = val;
@@ -92,16 +95,16 @@ class MarkerControlState extends AbstractControlState implements TMarkerControlS
   /**
    * runs on 'Enter' whenever user adds new icon to list of icons
    */
-  addIconAction = (e: InputEvent): void => {
+  public addIconAction = (e: InputEvent): void => {
     const iconUrl = (e.target as HTMLInputElement).value;
     this.appendToIconSrcs(iconUrl);
-    this._redrawSidebar('marker');
+    this._redrawSidebar("marker");
   };
 
   /**
    * append to icon Set
    */
-  appendToIconSrcs(iconUrl: string): void {
+  public appendToIconSrcs(iconUrl: string): void {
     this.iconSrcs.add(iconUrl);
   }
 }

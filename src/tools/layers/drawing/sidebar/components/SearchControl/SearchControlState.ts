@@ -1,3 +1,4 @@
+import { TSearchControlState } from "./types";
 import { AllGeoJSON, Feature, Geometry } from "@turf/turf";
 import { LooseObject, DrawnObject } from "./../../../model/types/index";
 import { ControlStateProps } from "./../AbstractControl/types";
@@ -11,7 +12,9 @@ import { ADMIN_LEVELS, ICON_SRCS, normalStyles } from "../../../util/constants";
 import { simplifyFeature } from "../../../util/polyHelpers";
 import AbstractControlState from "../AbstractControl/AbstractControlState";
 
-class SearchControlState extends AbstractControlState {
+class SearchControlState
+  extends AbstractControlState
+  implements TSearchControlState {
   public countries: Array<{
     name: string;
     "alpha-2": string;
@@ -23,7 +26,7 @@ class SearchControlState extends AbstractControlState {
   public highQuality: boolean;
   public connectActivated: boolean;
 
-  constructor(props: ControlStateProps) {
+  public constructor(props: ControlStateProps) {
     super(props);
 
     this.countries = require("/static/geo/iso3166_countries.json");
@@ -39,7 +42,7 @@ class SearchControlState extends AbstractControlState {
   /**
    * takes countries from static file and maps through them
    */
-  getSelectCountries(): { value: string; label: string }[] {
+  public getSelectCountries(): { value: string; label: string }[] {
     const result = this.countries.map((c) => ({
       value: c["alpha-2"],
       label: c["name"],
@@ -50,21 +53,21 @@ class SearchControlState extends AbstractControlState {
   /**
    * sets whether displayed polygon will be of high quality
    */
-  setHighQuality(val: boolean): void {
+  public setHighQuality(val: boolean): void {
     this.highQuality = val;
   }
 
   /**
    * sets whether we are creating topology with search
    */
-  setConnectActivated(val: boolean): void {
+  public setConnectActivated(val: boolean): void {
     this.connectActivated = val;
   }
 
   /**
    * sets for what area we are searching for
    */
-  searchForAreaAction = (e: InputEvent): void => {
+  public searchForAreaAction = (e: InputEvent): void => {
     const val = (e.target as HTMLSelectElement).value;
     this.countryCode = val;
   };
@@ -72,7 +75,7 @@ class SearchControlState extends AbstractControlState {
   /**
    * sets for what administration level we are searching for
    */
-  pickAdminLevelAction = (e: InputEvent): void => {
+  public pickAdminLevelAction = (e: InputEvent): void => {
     const val = (e.target as HTMLSelectElement).value;
     this.adminLevel = Number(val);
   };
@@ -80,7 +83,7 @@ class SearchControlState extends AbstractControlState {
   /**
    * sets new options for place search
    */
-  searchAction = async (e: InputEvent): Promise<void> => {
+  public searchAction = async (e: InputEvent): Promise<void> => {
     const value = (e.target as HTMLInputElement).value;
     const featureGroup = this.tool.getState().featureGroup;
 
@@ -95,7 +98,7 @@ class SearchControlState extends AbstractControlState {
   /**
    * called when user picks a place from displayed options
    */
-  onInputOptClick = (value: string): void => {
+  public onInputOptClick = (value: string): void => {
     const featureGroup = this.tabControl.getTool().getState().featureGroup;
     const { searchOpts: opts, connectActivated } = this;
 
@@ -126,7 +129,7 @@ class SearchControlState extends AbstractControlState {
    *
    * @returns
    */
-  fetchAreas = async (): Promise<void> => {
+  public fetchAreas = async (): Promise<void> => {
     const { countryCode, adminLevel, highQuality } = this;
 
     if (!countryCode || !adminLevel) return;
@@ -152,8 +155,10 @@ class SearchControlState extends AbstractControlState {
           transform: true,
         };
 
-        toolState.featureGroup.eachLayer((layer: DrawnObject) => {
-          if (layer.countryCode === countryCode) toolState.removeLayer(layer);
+        toolState.featureGroup.eachLayer((layer) => {
+          const drawnLayer = layer as DrawnObject;
+          if (drawnLayer.countryCode === countryCode)
+            toolState.removeLayer(drawnLayer);
         });
 
         gJSON?.features

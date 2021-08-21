@@ -1,15 +1,18 @@
-import { COLORS, SelectOpts, STROKES } from '../../../util/constants';
-import AbstractControlState from '../AbstractControl/AbstractControlState';
-import { ControlStateProps } from '../AbstractControl/types';
+import { COLORS, SelectOpts, STROKES } from "../../../util/constants";
+import AbstractControlState from "../AbstractControl/AbstractControlState";
+import { ControlStateProps } from "../AbstractControl/types";
+import { TPolyControlState } from "./types";
 
-class PolyControlState extends AbstractControlState {
+class PolyControlState
+  extends AbstractControlState
+  implements TPolyControlState {
   public intersectActivated: boolean;
   public colors: string[];
   public selectedColor: string;
   public strokes: SelectOpts;
   public selectedStroke: number;
 
-  constructor(props: ControlStateProps) {
+  public constructor(props: ControlStateProps) {
     super(props);
 
     this.intersectActivated = false;
@@ -24,28 +27,28 @@ class PolyControlState extends AbstractControlState {
   /**
    * getter
    */
-  getSelectedColor(): string {
+  public getSelectedColor(): string {
     return this.selectedColor;
   }
 
   /**
    * getter
    */
-  getSelectedStroke(): number {
+  public getSelectedStroke(): number {
     return this.selectedStroke;
   }
 
   /**
    * sets whether we are creating new polygons within selected one
    */
-  setIntersectActivated(val: boolean): void {
+  public setIntersectActivated(val: boolean): void {
     this.intersectActivated = val;
   }
 
   /**
    * sets new color to selected object and to extra selected ones
    */
-  changeColorAction = (color: string): void => {
+  public changeColorAction = (color: string): void => {
     const selectedEl = this._getSelected();
     this.selectedColor = color;
     if (selectedEl?.setStyle) selectedEl.setStyle({ color });
@@ -57,7 +60,7 @@ class PolyControlState extends AbstractControlState {
   /**
    * sets new stroke weight to selected object and to extra selected ones
    */
-  changeWeightAction = (e: Event): void => {
+  public changeWeightAction = (e: Event): void => {
     const weight = Number((e.target as HTMLSelectElement).value);
     const selectedEl = this._getSelected();
     this.selectedStroke = weight;

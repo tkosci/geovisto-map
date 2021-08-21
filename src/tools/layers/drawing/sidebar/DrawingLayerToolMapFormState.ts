@@ -59,7 +59,7 @@ class DrawingLayerToolMapFormState implements TabState {
    */
   public getSelectedColor(): string {
     const state = this.controls["PolyControl"]?.state as TPolyControlState;
-    return state?.getSelectedColor();
+    return state?.getSelectedColor() || "";
   }
 
   /**
@@ -67,7 +67,7 @@ class DrawingLayerToolMapFormState implements TabState {
    */
   public getSelectedStroke(): number {
     const state = this.controls["PolyControl"]?.state as TPolyControlState;
-    return state?.getSelectedStroke();
+    return state?.getSelectedStroke() || 0;
   }
 
   /**
@@ -75,7 +75,7 @@ class DrawingLayerToolMapFormState implements TabState {
    */
   public getSelectedIcon(): string {
     const state = this.controls["MarkerControl"]?.state as TMarkerControlState;
-    return state?.getSelectedIcon();
+    return state?.getSelectedIcon() || "";
   }
 
   public setSelectedIcon(icon: string): void {
@@ -87,7 +87,7 @@ class DrawingLayerToolMapFormState implements TabState {
    */
   public callIdentifierChange(haveToCheckFilters = false): void {
     const state = this.controls["DataControl"]?.state as TDataControlState;
-    return state?.callIdentifierChange(haveToCheckFilters);
+    state?.callIdentifierChange(haveToCheckFilters);
   }
 
   /**
@@ -95,9 +95,16 @@ class DrawingLayerToolMapFormState implements TabState {
    */
   public appendToIconSrcs(iconUrl: string): void {
     const state = this.controls["MarkerControl"]?.state as TMarkerControlState;
-    return state?.appendToIconSrcs(iconUrl);
+    state?.appendToIconSrcs(iconUrl);
   }
 
+  /**
+   * method for easier access through tabControlState class/object
+   */
+  public getIntersectActivated(): boolean {
+    const state = this.controls["PolyControl"]?.state as TPolyControlState;
+    return state?.intersectActivated || false;
+  }
   /**
    * adds guide layer for snapping
    */

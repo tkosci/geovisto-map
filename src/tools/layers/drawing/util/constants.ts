@@ -51,7 +51,7 @@ export const COLORS: string[] = [
 
 export type SelectOpt = {
   label: string;
-  value: number | string;
+  value: number;
   selected?: boolean;
 };
 

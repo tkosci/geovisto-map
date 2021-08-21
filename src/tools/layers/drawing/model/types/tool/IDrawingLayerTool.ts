@@ -31,6 +31,7 @@ export type TabState = {
   pushGuideLayer(layer: DrawnObject): void;
   setEnabledTool(val: EnabledEl): void;
   getEnabledTool(): EnabledEl;
+  getIntersectActivated(): boolean;
 };
 
 /**
