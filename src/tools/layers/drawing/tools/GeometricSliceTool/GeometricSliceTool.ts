@@ -25,6 +25,7 @@ import {
   Polygon,
 } from "@turf/turf";
 import { TGeometricSliceTool } from "./types";
+import { ActiveTool } from "../../model/types/tool/IDrawingLayerTool";
 
 type LineObject = GeoJSON.Feature<LineString | MultiLineString>;
 type PolyObject = GeoJSON.Feature<Polygon | MultiPolygon>;
@@ -155,7 +156,7 @@ class GeometricSliceTool extends AbstractTool implements TGeometricSliceTool {
         transform: true,
         guideLayers: this.sidebar.getState().guideLayers,
       },
-    });
+    }) as ActiveTool;
     this.activetool.enable();
   };
 

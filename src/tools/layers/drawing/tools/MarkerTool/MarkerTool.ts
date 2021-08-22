@@ -8,6 +8,7 @@ import { AbstractTool } from "../AbstractTool";
 import { iconStarter } from "../../util/constants";
 import { ToolProps } from "../AbstractTool/types";
 import { TMarkerTool } from "./types";
+import { ActiveTool } from "../../model/types/tool/IDrawingLayerTool";
 
 declare module "leaflet" {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -80,7 +81,7 @@ class MarkerTool extends AbstractTool implements TMarkerTool {
       repeatMode: true,
       guideLayers,
       snapVertices: false,
-    } as MarkerOptions);
+    } as MarkerOptions) as ActiveTool;
     this.activetool.enable();
   };
 

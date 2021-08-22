@@ -43,8 +43,6 @@ class MarkerControlState
     const { enabledTool } = this.tabControl.getState();
     const activeTool = enabledTool?.activetool;
 
-    console.log({ activeTool, enabledTool });
-
     let selectedEl = this._getSelected();
     let marker = selectedEl;
 
@@ -88,7 +86,7 @@ class MarkerControlState
    */
   public changeIconAnchor = (e: Event, coordinate: "x" | "y"): void => {
     const selectedEl =
-      this.tabControl.getState().enabledTool || this._getSelected();
+      this.tabControl.getState().enabledTool?.activetool || this._getSelected();
     const iconOptions = selectedEl?.options?.icon?.options || {};
     const iconAnchor = iconOptions.iconAnchor || iconStarter.iconAnchor;
     const val = Number((e.target as HTMLInputElement).value);

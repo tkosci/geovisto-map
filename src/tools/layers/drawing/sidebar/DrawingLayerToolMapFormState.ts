@@ -113,7 +113,7 @@ class DrawingLayerToolMapFormState implements TabState {
   /**
    * setter for enabledTool variable
    */
-  public setEnabledTool(val: SelectedDrawingTool): void {
+  public setEnabledTool(val: SelectedDrawingTool | null): void {
     this.enabledTool?.disable();
     this.enabledTool = val;
   }
@@ -121,7 +121,7 @@ class DrawingLayerToolMapFormState implements TabState {
   /**
    * getter
    */
-  public getEnabledTool(): SelectedDrawingTool {
+  public getEnabledTool(): SelectedDrawingTool | null {
     return this.enabledTool;
   }
 }

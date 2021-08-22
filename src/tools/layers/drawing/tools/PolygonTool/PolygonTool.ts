@@ -7,6 +7,7 @@ import "leaflet-draw";
 import { AbstractTool } from "../AbstractTool";
 import { TPolygonTool } from "./types";
 import { LayerType } from "../../model/types";
+import { ActiveTool } from "../../model/types/tool/IDrawingLayerTool";
 
 class PolygonTool extends AbstractTool implements TPolygonTool {
   public static result: LayerType | "" = "polygon";
@@ -59,7 +60,7 @@ class PolygonTool extends AbstractTool implements TPolygonTool {
         snapDistance: 5,
         repeatMode: true,
       } as L.DrawOptions.PolygonOptions
-    );
+    ) as ActiveTool;
     this.activetool.enable();
   };
 

@@ -7,6 +7,7 @@ import { AbstractTool } from "../AbstractTool";
 import { LayerType } from "../../model/types";
 import { ToolProps } from "../AbstractTool/types";
 import { TLineTool } from "./types";
+import { ActiveTool } from "../../model/types/tool/IDrawingLayerTool";
 
 class LineTool extends AbstractTool implements TLineTool {
   public constructor(props: ToolProps) {
@@ -50,8 +51,8 @@ class LineTool extends AbstractTool implements TLineTool {
         },
         guideLayers: this.sidebar.getState().guideLayers,
         repeatMode: true,
-      } as any
-    );
+      } as L.DrawOptions.PolylineOptions
+    ) as ActiveTool;
     this.activetool.enable();
   };
 

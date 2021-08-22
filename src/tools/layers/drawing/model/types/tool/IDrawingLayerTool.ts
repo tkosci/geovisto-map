@@ -1,3 +1,4 @@
+import { TAbstractTool } from "./../../../tools/AbstractTool/types";
 import { TSearchControl } from "./../../../sidebar/components/SearchControl/types";
 import { TPolyControl } from "./../../../sidebar/components/PolyControl/types";
 import { TMarkerControl } from "./../../../sidebar/components/MarkerControl/types";
@@ -15,13 +16,15 @@ import { TBrushControl } from "../../../sidebar/components/BrushControl/types";
 import * as L from "leaflet";
 
 // * this type represents drawing tool that was selected
-export type SelectedDrawingTool = any;
+export type SelectedDrawingTool<T extends TAbstractTool = TAbstractTool> = T;
 
-export type ActiveTool =
-  | L.Draw.Slice
-  | L.Draw.Polygon
-  | L.Draw.Polyline
-  | L.Draw.ExtendedMarker;
+export type ActiveTool = DrawnObject &
+  (
+    | (L.Draw.Slice & { type: "knife" })
+    | (L.Draw.Polygon & { type: "polygon" })
+    | (L.Draw.Polyline & { type: "polyline" })
+    | (L.Draw.ExtendedMarker & { type: "marker" })
+  );
 
 export type DrawingForm = IMapForm & {
   redrawTabContent: (type: LayerType | "") => void;
@@ -50,8 +53,8 @@ export type TabState = {
   callIdentifierChange(haveToCheckFilters: boolean): void;
   appendToIconSrcs(iconUrl: string): void;
   pushGuideLayer(layer: DrawnObject): void;
-  setEnabledTool(val: SelectedDrawingTool): void;
-  getEnabledTool(): SelectedDrawingTool;
+  setEnabledTool(val: SelectedDrawingTool | null): void;
+  getEnabledTool(): SelectedDrawingTool | null;
   getIntersectActivated(): boolean;
 };
 
