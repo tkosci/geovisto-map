@@ -10,7 +10,7 @@ export interface TMarkerControlState extends TAbstractControlState {
   setSelectedIcon(icon: string): void;
   changeIconOpts(iconOpt: LooseObject): DrawnObject | null;
   changeIconAction(icon: string): void;
-  changeIconAnchor(val: number, coordinate: "x" | "y"): void;
+  changeIconAnchor(e: Event, coordinate: "x" | "y"): void;
   addIconAction(e: InputEvent): void;
   appendToIconSrcs(iconUrl: string): void;
 }

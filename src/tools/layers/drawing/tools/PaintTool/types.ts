@@ -1,15 +1,24 @@
-import { CircleMarker, LatLng, Layer } from 'leaflet';
-import { TAbstractTool } from './../AbstractTool/types';
+import { CircleMarker, LatLng, LeafletMouseEvent } from "leaflet";
+import { TAbstractTool } from "./../AbstractTool/types";
 
 export interface TPaintTool extends TAbstractTool {
-  tabState: any;
-  _action: 'draw' | 'erase' | null;
+  _action: "draw" | "erase" | null;
   _circle: CircleMarker | null;
-  _mouseDown: boolean;
   _latlng: LatLng;
-  _maxCircleRadius: number;
-  _minCircleRadius: number;
   _circleRadius: number;
-  _accumulatedShape: GeoJSON.Feature | null;
-  _shapeLayer: Layer | null;
+
+  getMouseDown(): boolean;
+  getBrushSize(): number;
+  getBrushSizeConstraints(): {
+    maxBrushSize: number;
+    minBrushSize: number;
+  };
+  resizeBrush(val: number): void;
+  stop(): void;
+  _addMouseListener(): void;
+  _removeMouseListener(): void;
+  _onMouseDown(event: LeafletMouseEvent): void;
+  _onMouseUp(): void;
+  _onMouseMove(event: LeafletMouseEvent): void;
+  _setLatLng(latlng: LatLng): void;
 }

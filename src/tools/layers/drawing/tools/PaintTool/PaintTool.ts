@@ -26,16 +26,16 @@ const ERASER_COLOR = "#ee000055";
 class PaintTool extends AbstractTool implements TPaintTool {
   public static result: LayerType = "painted";
 
-  public tabState: TabState;
+  private tabState: TabState;
   public _action: "draw" | "erase" | null;
   public _circle: CircleMarker | null;
-  public _mouseDown: boolean;
+  private _mouseDown: boolean;
   public _latlng: LatLng;
-  public _maxCircleRadius: number;
-  public _minCircleRadius: number;
+  private _maxCircleRadius: number;
+  private _minCircleRadius: number;
   public _circleRadius: number;
-  public _accumulatedShape: GeoJSON.Feature | null;
-  public _shapeLayer: Layer | null;
+  private _accumulatedShape: GeoJSON.Feature | null;
+  private _shapeLayer: Layer | null;
 
   public constructor(props: ToolProps) {
     super(props);

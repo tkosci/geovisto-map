@@ -83,11 +83,12 @@ class MarkerControlState
   /**
    * sets new anchor to marker
    */
-  public changeIconAnchor = (val: number, coordinate: "x" | "y"): void => {
+  public changeIconAnchor = (e: Event, coordinate: "x" | "y"): void => {
     const selectedEl =
       this.tabControl.getState().enabledEl || this._getSelected();
     const iconOptions = selectedEl?.options?.icon?.options || {};
     const iconAnchor = iconOptions.iconAnchor || iconStarter.iconAnchor;
+    const val = Number((e.target as HTMLInputElement).value);
     iconAnchor[coordinate] = val;
     this.changeIconOpts({ iconAnchor });
   };

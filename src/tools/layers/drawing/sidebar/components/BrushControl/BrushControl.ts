@@ -1,9 +1,11 @@
-import { createCheck, createIntervalInput } from "../../../util/inputs";
+import { createCheck, MAPPING_MODEL } from "../../../util/inputs";
 import { EraseTool, PaintTool } from "../../../tools";
 import { getIntervalStep } from "../../../util/baseHelpers";
 import AbstractControl from "../AbstractControl/AbstractControl";
 import { ControlProps } from "../AbstractControl/types";
 import { TBrushControl } from "./types";
+import { TPaintTool } from "../../../tools/PaintTool/types";
+import { TEraseTool } from "../../../tools/EraseTool/types";
 
 class BrushControl extends AbstractControl implements TBrushControl {
   private tabControl;
@@ -25,23 +27,24 @@ class BrushControl extends AbstractControl implements TBrushControl {
     const paintTool = drawingTools[PaintTool.NAME()];
     const eraseTool = drawingTools[EraseTool.NAME()];
 
-    let brush = null;
-    if (paintTool?.isToolActive()) brush = paintTool;
-    if (eraseTool?.isToolActive()) brush = eraseTool;
+    let brush: TPaintTool | TEraseTool | null = null;
+    if (paintTool?.isToolActive()) brush = paintTool as TPaintTool;
+    if (eraseTool?.isToolActive()) brush = eraseTool as TEraseTool;
 
     if (!brush) return null;
 
     const { maxBrushSize, minBrushSize } = brush.getBrushSizeConstraints();
 
     const controlWrapper = document.createElement("div");
-    const brushControl = createIntervalInput(
-      "Brush size: ",
-      minBrushSize,
-      maxBrushSize,
-      brush.resizeBrush,
-      brush.getBrushSize()
-    );
-    controlWrapper.appendChild(brushControl);
+    const brushControl = MAPPING_MODEL.brushSize.input({
+      onChangeAction: (e: Event) =>
+        brush?.resizeBrush(Number((e.target as HTMLInputElement).value)),
+      label: "Brush size: ",
+      defaultValue: brush.getBrushSize(),
+      maxValue: maxBrushSize,
+      minValue: minBrushSize,
+    });
+    controlWrapper.appendChild(brushControl.create());
 
     const customToleranceCheck = this.createCustomToleranceCheck();
     controlWrapper.appendChild(customToleranceCheck);
@@ -50,7 +53,8 @@ class BrushControl extends AbstractControl implements TBrushControl {
     return controlWrapper;
   };
 
-  private toleranceChange = (val: number): void => {
+  private toleranceChange = (e: Event): void => {
+    const val = Number((e.target as HTMLInputElement).value);
     window.customTolerance = val;
   };
 
@@ -58,15 +62,15 @@ class BrushControl extends AbstractControl implements TBrushControl {
     if (check) {
       const val = window.customTolerance;
       const step = getIntervalStep(val);
-      const customTolerance = createIntervalInput(
-        "Custom tolerance",
-        0.0,
-        val * 2,
-        this.toleranceChange,
-        String(val || ""),
-        step
-      );
-      this.customToleranceInput.appendChild(customTolerance);
+      const customTolerance = MAPPING_MODEL.customTolerance.input({
+        label: "Custom tolerance",
+        onChangeAction: (e: Event) => this.toleranceChange(e),
+        minValue: 0.0,
+        maxValue: val * 2,
+        defaultValue: String(val || ""),
+        step: step,
+      });
+      this.customToleranceInput.appendChild(customTolerance.create());
     } else {
       const firstChild = this.customToleranceInput.firstChild;
       if (firstChild) this.customToleranceInput.removeChild(firstChild);

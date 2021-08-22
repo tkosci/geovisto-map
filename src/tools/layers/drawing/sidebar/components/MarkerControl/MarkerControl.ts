@@ -1,7 +1,6 @@
 import { TMarkerControlState } from "./types";
 import {
   createCheck,
-  createIntervalInput,
   createPalette,
   MAPPING_MODEL,
 } from "../../../util/inputs";
@@ -50,35 +49,34 @@ class MarkerControl
   /**
    * slider for anchor change
    */
-  private createIconAnchorSlider = (coordinate: "x" | "y"): HTMLDivElement => {
+  private createIconAnchorSlider = (coordinate: "x" | "y"): HTMLElement => {
     const selectedEl = this.state._getSelected();
 
     const iconOptions = selectedEl?.options?.icon?.options || {};
     const iconAnchor = iconOptions.iconAnchor || iconStarter.iconAnchor;
     const value = iconAnchor[coordinate] || "";
 
-    const customAnchor = createIntervalInput(
-      `Icon '${coordinate.toUpperCase()}' anchor`,
-      0,
-      50,
-      (val) => this.state.changeIconAnchor(val, coordinate),
-      value,
-      1
-    );
+    const customAnchor = MAPPING_MODEL.iconAnchor.input({
+      label: `Icon '${coordinate.toUpperCase()}' anchor`,
+      minValue: 0,
+      maxValue: 50,
+      onChangeAction: (e: Event) => this.state.changeIconAnchor(e, coordinate),
+      defaultValue: value,
+    });
 
-    return customAnchor;
+    return customAnchor.create();
   };
 
   /**
    * X coordinate slider
    */
-  private createXAnchorSlider = (): HTMLDivElement =>
+  private createXAnchorSlider = (): HTMLElement =>
     this.createIconAnchorSlider("x");
 
   /**
    * Y coordinate slider
    */
-  private createYAnchorSlider = (): HTMLDivElement =>
+  private createYAnchorSlider = (): HTMLElement =>
     this.createIconAnchorSlider("y");
 
   /**

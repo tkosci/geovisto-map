@@ -6,45 +6,6 @@ import MapFormInputFactory from "../../../../model/internal/inputs/MapFormInputF
 import { MappingModel } from "../model/types/tool/IDrawingLayerToolDefaults";
 
 /**
- * creates a slider with displayed value on side
- */
-export const createIntervalInput = (
-  label: string,
-  min: number | string,
-  max: number | string,
-  onChange: (val: number) => void,
-  value: string,
-  step = 1
-): HTMLDivElement => {
-  const controlWrapper = document.createElement("div");
-  controlWrapper.style.display = "flex";
-  controlWrapper.style.justifyContent = "space-between";
-  controlWrapper.style.alignItems = "center";
-
-  const inputWrapper = document.createElement("div");
-  inputWrapper.appendChild(document.createTextNode(label));
-  const control = document.createElement("input");
-  control.setAttribute("type", "range");
-  control.setAttribute("min", String(min));
-  control.setAttribute("max", String(max));
-  control.setAttribute("step", String(step));
-  control.onchange = (e) => {
-    onChange(Number((<HTMLInputElement>e.target).value));
-    displayAmount.innerText = (<HTMLInputElement>e.target).value;
-  };
-  control.value = value;
-  inputWrapper.appendChild(control);
-
-  controlWrapper.appendChild(inputWrapper);
-
-  const displayAmount = document.createElement("span");
-  displayAmount.innerText = value;
-  controlWrapper.appendChild(displayAmount);
-
-  return controlWrapper;
-};
-
-/**
  * creates checkbox
  */
 export const createCheck = (
@@ -192,5 +153,23 @@ export const MAPPING_MODEL: MappingModel = {
       label: "Pick value",
     },
     input: FormInput.labeledSelect,
+  },
+  brushSize: {
+    props: {
+      name: "brush-size",
+    },
+    input: FormInput.labeledSlider,
+  },
+  customTolerance: {
+    props: {
+      name: "custom-tolerance",
+    },
+    input: FormInput.labeledSlider,
+  },
+  iconAnchor: {
+    props: {
+      name: "icon-anchor",
+    },
+    input: FormInput.labeledSlider,
   },
 };
