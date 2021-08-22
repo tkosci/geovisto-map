@@ -34,12 +34,15 @@ class TransformTool extends AbstractTool implements TTransformTool {
   };
 
   public enable = (): void => {
-    const selected = this.getSelectedEl();
+    const selected = this.getSelectedLayer();
 
     TransformTool.initTransform(selected);
   };
 
-  public static initTransform(drawObject: DrawnObject, disable = false): void {
+  public static initTransform(
+    drawObject: DrawnObject | null,
+    disable = false
+  ): void {
     const layer = drawObject;
     if (layer?.transform) {
       if (layer.transform._enabled || disable) {
@@ -58,7 +61,7 @@ class TransformTool extends AbstractTool implements TTransformTool {
     }
   }
 
-  public static disableTransform = (selectedEl: DrawnObject): void => {
+  public static disableTransform = (selectedEl: DrawnObject | null): void => {
     TransformTool.initTransform(selectedEl, true);
   };
 }

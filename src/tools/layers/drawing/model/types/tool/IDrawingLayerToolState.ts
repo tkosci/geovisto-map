@@ -49,7 +49,6 @@ interface IDrawingLayerToolState<
   featureGroup: DrawnGroup;
   selecting: boolean;
   selectedLayer: DrawnObject | null;
-  enabledTool: DrawnObject | null;
   tool: IDrawingLayerTool;
   createdVertices: Array<DrawnObject>;
   mappedMarkersToVertices: MappedMarkersToVertices;

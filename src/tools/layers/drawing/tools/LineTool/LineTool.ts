@@ -39,7 +39,7 @@ class LineTool extends AbstractTool implements TLineTool {
 
   private _polylineCreate = (): void => {
     if (!this.leafletMap) return;
-    this.tool = new L.Draw.Polyline(
+    this.activetool = new L.Draw.Polyline(
       this.leafletMap as DrawMap,
       {
         shapeOptions: {
@@ -52,7 +52,7 @@ class LineTool extends AbstractTool implements TLineTool {
         repeatMode: true,
       } as any
     );
-    this.tool.enable();
+    this.activetool.enable();
   };
 
   public enable = (): void => {

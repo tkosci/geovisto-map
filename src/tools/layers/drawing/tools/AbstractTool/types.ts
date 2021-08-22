@@ -1,15 +1,15 @@
 import { Map } from "leaflet";
-import { LayerType } from "../../model/types";
+import { DrawnObject, LayerType } from "../../model/types";
 import IDrawingLayerTool, {
+  ActiveTool,
   DrawingForm,
-  EnabledEl,
 } from "../../model/types/tool/IDrawingLayerTool";
 
 export interface TAbstractTool {
   drawingTool: IDrawingLayerTool;
   sidebar: DrawingForm;
   leafletMap?: Map;
-  tool: EnabledEl | null;
+  activetool: ActiveTool | null;
   _isActive: boolean;
   getName(): string;
   getIconName(): string;
@@ -22,7 +22,7 @@ export interface TAbstractTool {
   deactivate(): void;
   enable(): void;
   disable(): void;
-  getSelectedEl(): EnabledEl | null;
+  getSelectedLayer(): DrawnObject | null;
   isToolActive(): boolean;
 }
 

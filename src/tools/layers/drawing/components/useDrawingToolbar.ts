@@ -27,7 +27,7 @@ declare module "leaflet" {
       public initialize(options: Options): void;
       public createUi(): HTMLDivElement;
       public _disableDrawing(e: Event, tool: Tool): void;
-      public getSelectedEl(): Optional<DrawnObject> | undefined;
+      public getSelectedLayer(): Optional<DrawnObject> | undefined;
       public createToolbarBtn(
         className: string,
         btnContainer: HTMLDivElement,
@@ -107,7 +107,7 @@ export default function useDrawingToolbar(): void {
       const drawingTools = this.options.tool?.drawingTools || {};
 
       const handleClick = (e: Event, tool: Tool) => {
-        const selectedEl = this.getSelectedEl();
+        const selectedEl = this.getSelectedLayer();
         // * functions are called so user is not drawing over object that has transform handles
         if (tool.getName() !== "transform-drawing-tool") {
           if (selectedEl) TransformTool.disableTransform(selectedEl);
@@ -184,7 +184,7 @@ export default function useDrawingToolbar(): void {
      *
      * @returns currently selected geo. object
      */
-    getSelectedEl: function () {
+    getSelectedLayer: function () {
       return this.options.tool?.getState()?.selectedLayer;
     },
   });

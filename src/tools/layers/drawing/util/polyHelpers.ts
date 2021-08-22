@@ -27,9 +27,6 @@ type StyleOptions = DrawnOptions;
 
 /**
  * maps feature types to leaflet types
- *
- * @param {String} feature
- * @returns
  */
 export const getLeafletTypeFromFeature = (
   feature: GeoJSON.Feature
@@ -48,9 +45,6 @@ export const getLeafletTypeFromFeature = (
 
 /**
  * converts GeoJSON properties to Leaflet options
- *
- * @param {Object} properties
- * @returns
  */
 export const convertPropertiesToOptions = (
   properties: LooseObject
@@ -67,9 +61,6 @@ export const convertPropertiesToOptions = (
 
 /**
  * converts Leaflet options to GeoJSON properties
- *
- * @param {Object} properties
- * @returns
  */
 export const convertOptionsToProperties = (
   options: StyleOptions
@@ -137,6 +128,7 @@ export const isFeaturePoly = (
 
 /**
  * simplifies polygon feature according to pixels
+ * AllGeoJSON was used here b/c that's what simplify takes
  */
 export const simplifyFeature = (
   feature: turf.AllGeoJSON,
@@ -150,9 +142,6 @@ export const simplifyFeature = (
 
 /**
  * checks if layer structure is polygon
- *
- * @param {Layer} layer
- * @returns
  */
 export const isLayerPoly = (layer: DrawnObject): boolean => {
   const feature = getFirstGeoJSONFeature(layer);
@@ -167,6 +156,11 @@ export const getConversionDepth = (feature: GeoJSON.Feature | null): 1 | 2 => {
   return depth;
 };
 
+/**
+ * converts GeoJSON feature coords to leaflet coords
+ * used only in one place, GeoFeature was selected here b/c features that are appended to exported GeoJSON have this type
+ *
+ * */
 export const convertCoords = (feature: GeoFeature): LatLng | LatLngs | null => {
   if (!feature) return null;
 

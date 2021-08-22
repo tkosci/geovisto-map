@@ -38,9 +38,9 @@ class RemoveTool extends AbstractTool implements TRemoveTool {
 
   private removeElement(): void {
     const state = this.drawingTool.getState();
-    const selectedLayer = this.getSelectedEl();
+    const selectedLayer = this.getSelectedLayer();
     // * if marker is being removed, remove its vertices if any
-    if (state.selectedLayerIsConnectMarker()) {
+    if (selectedLayer && state.selectedLayerIsConnectMarker()) {
       state.removeMarkersMappedVertices(selectedLayer._leaflet_id);
     }
     if (selectedLayer?.layerType === "vertice") {

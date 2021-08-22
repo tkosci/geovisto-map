@@ -1,4 +1,4 @@
-import { LayerType, LooseObject } from "./../../model/types/index";
+import { DrawnObject, LayerType, LooseObject } from "./../../model/types/index";
 import L, { MarkerOptions } from "leaflet";
 import "leaflet-path-drag";
 import "leaflet-path-transform";
@@ -15,6 +15,7 @@ declare module "leaflet" {
     class ExtendedMarker extends Marker {
       public constructor(map: Map, params: MarkerOptions);
       public setIconOptions(opts: LooseObject): void;
+      public _marker: DrawnObject;
     }
   }
 }
@@ -72,7 +73,7 @@ class MarkerTool extends AbstractTool implements TMarkerTool {
     const icon = new L.Icon({ ...iconStarter, ...additionalOpts });
     const { guideLayers } = this.sidebar.getState();
 
-    this.tool = new L.Draw.ExtendedMarker(this.leafletMap, {
+    this.activetool = new L.Draw.ExtendedMarker(this.leafletMap, {
       icon,
       draggable: true,
       transform: true,
@@ -80,7 +81,7 @@ class MarkerTool extends AbstractTool implements TMarkerTool {
       guideLayers,
       snapVertices: false,
     } as MarkerOptions);
-    this.tool.enable();
+    this.activetool.enable();
   };
 
   public enable = (): void => {

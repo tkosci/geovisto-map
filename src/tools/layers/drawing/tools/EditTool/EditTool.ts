@@ -34,13 +34,13 @@ class EditTool extends AbstractTool implements TEditTool {
   };
 
   public enable = (): void => {
-    const selectedLayer = this.getSelectedEl();
+    const selectedLayer = this.getSelectedLayer();
 
     EditTool.initNodeEdit(selectedLayer);
   };
 
   public static initNodeEdit(
-    selectedLayer: DrawnObject,
+    selectedLayer: DrawnObject | null,
     disable = false
   ): void {
     if (selectedLayer?.editing) {
@@ -52,7 +52,7 @@ class EditTool extends AbstractTool implements TEditTool {
     }
   }
 
-  public static disableNodeEdit = (selectedEl: DrawnObject): void => {
+  public static disableNodeEdit = (selectedEl: DrawnObject | null): void => {
     EditTool.initNodeEdit(selectedEl, true);
   };
 }

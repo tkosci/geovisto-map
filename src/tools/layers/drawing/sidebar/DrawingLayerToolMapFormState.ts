@@ -6,7 +6,7 @@ import SearchControl from "./components/SearchControl/SearchControl";
 import {
   Controls,
   DrawingForm,
-  EnabledEl,
+  SelectedDrawingTool,
   TabState,
 } from "../model/types/tool/IDrawingLayerTool";
 
@@ -20,7 +20,7 @@ import { DrawnObject } from "../model/types";
  */
 class DrawingLayerToolMapFormState implements TabState {
   public tabControl: DrawingForm;
-  public enabledEl: EnabledEl;
+  public enabledTool: SelectedDrawingTool | null;
   public guideLayers: DrawnObject[];
   public controls!: Controls;
   /**
@@ -30,7 +30,7 @@ class DrawingLayerToolMapFormState implements TabState {
     this.tabControl = tabControl;
 
     // * element/layer that was enabled and not created yet
-    this.enabledEl = null;
+    this.enabledTool = null;
 
     this.guideLayers = [];
   }
@@ -111,18 +111,18 @@ class DrawingLayerToolMapFormState implements TabState {
   }
 
   /**
-   * setter for enabledEl variable
+   * setter for enabledTool variable
    */
-  public setEnabledTool(val: EnabledEl): void {
-    this.enabledEl?.disable();
-    this.enabledEl = val;
+  public setEnabledTool(val: SelectedDrawingTool): void {
+    this.enabledTool?.disable();
+    this.enabledTool = val;
   }
 
   /**
    * getter
    */
-  public getEnabledTool(): EnabledEl {
-    return this.enabledEl;
+  public getEnabledTool(): SelectedDrawingTool {
+    return this.enabledTool;
   }
 }
 export default DrawingLayerToolMapFormState;

@@ -45,7 +45,6 @@ class DrawingLayerToolState
   public featureGroup: DrawnGroup;
   public selecting: boolean;
   public selectedLayer: DrawnObject | null;
-  public enabledTool: DrawnObject | null;
   public tool: IDrawingLayerTool;
   public createdVertices: Array<DrawnObject>;
   public mappedMarkersToVertices: MappedMarkersToVertices;
@@ -61,8 +60,6 @@ class DrawingLayerToolState
     this.selecting = false;
     // * for knowing if we already selected layer
     this.selectedLayer = null;
-    // * enabled tool so we are able to switch it off
-    this.enabledTool = null;
 
     this.tool = tool;
 
@@ -488,7 +485,6 @@ class DrawingLayerToolState
       if (layerType === "marker") {
         pushMarker(layer, layerType);
       } else {
-        // TODO: CHECK
         if (layer._layers) {
           layer._layers.forEach((l) => {
             pushPolygon(l, layerType);

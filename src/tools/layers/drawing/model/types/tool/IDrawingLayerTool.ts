@@ -1,32 +1,27 @@
-import {
-  TSearchControl,
-  TSearchControlState,
-} from "./../../../sidebar/components/SearchControl/types";
-import {
-  TPolyControl,
-  TPolyControlState,
-} from "./../../../sidebar/components/PolyControl/types";
-import {
-  TMarkerControl,
-  TMarkerControlState,
-} from "./../../../sidebar/components/MarkerControl/types";
-import {
-  TDataControl,
-  TDataControlState,
-} from "./../../../sidebar/components/DataControl/types";
+import { TSearchControl } from "./../../../sidebar/components/SearchControl/types";
+import { TPolyControl } from "./../../../sidebar/components/PolyControl/types";
+import { TMarkerControl } from "./../../../sidebar/components/MarkerControl/types";
+import { TDataControl } from "./../../../sidebar/components/DataControl/types";
 // Geovisto core
 import { DrawnObject, LayerType, LooseObject } from "..";
 import { ILayerTool, IMapToolInitProps } from "../../../../../../index.core";
 import IMapForm from "../../../../../../model/types/form/IMapForm";
-import { TAbstractControl } from "../../../sidebar/components/AbstractControl/types";
 
 import { IDrawingLayerToolConfig } from "./IDrawingLayerToolConfig";
 import IDrawingLayerToolDefaults from "./IDrawingLayerToolDefaults";
 import IDrawingLayerToolProps from "./IDrawingLayerToolProps";
 import IDrawingLayerToolState from "./IDrawingLayerToolState";
 import { TBrushControl } from "../../../sidebar/components/BrushControl/types";
+import * as L from "leaflet";
 
-export type EnabledEl = any; // TODO: create type
+// * this type represents drawing tool that was selected
+export type SelectedDrawingTool = any;
+
+export type ActiveTool =
+  | L.Draw.Slice
+  | L.Draw.Polygon
+  | L.Draw.Polyline
+  | L.Draw.ExtendedMarker;
 
 export type DrawingForm = IMapForm & {
   redrawTabContent: (type: LayerType | "") => void;
@@ -44,7 +39,7 @@ export type Controls = {
 
 export type TabState = {
   tabControl: DrawingForm;
-  enabledEl: EnabledEl;
+  enabledTool: SelectedDrawingTool | null;
   guideLayers: DrawnObject[];
   controls: Controls;
   initializeControls(): void;
@@ -55,8 +50,8 @@ export type TabState = {
   callIdentifierChange(haveToCheckFilters: boolean): void;
   appendToIconSrcs(iconUrl: string): void;
   pushGuideLayer(layer: DrawnObject): void;
-  setEnabledTool(val: EnabledEl): void;
-  getEnabledTool(): EnabledEl;
+  setEnabledTool(val: SelectedDrawingTool): void;
+  getEnabledTool(): SelectedDrawingTool;
   getIntersectActivated(): boolean;
 };
 

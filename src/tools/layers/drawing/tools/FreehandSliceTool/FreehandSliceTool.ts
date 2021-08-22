@@ -103,7 +103,7 @@ class FreehandSliceTool
   public disable = (): void => {
     this.leafletMap?.removeLayer(this.pather);
     this.patherActive = false;
-    const activeTool = this.tool;
+    const activeTool = this.activetool;
     if (activeTool) {
       activeTool.disable();
     }

@@ -40,14 +40,17 @@ class MarkerControlState
    * sets new marker icon options (iconUrl, anchor...) to selected object and to extra selected ones
    */
   public changeIconOpts = (iconOpt = {}): DrawnObject | null => {
-    const { enabledEl } = this.tabControl.getState();
+    const { enabledTool } = this.tabControl.getState();
+    const activeTool = enabledTool?.activetool;
+
+    console.log({ activeTool, enabledTool });
 
     let selectedEl = this._getSelected();
     let marker = selectedEl;
 
-    if (enabledEl?.type === "marker") {
-      selectedEl = enabledEl;
-      marker = enabledEl._marker;
+    if (activeTool?.type === "marker") {
+      selectedEl = activeTool;
+      marker = activeTool._marker;
     }
 
     const oldIconOptions = selectedEl?.options?.icon?.options || {};
@@ -63,7 +66,7 @@ class MarkerControlState
       layer?.setIcon(markerIcon);
       this.tool.highlightElement(layer);
     });
-    if (enabledEl?.type === "marker") enabledEl.setIconOptions(markerIcon);
+    if (activeTool?.type === "marker") activeTool.setIconOptions(markerIcon);
 
     return marker;
   };
@@ -85,7 +88,7 @@ class MarkerControlState
    */
   public changeIconAnchor = (e: Event, coordinate: "x" | "y"): void => {
     const selectedEl =
-      this.tabControl.getState().enabledEl || this._getSelected();
+      this.tabControl.getState().enabledTool || this._getSelected();
     const iconOptions = selectedEl?.options?.icon?.options || {};
     const iconAnchor = iconOptions.iconAnchor || iconStarter.iconAnchor;
     const val = Number((e.target as HTMLInputElement).value);

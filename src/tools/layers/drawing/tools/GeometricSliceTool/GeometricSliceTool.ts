@@ -147,7 +147,7 @@ class GeometricSliceTool extends AbstractTool implements TGeometricSliceTool {
 
   private _dividePoly = (): void => {
     if (!this.leafletMap) return;
-    this.tool = new L.Draw.Slice(this.leafletMap, {
+    this.activetool = new L.Draw.Slice(this.leafletMap, {
       shapeOptions: {
         color: "#333",
         weight: 3,
@@ -156,7 +156,7 @@ class GeometricSliceTool extends AbstractTool implements TGeometricSliceTool {
         guideLayers: this.sidebar.getState().guideLayers,
       },
     });
-    this.tool.enable();
+    this.activetool.enable();
   };
 
   public enable = (): void => {
@@ -164,7 +164,8 @@ class GeometricSliceTool extends AbstractTool implements TGeometricSliceTool {
   };
 
   public disable = (): void => {
-    const activeTool = this.tool;
+    const activeTool = this.activetool;
+
     if (activeTool) {
       activeTool.disable();
     }

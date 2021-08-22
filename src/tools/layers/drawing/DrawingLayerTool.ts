@@ -207,7 +207,7 @@ class DrawingLayerTool
     map?.on("zoomend", () => this.setGlobalSimplificationTolerance());
     map?.on("click", () => {
       const sidebar = this.getMapForm();
-      if (sidebar.getState()?.enabledEl?.isToolActive()) return;
+      if (sidebar.getState()?.enabledTool?.isToolActive()) return;
       if (
         (document.querySelector(".leaflet-container") as HTMLDivElement).style
           .cursor === "wait"
@@ -224,16 +224,16 @@ class DrawingLayerTool
     const sidebarState = this.getMapForm().getState();
     const handleSpacePress = (e: KeyboardEvent, exec: (el: any) => void) => {
       if (e.keyCode === SPACE_BAR) {
-        const enabledEl = sidebarState.enabledEl;
-        if (enabledEl?.isToolActive()) {
-          exec(enabledEl);
+        const enabledTool = sidebarState.enabledTool;
+        if (enabledTool?.isToolActive()) {
+          exec(enabledTool);
         }
       }
     };
     const handleSpaceDown = (e: KeyboardEvent) =>
-      handleSpacePress(e, (enabledEl) => enabledEl?.disable());
+      handleSpacePress(e, (enabledTool) => enabledTool?.disable());
     const handleSpaceUp = (e: KeyboardEvent) =>
-      handleSpacePress(e, (enabledEl) => enabledEl?.enable());
+      handleSpacePress(e, (enabledTool) => enabledTool?.enable());
 
     document.addEventListener("keydown", handleSpaceDown);
     document.addEventListener("keyup", handleSpaceUp);

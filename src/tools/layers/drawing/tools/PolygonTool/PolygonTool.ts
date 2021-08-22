@@ -41,7 +41,7 @@ class PolygonTool extends AbstractTool implements TPolygonTool {
 
   private _polygonCreate = (): void => {
     if (!this.leafletMap) return;
-    this.tool = new L.Draw.Polygon(
+    this.activetool = new L.Draw.Polygon(
       this.leafletMap as DrawMap,
       {
         allowIntersection: false,
@@ -60,7 +60,7 @@ class PolygonTool extends AbstractTool implements TPolygonTool {
         repeatMode: true,
       } as L.DrawOptions.PolygonOptions
     );
-    this.tool.enable();
+    this.activetool.enable();
   };
 
   public enable = (): void => {

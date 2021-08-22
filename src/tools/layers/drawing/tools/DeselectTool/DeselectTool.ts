@@ -36,12 +36,15 @@ class DeselectTool extends AbstractTool implements TDeselectTool {
   };
 
   public enable = (): void => {
-    const selected = this.getSelectedEl();
+    const selected = this.getSelectedLayer();
 
     DeselectTool.deselect(selected, this.drawingTool);
   };
 
-  public static deselect(selected: DrawnObject, tool: IDrawingLayerTool): void {
+  public static deselect(
+    selected: DrawnObject | null,
+    tool: IDrawingLayerTool
+  ): void {
     if (selected?.editing?._enabled) {
       selected.editing.disable();
     }
