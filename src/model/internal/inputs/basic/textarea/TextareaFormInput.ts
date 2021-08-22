@@ -39,6 +39,7 @@ class TextAreaFormInput extends AbstractMapFormInput implements IMapFormInput {
       this.input = document.createElement("textarea");
       // create div block
       this.div = document.createElement("div");
+      this.div.classList.add("textarea-wrapper");
       // append label
       if (this.label) {
         this.div.appendChild(document.createTextNode(this.label + ": "));

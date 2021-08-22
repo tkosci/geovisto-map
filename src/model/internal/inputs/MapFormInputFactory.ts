@@ -83,14 +83,23 @@ class MapFormInputFactory {
     return new FilterAutocompleteFormInput(props);
   }
 
+  /**
+   * It creates the labeled slider form input.
+   */
   public labeledSlider(props: ILabeledSliderFormInputProps): IMapFormInput {
     return new LabeledSliderFormInput(props);
   }
 
+  /**
+   * It creates the labeled color form input.
+   */
   public labeledColor(props: ILabeledColorFormInputProps): IMapFormInput {
     return new LabeledColorFormInput(props);
   }
 
+  /**
+   * It creates the labeled checkbox form input.
+   */
   public labeledCheckbox(props: ILabeledCheckboxFormInputProps): IMapFormInput {
     return new LabeledCheckboxFormInput(props);
   }

@@ -1,12 +1,16 @@
 .drawing-sidebar {
   & > * {
-    margin-bottom: 15px;
+    margin-bottom: 15px !important;
   }
-  & textarea {
-    width: 100%;
-    margin-top: 5px;
-    min-height: 75px;
-    box-sizing: border-box;
+  .textarea-wrapper {
+    padding-top: 10px;
+
+    & textarea {
+      width: 100%;
+      margin-top: 5px;
+      min-height: 75px;
+      box-sizing: border-box;
+    }
   }
 
   & input {
@@ -84,9 +88,13 @@
     }
   }
 
+  .geovisto-input-checkbox-label {
+    width: 100%;
+  }
+
   .geovisto-input-range {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
   }
 
