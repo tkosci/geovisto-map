@@ -1,8 +1,10 @@
-import { LooseObject } from './../../../model/types/index';
-import { TAbstractControlState } from '../AbstractControl/types';
+import { TAbstractControl } from "./../AbstractControl/types";
+import { LooseObject } from "./../../../model/types/index";
+import { TAbstractControlState } from "../AbstractControl/types";
+import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
 
 export interface TSearchControlState extends TAbstractControlState {
-  countries: Array<{ name: string; 'alpha-2': string; 'country-code': string }>;
+  countries: Array<{ name: string; "alpha-2": string; "country-code": string }>;
   countryCode: string;
   adminLevel: number;
   searchOpts: LooseObject[];
@@ -16,4 +18,8 @@ export interface TSearchControlState extends TAbstractControlState {
   searchAction(e: InputEvent): Promise<void>;
   onInputOptClick(value: string): void;
   fetchAreas(): Promise<void>;
+}
+
+export interface TSearchControl extends TAbstractControl<TSearchControlState> {
+  renderSearchInputs(elem: HTMLDivElement, model: MappingModel): void;
 }

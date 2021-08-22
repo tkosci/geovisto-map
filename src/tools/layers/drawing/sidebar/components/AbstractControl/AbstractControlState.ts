@@ -2,7 +2,7 @@ import IDrawingLayerTool, {
   DrawingForm,
 } from "./../../../model/types/tool/IDrawingLayerTool";
 import { DrawnObject, LayerType } from "../../../model/types";
-import { TAbstractControlState } from "./types";
+import { ControlStateProps, TAbstractControlState } from "./types";
 
 /**
  * Abstract class for control state.
@@ -14,9 +14,9 @@ import { TAbstractControlState } from "./types";
 class AbstractControlState implements TAbstractControlState {
   public tabControl: DrawingForm;
   public tool: IDrawingLayerTool;
-  public control: any;
+  public control;
 
-  public constructor(props: { tabControl: DrawingForm; control: any }) {
+  public constructor(props: ControlStateProps) {
     this.tabControl = props.tabControl;
     this.tool = props.tabControl.getTool();
     this.control = props.control;

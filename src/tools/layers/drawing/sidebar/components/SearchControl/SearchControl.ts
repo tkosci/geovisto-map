@@ -1,5 +1,5 @@
-import { TSearchControlState } from "./types";
-import { ControlProps } from "./../AbstractControl/types";
+import { TSearchControl, TSearchControlState } from "./types";
+import { ControlProps, TAbstractControl } from "./../AbstractControl/types";
 import { createCheck } from "../../../util/inputs";
 import { ADMIN_LEVELS } from "../../../util/constants";
 import AbstractControl from "../AbstractControl/AbstractControl";
@@ -7,15 +7,15 @@ import SearchControlState from "./SearchControlState";
 import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
 import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
 
-class SearchControl extends AbstractControl {
-  private state: TSearchControlState;
+class SearchControl extends AbstractControl implements TSearchControl {
+  public state;
   public inputSearch: IMapFormInput | null;
   public inputConnect: HTMLDivElement | null;
   public errorMsg: HTMLDivElement | null;
   public searchForAreasBtn: HTMLButtonElement | null;
 
   public constructor(props: ControlProps) {
-    super();
+    super(props);
 
     this.state = new SearchControlState({
       tabControl: props.tabControl,
@@ -105,6 +105,7 @@ class SearchControl extends AbstractControl {
     });
     elem.appendChild(inputSearchForArea.create() as Node);
     inputSearchForArea.setValue(this.state.countryCode || "");
+    elem.appendChild(document.createElement("br"));
 
     const inputAdminLevel = model.adminLevel.input({
       ...model.adminLevel.props,
@@ -113,6 +114,7 @@ class SearchControl extends AbstractControl {
     });
     inputAdminLevel.setValue(this.state.adminLevel);
     elem.appendChild(inputAdminLevel.create() as Node);
+    elem.appendChild(document.createElement("br"));
 
     const hqCheck = this.createHighQualityCheck();
     elem.appendChild(hqCheck);

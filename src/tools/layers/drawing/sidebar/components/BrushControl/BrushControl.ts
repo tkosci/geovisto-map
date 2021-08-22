@@ -3,13 +3,14 @@ import { EraseTool, PaintTool } from "../../../tools";
 import { getIntervalStep } from "../../../util/baseHelpers";
 import AbstractControl from "../AbstractControl/AbstractControl";
 import { ControlProps } from "../AbstractControl/types";
+import { TBrushControl } from "./types";
 
-class BrushControl extends AbstractControl {
-  private tabControl: any;
+class BrushControl extends AbstractControl implements TBrushControl {
+  private tabControl;
   private customToleranceInput: HTMLDivElement;
 
   public constructor(props: ControlProps) {
-    super();
+    super(props);
 
     this.tabControl = props.tabControl;
     this.customToleranceInput = document.createElement("div");
@@ -73,7 +74,7 @@ class BrushControl extends AbstractControl {
     }
   };
 
-  public createCustomToleranceCheck = (): HTMLDivElement => {
+  private createCustomToleranceCheck = (): HTMLDivElement => {
     // * tolerance changes with zoom
     window.map.on("zoomend", () => {
       const firstChild = this.customToleranceInput.firstChild;

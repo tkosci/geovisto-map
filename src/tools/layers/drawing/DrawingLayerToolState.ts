@@ -29,7 +29,7 @@ import IDrawingLayerToolState, {
 import { IDrawingLayerToolConfig } from "./model/types/tool/IDrawingLayerToolConfig";
 import IDrawingLayerToolDefaults from "./model/types/tool/IDrawingLayerToolDefaults";
 
-export const EmptyGeoJSON = {
+export const EMPTY_GEOJSON = {
   type: "FeatureCollection",
   features: [],
 };
@@ -330,7 +330,7 @@ class DrawingLayerToolState
    * serializes map state to GeoJSON
    */
   public serializeToGeoJSON(): ExportGeoJSON {
-    const geo: ExportGeoJSON = EmptyGeoJSON;
+    const geo: ExportGeoJSON = EMPTY_GEOJSON;
 
     this.featureGroup.eachLayer((l) => {
       const layer = l as DrawnObject;

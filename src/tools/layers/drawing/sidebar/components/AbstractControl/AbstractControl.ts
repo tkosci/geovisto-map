@@ -1,3 +1,6 @@
+import AbstractControlState from "./AbstractControlState";
+import { ControlProps, TAbstractControl } from "./types";
+
 /**
  * Abstract class for control
  *
@@ -5,6 +8,15 @@
  *
  * class should should contain only methods for rendering of inputs, not logic
  */
-class AbstractControl {}
+class AbstractControl implements TAbstractControl {
+  public state;
+
+  public constructor(props: ControlProps) {
+    this.state = new AbstractControlState({
+      tabControl: props.tabControl,
+      control: this,
+    });
+  }
+}
 
 export default AbstractControl;

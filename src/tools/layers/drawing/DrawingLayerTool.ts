@@ -1,6 +1,6 @@
 import L, { FeatureGroup, LeafletMouseEvent, Map, TileEvent } from "leaflet";
 
-import DrawingLayerToolState, { EmptyGeoJSON } from "./DrawingLayerToolState";
+import DrawingLayerToolState, { EMPTY_GEOJSON } from "./DrawingLayerToolState";
 import DrawingLayerToolDefaults from "./DrawingLayerToolDefaults";
 import DrawingLayerToolMapForm from "./sidebar/DrawingLayerToolMapForm";
 import useDrawingToolbar from "./components/useDrawingToolbar";
@@ -91,7 +91,7 @@ class DrawingLayerTool
   public initialize(
     initProps: IMapToolInitProps<IDrawingLayerToolConfig>
   ): this {
-    this.getState().deserializeGeoJSON(initProps.geojson || EmptyGeoJSON);
+    this.getState().deserializeGeoJSON(initProps.geojson || EMPTY_GEOJSON);
     return super.initialize(initProps);
   }
 
@@ -305,7 +305,7 @@ class DrawingLayerTool
   /**
    * @brief sets global tolerance for brush stroke
    */
-  protected setGlobalSimplificationTolerance(): void {
+  public setGlobalSimplificationTolerance(): void {
     const map = window.map;
     if (!map) return;
     const metersPerPixel =

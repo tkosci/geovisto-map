@@ -7,15 +7,17 @@ import {
 import { iconStarter } from "../../../util/constants";
 import AbstractControl from "../AbstractControl/AbstractControl";
 import MarkerControlState from "./MarkerControlState";
-import { ControlProps } from "../AbstractControl/types";
+import { ControlProps, TAbstractControl } from "../AbstractControl/types";
 import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
 
-class MarkerControl extends AbstractControl {
-  private tabControl: any;
-  public state: TMarkerControlState;
+class MarkerControl
+  extends AbstractControl
+  implements TAbstractControl<TMarkerControlState> {
+  private tabControl;
+  public state;
 
   public constructor(props: ControlProps) {
-    super();
+    super(props);
 
     this.tabControl = props.tabControl;
 

@@ -1,5 +1,7 @@
-import { SelectOpts } from '../../../util/constants';
-import { TAbstractControlState } from '../AbstractControl/types';
+import { TAbstractControl } from "./../AbstractControl/types";
+import { SelectOpts } from "../../../util/constants";
+import { TAbstractControlState } from "../AbstractControl/types";
+import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
 
 export interface TPolyControlState extends TAbstractControlState {
   intersectActivated: boolean;
@@ -12,4 +14,9 @@ export interface TPolyControlState extends TAbstractControlState {
   setIntersectActivated(val: boolean): void;
   changeColorAction(color: string): void;
   changeWeightAction(e: Event): void;
+}
+
+export interface TPolyControl extends TAbstractControl<TPolyControlState> {
+  createIntersectionCheck(): HTMLDivElement;
+  renderPolyInputs(elem: HTMLDivElement, model: MappingModel): void;
 }

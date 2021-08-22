@@ -22,7 +22,6 @@ import {
   GeovistoDrawingLayerTool,
 } from "../tools";
 import { Geovisto } from "..";
-import { EmptyGeoJSON } from "../tools/layers/drawing/DrawingLayerToolState";
 import { ExportGeoJSON } from "../tools/layers/drawing/model/types/tool/IDrawingLayerToolState";
 
 /* example of screen component with grid layout and card wrapper usage */

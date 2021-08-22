@@ -29,6 +29,10 @@
     background-color: #fff;
     & option {
       font-weight: normal;
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      max-width: 100%;
     }
   }
 

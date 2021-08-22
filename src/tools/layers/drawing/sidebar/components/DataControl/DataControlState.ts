@@ -2,7 +2,7 @@ import IMapData from "../../../../../../model/types/data/IMapData";
 import AbstractControlState from "../AbstractControl/AbstractControlState";
 import { ControlStateProps } from "../AbstractControl/types";
 import DataControl from "./DataControl";
-import { TData, TDataControlState, TFilterValue } from "./types";
+import { TDataControlState, TFilterValue } from "./types";
 
 class DataControlState
   extends AbstractControlState

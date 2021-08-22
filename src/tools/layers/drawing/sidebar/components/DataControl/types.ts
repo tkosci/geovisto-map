@@ -1,6 +1,10 @@
 import { LooseObject } from "./../../../model/types/index";
-import { TAbstractControlState } from "../AbstractControl/types";
+import {
+  TAbstractControl,
+  TAbstractControlState,
+} from "../AbstractControl/types";
 import IMapData from "../../../../../../model/types/data/IMapData";
+import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
 
 export type TData = LooseObject;
 export type TFilterValue = string;
@@ -24,4 +28,10 @@ export interface TDataControlState extends TAbstractControlState {
   changeDescriptionAction(e: InputEvent): void;
   changeDesc(inputText: string): void;
   callIdentifierChange(haveToCheckFilters?: boolean): void;
+}
+
+export interface TDataControl extends TAbstractControl<TDataControlState> {
+  renderDataInputs(elem: HTMLDivElement, model: MappingModel): void;
+  renderDataFilters(elem: HTMLDivElement, model: MappingModel): void;
+  renderFilterInputs(elem: HTMLDivElement): void;
 }

@@ -4,13 +4,13 @@ import { createButton } from "../../../util/inputs";
 import AbstractControl from "../AbstractControl/AbstractControl";
 import { ControlProps } from "../AbstractControl/types";
 import DataControlState from "./DataControlState";
-import { TDataControlState } from "./types";
+import { TDataControl } from "./types";
 
-class DataControl extends AbstractControl {
-  public state: TDataControlState;
+class DataControl extends AbstractControl implements TDataControl {
+  public state;
 
   public constructor(props: ControlProps) {
-    super();
+    super(props);
 
     this.state = new DataControlState({
       tabControl: props.tabControl,
@@ -23,7 +23,7 @@ class DataControl extends AbstractControl {
   /**
    * creates a field for picking column name where to choose identifier from
    */
-  public createPickIdentifier = (model: MappingModel): IMapFormInput => {
+  private createPickIdentifier = (model: MappingModel): IMapFormInput => {
     const { data } = this.state;
 
     const idOpts = data[0]
@@ -42,7 +42,7 @@ class DataControl extends AbstractControl {
   /**
    * creates a field for identier input
    */
-  public createIdentifierInput = (model: MappingModel): IMapFormInput => {
+  private createIdentifierInput = (model: MappingModel): IMapFormInput => {
     const { data } = this.state;
 
     const idKey = this.state.getIdentifierType();

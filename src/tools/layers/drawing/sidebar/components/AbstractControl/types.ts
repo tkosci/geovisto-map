@@ -19,3 +19,7 @@ export interface TAbstractControlState {
   _getExtraSelected(): DrawnObject[];
   _redrawSidebar(type?: string): void;
 }
+
+export interface TAbstractControl<TState = TAbstractControlState> {
+  state: TState;
+}

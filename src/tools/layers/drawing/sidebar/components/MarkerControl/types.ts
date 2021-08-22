@@ -1,5 +1,7 @@
+import { TAbstractControl } from "./../AbstractControl/types";
 import { LooseObject, DrawnObject } from "./../../../model/types/index";
 import { TAbstractControlState } from "../AbstractControl/types";
+import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
 
 export interface TMarkerControlState extends TAbstractControlState {
   iconSrcs: Set<string>;
@@ -11,4 +13,8 @@ export interface TMarkerControlState extends TAbstractControlState {
   changeIconAnchor(val: number, coordinate: "x" | "y"): void;
   addIconAction(e: InputEvent): void;
   appendToIconSrcs(iconUrl: string): void;
+}
+
+export interface TMarkerControl extends TAbstractControl<TMarkerControlState> {
+  renderIconInputs(elem: HTMLDivElement, model: MappingModel): void;
 }

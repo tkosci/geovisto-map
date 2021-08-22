@@ -27,7 +27,7 @@ import DataManagerChangeEvent from "../event/data/DataManagerChangeEvent";
 import GeovistoMapDefaults from "./GeovistoMapDefaults";
 import GeovistoMapState from "./GeovistoMapState";
 import MapObject from "../object/MapObject";
-import { EmptyGeoJSON } from "../../../tools/layers/drawing/DrawingLayerToolState";
+import { EMPTY_GEOJSON } from "../../../tools/layers/drawing/DrawingLayerToolState";
 
 /**
  * Representation of map wrapper which handles map layers, sidebar and other tools
@@ -116,7 +116,7 @@ class GeovistoMap extends MapObject implements IMap {
       this.initialize({
         config: configManager.getMapConfig(),
         configManager: configManager,
-        geojson: props?.geojson || EmptyGeoJSON,
+        geojson: props?.geojson || EMPTY_GEOJSON,
       });
 
       // render map and tools
@@ -234,7 +234,7 @@ class GeovistoMap extends MapObject implements IMap {
   public exportGeoJSON(): ExportGeoJSON {
     const toolsManager: IMapToolsManager = this.getState().getTools();
 
-    if (toolsManager.isEmpty()) return EmptyGeoJSON;
+    if (toolsManager.isEmpty()) return EMPTY_GEOJSON;
 
     // a) tool is already created, initialize them and try to find their config
     const tools: IMapTool[] = toolsManager.getAll();
@@ -242,7 +242,7 @@ class GeovistoMap extends MapObject implements IMap {
       (tool) => tool.getDefaults().getLabel() === "Drawing layer"
     );
 
-    if (!found) return EmptyGeoJSON;
+    if (!found) return EMPTY_GEOJSON;
 
     return (found.getState() as IDrawingLayerToolState).serializeToGeoJSON();
   }

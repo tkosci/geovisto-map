@@ -1,15 +1,17 @@
 import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
 import { createCheck } from "../../../util/inputs";
 import AbstractControl from "../AbstractControl/AbstractControl";
-import { ControlProps } from "../AbstractControl/types";
+import { ControlProps, TAbstractControl } from "../AbstractControl/types";
 import PolyControlState from "./PolyControlState";
 import { TPolyControlState } from "./types";
 
-class PolyControl extends AbstractControl {
-  private state: TPolyControlState;
+class PolyControl
+  extends AbstractControl
+  implements TAbstractControl<TPolyControlState> {
+  public state;
 
   public constructor(props: ControlProps) {
-    super();
+    super(props);
 
     this.state = new PolyControlState({
       tabControl: props.tabControl,

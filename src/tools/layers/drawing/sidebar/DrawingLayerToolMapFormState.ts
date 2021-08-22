@@ -1,17 +1,16 @@
-import { TMarkerControlState } from "./components/MarkerControl/types";
 import DataControl from "./components/DataControl/DataControl";
 import MarkerControl from "./components/MarkerControl/MarkerControl";
 import PolyControl from "./components/PolyControl/PolyControl";
 import BrushControl from "./components/BrushControl/BrushControl";
 import SearchControl from "./components/SearchControl/SearchControl";
 import {
+  Controls,
   DrawingForm,
   EnabledEl,
   TabState,
 } from "../model/types/tool/IDrawingLayerTool";
-import { TPolyControlState } from "./components/PolyControl/types";
-import { TDataControlState } from "./components/DataControl/types";
-import { DrawnObject, LooseObject } from "../model/types";
+
+import { DrawnObject } from "../model/types";
 
 /**
  * This class manages the state of the sidebar tab.
@@ -23,7 +22,7 @@ class DrawingLayerToolMapFormState implements TabState {
   public tabControl: DrawingForm;
   public enabledEl: EnabledEl;
   public guideLayers: DrawnObject[];
-  public controls: LooseObject;
+  public controls!: Controls;
   /**
    * It creates a tab control state.
    */
@@ -34,8 +33,6 @@ class DrawingLayerToolMapFormState implements TabState {
     this.enabledEl = null;
 
     this.guideLayers = [];
-
-    this.controls = {};
   }
 
   /**
@@ -43,13 +40,14 @@ class DrawingLayerToolMapFormState implements TabState {
    */
   public initializeControls = (): void => {
     const { tabControl } = this;
-    const controls: LooseObject = {};
 
-    controls["DataControl"] = new DataControl({ tabControl });
-    controls["MarkerControl"] = new MarkerControl({ tabControl });
-    controls["PolyControl"] = new PolyControl({ tabControl });
-    controls["SearchControl"] = new SearchControl({ tabControl });
-    controls["BrushControl"] = new BrushControl({ tabControl });
+    const controls = {
+      DataControl: new DataControl({ tabControl }),
+      MarkerControl: new MarkerControl({ tabControl }),
+      PolyControl: new PolyControl({ tabControl }),
+      SearchControl: new SearchControl({ tabControl }),
+      BrushControl: new BrushControl({ tabControl }),
+    };
 
     this.controls = controls;
   };
@@ -58,7 +56,7 @@ class DrawingLayerToolMapFormState implements TabState {
    * method if defined for easier access through tabControlState class/object
    */
   public getSelectedColor(): string {
-    const state = this.controls["PolyControl"]?.state as TPolyControlState;
+    const state = this.controls["PolyControl"]?.state;
     return state?.getSelectedColor() || "";
   }
 
@@ -66,7 +64,7 @@ class DrawingLayerToolMapFormState implements TabState {
    * method if defined for easier access through tabControlState class/object
    */
   public getSelectedStroke(): number {
-    const state = this.controls["PolyControl"]?.state as TPolyControlState;
+    const state = this.controls["PolyControl"]?.state;
     return state?.getSelectedStroke() || 0;
   }
 
@@ -74,7 +72,7 @@ class DrawingLayerToolMapFormState implements TabState {
    * method if defined for easier access through tabControlState class/object
    */
   public getSelectedIcon(): string {
-    const state = this.controls["MarkerControl"]?.state as TMarkerControlState;
+    const state = this.controls["MarkerControl"]?.state;
     return state?.getSelectedIcon() || "";
   }
 
@@ -86,7 +84,7 @@ class DrawingLayerToolMapFormState implements TabState {
    * method if defined for easier access through tabControlState class/object
    */
   public callIdentifierChange(haveToCheckFilters = false): void {
-    const state = this.controls["DataControl"]?.state as TDataControlState;
+    const state = this.controls["DataControl"]?.state;
     state?.callIdentifierChange(haveToCheckFilters);
   }
 
@@ -94,7 +92,7 @@ class DrawingLayerToolMapFormState implements TabState {
    * method if defined for easier access through tabControlState class/object
    */
   public appendToIconSrcs(iconUrl: string): void {
-    const state = this.controls["MarkerControl"]?.state as TMarkerControlState;
+    const state = this.controls["MarkerControl"]?.state;
     state?.appendToIconSrcs(iconUrl);
   }
 
@@ -102,7 +100,7 @@ class DrawingLayerToolMapFormState implements TabState {
    * method for easier access through tabControlState class/object
    */
   public getIntersectActivated(): boolean {
-    const state = this.controls["PolyControl"]?.state as TPolyControlState;
+    const state = this.controls["PolyControl"]?.state;
     return state?.intersectActivated || false;
   }
   /**

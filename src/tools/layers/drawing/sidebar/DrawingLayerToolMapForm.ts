@@ -73,10 +73,6 @@ class DrawingLayerToolMapForm
 
   /**
    * It returns the sidebar tab pane.
-   *
-   * @param {string} layerType
-   * @param {boolean} enabled
-   * @returns
    */
   public getContent(layerType: LayerType | "" = ""): HTMLDivElement {
     const { controls } = this.getState();
@@ -86,7 +82,7 @@ class DrawingLayerToolMapForm
     const elem = this.htmlContent.appendChild(document.createElement("div"));
     elem.classList.add(tabContentClassName);
 
-    if (isEmpty<LooseObject>(controls)) return this.htmlContent;
+    if (!controls || isEmpty<LooseObject>(controls)) return this.htmlContent;
 
     // get data mapping model
     const model = MAPPING_MODEL;
