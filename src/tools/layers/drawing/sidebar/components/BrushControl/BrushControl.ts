@@ -1,4 +1,4 @@
-import { createCheck, MAPPING_MODEL } from "../../../util/inputs";
+import { MAPPING_MODEL } from "../../../util/inputs";
 import { EraseTool, PaintTool } from "../../../tools";
 import { getIntervalStep } from "../../../util/baseHelpers";
 import AbstractControl from "../AbstractControl/AbstractControl";
@@ -58,11 +58,12 @@ class BrushControl extends AbstractControl implements TBrushControl {
     window.customTolerance = val;
   };
 
-  private onChange = (check: boolean): void => {
+  private onChange = (e: Event): void => {
+    const check = (e.target as HTMLInputElement).checked;
     if (check) {
       const val = window.customTolerance;
       const step = getIntervalStep(val);
-      const customTolerance = MAPPING_MODEL.customTolerance.input({
+      const customTolerance = MAPPING_MODEL.customToleranceValue.input({
         label: "Custom tolerance",
         onChangeAction: (e: Event) => this.toleranceChange(e),
         minValue: 0.0,
@@ -78,7 +79,7 @@ class BrushControl extends AbstractControl implements TBrushControl {
     }
   };
 
-  private createCustomToleranceCheck = (): HTMLDivElement => {
+  private createCustomToleranceCheck = (): HTMLElement => {
     // * tolerance changes with zoom
     window.map.on("zoomend", () => {
       const firstChild = this.customToleranceInput.firstChild;
@@ -96,13 +97,13 @@ class BrushControl extends AbstractControl implements TBrushControl {
       }
     });
 
-    const result = createCheck(
-      false,
-      this.onChange,
-      "custom-tolerance",
-      "By selecting the option you can custom level of detail for brush strokes"
-    );
-    return result;
+    const result = MAPPING_MODEL.customToleranceCheck.input({
+      ...MAPPING_MODEL.customToleranceCheck.props,
+      defaultValue: false,
+      onChangeAction: this.onChange,
+    });
+
+    return result.create();
   };
 }
 

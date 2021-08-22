@@ -1,9 +1,5 @@
 import { TMarkerControlState } from "./types";
-import {
-  createCheck,
-  createPalette,
-  MAPPING_MODEL,
-} from "../../../util/inputs";
+import { createPalette, MAPPING_MODEL } from "../../../util/inputs";
 import { iconStarter } from "../../../util/constants";
 import AbstractControl from "../AbstractControl/AbstractControl";
 import MarkerControlState from "./MarkerControlState";
@@ -82,9 +78,10 @@ class MarkerControl
   /**
    * checkbox to set if marker is connect marker
    */
-  private createChangeConnectCheck = (): HTMLDivElement => {
+  private createChangeConnectCheck = (): HTMLElement => {
     const toolState = this.tabControl.getTool().getState();
-    const onChange = (connectClick: boolean) => {
+    const onChange = (e: Event) => {
+      const connectClick = (e.target as HTMLInputElement).checked;
       const selected = this.state.changeIconOpts({ connectClick });
 
       if (selected) {
@@ -93,13 +90,13 @@ class MarkerControl
     };
     const isConnect = toolState.selectedLayerIsConnectMarker();
 
-    const result = createCheck(
-      isConnect,
-      onChange,
-      "change-connect",
-      "By selecting the option marker will be able to create topology"
-    );
-    return result;
+    const result = MAPPING_MODEL.changeConnect.input({
+      ...MAPPING_MODEL.changeConnect.props,
+      defaultValue: isConnect,
+      onChangeAction: onChange,
+    });
+
+    return result.create();
   };
 
   /**

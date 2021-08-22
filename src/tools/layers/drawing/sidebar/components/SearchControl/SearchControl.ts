@@ -1,6 +1,6 @@
 import { TSearchControl } from "./types";
 import { ControlProps } from "./../AbstractControl/types";
-import { createCheck, MAPPING_MODEL } from "../../../util/inputs";
+import { MAPPING_MODEL } from "../../../util/inputs";
 import { ADMIN_LEVELS } from "../../../util/constants";
 import AbstractControl from "../AbstractControl/AbstractControl";
 import SearchControlState from "./SearchControlState";
@@ -9,7 +9,7 @@ import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
 class SearchControl extends AbstractControl implements TSearchControl {
   public state;
   public inputSearch: IMapFormInput | null;
-  public inputConnect: HTMLDivElement | null;
+  public inputConnect: HTMLElement | null;
   public errorMsg: HTMLDivElement | null;
   public searchForAreasBtn: HTMLButtonElement | null;
 
@@ -30,34 +30,39 @@ class SearchControl extends AbstractControl implements TSearchControl {
   /**
    * checkbox to be able to create topology with place search
    */
-  private createConnectCheck = (): HTMLDivElement => {
-    const onChange = (val: boolean) => this.state.setConnectActivated(val);
+  private createConnectCheck = (): HTMLElement => {
+    const onChange = (e: Event) => {
+      const val = (e.target as HTMLInputElement).checked;
+      this.state.setConnectActivated(val);
+    };
     const { connectActivated } = this.state;
 
-    const result = createCheck(
-      connectActivated,
-      onChange,
-      "connect",
-      "By creating new marker while having this choice selected, you will create path between newly created marker and selected marker or last created marker via Topology tool"
-    );
+    const result = MAPPING_MODEL.searchConnect.input({
+      ...MAPPING_MODEL.searchConnect.props,
+      defaultValue: connectActivated,
+      onChangeAction: onChange,
+    });
 
-    return result;
+    return result.create();
   };
 
   /**
    * checkbox to set if result of area search will be HQ
    */
-  private createHighQualityCheck = (): HTMLDivElement => {
-    const onChange = (val: boolean) => this.state.setHighQuality(val);
+  private createHighQualityCheck = (): HTMLElement => {
+    const onChange = (e: Event) => {
+      const val = (e.target as HTMLInputElement).checked;
+      this.state.setHighQuality(val);
+    };
     const { highQuality } = this.state;
 
-    const result = createCheck(
-      highQuality,
-      onChange,
-      "high-quality",
-      "By selecting the option displayed polygons will be in higher quality, which however means that some operations will take longer to execute"
-    );
-    return result;
+    const result = MAPPING_MODEL.highQuality.input({
+      ...MAPPING_MODEL.highQuality.props,
+      defaultValue: highQuality,
+      onChangeAction: onChange,
+    });
+
+    return result.create();
   };
 
   /**

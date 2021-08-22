@@ -62,7 +62,7 @@
     cursor: default;
   }
 
-  .check-wrapper {
+  .geovisto-input-checkbox {
     display: flex;
     width: 100%;
     & input {
@@ -84,7 +84,7 @@
     }
   }
 
-  .sidebar-slider {
+  .geovisto-input-range {
     display: flex;
     justify-content: space-between;
     align-items: center;

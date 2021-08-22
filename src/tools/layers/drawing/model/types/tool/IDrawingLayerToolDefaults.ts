@@ -2,8 +2,28 @@
 import { ILayerToolDefaults } from "../../../../../../index.core";
 import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
 
+type InputName =
+  | "idKey"
+  | "identifier"
+  | "description"
+  | "strokeThickness"
+  | "search"
+  | "searchForArea"
+  | "adminLevel"
+  | "iconUrl"
+  | "dataFilterKey"
+  | "dataFilterValue"
+  | "brushSize"
+  | "customToleranceValue"
+  | "iconAnchor"
+  | "customToleranceCheck"
+  | "changeConnect"
+  | "intersectActivated"
+  | "searchConnect"
+  | "highQuality";
+
 export type MappingModel = {
-  [key: string]: {
+  [key in InputName]: {
     props: {
       name: string;
       label?: string;

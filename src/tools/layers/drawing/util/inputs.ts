@@ -160,7 +160,7 @@ export const MAPPING_MODEL: MappingModel = {
     },
     input: FormInput.labeledSlider,
   },
-  customTolerance: {
+  customToleranceValue: {
     props: {
       name: "custom-tolerance",
     },
@@ -171,5 +171,44 @@ export const MAPPING_MODEL: MappingModel = {
       name: "icon-anchor",
     },
     input: FormInput.labeledSlider,
+  },
+  customToleranceCheck: {
+    props: {
+      name: "custom-tolerance",
+      label:
+        "By selecting the option you can custom level of detail for brush strokes",
+    },
+    input: FormInput.labeledCheckbox,
+  },
+  changeConnect: {
+    props: {
+      name: "change-connect",
+      label: "By selecting the option marker will be able to create topology",
+    },
+    input: FormInput.labeledCheckbox,
+  },
+  intersectActivated: {
+    props: {
+      name: "intersect-activated",
+      label:
+        "By selecting the option you can create intersects with selected polygon",
+    },
+    input: FormInput.labeledCheckbox,
+  },
+  searchConnect: {
+    props: {
+      name: "search-connect",
+      label:
+        "By creating new marker while having this choice selected, you will create path between newly created marker and selected marker or last created marker via Topology tool",
+    },
+    input: FormInput.labeledCheckbox,
+  },
+  highQuality: {
+    props: {
+      name: "high-quality",
+      label:
+        "By selecting the option displayed polygons will be in higher quality, which however means that some operations will take longer to execute",
+    },
+    input: FormInput.labeledCheckbox,
   },
 };

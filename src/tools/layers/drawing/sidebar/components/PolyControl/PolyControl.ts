@@ -1,4 +1,4 @@
-import { createCheck, MAPPING_MODEL } from "../../../util/inputs";
+import { MAPPING_MODEL } from "../../../util/inputs";
 import AbstractControl from "../AbstractControl/AbstractControl";
 import { ControlProps, TAbstractControl } from "../AbstractControl/types";
 import PolyControlState from "./PolyControlState";
@@ -21,17 +21,20 @@ class PolyControl
   /**
    * checkbox to set if we can create within selected object
    */
-  public createIntersectionCheck = (): HTMLDivElement => {
-    const onChange = (val: boolean) => this.state.setIntersectActivated(val);
+  public createIntersectionCheck = (): HTMLElement => {
+    const onChange = (e: Event) => {
+      const val = (e.target as HTMLInputElement).checked;
+      this.state.setIntersectActivated(val);
+    };
     const { intersectActivated } = this.state;
 
-    const result = createCheck(
-      intersectActivated,
-      onChange,
-      "intersect",
-      "By selecting the option you can create intersects with selected polygon"
-    );
-    return result;
+    const result = MAPPING_MODEL.intersectActivated.input({
+      ...MAPPING_MODEL.intersectActivated.props,
+      defaultValue: intersectActivated,
+      onChangeAction: onChange,
+    });
+
+    return result.create();
   };
 
   /**
