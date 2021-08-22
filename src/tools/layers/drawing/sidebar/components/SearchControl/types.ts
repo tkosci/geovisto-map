@@ -21,5 +21,5 @@ export interface TSearchControlState extends TAbstractControlState {
 }
 
 export interface TSearchControl extends TAbstractControl<TSearchControlState> {
-  renderSearchInputs(elem: HTMLDivElement, model: MappingModel): void;
+  renderSearchInputs(elem: HTMLDivElement): void;
 }

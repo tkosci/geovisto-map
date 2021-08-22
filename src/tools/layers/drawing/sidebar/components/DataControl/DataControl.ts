@@ -1,6 +1,5 @@
 import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
-import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
-import { createButton } from "../../../util/inputs";
+import { createButton, MAPPING_MODEL } from "../../../util/inputs";
 import AbstractControl from "../AbstractControl/AbstractControl";
 import { ControlProps } from "../AbstractControl/types";
 import DataControlState from "./DataControlState";
@@ -23,15 +22,15 @@ class DataControl extends AbstractControl implements TDataControl {
   /**
    * creates a field for picking column name where to choose identifier from
    */
-  private createPickIdentifier = (model: MappingModel): IMapFormInput => {
+  private createPickIdentifier = (): IMapFormInput => {
     const { data } = this.state;
 
     const idOpts = data[0]
       ? Object.keys(data[0]).map((k) => ({ value: k, label: k }))
       : [];
 
-    const result = model.idKey.input({
-      ...model.idKey.props,
+    const result = MAPPING_MODEL.idKey.input({
+      ...MAPPING_MODEL.idKey.props,
       onChangeAction: this.state.changeWhichIdUseAction,
       options: [{ value: "", label: "" }, ...idOpts],
     });
@@ -42,7 +41,7 @@ class DataControl extends AbstractControl implements TDataControl {
   /**
    * creates a field for identier input
    */
-  private createIdentifierInput = (model: MappingModel): IMapFormInput => {
+  private createIdentifierInput = (): IMapFormInput => {
     const { data } = this.state;
 
     const idKey = this.state.getIdentifierType();
@@ -50,8 +49,8 @@ class DataControl extends AbstractControl implements TDataControl {
     let idOpts = data && data[0][idKey] ? data.map((d) => d[idKey]) : [];
     idOpts = Array.from(new Set(idOpts));
 
-    const result = model.identifier.input({
-      ...model.identifier.props,
+    const result = MAPPING_MODEL.identifier.input({
+      ...MAPPING_MODEL.identifier.props,
       onChangeAction: (e: Event) =>
         this.state.changeIdentifierAction((e.target as HTMLInputElement).value),
       options: idOpts,
@@ -61,24 +60,21 @@ class DataControl extends AbstractControl implements TDataControl {
     return result;
   };
 
-  public renderDataInputs = (
-    elem: HTMLDivElement,
-    model: MappingModel
-  ): void => {
+  public renderDataInputs = (elem: HTMLDivElement): void => {
     const disableTextFields = !this.state._getSelected();
     // Select Pick Identifier
-    const inputPickIdentifier = this.createPickIdentifier(model);
+    const inputPickIdentifier = this.createPickIdentifier();
     elem.appendChild(inputPickIdentifier.create() as Node);
     inputPickIdentifier.setDisabled(disableTextFields);
     inputPickIdentifier.setValue(this.state.getIdentifierType());
     // textfield Identifier
-    const inputId = this.createIdentifierInput(model);
+    const inputId = this.createIdentifierInput();
     elem.appendChild(inputId.create() as Node);
     inputId.setDisabled(disableTextFields);
     inputId.setValue(this.state._getSelected()?.identifier || "");
     // textarea Description
-    const inputDesc = model.description.input({
-      ...model.description.props,
+    const inputDesc = MAPPING_MODEL.description.input({
+      ...MAPPING_MODEL.description.props,
       onChangeAction: this.state.changeDescriptionAction,
     });
     elem.appendChild(inputDesc.create() as Node);
@@ -126,10 +122,7 @@ class DataControl extends AbstractControl implements TDataControl {
   /**
    * creates the filter fields
    */
-  public renderDataFilters = (
-    elem: HTMLDivElement,
-    model: MappingModel
-  ): void => {
+  public renderDataFilters = (elem: HTMLDivElement): void => {
     const { data } = this.state;
 
     const idOpts = data[0]
@@ -139,8 +132,8 @@ class DataControl extends AbstractControl implements TDataControl {
     for (let index = 0; index < this.state.filtersAmount; index++) {
       const filtersKey = this.state.getFiltersKey(index);
       // * input for key
-      const inputKey = model.dataFilterKey.input({
-        ...model.dataFilterKey.props,
+      const inputKey = MAPPING_MODEL.dataFilterKey.input({
+        ...MAPPING_MODEL.dataFilterKey.props,
         onChangeAction: (e: InputEvent) => this.setDataKey(e, index),
         options: [{ value: "", label: "" }, ...idOpts],
       });
@@ -150,8 +143,8 @@ class DataControl extends AbstractControl implements TDataControl {
         data && data[0][filtersKey] ? data.map((d) => d[filtersKey]) : [];
       valueOpts = Array.from(new Set(valueOpts));
       // * input for value
-      const inputValue = model.dataFilterValue.input({
-        ...model.dataFilterValue.props,
+      const inputValue = MAPPING_MODEL.dataFilterValue.input({
+        ...MAPPING_MODEL.dataFilterValue.props,
         onChangeAction: (e: InputEvent) => this.setDataValue(e, index),
         options: ["", ...valueOpts],
       });

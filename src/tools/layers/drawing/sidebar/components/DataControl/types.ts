@@ -31,7 +31,7 @@ export interface TDataControlState extends TAbstractControlState {
 }
 
 export interface TDataControl extends TAbstractControl<TDataControlState> {
-  renderDataInputs(elem: HTMLDivElement, model: MappingModel): void;
-  renderDataFilters(elem: HTMLDivElement, model: MappingModel): void;
+  renderDataInputs(elem: HTMLDivElement): void;
+  renderDataFilters(elem: HTMLDivElement): void;
   renderFilterInputs(elem: HTMLDivElement): void;
 }

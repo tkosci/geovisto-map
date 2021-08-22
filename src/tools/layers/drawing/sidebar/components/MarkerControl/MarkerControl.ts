@@ -3,12 +3,12 @@ import {
   createCheck,
   createIntervalInput,
   createPalette,
+  MAPPING_MODEL,
 } from "../../../util/inputs";
 import { iconStarter } from "../../../util/constants";
 import AbstractControl from "../AbstractControl/AbstractControl";
 import MarkerControlState from "./MarkerControlState";
 import { ControlProps, TAbstractControl } from "../AbstractControl/types";
-import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
 
 class MarkerControl
   extends AbstractControl
@@ -107,16 +107,13 @@ class MarkerControl
   /**
    * creates the fields associated with marker
    */
-  public renderIconInputs = (
-    elem: HTMLDivElement,
-    model: MappingModel
-  ): void => {
+  public renderIconInputs = (elem: HTMLDivElement): void => {
     // palette Icons
     const inputIcon = this.createIconPalette();
     elem.appendChild(inputIcon);
 
-    const inputUrl = model.iconUrl.input({
-      ...model.iconUrl.props,
+    const inputUrl = MAPPING_MODEL.iconUrl.input({
+      ...MAPPING_MODEL.iconUrl.props,
       action: this.state.addIconAction,
     });
 

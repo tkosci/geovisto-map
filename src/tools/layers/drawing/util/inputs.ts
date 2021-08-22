@@ -2,6 +2,9 @@
  * @author Andrej Tlcina
  */
 
+import MapFormInputFactory from "../../../../model/internal/inputs/MapFormInputFactory";
+import { MappingModel } from "../model/types/tool/IDrawingLayerToolDefaults";
+
 /**
  * creates a slider with displayed value on side
  */
@@ -121,4 +124,73 @@ export const createButton = (
     btn.removeAttribute("disabled");
   }
   return btn;
+};
+
+const FormInput = new MapFormInputFactory();
+
+/**
+ * Data mapping model which can be used in the sidebar form.
+ */
+export const MAPPING_MODEL: MappingModel = {
+  idKey: {
+    props: {
+      name: "idKey",
+      label: "ID key",
+    },
+    input: FormInput.labeledSelect,
+  },
+  identifier: {
+    props: { name: "identifier", label: "Identifier" },
+    input: FormInput.labeledAutocomplete,
+  },
+  description: {
+    props: { name: "description", label: "Description" },
+    input: FormInput.textarea,
+  },
+  strokeThickness: {
+    props: {
+      name: "stroke-thickness",
+      label: "Stroke thickness",
+    },
+    input: FormInput.labeledSelect,
+  },
+  search: {
+    props: { name: "search", label: "Search" },
+    input: FormInput.labeledAutocomplete,
+  },
+  searchForArea: {
+    props: {
+      name: "search-for-area",
+      label: "Search",
+    },
+    input: FormInput.labeledSelect,
+  },
+  adminLevel: {
+    props: {
+      name: "admin-level",
+      label: "Pick level of administration",
+    },
+    input: FormInput.labeledSelect,
+  },
+  iconUrl: {
+    props: {
+      name: "iconUrl",
+      label: "Icon URL",
+    },
+    input: FormInput.labeledText,
+  },
+  dataFilterKey: {
+    props: {
+      name: "data-filter-key",
+      label: "Pick column",
+    },
+    input: FormInput.labeledSelect,
+  },
+  dataFilterValue: {
+    props: {
+      name: "data-filter-value",
+      label: "Pick value",
+    },
+    input: FormInput.labeledSelect,
+  },
 };

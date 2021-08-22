@@ -16,5 +16,5 @@ export interface TMarkerControlState extends TAbstractControlState {
 }
 
 export interface TMarkerControl extends TAbstractControl<TMarkerControlState> {
-  renderIconInputs(elem: HTMLDivElement, model: MappingModel): void;
+  renderIconInputs(elem: HTMLDivElement): void;
 }

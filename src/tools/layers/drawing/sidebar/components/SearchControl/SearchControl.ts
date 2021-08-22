@@ -1,10 +1,9 @@
-import { TSearchControl, TSearchControlState } from "./types";
-import { ControlProps, TAbstractControl } from "./../AbstractControl/types";
-import { createCheck } from "../../../util/inputs";
+import { TSearchControl } from "./types";
+import { ControlProps } from "./../AbstractControl/types";
+import { createCheck, MAPPING_MODEL } from "../../../util/inputs";
 import { ADMIN_LEVELS } from "../../../util/constants";
 import AbstractControl from "../AbstractControl/AbstractControl";
 import SearchControlState from "./SearchControlState";
-import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
 import IMapFormInput from "../../../../../../model/types/inputs/IMapFormInput";
 
 class SearchControl extends AbstractControl implements TSearchControl {
@@ -76,14 +75,11 @@ class SearchControl extends AbstractControl implements TSearchControl {
    * @param {Object} elem HTML element wrapper
    * @param {Object} model
    */
-  public renderSearchInputs = (
-    elem: HTMLDivElement,
-    model: MappingModel
-  ): void => {
+  public renderSearchInputs = (elem: HTMLDivElement): void => {
     this.addHeading("Search for place", elem);
     // * labeled text Search
-    this.inputSearch = model.search.input({
-      ...model.search.props,
+    this.inputSearch = MAPPING_MODEL.search.input({
+      ...MAPPING_MODEL.search.props,
       onChangeAction: this.state.searchAction,
       placeholder: "Press enter for search",
       setData: this.state.onInputOptClick,
@@ -98,8 +94,8 @@ class SearchControl extends AbstractControl implements TSearchControl {
 
     this.addHeading("Search for area", elem);
     // * labeled text Search
-    const inputSearchForArea = model.searchForArea.input({
-      ...model.searchForArea.props,
+    const inputSearchForArea = MAPPING_MODEL.searchForArea.input({
+      ...MAPPING_MODEL.searchForArea.props,
       options: this.state.getSelectCountries(),
       onChangeAction: this.state.searchForAreaAction,
     });
@@ -107,8 +103,8 @@ class SearchControl extends AbstractControl implements TSearchControl {
     inputSearchForArea.setValue(this.state.countryCode || "");
     elem.appendChild(document.createElement("br"));
 
-    const inputAdminLevel = model.adminLevel.input({
-      ...model.adminLevel.props,
+    const inputAdminLevel = MAPPING_MODEL.adminLevel.input({
+      ...MAPPING_MODEL.adminLevel.props,
       options: ADMIN_LEVELS,
       onChangeAction: this.state.pickAdminLevelAction,
     });

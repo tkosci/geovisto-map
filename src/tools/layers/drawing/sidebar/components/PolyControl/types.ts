@@ -18,5 +18,5 @@ export interface TPolyControlState extends TAbstractControlState {
 
 export interface TPolyControl extends TAbstractControl<TPolyControlState> {
   createIntersectionCheck(): HTMLDivElement;
-  renderPolyInputs(elem: HTMLDivElement, model: MappingModel): void;
+  renderPolyInputs(elem: HTMLDivElement): void;
 }

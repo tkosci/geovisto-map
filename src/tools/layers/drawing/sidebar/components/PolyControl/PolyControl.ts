@@ -1,5 +1,4 @@
-import { MappingModel } from "../../../model/types/tool/IDrawingLayerToolDefaults";
-import { createCheck } from "../../../util/inputs";
+import { createCheck, MAPPING_MODEL } from "../../../util/inputs";
 import AbstractControl from "../AbstractControl/AbstractControl";
 import { ControlProps, TAbstractControl } from "../AbstractControl/types";
 import PolyControlState from "./PolyControlState";
@@ -41,14 +40,11 @@ class PolyControl
    * @param {Object} elem
    * @param {Object} model
    */
-  public renderPolyInputs = (
-    elem: HTMLDivElement,
-    model: MappingModel
-  ): void => {
+  public renderPolyInputs = (elem: HTMLDivElement): void => {
     // select stroke thickness
     const thicknessOpts = this.state.strokes;
-    const inputThickness = model.strokeThickness.input({
-      ...model.strokeThickness.props,
+    const inputThickness = MAPPING_MODEL.strokeThickness.input({
+      ...MAPPING_MODEL.strokeThickness.props,
       options: thicknessOpts,
       action: this.state.changeWeightAction,
     });

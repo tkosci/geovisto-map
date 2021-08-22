@@ -9,9 +9,16 @@ import "../../components/useKnife";
 import { getFirstGeoJSONFeature, isFeaturePoly } from "../../util/polyHelpers";
 import { normalStyles } from "../../util/constants";
 import { ToolProps } from "../AbstractTool/types";
-import { CreatedEvent, DrawnObject, LayerType } from "../../model/types";
+import {
+  CreatedEvent,
+  DrawnObject,
+  LayerType,
+  TurfPolygon,
+} from "../../model/types";
 import {
   Geometry,
+  getCoord,
+  getCoords,
   LineString,
   MultiLineString,
   MultiPolygon,
@@ -67,40 +74,38 @@ class GeometricSliceTool extends AbstractTool implements TGeometricSliceTool {
    *        - slices selected object with currently created one
    */
   public polySlice(layer: DrawnObject): void {
-    // * I can retype this b/c this function runs only if created is of result type
-    const lineFeat = getFirstGeoJSONFeature(layer) as LineObject;
-
+    // * layer will always be 'polyline'
+    const lineFeat = getFirstGeoJSONFeature(layer);
     const selectedLayer = this.drawingTool.getState().selectedLayer;
 
-    if (selectedLayer) {
+    if (lineFeat && selectedLayer) {
       const THICK_LINE_WIDTH = 0.00001;
       const THICK_LINE_UNITS = "kilometers";
       let offsetLine;
-      const selectedFeature = getFirstGeoJSONFeature(
-        selectedLayer
-      ) as PolyObject;
+      const selectedFeature = getFirstGeoJSONFeature(selectedLayer);
 
       const isFeatPoly = isFeaturePoly(selectedFeature);
 
-      if (isFeatPoly && lineFeat && selectedFeature) {
+      if (isFeatPoly) {
         let coords;
         let latlngs;
         try {
-          offsetLine = turf.lineOffset(lineFeat, THICK_LINE_WIDTH, {
-            units: THICK_LINE_UNITS,
-          });
+          offsetLine = turf.lineOffset(
+            (lineFeat as unknown) as LineString,
+            THICK_LINE_WIDTH,
+            {
+              units: THICK_LINE_UNITS,
+            }
+          );
 
-          // * Position is simply type 'number[] '
-          const polyCoords: number[] = [];
+          const polyCoords = [];
           // * push all of the coordinates of original line
           for (
             let j = 0;
             j < (lineFeat.geometry as Geometry).coordinates.length;
             j++
           ) {
-            polyCoords.push(
-              (lineFeat.geometry as Geometry).coordinates[j] as number
-            );
+            polyCoords.push((lineFeat.geometry as Geometry).coordinates[j]);
           }
           // * push all of the coordinates of offset line
           for (
@@ -108,21 +113,20 @@ class GeometricSliceTool extends AbstractTool implements TGeometricSliceTool {
             j >= 0;
             j--
           ) {
-            polyCoords.push(
-              (offsetLine.geometry.coordinates[j] as unknown) as number
-            );
+            polyCoords.push(offsetLine.geometry.coordinates[j]);
           }
           // * to create linear ring
-          polyCoords.push(
-            (lineFeat.geometry as Geometry).coordinates[0] as number
-          );
+          polyCoords.push((lineFeat.geometry as Geometry).coordinates[0]);
 
-          // TODO: TEST
-          const thickLineString = turf.lineString([polyCoords]);
+          const thickLineString = turf.lineString(polyCoords as any);
           const thickLinePolygon = turf.lineToPolygon(thickLineString);
-          const clipped = turf.difference(selectedFeature, thickLinePolygon);
+          const clipped = turf.difference(
+            selectedFeature as TurfPolygon,
+            thickLinePolygon
+          );
           // clipped = simplifyFeature(clipped);
           if (!clipped) return;
+
           coords = clipped.geometry.coordinates;
           this.drawingTool.getState().removeSelectedLayer();
           coords.forEach((coord) => {

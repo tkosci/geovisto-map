@@ -10,7 +10,6 @@ import IDrawingLayerTool, {
   TabState,
 } from "../model/types/tool/IDrawingLayerTool";
 import { LayerType, LooseObject } from "../model/types";
-import { MAPPING_MODEL } from "../DrawingLayerToolDefaults";
 import IDrawingLayerToolDimensions from "../model/types/tool/IDrawingLayerToolDimensions";
 import { FIRST } from "../util/constants";
 
@@ -84,9 +83,6 @@ class DrawingLayerToolMapForm
 
     if (!controls || isEmpty<LooseObject>(controls)) return this.htmlContent;
 
-    // get data mapping model
-    const model = MAPPING_MODEL;
-
     const brushControl = controls["BrushControl"].createBrushSizeControl();
     if (brushControl) elem.appendChild(brushControl);
 
@@ -96,13 +92,13 @@ class DrawingLayerToolMapForm
     }
 
     if (layerType === SearchTool.result) {
-      controls["SearchControl"].renderSearchInputs(elem, model);
+      controls["SearchControl"].renderSearchInputs(elem);
       controls["DataControl"].state.clearFilters();
       return this.htmlContent;
     }
 
-    controls["DataControl"].renderDataInputs(elem, model);
-    controls["DataControl"].renderDataFilters(elem, model);
+    controls["DataControl"].renderDataInputs(elem);
+    controls["DataControl"].renderDataFilters(elem);
     controls["DataControl"].renderFilterInputs(elem);
 
     if (layerType === PaintTool.result || layerType === PolygonTool.result) {
@@ -111,11 +107,11 @@ class DrawingLayerToolMapForm
     }
 
     if (POLYS.includes(layerType)) {
-      controls["PolyControl"].renderPolyInputs(elem, model);
+      controls["PolyControl"].renderPolyInputs(elem);
     }
 
     if (layerType === MarkerTool.result) {
-      controls["MarkerControl"].renderIconInputs(elem, model);
+      controls["MarkerControl"].renderIconInputs(elem);
     }
 
     return this.htmlContent;
