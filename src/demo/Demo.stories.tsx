@@ -23,6 +23,7 @@ import {
 } from "../tools";
 import { Geovisto } from "..";
 import { ExportGeoJSON } from "../tools/layers/drawing/model/types/tool/IDrawingLayerToolState";
+import IDrawingLayerTool from "../tools/layers/drawing/model/types/tool/IDrawingLayerTool";
 
 /* example of screen component with grid layout and card wrapper usage */
 
@@ -51,6 +52,7 @@ class Demo extends Component<
   private polygons2: unknown;
   private centroids2: unknown;
   private map: React.RefObject<ReactGeovistoMap>;
+  private drawingTool: IDrawingLayerTool;
 
   public constructor(props: Record<string, never>) {
     super(props);
@@ -73,6 +75,10 @@ class Demo extends Component<
 
     // reference to the rendered map
     this.map = React.createRef();
+
+    this.drawingTool = GeovistoDrawingLayerTool.createTool({
+      id: "geovisto-tool-layer-drawing",
+    });
   }
 
   public componentDidMount(): void {
@@ -280,7 +286,7 @@ class Demo extends Component<
 
   public exportGeoJSON = () => {
     const config = JSON.stringify(
-      this.map.current.getMap().exportGeoJSON(),
+      this.drawingTool.getState().serializeToGeoJSON(),
       null,
       2
     );
@@ -447,9 +453,7 @@ class Demo extends Component<
               GeovistoConnectionLayerTool.createTool({
                 id: "geovisto-tool-layer-connection",
               }),
-              GeovistoDrawingLayerTool.createTool({
-                id: "geovisto-tool-layer-drawing",
-              }),
+              this.drawingTool,
             ])}
           />
         </div>

@@ -43,7 +43,11 @@ class SearchControl extends AbstractControl implements TSearchControl {
       onChangeAction: onChange,
     });
 
-    return result.create();
+    const checkWrapper = document.createElement("div");
+    checkWrapper.classList.add("connect-check");
+    checkWrapper.appendChild(result.create());
+
+    return checkWrapper;
   };
 
   /**

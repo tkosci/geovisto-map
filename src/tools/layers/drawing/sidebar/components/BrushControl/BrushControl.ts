@@ -6,16 +6,19 @@ import { ControlProps } from "../AbstractControl/types";
 import { TBrushControl } from "./types";
 import { TPaintTool } from "../../../tools/PaintTool/types";
 import { TEraseTool } from "../../../tools/EraseTool/types";
+import { Map } from "leaflet";
 
 class BrushControl extends AbstractControl implements TBrushControl {
   private tabControl;
   private customToleranceInput: HTMLDivElement;
+  private map: Map | undefined;
 
   public constructor(props: ControlProps) {
     super(props);
 
     this.tabControl = props.tabControl;
     this.customToleranceInput = document.createElement("div");
+    this.map = props.tabControl.getTool().getMap()?.getState()?.getLeafletMap();
   }
 
   /**
@@ -75,13 +78,13 @@ class BrushControl extends AbstractControl implements TBrushControl {
     } else {
       const firstChild = this.customToleranceInput.firstChild;
       if (firstChild) this.customToleranceInput.removeChild(firstChild);
-      this.tabControl.getTool().setGlobalSimplificationTolerance();
+      this.tabControl.getTool().setGlobalSimplificationTolerance(this.map);
     }
   };
 
   private createCustomToleranceCheck = (): HTMLElement => {
     // * tolerance changes with zoom
-    window.map.on("zoomend", () => {
+    this.map?.on("zoomend", () => {
       const firstChild = this.customToleranceInput.firstChild;
       if (firstChild) {
         const interval = firstChild?.firstChild?.lastChild as HTMLInputElement;

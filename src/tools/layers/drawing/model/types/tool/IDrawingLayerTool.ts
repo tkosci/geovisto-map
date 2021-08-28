@@ -81,6 +81,6 @@ interface IDrawingLayerTool<
   normalizeElement(el: DrawnObject): void;
   redrawMapForm(layerType: LayerType | ""): void;
   getMapForm(): DrawingForm;
-  setGlobalSimplificationTolerance(): void;
+  setGlobalSimplificationTolerance(map: L.Map | undefined): void;
 }
 export default IDrawingLayerTool;

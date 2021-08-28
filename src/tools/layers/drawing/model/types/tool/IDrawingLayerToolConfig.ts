@@ -7,7 +7,7 @@ import {
 /**
  * This type provides specification of the Drawing layer tool config model.
  *
- * @author Jiri Hynek
+ * @author Andrej Tlcina
  */
 type IDrawingLayerToolConfig = ILayerToolConfig & {
   data?: IDrawingLayerToolDimensionsConfig;
@@ -16,7 +16,7 @@ type IDrawingLayerToolConfig = ILayerToolConfig & {
 /**
  * This type provides specification of the Drawing layer tool dimensions config model.
  *
- * @author Jiri Hynek
+ * @author Andrej Tlcina
  */
 type IDrawingLayerToolDimensionsConfig = ILayerToolDimensionsConfig;
 

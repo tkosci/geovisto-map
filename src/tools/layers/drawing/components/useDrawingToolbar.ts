@@ -6,53 +6,20 @@ import "leaflet-draw/dist/leaflet.draw.css";
 
 import "../style/drawingLayer.scss";
 import { EditTool, TransformTool } from "../tools";
-import IDrawingLayerTool from "../model/types/tool/IDrawingLayerTool";
-import { DrawnObject, Optional, Tool } from "../model/types";
-
-type DrawingBtns = { [key: string]: HTMLAnchorElement };
-
-type Options = L.ControlOptions & {
-  map?: L.Map;
-  tool: Optional<IDrawingLayerTool>;
-  drawingBtns?: DrawingBtns;
-};
-
-// don't know how to define class DrawingToolbar that extends Control without needing to define method addTo and others...
-declare module "leaflet" {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Control {
-    class DrawingToolbar {
-      public options: Options;
-      public constructor(options?: Options);
-      public initialize(options: Options): void;
-      public createUi(): HTMLDivElement;
-      public _disableDrawing(e: Event, tool: Tool): void;
-      public getSelectedLayer(): Optional<DrawnObject> | undefined;
-      public createToolbarBtn(
-        className: string,
-        btnContainer: HTMLDivElement,
-        title: string,
-        icon: string,
-        extra: boolean
-      ): HTMLAnchorElement;
-    }
-  }
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace control {
-    function drawingToolbar(options?: Options): Control.DrawingToolbar;
-  }
-}
+import { Tool } from "../model/types";
+import { DrawingBtns, Options } from "../model/types/sidebar/DrawingToolbar";
 
 /**
  * @author Andrej Tlcina
  */
 export default function useDrawingToolbar(): void {
-  L.Control.DrawingToolbar = L.Control.extend({
+  const DrawingToolbar = L.Control.extend({
     options: {
       position: "topleft",
       drawingBtns: {},
       map: undefined,
       tool: null,
+      selectedTool: null,
     } as Options,
     /**
      * runs whenever you create instance
@@ -84,23 +51,19 @@ export default function useDrawingToolbar(): void {
       toolContainer.style.cursor = "pointer";
       const cancelables: HTMLAnchorElement[] = [];
 
-      const toggleExtra = (e: L.LeafletEvent, tool: Tool) => {
+      const toggleHideBtnVisibility = (e: Event) => {
         cancelables.forEach((btn) =>
           btn?.lastElementChild?.classList?.add("hide")
         );
-        let extraBtn = e?.target?.lastChild;
-        if (!extraBtn) extraBtn = e?.target?.nextSibling;
+        let hideBtn = (e?.target as HTMLElement)?.lastChild as HTMLElement;
+        // * if there is no last child we must've clicked the 'outside' the icon
+        if (!hideBtn)
+          hideBtn = (e?.target as HTMLElement)?.nextSibling as HTMLElement;
         // * careful not to hide the icon
-        if (extraBtn?.tagName === "I") return;
-        if (extraBtn) {
-          console.log({ extraBtn });
-          extraBtn.classList.toggle("hide");
-          L.DomEvent.on(
-            extraBtn,
-            "click",
-            (e) => this._disableDrawing(e, tool),
-            this
-          );
+        if (hideBtn?.tagName === "I") return;
+        if (hideBtn) {
+          // console.log({ hideBtn });
+          hideBtn.classList.toggle("hide");
         }
       };
 
@@ -115,9 +78,13 @@ export default function useDrawingToolbar(): void {
         if (tool.getName() !== "edit-drawing-tool") {
           if (selectedEl) EditTool.disableNodeEdit(selectedEl);
         }
+        // * disable previous tool
+        this.options.selectedTool?.deactivate();
+        toggleHideBtnVisibility(e);
 
-        toggleExtra((e as unknown) as L.LeafletEvent, tool);
+        // * enable currently selected tool
         tool.activate();
+        this.options.selectedTool = tool;
       };
 
       Object.keys(drawingTools).forEach((key) => {
@@ -144,17 +111,6 @@ export default function useDrawingToolbar(): void {
     },
 
     /**
-     * disables enabled tool (markers, polylines, polygons, brush tool, eraser)
-     *
-     * @param {Object} e
-     */
-    _disableDrawing: function (e: Event, tool: Tool) {
-      e.stopPropagation();
-      (e.target as HTMLElement).classList.add("hide");
-      tool.deactivate();
-    },
-
-    /**
      * creates toolbar button
      */
     createToolbarBtn: function (
@@ -171,11 +127,9 @@ export default function useDrawingToolbar(): void {
       );
       returnBtn.title = title;
       returnBtn.innerHTML = `<i class="${icon}" aria-hidden="true"></i>`;
-      // returnBtn.role = 'button';
       if (extra) {
         const extraBtn = L.DomUtil.create("a", "extra-btn hide", returnBtn);
         extraBtn.innerHTML = `Cancel`;
-        // extraBtn.role = 'button';
       }
       return returnBtn;
     },
@@ -193,6 +147,6 @@ export default function useDrawingToolbar(): void {
     if (!options) {
       options = {} as Options;
     }
-    return new L.Control.DrawingToolbar(options);
+    return new DrawingToolbar(options);
   };
 }

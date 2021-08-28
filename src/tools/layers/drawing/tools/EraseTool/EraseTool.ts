@@ -66,11 +66,12 @@ class EraseTool extends PaintTool implements TEraseTool {
     this.stop();
     this._action = "erase";
     this._addMouseListener();
-    this._circle = L.circleMarker(this._latlng, {
-      color: ERASER_COLOR,
-    })
-      .setRadius(this._circleRadius)
-      .addTo(window.map);
+    if (this.leafletMap)
+      this._circle = L.circleMarker(this._latlng, {
+        color: ERASER_COLOR,
+      })
+        .setRadius(this._circleRadius)
+        .addTo(this.leafletMap);
   };
 
   /**

@@ -4,6 +4,7 @@ import DrawingLayerToolState, { EMPTY_GEOJSON } from "./DrawingLayerToolState";
 import DrawingLayerToolDefaults from "./DrawingLayerToolDefaults";
 import DrawingLayerToolMapForm from "./sidebar/DrawingLayerToolMapForm";
 import useDrawingToolbar from "./components/useDrawingToolbar";
+import { TDrawingToolbar } from "./model/types/sidebar/DrawingToolbar";
 
 import "leaflet/dist/leaflet.css";
 import "./style/drawingLayer.scss";
@@ -59,7 +60,6 @@ L.Draw.Feature.addInitHook((L.Draw.Feature as any).SnapMixin._snap_initialize);
 declare global {
   interface Window {
     customTolerance: number;
-    map: Map;
     d3: any; //* we do not care about this type, b/c we're not even using it, it's just used in pather package
   }
 }
@@ -74,6 +74,7 @@ class DrawingLayerTool
   implements IDrawingLayerTool, IMapFormControl {
   public drawingTools: LooseObject;
   private mapForm!: DrawingForm;
+  private controlDrawingToolbar!: TDrawingToolbar;
 
   /**
    * It creates a new tool with respect to the props.
@@ -158,6 +159,30 @@ class DrawingLayerTool
     return new DrawingLayerToolMapForm({ tool: this });
   }
 
+  /**
+   * It changes layer state to enabled/disabled.
+   *
+   * @param enabled
+   */
+  public setEnabled(enabled: boolean): void {
+    if (enabled != this.isEnabled()) {
+      // update state
+      this.getState().setEnabled(enabled);
+
+      const map = this.getMap()?.getState()?.getLeafletMap();
+      // show ot hide the layer
+      if (enabled) {
+        map?.addControl(this.controlDrawingToolbar);
+
+        this.showLayerItems();
+      } else {
+        map?.removeControl(this.controlDrawingToolbar);
+
+        this.hideLayerItems();
+      }
+    }
+  }
+
   public initializeDrawingTools(): void {
     const tools: LooseObject = {};
 
@@ -198,13 +223,16 @@ class DrawingLayerTool
     this.getMapForm().getState().initializeControls();
     this.initializeDrawingTools();
     useDrawingToolbar();
-    this.setGlobalSimplificationTolerance();
-    const toolbar = L.control.drawingToolbar({ tool: this });
-    map?.addControl(toolbar as any);
+    this.setGlobalSimplificationTolerance(map);
+    this.controlDrawingToolbar = L.control.drawingToolbar({
+      tool: this,
+      selectedTool: null,
+    });
+    map?.addControl(this.controlDrawingToolbar);
 
     // * eventlistener for when object is created
     map?.on("draw:created" as any, this.createdListener as any);
-    map?.on("zoomend", () => this.setGlobalSimplificationTolerance());
+    map?.on("zoomend", () => this.setGlobalSimplificationTolerance(map));
     map?.on("click", () => {
       const sidebar = this.getMapForm();
       if (sidebar.getState()?.enabledTool?.isToolActive()) return;
@@ -305,8 +333,7 @@ class DrawingLayerTool
   /**
    * @brief sets global tolerance for brush stroke
    */
-  public setGlobalSimplificationTolerance(): void {
-    const map = window.map;
+  public setGlobalSimplificationTolerance(map: Map | undefined): void {
     if (!map) return;
     const metersPerPixel =
       (40075016.686 *
