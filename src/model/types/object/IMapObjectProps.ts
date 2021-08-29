@@ -15,9 +15,7 @@ type IMapObjectProps = {
  *
  * @author Jiri Hynek
  */
-type IMapObjectInitProps<
-  TConfig extends IMapObjectConfig = IMapObjectConfig
-> = {
+type IMapObjectInitProps<TConfig extends IMapObjectConfig = IMapObjectConfig> = {
     config?: TConfig;
     geojson?: ExportGeoJSON;
 };
