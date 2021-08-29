@@ -1,3 +1,4 @@
+import { EMPTY_GEOJSON } from './../../../tools/layers/drawing/DrawingLayerToolState';
 import * as L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -101,7 +102,7 @@ class GeovistoMap extends MapObject implements IMap {
             }
 
             // initialize map and tools
-            this.initialize({ config: configManager.getMapConfig(), configManager: configManager});
+            this.initialize({ config: configManager.getMapConfig(), configManager: configManager, geojson: props?.geojson || EMPTY_GEOJSON });
 
             // render map and tools
             mapContainer = this.create();
@@ -125,7 +126,7 @@ class GeovistoMap extends MapObject implements IMap {
             const tools: IMapTool[] = toolsManager.getAll();
             for(let i = 0; i < tools.length; i++) {
                 // initialize tool (provide map and config)
-                tools[i].initialize({ config: initProps.configManager.getToolConfig(tools[i].getId()), map: this });
+                tools[i].initialize({ config: initProps.configManager.getToolConfig(tools[i].getId()), map: this, geojson: initProps.geojson });
                 // register API if available
                 this.registerToolAPI(tools[i]);
             }
