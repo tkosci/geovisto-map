@@ -2,6 +2,7 @@
 import {
     RefObject
 } from "react";
+import { ExportGeoJSON } from './../tools/layers/drawing/model/types/tool/IDrawingLayerToolState';
 
 // Geovisto
 import IMapConfigManager from "../model/types/config/IMapConfigManager";
@@ -16,6 +17,7 @@ import ReactGeovistoMap from "./ReactGeovistoMap";
  */
 type IReactGeovistoMapProps = IMapProps & {
     ref: RefObject<ReactGeovistoMap>,
-    config?: IMapConfigManager
+    config?: IMapConfigManager,
+    geojson?: ExportGeoJSON
 }
 export default IReactGeovistoMapProps;
