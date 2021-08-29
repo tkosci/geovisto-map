@@ -3,6 +3,7 @@ export * from './layers/choropleth';
 export * from './layers/connection';
 export * from './layers/tiles';
 export * from './layers/marker';
+export * from './layers/drawing';
 export * from './sidebar';
 export * from './selection';
 export * from './themes';
