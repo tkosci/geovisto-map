@@ -10,6 +10,14 @@ import FilterSelectFormInput from "./filter/select/FilterSelectFormInput";
 import LabeledAutocompleteFormInput from "./labeled/autocomplete/LabeledAutocompleteFormInput";
 import SelectFormInput from "./basic/select/SelectFormInput";
 import TextFormInput from "./basic/text/TextFormInput";
+import LabeledSliderFormInput from "./labeled/slider/LabeledSliderFormInput";
+import ILabeledSliderFormInputProps from "../../types/inputs/labeled/slider/ILabeledSliderFormInputProps";
+import ILabeledColorFormInputProps from "../../types/inputs/labeled/color/ILabeledColorFormInputProps";
+import LabeledColorFormInput from "./labeled/color/LabeledColorFormInput";
+import ILabeledCheckboxFormInputProps from "../../types/inputs/labeled/checkbox/ILabeledCheckboxFormInputProps";
+import LabeledCheckboxFormInput from "./labeled/checkbox/LabeledCheckboxFormInput";
+import ITextareaFormInputProps from "../../types/inputs/basic/textarea/ITextareaFormInputProps";
+import TextAreaFormInput from "./basic/textarea/TextareaFormInput";
 
 /**
  * This class provides a factory for form inputs.
@@ -65,6 +73,34 @@ class MapFormInputFactory {
      */
     public filterAutocomplete(props: IFilterFormInputProps): IMapFormInput {
         return new FilterAutocompleteFormInput(props);
+    }
+
+    /**
+     * It creates the labeled slider form input.
+     */
+    public labeledSlider(props: ILabeledSliderFormInputProps): IMapFormInput {
+        return new LabeledSliderFormInput(props);
+    }
+
+    /**
+     * It creates the labeled color form input.
+     */
+    public labeledColor(props: ILabeledColorFormInputProps): IMapFormInput {
+        return new LabeledColorFormInput(props);
+    }
+
+    /**
+     * It creates the labeled checkbox form input.
+     */
+    public labeledCheckbox(props: ILabeledCheckboxFormInputProps): IMapFormInput {
+       return new LabeledCheckboxFormInput(props);
+    }
+
+    /**
+     * It creates the textarea form input.
+     */
+    public textarea(props: ITextareaFormInputProps): IMapFormInput {
+        return new TextAreaFormInput(props);
     }
 }
 export default MapFormInputFactory;
