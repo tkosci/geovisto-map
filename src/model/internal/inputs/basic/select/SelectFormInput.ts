@@ -1,3 +1,4 @@
+import { SelectOpt } from "../../../../../tools/layers/drawing/util/constants";
 import ISelectFormInputProps from "../../../../types/inputs/basic/select/ISelectFormInputProps";
 import AbstractMapFormInput from "../../abstract/AbstractMapFormInput";
 
@@ -37,11 +38,21 @@ class SelectFormInput extends AbstractMapFormInput {
             this.element.onchange = props.onChangeAction;
             // append options
             let option: HTMLOptionElement;
-            const options: string[] = props.options;
-            for(let i = 0; i < options.length; i++) {
-                option = this.element.appendChild(document.createElement("option"));
-                option.setAttribute("value", options[i]);
-                option.innerHTML = options[i];
+            const options: string[] | SelectOpt[] = props.options;
+            for (let i = 0; i < options.length; i++) {
+              option = this.element.appendChild(
+                document.createElement("option")
+              );
+              if (typeof options[i] === "object" && options[i] !== null) {
+                const opt = options[i] as SelectOpt;
+                option.setAttribute("value", String(opt.value));
+                option.innerHTML = opt.label;
+                option.selected = Boolean(opt.selected);
+              } else {
+                const opt = options[i] as string;
+                option.setAttribute("value", opt);
+                option.innerHTML = opt;
+              }
             }
         }
         return this.element;
