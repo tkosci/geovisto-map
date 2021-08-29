@@ -1,3 +1,4 @@
+import { ExportGeoJSON } from './../../../tools/layers/drawing/model/types/tool/IDrawingLayerToolState';
 
 import IMap from "../map/IMap";
 import { IMapObjectProps, IMapObjectInitProps } from "../object/IMapObjectProps";
@@ -21,5 +22,6 @@ type IMapToolProps = IMapObjectProps & {
  */
 type IMapToolInitProps<TConfig extends IMapToolConfig = IMapToolConfig> = IMapObjectInitProps<TConfig> & {
     map : IMap;
+    geojson?: ExportGeoJSON
 }
 export type { IMapToolProps, IMapToolInitProps };

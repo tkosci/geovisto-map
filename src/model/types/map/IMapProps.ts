@@ -1,3 +1,4 @@
+import { ExportGeoJSON } from "./../../../tools/layers/drawing/model/types/tool/IDrawingLayerToolState";
 import IGeoDataManager from "../geodata/IGeoDataManager";
 import IMapConfig from "./IMapConfig";
 import IMapConfigManager from "../config/IMapConfigManager";
@@ -9,7 +10,7 @@ import IMapToolsManager from "../tool/IMapToolsManager";
 
 /**
  * This type provides the specification of the map props model.
- * 
+ *
  * @author Jiri Hynek
  */
 type IMapProps = IMapObjectProps & {
@@ -18,11 +19,12 @@ type IMapProps = IMapObjectProps & {
     data?: IMapDataManager;
     geoData?: IGeoDataManager;
     tools?: IMapToolsManager;
-}
+    geojson?: ExportGeoJSON;
+};
 
 /**
  * This type provides the specification of the map object props model used in its initialization.
- * 
+ *
  * @author Jiri Hynek
  */
 type IMapInitProps<TConfig extends IMapConfig = IMapConfig> = IMapObjectInitProps<TConfig> & {
