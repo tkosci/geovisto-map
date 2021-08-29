@@ -7,7 +7,7 @@ import IMapObjectConfig from "./IMapObjectConfig";
  * @author Jiri Hynek
  */
 type IMapObjectProps = {
-  id?: string;
+    id?: string;
 };
 
 /**
@@ -18,7 +18,7 @@ type IMapObjectProps = {
 type IMapObjectInitProps<
   TConfig extends IMapObjectConfig = IMapObjectConfig
 > = {
-  config?: TConfig;
-  geojson?: ExportGeoJSON;
+    config?: TConfig;
+    geojson?: ExportGeoJSON;
 };
 export type { IMapObjectProps, IMapObjectInitProps };

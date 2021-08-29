@@ -7,7 +7,7 @@ import IMapFormInputProps from "../../IMapFormInputProps";
  * @author Jiri Hynek
  */
 interface ISelectFormInputProps extends IMapFormInputProps {
-  onChangeAction: ((this: GlobalEventHandlers, ev: Event) => unknown) | null;
-  options: string[] | SelectOpt[];
+    onChangeAction: ((this: GlobalEventHandlers, ev: Event) => unknown) | null;
+    options: string[] | SelectOpt[];
 }
 export default ISelectFormInputProps;

@@ -6,9 +6,9 @@ import IMapFormInputProps from "../../IMapFormInputProps";
  * @author Jiri Hynek
  */
 interface ILabeledCheckboxFormInputProps extends IMapFormInputProps {
-  onChangeAction: ((this: GlobalEventHandlers, ev: Event) => unknown) | null;
-  label: string;
-  name: string;
-  defaultValue?: boolean;
+    onChangeAction: ((this: GlobalEventHandlers, ev: Event) => unknown) | null;
+    label: string;
+    name: string;
+    defaultValue?: boolean;
 }
 export default ILabeledCheckboxFormInputProps;

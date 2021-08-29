@@ -134,64 +134,37 @@ class SearchControlState
 
     if (!countryCode || !adminLevel) return;
 
-    const toolState = this.tool.getState();
-
-    const endPoint = "https://overpass-api.de/api/interpreter?data=[out:json];";
-    const query = `area["ISO3166-1"="${countryCode}"]->.searchArea;(relation["admin_level"="${adminLevel}"](area.searchArea););out;>;out skel qt;`;
-
     (document.querySelector(
       ".leaflet-container"
     ) as HTMLDivElement).style.cursor = "wait";
     this.control.searchForAreasBtn.setAttribute("disabled", true);
 
-    fetch(endPoint + query)
-      .then((response) => response.json())
-      .then((data) => {
-        const gJSON = osmtogeojson(data);
+    const color = this.tabControl.getState().getSelectedColor();
+    const { data, error } = await SearchTool.fetchAreas(
+      countryCode,
+      adminLevel,
+      highQuality,
+      color
+    );
 
-        const opts = {
-          color: this.tabControl.getState().getSelectedColor(),
-          draggable: true,
-          transform: true,
-        };
-
-        toolState.featureGroup.eachLayer((layer) => {
-          const drawnLayer = layer as DrawnObject;
-          if (drawnLayer.countryCode === countryCode)
-            toolState.removeLayer(drawnLayer);
-        });
-
-        gJSON?.features
-          ?.filter((feat) => feat?.geometry?.type === "Polygon")
-          ?.forEach((feat) => {
-            let coords = (feat.geometry as Geometry).coordinates;
-            if (!highQuality) {
-              const simplified = simplifyFeature(feat as AllGeoJSON, 0.01);
-              coords = ((simplified as Feature).geometry as Geometry)
-                .coordinates;
-            }
-            const latlngs = L.GeoJSON.coordsToLatLngs(coords, 1);
-            const result = new (L as any).polygon(latlngs, {
-              ...opts,
-              ...normalStyles,
-            });
-            result?.dragging?.disable();
-            result.layerType = "polygon";
-            result.countryCode = countryCode;
-            toolState.addLayer(result);
-          });
-        this.control.errorMsg.innerText = "";
-      })
-      .catch((err) => {
-        this.control.errorMsg.innerText = "There was a problem, re-try later.";
-        console.error(err);
-      })
-      .finally(() => {
-        (document.querySelector(
-          ".leaflet-container"
-        ) as HTMLDivElement).style.cursor = "";
-        this.control.searchForAreasBtn.removeAttribute("disabled");
+    if (error) {
+      this.control.errorMsg.innerText = error;
+    } else {
+      this.control.errorMsg.innerText = "";
+      const toolState = this.tool.getState();
+      // * remove previous object of fetched country
+      toolState.featureGroup.eachLayer((layer) => {
+        const drawnLayer = layer as DrawnObject;
+        if (drawnLayer.countryCode === countryCode)
+          toolState.removeLayer(drawnLayer);
       });
+      data.forEach((country) => toolState.addLayer(country));
+    }
+
+    (document.querySelector(
+      ".leaflet-container"
+    ) as HTMLDivElement).style.cursor = "";
+    this.control.searchForAreasBtn.removeAttribute("disabled");
   };
 }
 

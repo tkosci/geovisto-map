@@ -3,7 +3,7 @@ import IMapFormInputProps from "../../IMapFormInputProps";
 /**
  * This interface declares specification of a form input props model.
  *
- * @author Jiri Hynek
+ * @author Andrej Tlcina
  */
 interface ITextareaFormInputProps extends IMapFormInputProps {
   onChangeAction: (val: string) => void;

@@ -4,10 +4,7 @@ import IMapConfig from "./IMapConfig";
 import IMapConfigManager from "../config/IMapConfigManager";
 import IMapDataManager from "../data/IMapDataManager";
 import IMapGlobals from "./IMapGlobals";
-import {
-  IMapObjectProps,
-  IMapObjectInitProps,
-} from "../object/IMapObjectProps";
+import { IMapObjectProps, IMapObjectInitProps } from "../object/IMapObjectProps";
 import IMapTemplates from "./IMapTemplates";
 import IMapToolsManager from "../tool/IMapToolsManager";
 
@@ -17,12 +14,12 @@ import IMapToolsManager from "../tool/IMapToolsManager";
  * @author Jiri Hynek
  */
 type IMapProps = IMapObjectProps & {
-  templates?: IMapTemplates;
-  globals?: IMapGlobals;
-  data?: IMapDataManager;
-  geoData?: IGeoDataManager;
-  tools?: IMapToolsManager;
-  geojson?: ExportGeoJSON;
+    templates?: IMapTemplates;
+    globals?: IMapGlobals;
+    data?: IMapDataManager;
+    geoData?: IGeoDataManager;
+    tools?: IMapToolsManager;
+    geojson?: ExportGeoJSON;
 };
 
 /**
@@ -30,9 +27,7 @@ type IMapProps = IMapObjectProps & {
  *
  * @author Jiri Hynek
  */
-type IMapInitProps<
-  TConfig extends IMapConfig = IMapConfig
-> = IMapObjectInitProps<TConfig> & {
-  configManager: IMapConfigManager;
-};
+type IMapInitProps<TConfig extends IMapConfig = IMapConfig> = IMapObjectInitProps<TConfig> & {
+    configManager : IMapConfigManager;
+}
 export type { IMapProps, IMapInitProps };
