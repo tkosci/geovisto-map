@@ -1,23 +1,23 @@
-import IFilterFormInputProps from "../../types/inputs/filter/IFilterFormInputProps";
-import ILabeledAutocompleteFormInputProps from "../../types/inputs/labeled/autocomplete/ILabeledAutocompleteFormInputProps";
-import ILabeledTextFormInputProps from "../../types/inputs/labeled/text/ILabeledTextFormInputProps";
-import ILabeledSelectFormInputProps from "../../types/inputs/labeled/select/ILabeledSelectFormInputProps";
-import IMapFormInput from "../../types/inputs/IMapFormInput";
-import ISelectFormInputProps from "../../types/inputs/basic/select/ISelectFormInputProps";
-import ITextFormInputProps from "../../types/inputs/basic/text/ITextFormInputProps";
 import FilterAutocompleteFormInput from "./filter/autocomplete/FilterAutocompleteFormInput";
 import FilterSelectFormInput from "./filter/select/FilterSelectFormInput";
-import LabeledAutocompleteFormInput from "./labeled/autocomplete/LabeledAutocompleteFormInput";
-import SelectFormInput from "./basic/select/SelectFormInput";
-import TextFormInput from "./basic/text/TextFormInput";
-import LabeledSliderFormInput from "./labeled/slider/LabeledSliderFormInput";
-import ILabeledSliderFormInputProps from "../../types/inputs/labeled/slider/ILabeledSliderFormInputProps";
-import ILabeledColorFormInputProps from "../../types/inputs/labeled/color/ILabeledColorFormInputProps";
-import LabeledColorFormInput from "./labeled/color/LabeledColorFormInput";
+import IFilterFormInputProps from "../../types/inputs/filter/IFilterFormInputProps";
+import ILabeledAutocompleteFormInputProps from "../../types/inputs/labeled/autocomplete/ILabeledAutocompleteFormInputProps";
 import ILabeledCheckboxFormInputProps from "../../types/inputs/labeled/checkbox/ILabeledCheckboxFormInputProps";
+import ILabeledColorFormInputProps from "../../types/inputs/labeled/color/ILabeledColorFormInputProps";
+import ILabeledTextFormInputProps from "../../types/inputs/labeled/text/ILabeledTextFormInputProps";
+import ILabeledSelectFormInputProps from "../../types/inputs/labeled/select/ILabeledSelectFormInputProps";
+import ILabeledSliderFormInputProps from "../../types/inputs/labeled/slider/ILabeledSliderFormInputProps";
+import IMapFormInput from "../../types/inputs/IMapFormInput";
+import ISelectFormInputProps from "../../types/inputs/basic/select/ISelectFormInputProps";
+import ITextAreaFormInputProps from "../../types/inputs/basic/textarea/ITextareaFormInputProps";
+import ITextFormInputProps from "../../types/inputs/basic/text/ITextFormInputProps";
+import LabeledAutocompleteFormInput from "./labeled/autocomplete/LabeledAutocompleteFormInput";
 import LabeledCheckboxFormInput from "./labeled/checkbox/LabeledCheckboxFormInput";
-import ITextareaFormInputProps from "../../types/inputs/basic/textarea/ITextareaFormInputProps";
-import TextAreaFormInput from "./basic/textarea/TextareaFormInput";
+import LabeledColorFormInput from "./labeled/color/LabeledColorFormInput";
+import LabeledSliderFormInput from "./labeled/slider/LabeledSliderFormInput";
+import SelectFormInput from "./basic/select/SelectFormInput";
+import TextAreaFormInput from "./basic/textarea/TextAreaFormInput";
+import TextFormInput from "./basic/text/TextFormInput";
 
 /**
  * This class provides a factory for form inputs.
@@ -99,7 +99,7 @@ class MapFormInputFactory {
     /**
      * It creates the textarea form input.
      */
-    public textarea(props: ITextareaFormInputProps): IMapFormInput {
+    public textArea(props: ITextAreaFormInputProps): IMapFormInput {
         return new TextAreaFormInput(props);
     }
 }

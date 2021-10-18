@@ -1,6 +1,6 @@
-import ITextareaFormInputProps from "../../../../types/inputs/basic/textarea/ITextareaFormInputProps";
-import IMapFormInput from "../../../../types/inputs/IMapFormInput";
 import AbstractMapFormInput from "../../abstract/AbstractMapFormInput";
+import IMapFormInput from "../../../../types/inputs/IMapFormInput";
+import ITextareaFormInputProps from "../../../../types/inputs/basic/textarea/ITextareaFormInputProps";
 
 const ID = "geovisto-input-text-area-labeled";
 

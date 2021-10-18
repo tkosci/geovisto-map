@@ -1,4 +1,3 @@
-import { SelectOpt } from "../../../../../tools/layers/drawing/util/constants";
 import IMapFormInputProps from "../../IMapFormInputProps";
 
 /**
@@ -8,6 +7,6 @@ import IMapFormInputProps from "../../IMapFormInputProps";
  */
 interface ISelectFormInputProps extends IMapFormInputProps {
     onChangeAction: ((this: GlobalEventHandlers, ev: Event) => unknown) | null;
-    options: string[] | SelectOpt[];
+    options: string[];
 }
 export default ISelectFormInputProps;

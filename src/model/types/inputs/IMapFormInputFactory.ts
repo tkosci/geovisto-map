@@ -1,14 +1,14 @@
 import IFilterFormInputProps from "./filter/IFilterFormInputProps";
 import ILabeledAutocompleteFormInputProps from "./labeled/autocomplete/ILabeledAutocompleteFormInputProps";
+import ILabeledColorFormInputProps from "./labeled/color/ILabeledColorFormInputProps";
+import ILabeledCheckboxFormInputProps from "./labeled/checkbox/ILabeledCheckboxFormInputProps";
 import ILabeledTextFormInputProps from "./labeled/text/ILabeledTextFormInputProps";
 import ILabeledSelectFormInputProps from "./labeled/select/ILabeledSelectFormInputProps";
+import ILabeledSliderFormInputProps from "./labeled/slider/ILabeledSliderFormInputProps";
 import IMapFormInput from "./IMapFormInput";
 import ISelectFormInputProps from "./basic/select/ISelectFormInputProps";
 import ITextFormInputProps from "./basic/text/ITextFormInputProps";
 import ITextareaFormInputProps from "./basic/textarea/ITextareaFormInputProps";
-import ILabeledSliderFormInputProps from "./labeled/slider/ILabeledSliderFormInputProps";
-import ILabeledColorFormInputProps from "./labeled/color/ILabeledColorFormInputProps";
-import ILabeledCheckboxFormInputProps from "./labeled/checkbox/ILabeledCheckboxFormInputProps";
 
 /**
  * This interface declares a factory for form inputs.
