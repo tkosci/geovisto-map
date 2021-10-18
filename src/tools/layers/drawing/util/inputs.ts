@@ -2,7 +2,7 @@
  * @author Andrej Tlcina
  */
 
-import MapFormInputFactory from "../../../../model/internal/inputs/MapFormInputFactory";
+import { DrawingMapFormInputFactory } from "../inputs/DrawingSelectFormInput";
 import { MappingModel } from "../model/types/tool/IDrawingLayerToolDefaults";
 
 /**
@@ -87,7 +87,7 @@ export const createButton = (
   return btn;
 };
 
-const FormInput = new MapFormInputFactory();
+const FormInput = new DrawingMapFormInputFactory();
 
 /**
  * Data mapping model which can be used in the sidebar form.
@@ -98,7 +98,7 @@ export const MAPPING_MODEL: MappingModel = {
       name: "idKey",
       label: "ID key",
     },
-    input: FormInput.labeledSelect,
+    input: FormInput.labeledSelectOpt,
   },
   identifier: {
     props: { name: "identifier", label: "Identifier" },
@@ -106,14 +106,14 @@ export const MAPPING_MODEL: MappingModel = {
   },
   description: {
     props: { name: "description", label: "Description" },
-    input: FormInput.textarea,
+    input: FormInput.textArea,
   },
   strokeThickness: {
     props: {
       name: "stroke-thickness",
       label: "Stroke thickness",
     },
-    input: FormInput.labeledSelect,
+    input: FormInput.labeledSelectOpt,
   },
   search: {
     props: { name: "search", label: "Search" },
@@ -124,14 +124,14 @@ export const MAPPING_MODEL: MappingModel = {
       name: "search-for-area",
       label: "Search",
     },
-    input: FormInput.labeledSelect,
+    input: FormInput.labeledSelectOpt,
   },
   adminLevel: {
     props: {
       name: "admin-level",
       label: "Pick level of administration",
     },
-    input: FormInput.labeledSelect,
+    input: FormInput.labeledSelectOpt,
   },
   iconUrl: {
     props: {
@@ -145,14 +145,14 @@ export const MAPPING_MODEL: MappingModel = {
       name: "data-filter-key",
       label: "Pick column",
     },
-    input: FormInput.labeledSelect,
+    input: FormInput.labeledSelectOpt,
   },
   dataFilterValue: {
     props: {
       name: "data-filter-value",
       label: "Pick value",
     },
-    input: FormInput.labeledSelect,
+    input: FormInput.labeledSelectOpt,
   },
   brushSize: {
     props: {

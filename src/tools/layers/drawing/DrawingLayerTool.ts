@@ -92,7 +92,8 @@ class DrawingLayerTool
   public initialize(
     initProps: IMapToolInitProps<IDrawingLayerToolConfig>
   ): this {
-    this.getState().deserializeGeoJSON(initProps.geojson || EMPTY_GEOJSON);
+    // FIXME: use geo-data manager to acquire geojson
+    //this.getState().deserializeGeoJSON(initProps.geojson || EMPTY_GEOJSON);
     return super.initialize(initProps);
   }
 

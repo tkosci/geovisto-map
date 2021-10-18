@@ -28,7 +28,7 @@ export default function useDrawingToolbar(): void {
      */
     initialize: function (options: Options) {
       if (options) {
-        L.setOptions(this, options);
+        L.Util.setOptions(this, options);
       }
     },
     /**
@@ -43,11 +43,11 @@ export default function useDrawingToolbar(): void {
      */
     createUi: function () {
       const topContainer = L.DomUtil.create("div", "drawingtoolbar");
-      const toolContainer = L.DomUtil.create(
+      const toolContainer: HTMLDivElement = L.DomUtil.create(
         "div",
         "leaflet-bar leaflet-control",
         topContainer
-      );
+      ) as HTMLDivElement;
       toolContainer.style.cursor = "pointer";
       const cancelables: HTMLAnchorElement[] = [];
 
@@ -99,11 +99,11 @@ export default function useDrawingToolbar(): void {
           canBeCanceled
         );
 
-        if (canBeCanceled) cancelables.push(btn);
+        if (canBeCanceled) cancelables.push(btn as HTMLAnchorElement);
 
         L.DomEvent.on(btn, "click", (e) => handleClick(e, tool), this);
 
-        (this.options.drawingBtns as DrawingBtns)[key] = btn;
+        (this.options.drawingBtns as DrawingBtns)[key] = btn as HTMLAnchorElement;
       });
 
       L.DomEvent.disableClickPropagation(topContainer);
@@ -143,7 +143,7 @@ export default function useDrawingToolbar(): void {
     },
   });
 
-  L.control.drawingToolbar = function (options?: Options) {
+  (L.control.drawingToolbar as any) = function (options?: Options) {
     if (!options) {
       options = {} as Options;
     }
