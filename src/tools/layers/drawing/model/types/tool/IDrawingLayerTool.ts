@@ -14,6 +14,7 @@ import IDrawingLayerToolProps from "./IDrawingLayerToolProps";
 import IDrawingLayerToolState from "./IDrawingLayerToolState";
 import { TBrushControl } from "../../../sidebar/components/BrushControl/types";
 import * as L from "leaflet";
+import { TGeoJSONControl } from "../../../sidebar/components/GeoJSONControl/types";
 
 // * this type represents drawing tool that was selected
 export type SelectedDrawingTool<T extends TAbstractTool = TAbstractTool> = T;
@@ -38,6 +39,7 @@ export type Controls = {
   PolyControl: TPolyControl;
   SearchControl: TSearchControl;
   BrushControl: TBrushControl;
+  GeoJSONControl: TGeoJSONControl;
 };
 
 export type TabState = {

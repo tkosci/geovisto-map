@@ -71,7 +71,7 @@
             {
                 "tool": "geovisto-tool-layer-drawing",
                 "enabled": true,
-                "name": "Drawing layer settings",
+                "name": "GeoJSON creator",
                 "icon": "<i class=\"fa fa-pencil\"></i>",
                 "checkButton": true
             }
@@ -161,6 +161,12 @@
             "chartAggregationFn": ""
           },
           "stories": []
+        },
+        {
+            "type": "geovisto-tool-layer-drawing",
+            "id": "geovisto-tool-layer-drawing",
+            "enabled": false,
+            "layerName": "GeoJSON creator"
         }
     ]
 }

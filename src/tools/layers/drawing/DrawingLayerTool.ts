@@ -48,6 +48,7 @@ import IDrawingLayerToolState from "./model/types/tool/IDrawingLayerToolState";
 import IMapFormControl from "../../../model/types/form/IMapFormControl";
 import { IMapToolInitProps } from "../../../model/types/tool/IMapToolProps";
 import { IDrawingLayerToolConfig } from "./model/types/tool/IDrawingLayerToolConfig";
+import { GeoJSONTool } from "./tools/GeoJSONTool";
 
 // ! pather throws errors without this line
 window.d3 = d33;
@@ -93,7 +94,7 @@ class DrawingLayerTool
     initProps: IMapToolInitProps<IDrawingLayerToolConfig>
   ): this {
     // FIXME: use geo-data manager to acquire geojson
-    //this.getState().deserializeGeoJSON(initProps.geojson || EMPTY_GEOJSON);
+    this.getState().deserializeGeoJSON(EMPTY_GEOJSON);
     return super.initialize(initProps);
   }
 
@@ -173,9 +174,8 @@ class DrawingLayerTool
       const map = this.getMap()?.getState()?.getLeafletMap();
       // show ot hide the layer
       if (enabled) {
-        map?.addControl(this.controlDrawingToolbar);
-
         this.showLayerItems();
+        map?.addControl(this.controlDrawingToolbar);
       } else {
         map?.removeControl(this.controlDrawingToolbar);
 
@@ -187,6 +187,7 @@ class DrawingLayerTool
   public initializeDrawingTools(): void {
     const tools: LooseObject = {};
 
+    tools[GeoJSONTool.NAME()] = new GeoJSONTool({ drawingTool: this });
     tools[LineTool.NAME()] = new LineTool({ drawingTool: this });
     tools[MarkerTool.NAME()] = new MarkerTool({ drawingTool: this });
     tools[PolygonTool.NAME()] = new PolygonTool({ drawingTool: this });

@@ -11,6 +11,7 @@ import {
 } from "../model/types/tool/IDrawingLayerTool";
 
 import { DrawnObject } from "../model/types";
+import GeoJSONControl from "./components/GeoJSONControl/GeoJSONControl";
 
 /**
  * This class manages the state of the sidebar tab.
@@ -47,6 +48,7 @@ class DrawingLayerToolMapFormState implements TabState {
       PolyControl: new PolyControl({ tabControl }),
       SearchControl: new SearchControl({ tabControl }),
       BrushControl: new BrushControl({ tabControl }),
+      GeoJSONControl: new GeoJSONControl({ tabControl }),
     };
 
     this.controls = controls;

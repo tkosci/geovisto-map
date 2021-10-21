@@ -35,7 +35,8 @@ export type LayerType =
   | "vertice"
   | "erased"
   | "knife"
-  | "search";
+  | "search"
+  | "geojson";
 
 export interface LooseObject {
   [key: string]: any;

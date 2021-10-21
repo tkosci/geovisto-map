@@ -12,6 +12,7 @@ import IDrawingLayerTool, {
 import { LayerType, LooseObject } from "../model/types";
 import IDrawingLayerToolDimensions from "../model/types/tool/IDrawingLayerToolDimensions";
 import { FIRST } from "../util/constants";
+import { GeoJSONTool } from "../tools/GeoJSONTool";
 
 const POLYS = ["polyline", "polygon", "painted", "vertice"];
 
@@ -94,6 +95,11 @@ class DrawingLayerToolMapForm
     if (layerType === SearchTool.result) {
       controls["SearchControl"].renderSearchInputs(elem);
       controls["DataControl"].state.clearFilters();
+      return this.htmlContent;
+    }
+
+    if (layerType === GeoJSONTool.result) {
+      controls["GeoJSONControl"].renderGeoJSONInputs(elem);
       return this.htmlContent;
     }
 
