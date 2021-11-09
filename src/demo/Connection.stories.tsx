@@ -10,7 +10,7 @@ import React, { Component } from "react";
 // React-Geovisto
 import ReactGeovistoMap from "../react/ReactGeovistoMap";
 
-import './Demo.scss';
+import './Connection.scss';
 
 // Geovisto Tools
 import {
