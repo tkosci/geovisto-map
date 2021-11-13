@@ -6,3 +6,4 @@ export * from './layers/marker';
 export * from './sidebar';
 export * from './selection';
 export * from './themes';
+export * from './hierarchy';

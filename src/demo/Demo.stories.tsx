@@ -21,8 +21,10 @@ import {
     GeovistoTilesLayerTool,
     GeovistoChoroplethLayerTool,
     GeovistoMarkerLayerTool,
-    GeovistoConnectionLayerTool
+    GeovistoConnectionLayerTool,
+    GeovistoHierarchyTool
 } from '../tools';
+
 import { Geovisto } from '..';
 
 /* example of screen component with grid layout and card wrapper usage */
@@ -256,6 +258,7 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
                             GeovistoTilesLayerTool.createTool({
                                 id: "geovisto-tool-layer-map"
                             }),
+                            GeovistoHierarchyTool.createTool({id:"geovisto-tool-hierarchy"}),
                             GeovistoChoroplethLayerTool.createTool({
                                 id: "geovisto-tool-layer-choropleth"
                             }),
@@ -265,6 +268,7 @@ class Demo extends Component<Record<string, never>, { data: unknown, config: Rec
                             GeovistoConnectionLayerTool.createTool({
                                 id: "geovisto-tool-layer-connection"
                             }),
+                            
                         ])}
                     />
                 </div>
