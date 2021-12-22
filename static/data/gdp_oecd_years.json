@@ -1,0 +1,3007 @@
+[
+    {
+        "Country": "AUS",
+        "Value": 760939.513,
+        "Year": "2005"
+    },
+    {
+        "Country": "AUS",
+        "Value": 818233.985,
+        "Year": "2006"
+    },
+    {
+        "Country": "AUS",
+        "Value": 985139.395,
+        "Year": "2007"
+    },
+    {
+        "Country": "AUS",
+        "Value": 1057010.486,
+        "Year": "2008"
+    },
+    {
+        "Country": "AUS",
+        "Value": 1014835.717,
+        "Year": "2009"
+    },
+    {
+        "Country": "AUS",
+        "Value": 1299463.076,
+        "Year": "2010"
+    },
+    {
+        "Country": "AUS",
+        "Value": 1546688.928,
+        "Year": "2011"
+    },
+    {
+        "Country": "AUS",
+        "Value": 1590707.559,
+        "Year": "2012"
+    },
+    {
+        "Country": "AUS",
+        "Value": 1543216.348,
+        "Year": "2013"
+    },
+    {
+        "Country": "AUS",
+        "Value": 1464444.525,
+        "Year": "2014"
+    },
+    {
+        "Country": "AUS",
+        "Value": 1247634.399,
+        "Year": "2015"
+    },
+    {
+        "Country": "AUS",
+        "Value": 1310104.587,
+        "Year": "2016"
+    },
+    {
+        "Country": "AUS",
+        "Value": 1416783.719,
+        "Year": "2017"
+    },
+    {
+        "Country": "AUS",
+        "Value": 1458952.689,
+        "Year": "2018"
+    },
+    {
+        "Country": "AUS",
+        "Value": 1380207.833,
+        "Year": "2019"
+    },
+    {
+        "Country": "AUT",
+        "Value": 316092.273,
+        "Year": "2005"
+    },
+    {
+        "Country": "AUT",
+        "Value": 336280.064,
+        "Year": "2006"
+    },
+    {
+        "Country": "AUT",
+        "Value": 389185.572,
+        "Year": "2007"
+    },
+    {
+        "Country": "AUT",
+        "Value": 432051.936,
+        "Year": "2008"
+    },
+    {
+        "Country": "AUT",
+        "Value": 401758.736,
+        "Year": "2009"
+    },
+    {
+        "Country": "AUT",
+        "Value": 392275.107,
+        "Year": "2010"
+    },
+    {
+        "Country": "AUT",
+        "Value": 431685.217,
+        "Year": "2011"
+    },
+    {
+        "Country": "AUT",
+        "Value": 409401.816,
+        "Year": "2012"
+    },
+    {
+        "Country": "AUT",
+        "Value": 430190.98,
+        "Year": "2013"
+    },
+    {
+        "Country": "AUT",
+        "Value": 442584.815,
+        "Year": "2014"
+    },
+    {
+        "Country": "AUT",
+        "Value": 381971.149,
+        "Year": "2015"
+    },
+    {
+        "Country": "AUT",
+        "Value": 395837.353,
+        "Year": "2016"
+    },
+    {
+        "Country": "AUT",
+        "Value": 417261.152,
+        "Year": "2017"
+    },
+    {
+        "Country": "AUT",
+        "Value": 455168.152,
+        "Year": "2018"
+    },
+    {
+        "Country": "AUT",
+        "Value": 445011.873,
+        "Year": "2019"
+    },
+    {
+        "Country": "AUT",
+        "Value": 433258.468,
+        "Year": "2020"
+    },
+    {
+        "Country": "BEL",
+        "Value": 385714.762,
+        "Year": "2005"
+    },
+    {
+        "Country": "BEL",
+        "Value": 408259.841,
+        "Year": "2006"
+    },
+    {
+        "Country": "BEL",
+        "Value": 470922.156,
+        "Year": "2007"
+    },
+    {
+        "Country": "BEL",
+        "Value": 517328.088,
+        "Year": "2008"
+    },
+    {
+        "Country": "BEL",
+        "Value": 483254.171,
+        "Year": "2009"
+    },
+    {
+        "Country": "BEL",
+        "Value": 481420.883,
+        "Year": "2010"
+    },
+    {
+        "Country": "BEL",
+        "Value": 523330.354,
+        "Year": "2011"
+    },
+    {
+        "Country": "BEL",
+        "Value": 496152.88,
+        "Year": "2012"
+    },
+    {
+        "Country": "BEL",
+        "Value": 521791.015,
+        "Year": "2013"
+    },
+    {
+        "Country": "BEL",
+        "Value": 535390.2,
+        "Year": "2014"
+    },
+    {
+        "Country": "BEL",
+        "Value": 462335.575,
+        "Year": "2015"
+    },
+    {
+        "Country": "BEL",
+        "Value": 476062.757,
+        "Year": "2016"
+    },
+    {
+        "Country": "BEL",
+        "Value": 502764.721,
+        "Year": "2017"
+    },
+    {
+        "Country": "BEL",
+        "Value": 543273.795,
+        "Year": "2018"
+    },
+    {
+        "Country": "BEL",
+        "Value": 535288.715,
+        "Year": "2019"
+    },
+    {
+        "Country": "BEL",
+        "Value": 521861.293,
+        "Year": "2020"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1173490.982,
+        "Year": "2005"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1319329.095,
+        "Year": "2006"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1468894.773,
+        "Year": "2007"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1552863.194,
+        "Year": "2008"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1376509.21,
+        "Year": "2009"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1617343.367,
+        "Year": "2010"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1793326.63,
+        "Year": "2011"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1828366.482,
+        "Year": "2012"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1846597.422,
+        "Year": "2013"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1805749.878,
+        "Year": "2014"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1556508.816,
+        "Year": "2015"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1527994.742,
+        "Year": "2016"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1649265.644,
+        "Year": "2017"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1721822.141,
+        "Year": "2018"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1741576.394,
+        "Year": "2019"
+    },
+    {
+        "Country": "CAN",
+        "Value": 1644037.286,
+        "Year": "2020"
+    },
+    {
+        "Country": "CHE",
+        "Value": 420552.829,
+        "Year": "2005"
+    },
+    {
+        "Country": "CHE",
+        "Value": 443786.567,
+        "Year": "2006"
+    },
+    {
+        "Country": "CHE",
+        "Value": 493551.424,
+        "Year": "2007"
+    },
+    {
+        "Country": "CHE",
+        "Value": 570309.463,
+        "Year": "2008"
+    },
+    {
+        "Country": "CHE",
+        "Value": 558178.479,
+        "Year": "2009"
+    },
+    {
+        "Country": "CHE",
+        "Value": 603434.494,
+        "Year": "2010"
+    },
+    {
+        "Country": "CHE",
+        "Value": 722038.242,
+        "Year": "2011"
+    },
+    {
+        "Country": "CHE",
+        "Value": 692109.694,
+        "Year": "2012"
+    },
+    {
+        "Country": "CHE",
+        "Value": 712748.125,
+        "Year": "2013"
+    },
+    {
+        "Country": "CHE",
+        "Value": 734396.591,
+        "Year": "2014"
+    },
+    {
+        "Country": "CHE",
+        "Value": 702149.581,
+        "Year": "2015"
+    },
+    {
+        "Country": "CHE",
+        "Value": 695600.653,
+        "Year": "2016"
+    },
+    {
+        "Country": "CHE",
+        "Value": 704478.517,
+        "Year": "2017"
+    },
+    {
+        "Country": "CHE",
+        "Value": 735539.301,
+        "Year": "2018"
+    },
+    {
+        "Country": "CHE",
+        "Value": 731767.398,
+        "Year": "2019"
+    },
+    {
+        "Country": "CHE",
+        "Value": 752205.237,
+        "Year": "2020"
+    },
+    {
+        "Country": "CHL",
+        "Value": 122964.812,
+        "Year": "2005"
+    },
+    {
+        "Country": "CHL",
+        "Value": 154788.025,
+        "Year": "2006"
+    },
+    {
+        "Country": "CHL",
+        "Value": 173605.979,
+        "Year": "2007"
+    },
+    {
+        "Country": "CHL",
+        "Value": 179638.484,
+        "Year": "2008"
+    },
+    {
+        "Country": "CHL",
+        "Value": 172389.5,
+        "Year": "2009"
+    },
+    {
+        "Country": "CHL",
+        "Value": 218537.565,
+        "Year": "2010"
+    },
+    {
+        "Country": "CHL",
+        "Value": 252251.992,
+        "Year": "2011"
+    },
+    {
+        "Country": "CHL",
+        "Value": 267122.318,
+        "Year": "2012"
+    },
+    {
+        "Country": "CHL",
+        "Value": 278384.345,
+        "Year": "2013"
+    },
+    {
+        "Country": "CHL",
+        "Value": 260541.63,
+        "Year": "2014"
+    },
+    {
+        "Country": "CHL",
+        "Value": 243919.085,
+        "Year": "2015"
+    },
+    {
+        "Country": "CHL",
+        "Value": 250440.136,
+        "Year": "2016"
+    },
+    {
+        "Country": "CHL",
+        "Value": 277034.679,
+        "Year": "2017"
+    },
+    {
+        "Country": "CHL",
+        "Value": 297571.687,
+        "Year": "2018"
+    },
+    {
+        "Country": "CHL",
+        "Value": 279385.478,
+        "Year": "2019"
+    },
+    {
+        "Country": "CHL",
+        "Value": 252940.021,
+        "Year": "2020"
+    },
+    {
+        "Country": "COL",
+        "Value": 145619.193,
+        "Year": "2005"
+    },
+    {
+        "Country": "COL",
+        "Value": 161618.581,
+        "Year": "2006"
+    },
+    {
+        "Country": "COL",
+        "Value": 206181.823,
+        "Year": "2007"
+    },
+    {
+        "Country": "COL",
+        "Value": 242186.95,
+        "Year": "2008"
+    },
+    {
+        "Country": "COL",
+        "Value": 232397.835,
+        "Year": "2009"
+    },
+    {
+        "Country": "COL",
+        "Value": 286563.1,
+        "Year": "2010"
+    },
+    {
+        "Country": "COL",
+        "Value": 334943.877,
+        "Year": "2011"
+    },
+    {
+        "Country": "COL",
+        "Value": 370921.318,
+        "Year": "2012"
+    },
+    {
+        "Country": "COL",
+        "Value": 382116.121,
+        "Year": "2013"
+    },
+    {
+        "Country": "COL",
+        "Value": 381112.11,
+        "Year": "2014"
+    },
+    {
+        "Country": "COL",
+        "Value": 293481.753,
+        "Year": "2015"
+    },
+    {
+        "Country": "COL",
+        "Value": 282825.012,
+        "Year": "2016"
+    },
+    {
+        "Country": "COL",
+        "Value": 311883.73,
+        "Year": "2017"
+    },
+    {
+        "Country": "COL",
+        "Value": 334198.218,
+        "Year": "2018"
+    },
+    {
+        "Country": "COL",
+        "Value": 323429.886,
+        "Year": "2019"
+    },
+    {
+        "Country": "CRI",
+        "Value": 20044.554,
+        "Year": "2005"
+    },
+    {
+        "Country": "CRI",
+        "Value": 22713.238,
+        "Year": "2006"
+    },
+    {
+        "Country": "CRI",
+        "Value": 26884.602,
+        "Year": "2007"
+    },
+    {
+        "Country": "CRI",
+        "Value": 30801.75,
+        "Year": "2008"
+    },
+    {
+        "Country": "CRI",
+        "Value": 30745.714,
+        "Year": "2009"
+    },
+    {
+        "Country": "CRI",
+        "Value": 37658.636,
+        "Year": "2010"
+    },
+    {
+        "Country": "CRI",
+        "Value": 42762.614,
+        "Year": "2011"
+    },
+    {
+        "Country": "CRI",
+        "Value": 47231.655,
+        "Year": "2012"
+    },
+    {
+        "Country": "CRI",
+        "Value": 50949.669,
+        "Year": "2013"
+    },
+    {
+        "Country": "CRI",
+        "Value": 52016.409,
+        "Year": "2014"
+    },
+    {
+        "Country": "CRI",
+        "Value": 56441.921,
+        "Year": "2015"
+    },
+    {
+        "Country": "CRI",
+        "Value": 58847.02,
+        "Year": "2016"
+    },
+    {
+        "Country": "CRI",
+        "Value": 60516.045,
+        "Year": "2017"
+    },
+    {
+        "Country": "CRI",
+        "Value": 62335.931,
+        "Year": "2018"
+    },
+    {
+        "Country": "CRI",
+        "Value": 63951.115,
+        "Year": "2019"
+    },
+    {
+        "Country": "CZE",
+        "Value": 137143.376,
+        "Year": "2005"
+    },
+    {
+        "Country": "CZE",
+        "Value": 156264.211,
+        "Year": "2006"
+    },
+    {
+        "Country": "CZE",
+        "Value": 190184.113,
+        "Year": "2007"
+    },
+    {
+        "Country": "CZE",
+        "Value": 236816.948,
+        "Year": "2008"
+    },
+    {
+        "Country": "CZE",
+        "Value": 207434.297,
+        "Year": "2009"
+    },
+    {
+        "Country": "CZE",
+        "Value": 209069.941,
+        "Year": "2010"
+    },
+    {
+        "Country": "CZE",
+        "Value": 229562.733,
+        "Year": "2011"
+    },
+    {
+        "Country": "CZE",
+        "Value": 208857.719,
+        "Year": "2012"
+    },
+    {
+        "Country": "CZE",
+        "Value": 211685.617,
+        "Year": "2013"
+    },
+    {
+        "Country": "CZE",
+        "Value": 209358.834,
+        "Year": "2014"
+    },
+    {
+        "Country": "CZE",
+        "Value": 188033.05,
+        "Year": "2015"
+    },
+    {
+        "Country": "CZE",
+        "Value": 196272.069,
+        "Year": "2016"
+    },
+    {
+        "Country": "CZE",
+        "Value": 218628.941,
+        "Year": "2017"
+    },
+    {
+        "Country": "CZE",
+        "Value": 248950.103,
+        "Year": "2018"
+    },
+    {
+        "Country": "CZE",
+        "Value": 252498.032,
+        "Year": "2019"
+    },
+    {
+        "Country": "CZE",
+        "Value": 245349.49,
+        "Year": "2020"
+    },
+    {
+        "Country": "DEU",
+        "Value": 2846864.211,
+        "Year": "2005"
+    },
+    {
+        "Country": "DEU",
+        "Value": 2994703.642,
+        "Year": "2006"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3425578.383,
+        "Year": "2007"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3745264.094,
+        "Year": "2008"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3411261.213,
+        "Year": "2009"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3399667.82,
+        "Year": "2010"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3749314.991,
+        "Year": "2011"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3527143.189,
+        "Year": "2012"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3733804.65,
+        "Year": "2013"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3889093.051,
+        "Year": "2014"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3357585.719,
+        "Year": "2015"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3469853.464,
+        "Year": "2016"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3690849.153,
+        "Year": "2017"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3977289.455,
+        "Year": "2018"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3888326.789,
+        "Year": "2019"
+    },
+    {
+        "Country": "DEU",
+        "Value": 3846413.929,
+        "Year": "2020"
+    },
+    {
+        "Country": "DNK",
+        "Value": 264466.895,
+        "Year": "2005"
+    },
+    {
+        "Country": "DNK",
+        "Value": 282885.978,
+        "Year": "2006"
+    },
+    {
+        "Country": "DNK",
+        "Value": 319423.376,
+        "Year": "2007"
+    },
+    {
+        "Country": "DNK",
+        "Value": 353358.902,
+        "Year": "2008"
+    },
+    {
+        "Country": "DNK",
+        "Value": 321243.301,
+        "Year": "2009"
+    },
+    {
+        "Country": "DNK",
+        "Value": 321995.279,
+        "Year": "2010"
+    },
+    {
+        "Country": "DNK",
+        "Value": 344003.138,
+        "Year": "2011"
+    },
+    {
+        "Country": "DNK",
+        "Value": 327148.944,
+        "Year": "2012"
+    },
+    {
+        "Country": "DNK",
+        "Value": 343584.392,
+        "Year": "2013"
+    },
+    {
+        "Country": "DNK",
+        "Value": 352993.632,
+        "Year": "2014"
+    },
+    {
+        "Country": "DNK",
+        "Value": 302673.071,
+        "Year": "2015"
+    },
+    {
+        "Country": "DNK",
+        "Value": 313115.929,
+        "Year": "2016"
+    },
+    {
+        "Country": "DNK",
+        "Value": 332121.064,
+        "Year": "2017"
+    },
+    {
+        "Country": "DNK",
+        "Value": 356841.216,
+        "Year": "2018"
+    },
+    {
+        "Country": "DNK",
+        "Value": 347561.349,
+        "Year": "2019"
+    },
+    {
+        "Country": "DNK",
+        "Value": 356084.868,
+        "Year": "2020"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1153715.823,
+        "Year": "2005"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1260398.978,
+        "Year": "2006"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1474002.58,
+        "Year": "2007"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1631863.494,
+        "Year": "2008"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1491472.924,
+        "Year": "2009"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1422108.2,
+        "Year": "2010"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1480710.496,
+        "Year": "2011"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1324744.315,
+        "Year": "2012"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1355142.585,
+        "Year": "2013"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1371222.713,
+        "Year": "2014"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1195599.996,
+        "Year": "2015"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1232912.963,
+        "Year": "2016"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1312539.279,
+        "Year": "2017"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1420994.143,
+        "Year": "2018"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1393046.093,
+        "Year": "2019"
+    },
+    {
+        "Country": "ESP",
+        "Value": 1281484.64,
+        "Year": "2020"
+    },
+    {
+        "Country": "EST",
+        "Value": 14104.149,
+        "Year": "2005"
+    },
+    {
+        "Country": "EST",
+        "Value": 17031.639,
+        "Year": "2006"
+    },
+    {
+        "Country": "EST",
+        "Value": 22444.325,
+        "Year": "2007"
+    },
+    {
+        "Country": "EST",
+        "Value": 24313.206,
+        "Year": "2008"
+    },
+    {
+        "Country": "EST",
+        "Value": 19641.737,
+        "Year": "2009"
+    },
+    {
+        "Country": "EST",
+        "Value": 19535.115,
+        "Year": "2010"
+    },
+    {
+        "Country": "EST",
+        "Value": 23213.994,
+        "Year": "2011"
+    },
+    {
+        "Country": "EST",
+        "Value": 23019.15,
+        "Year": "2012"
+    },
+    {
+        "Country": "EST",
+        "Value": 25115.754,
+        "Year": "2013"
+    },
+    {
+        "Country": "EST",
+        "Value": 26634.084,
+        "Year": "2014"
+    },
+    {
+        "Country": "EST",
+        "Value": 22890.762,
+        "Year": "2015"
+    },
+    {
+        "Country": "EST",
+        "Value": 24072.829,
+        "Year": "2016"
+    },
+    {
+        "Country": "EST",
+        "Value": 26924.386,
+        "Year": "2017"
+    },
+    {
+        "Country": "EST",
+        "Value": 30489.501,
+        "Year": "2018"
+    },
+    {
+        "Country": "EST",
+        "Value": 31045.592,
+        "Year": "2019"
+    },
+    {
+        "Country": "EST",
+        "Value": 30650.285,
+        "Year": "2020"
+    },
+    {
+        "Country": "FIN",
+        "Value": 204885.495,
+        "Year": "2005"
+    },
+    {
+        "Country": "FIN",
+        "Value": 217089.27,
+        "Year": "2006"
+    },
+    {
+        "Country": "FIN",
+        "Value": 256378.068,
+        "Year": "2007"
+    },
+    {
+        "Country": "FIN",
+        "Value": 285716.311,
+        "Year": "2008"
+    },
+    {
+        "Country": "FIN",
+        "Value": 253497.521,
+        "Year": "2009"
+    },
+    {
+        "Country": "FIN",
+        "Value": 249424.311,
+        "Year": "2010"
+    },
+    {
+        "Country": "FIN",
+        "Value": 275604.356,
+        "Year": "2011"
+    },
+    {
+        "Country": "FIN",
+        "Value": 258290.06,
+        "Year": "2012"
+    },
+    {
+        "Country": "FIN",
+        "Value": 271362.406,
+        "Year": "2013"
+    },
+    {
+        "Country": "FIN",
+        "Value": 274862.827,
+        "Year": "2014"
+    },
+    {
+        "Country": "FIN",
+        "Value": 234534.382,
+        "Year": "2015"
+    },
+    {
+        "Country": "FIN",
+        "Value": 240771.351,
+        "Year": "2016"
+    },
+    {
+        "Country": "FIN",
+        "Value": 255647.98,
+        "Year": "2017"
+    },
+    {
+        "Country": "FIN",
+        "Value": 275715.087,
+        "Year": "2018"
+    },
+    {
+        "Country": "FIN",
+        "Value": 268782.471,
+        "Year": "2019"
+    },
+    {
+        "Country": "FIN",
+        "Value": 269751.313,
+        "Year": "2020"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2196945.232,
+        "Year": "2005"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2320536.221,
+        "Year": "2006"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2660591.246,
+        "Year": "2007"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2930303.781,
+        "Year": "2008"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2700887.367,
+        "Year": "2009"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2645187.882,
+        "Year": "2010"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2865157.542,
+        "Year": "2011"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2683671.717,
+        "Year": "2012"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2811876.903,
+        "Year": "2013"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2855964.489,
+        "Year": "2014"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2439188.643,
+        "Year": "2015"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2472964.345,
+        "Year": "2016"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2595151.045,
+        "Year": "2017"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2790956.879,
+        "Year": "2018"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2728870.247,
+        "Year": "2019"
+    },
+    {
+        "Country": "FRA",
+        "Value": 2630317.731,
+        "Year": "2020"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2544836.803,
+        "Year": "2005"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2717126.455,
+        "Year": "2006"
+    },
+    {
+        "Country": "GBR",
+        "Value": 3106358.57,
+        "Year": "2007"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2939064.694,
+        "Year": "2008"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2425725.615,
+        "Year": "2009"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2491110.093,
+        "Year": "2010"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2674891.474,
+        "Year": "2011"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2719158.341,
+        "Year": "2012"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2803291.406,
+        "Year": "2013"
+    },
+    {
+        "Country": "GBR",
+        "Value": 3087165.603,
+        "Year": "2014"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2956573.779,
+        "Year": "2015"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2722851.958,
+        "Year": "2016"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2699106.74,
+        "Year": "2017"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2900985.326,
+        "Year": "2018"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2878673.912,
+        "Year": "2019"
+    },
+    {
+        "Country": "GBR",
+        "Value": 2764197.654,
+        "Year": "2020"
+    },
+    {
+        "Country": "GRC",
+        "Value": 247875.422,
+        "Year": "2005"
+    },
+    {
+        "Country": "GRC",
+        "Value": 273546.729,
+        "Year": "2006"
+    },
+    {
+        "Country": "GRC",
+        "Value": 318902.829,
+        "Year": "2007"
+    },
+    {
+        "Country": "GRC",
+        "Value": 355908.689,
+        "Year": "2008"
+    },
+    {
+        "Country": "GRC",
+        "Value": 331308.501,
+        "Year": "2009"
+    },
+    {
+        "Country": "GRC",
+        "Value": 297124.962,
+        "Year": "2010"
+    },
+    {
+        "Country": "GRC",
+        "Value": 282995.941,
+        "Year": "2011"
+    },
+    {
+        "Country": "GRC",
+        "Value": 242029.308,
+        "Year": "2012"
+    },
+    {
+        "Country": "GRC",
+        "Value": 238907.69,
+        "Year": "2013"
+    },
+    {
+        "Country": "GRC",
+        "Value": 235458.133,
+        "Year": "2014"
+    },
+    {
+        "Country": "GRC",
+        "Value": 195683.527,
+        "Year": "2015"
+    },
+    {
+        "Country": "GRC",
+        "Value": 193148.147,
+        "Year": "2016"
+    },
+    {
+        "Country": "GRC",
+        "Value": 199844.406,
+        "Year": "2017"
+    },
+    {
+        "Country": "GRC",
+        "Value": 212049.447,
+        "Year": "2018"
+    },
+    {
+        "Country": "GRC",
+        "Value": 205144.153,
+        "Year": "2019"
+    },
+    {
+        "Country": "GRC",
+        "Value": 188835.202,
+        "Year": "2020"
+    },
+    {
+        "Country": "HUN",
+        "Value": 113236.712,
+        "Year": "2005"
+    },
+    {
+        "Country": "HUN",
+        "Value": 115751.267,
+        "Year": "2006"
+    },
+    {
+        "Country": "HUN",
+        "Value": 140227.535,
+        "Year": "2007"
+    },
+    {
+        "Country": "HUN",
+        "Value": 158374.389,
+        "Year": "2008"
+    },
+    {
+        "Country": "HUN",
+        "Value": 131114.251,
+        "Year": "2009"
+    },
+    {
+        "Country": "HUN",
+        "Value": 132231.134,
+        "Year": "2010"
+    },
+    {
+        "Country": "HUN",
+        "Value": 141999.96,
+        "Year": "2011"
+    },
+    {
+        "Country": "HUN",
+        "Value": 128857.37,
+        "Year": "2012"
+    },
+    {
+        "Country": "HUN",
+        "Value": 135732.596,
+        "Year": "2013"
+    },
+    {
+        "Country": "HUN",
+        "Value": 141078.985,
+        "Year": "2014"
+    },
+    {
+        "Country": "HUN",
+        "Value": 125210.325,
+        "Year": "2015"
+    },
+    {
+        "Country": "HUN",
+        "Value": 128636.108,
+        "Year": "2016"
+    },
+    {
+        "Country": "HUN",
+        "Value": 143136.246,
+        "Year": "2017"
+    },
+    {
+        "Country": "HUN",
+        "Value": 160586.834,
+        "Year": "2018"
+    },
+    {
+        "Country": "HUN",
+        "Value": 163526.491,
+        "Year": "2019"
+    },
+    {
+        "Country": "HUN",
+        "Value": 155808.436,
+        "Year": "2020"
+    },
+    {
+        "Country": "IRL",
+        "Value": 211876.99,
+        "Year": "2005"
+    },
+    {
+        "Country": "IRL",
+        "Value": 232180.617,
+        "Year": "2006"
+    },
+    {
+        "Country": "IRL",
+        "Value": 270079.279,
+        "Year": "2007"
+    },
+    {
+        "Country": "IRL",
+        "Value": 275447.471,
+        "Year": "2008"
+    },
+    {
+        "Country": "IRL",
+        "Value": 236443.116,
+        "Year": "2009"
+    },
+    {
+        "Country": "IRL",
+        "Value": 221876.011,
+        "Year": "2010"
+    },
+    {
+        "Country": "IRL",
+        "Value": 238975.559,
+        "Year": "2011"
+    },
+    {
+        "Country": "IRL",
+        "Value": 225496.811,
+        "Year": "2012"
+    },
+    {
+        "Country": "IRL",
+        "Value": 238279.27,
+        "Year": "2013"
+    },
+    {
+        "Country": "IRL",
+        "Value": 258969.649,
+        "Year": "2014"
+    },
+    {
+        "Country": "IRL",
+        "Value": 291580.038,
+        "Year": "2015"
+    },
+    {
+        "Country": "IRL",
+        "Value": 298928.152,
+        "Year": "2016"
+    },
+    {
+        "Country": "IRL",
+        "Value": 335430.83,
+        "Year": "2017"
+    },
+    {
+        "Country": "IRL",
+        "Value": 385041.711,
+        "Year": "2018"
+    },
+    {
+        "Country": "IRL",
+        "Value": 399122.064,
+        "Year": "2019"
+    },
+    {
+        "Country": "IRL",
+        "Value": 425888.951,
+        "Year": "2020"
+    },
+    {
+        "Country": "ISL",
+        "Value": 16852.972,
+        "Year": "2005"
+    },
+    {
+        "Country": "ISL",
+        "Value": 17465.319,
+        "Year": "2006"
+    },
+    {
+        "Country": "ISL",
+        "Value": 21652.506,
+        "Year": "2007"
+    },
+    {
+        "Country": "ISL",
+        "Value": 18074.62,
+        "Year": "2008"
+    },
+    {
+        "Country": "ISL",
+        "Value": 13154.416,
+        "Year": "2009"
+    },
+    {
+        "Country": "ISL",
+        "Value": 13751.162,
+        "Year": "2010"
+    },
+    {
+        "Country": "ISL",
+        "Value": 15221.623,
+        "Year": "2011"
+    },
+    {
+        "Country": "ISL",
+        "Value": 14751.508,
+        "Year": "2012"
+    },
+    {
+        "Country": "ISL",
+        "Value": 16125.061,
+        "Year": "2013"
+    },
+    {
+        "Country": "ISL",
+        "Value": 17867.662,
+        "Year": "2014"
+    },
+    {
+        "Country": "ISL",
+        "Value": 17517.211,
+        "Year": "2015"
+    },
+    {
+        "Country": "ISL",
+        "Value": 20793.168,
+        "Year": "2016"
+    },
+    {
+        "Country": "ISL",
+        "Value": 24728.285,
+        "Year": "2017"
+    },
+    {
+        "Country": "ISL",
+        "Value": 26267.064,
+        "Year": "2018"
+    },
+    {
+        "Country": "ISL",
+        "Value": 24857.74,
+        "Year": "2019"
+    },
+    {
+        "Country": "ISL",
+        "Value": 21718.076,
+        "Year": "2020"
+    },
+    {
+        "Country": "ISR",
+        "Value": 142657.069,
+        "Year": "2005"
+    },
+    {
+        "Country": "ISR",
+        "Value": 154145.207,
+        "Year": "2006"
+    },
+    {
+        "Country": "ISR",
+        "Value": 179162.531,
+        "Year": "2007"
+    },
+    {
+        "Country": "ISR",
+        "Value": 216710.269,
+        "Year": "2008"
+    },
+    {
+        "Country": "ISR",
+        "Value": 207951.563,
+        "Year": "2009"
+    },
+    {
+        "Country": "ISR",
+        "Value": 234654.59,
+        "Year": "2010"
+    },
+    {
+        "Country": "ISR",
+        "Value": 262293.871,
+        "Year": "2011"
+    },
+    {
+        "Country": "ISR",
+        "Value": 258417.104,
+        "Year": "2012"
+    },
+    {
+        "Country": "ISR",
+        "Value": 294167.366,
+        "Year": "2013"
+    },
+    {
+        "Country": "ISR",
+        "Value": 310944.938,
+        "Year": "2014"
+    },
+    {
+        "Country": "ISR",
+        "Value": 300078.278,
+        "Year": "2015"
+    },
+    {
+        "Country": "ISR",
+        "Value": 319024.417,
+        "Year": "2016"
+    },
+    {
+        "Country": "ISR",
+        "Value": 355277.224,
+        "Year": "2017"
+    },
+    {
+        "Country": "ISR",
+        "Value": 373641.242,
+        "Year": "2018"
+    },
+    {
+        "Country": "ISR",
+        "Value": 397934.597,
+        "Year": "2019"
+    },
+    {
+        "Country": "ISR",
+        "Value": 407100.737,
+        "Year": "2020"
+    },
+    {
+        "Country": "ITA",
+        "Value": 1858217.147,
+        "Year": "2005"
+    },
+    {
+        "Country": "ITA",
+        "Value": 1949551.719,
+        "Year": "2006"
+    },
+    {
+        "Country": "ITA",
+        "Value": 2213102.483,
+        "Year": "2007"
+    },
+    {
+        "Country": "ITA",
+        "Value": 2408655.349,
+        "Year": "2008"
+    },
+    {
+        "Country": "ITA",
+        "Value": 2199928.804,
+        "Year": "2009"
+    },
+    {
+        "Country": "ITA",
+        "Value": 2136099.955,
+        "Year": "2010"
+    },
+    {
+        "Country": "ITA",
+        "Value": 2294994.297,
+        "Year": "2011"
+    },
+    {
+        "Country": "ITA",
+        "Value": 2086957.657,
+        "Year": "2012"
+    },
+    {
+        "Country": "ITA",
+        "Value": 2141924.094,
+        "Year": "2013"
+    },
+    {
+        "Country": "ITA",
+        "Value": 2162009.616,
+        "Year": "2014"
+    },
+    {
+        "Country": "ITA",
+        "Value": 1836637.711,
+        "Year": "2015"
+    },
+    {
+        "Country": "ITA",
+        "Value": 1877071.688,
+        "Year": "2016"
+    },
+    {
+        "Country": "ITA",
+        "Value": 1961796.197,
+        "Year": "2017"
+    },
+    {
+        "Country": "ITA",
+        "Value": 2091932.426,
+        "Year": "2018"
+    },
+    {
+        "Country": "ITA",
+        "Value": 2009383.867,
+        "Year": "2019"
+    },
+    {
+        "Country": "ITA",
+        "Value": 1888709.444,
+        "Year": "2020"
+    },
+    {
+        "Country": "JPN",
+        "Value": 4831466.524,
+        "Year": "2005"
+    },
+    {
+        "Country": "JPN",
+        "Value": 4601662.661,
+        "Year": "2006"
+    },
+    {
+        "Country": "JPN",
+        "Value": 4579749.786,
+        "Year": "2007"
+    },
+    {
+        "Country": "JPN",
+        "Value": 5106679.413,
+        "Year": "2008"
+    },
+    {
+        "Country": "JPN",
+        "Value": 5289493.735,
+        "Year": "2009"
+    },
+    {
+        "Country": "JPN",
+        "Value": 5759071.769,
+        "Year": "2010"
+    },
+    {
+        "Country": "JPN",
+        "Value": 6233147.172,
+        "Year": "2011"
+    },
+    {
+        "Country": "JPN",
+        "Value": 6272362.996,
+        "Year": "2012"
+    },
+    {
+        "Country": "JPN",
+        "Value": 5212328.181,
+        "Year": "2013"
+    },
+    {
+        "Country": "JPN",
+        "Value": 4896994.405,
+        "Year": "2014"
+    },
+    {
+        "Country": "JPN",
+        "Value": 4444930.652,
+        "Year": "2015"
+    },
+    {
+        "Country": "JPN",
+        "Value": 5003677.628,
+        "Year": "2016"
+    },
+    {
+        "Country": "JPN",
+        "Value": 4930837.369,
+        "Year": "2017"
+    },
+    {
+        "Country": "JPN",
+        "Value": 5036891.741,
+        "Year": "2018"
+    },
+    {
+        "Country": "JPN",
+        "Value": 5148781.948,
+        "Year": "2019"
+    },
+    {
+        "Country": "KOR",
+        "Value": 934707.914,
+        "Year": "2005"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1052610.194,
+        "Year": "2006"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1172464.53,
+        "Year": "2007"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1049167.709,
+        "Year": "2008"
+    },
+    {
+        "Country": "KOR",
+        "Value": 943708.461,
+        "Year": "2009"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1143672.241,
+        "Year": "2010"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1253289.5,
+        "Year": "2011"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1278046.574,
+        "Year": "2012"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1370632.955,
+        "Year": "2013"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1484488.526,
+        "Year": "2014"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1466038.936,
+        "Year": "2015"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1499679.824,
+        "Year": "2016"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1623074.136,
+        "Year": "2017"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1725373.445,
+        "Year": "2018"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1651422.932,
+        "Year": "2019"
+    },
+    {
+        "Country": "KOR",
+        "Value": 1637881.568,
+        "Year": "2020"
+    },
+    {
+        "Country": "LTU",
+        "Value": 26113.491,
+        "Year": "2005"
+    },
+    {
+        "Country": "LTU",
+        "Value": 30176.022,
+        "Year": "2006"
+    },
+    {
+        "Country": "LTU",
+        "Value": 39691.304,
+        "Year": "2007"
+    },
+    {
+        "Country": "LTU",
+        "Value": 47842.634,
+        "Year": "2008"
+    },
+    {
+        "Country": "LTU",
+        "Value": 37386.782,
+        "Year": "2009"
+    },
+    {
+        "Country": "LTU",
+        "Value": 37138.465,
+        "Year": "2010"
+    },
+    {
+        "Country": "LTU",
+        "Value": 43582.249,
+        "Year": "2011"
+    },
+    {
+        "Country": "LTU",
+        "Value": 42943.442,
+        "Year": "2012"
+    },
+    {
+        "Country": "LTU",
+        "Value": 46514.471,
+        "Year": "2013"
+    },
+    {
+        "Country": "LTU",
+        "Value": 48574.532,
+        "Year": "2014"
+    },
+    {
+        "Country": "LTU",
+        "Value": 41435.534,
+        "Year": "2015"
+    },
+    {
+        "Country": "LTU",
+        "Value": 43047.31,
+        "Year": "2016"
+    },
+    {
+        "Country": "LTU",
+        "Value": 47758.737,
+        "Year": "2017"
+    },
+    {
+        "Country": "LTU",
+        "Value": 53750.912,
+        "Year": "2018"
+    },
+    {
+        "Country": "LTU",
+        "Value": 54697.379,
+        "Year": "2019"
+    },
+    {
+        "Country": "LTU",
+        "Value": 56546.957,
+        "Year": "2020"
+    },
+    {
+        "Country": "LUX",
+        "Value": 37672.28,
+        "Year": "2005"
+    },
+    {
+        "Country": "LUX",
+        "Value": 42910.146,
+        "Year": "2006"
+    },
+    {
+        "Country": "LUX",
+        "Value": 51587.401,
+        "Year": "2007"
+    },
+    {
+        "Country": "LUX",
+        "Value": 58844.278,
+        "Year": "2008"
+    },
+    {
+        "Country": "LUX",
+        "Value": 54467.29,
+        "Year": "2009"
+    },
+    {
+        "Country": "LUX",
+        "Value": 56213.986,
+        "Year": "2010"
+    },
+    {
+        "Country": "LUX",
+        "Value": 61696.281,
+        "Year": "2011"
+    },
+    {
+        "Country": "LUX",
+        "Value": 59776.384,
+        "Year": "2012"
+    },
+    {
+        "Country": "LUX",
+        "Value": 65203.276,
+        "Year": "2013"
+    },
+    {
+        "Country": "LUX",
+        "Value": 68804.812,
+        "Year": "2014"
+    },
+    {
+        "Country": "LUX",
+        "Value": 60071.584,
+        "Year": "2015"
+    },
+    {
+        "Country": "LUX",
+        "Value": 62216.885,
+        "Year": "2016"
+    },
+    {
+        "Country": "LUX",
+        "Value": 65712.18,
+        "Year": "2017"
+    },
+    {
+        "Country": "LUX",
+        "Value": 71285.019,
+        "Year": "2018"
+    },
+    {
+        "Country": "LUX",
+        "Value": 70195.715,
+        "Year": "2019"
+    },
+    {
+        "Country": "LUX",
+        "Value": 73353.133,
+        "Year": "2020"
+    },
+    {
+        "Country": "LVA",
+        "Value": 16958.903,
+        "Year": "2005"
+    },
+    {
+        "Country": "LVA",
+        "Value": 21517.736,
+        "Year": "2006"
+    },
+    {
+        "Country": "LVA",
+        "Value": 31006.594,
+        "Year": "2007"
+    },
+    {
+        "Country": "LVA",
+        "Value": 35754.11,
+        "Year": "2008"
+    },
+    {
+        "Country": "LVA",
+        "Value": 26319.744,
+        "Year": "2009"
+    },
+    {
+        "Country": "LVA",
+        "Value": 23877.564,
+        "Year": "2010"
+    },
+    {
+        "Country": "LVA",
+        "Value": 28619.991,
+        "Year": "2011"
+    },
+    {
+        "Country": "LVA",
+        "Value": 28330.633,
+        "Year": "2012"
+    },
+    {
+        "Country": "LVA",
+        "Value": 30432.796,
+        "Year": "2013"
+    },
+    {
+        "Country": "LVA",
+        "Value": 31371.094,
+        "Year": "2014"
+    },
+    {
+        "Country": "LVA",
+        "Value": 27250.611,
+        "Year": "2015"
+    },
+    {
+        "Country": "LVA",
+        "Value": 28071.382,
+        "Year": "2016"
+    },
+    {
+        "Country": "LVA",
+        "Value": 30458.763,
+        "Year": "2017"
+    },
+    {
+        "Country": "LVA",
+        "Value": 34416.013,
+        "Year": "2018"
+    },
+    {
+        "Country": "LVA",
+        "Value": 34055.465,
+        "Year": "2019"
+    },
+    {
+        "Country": "LVA",
+        "Value": 33505.185,
+        "Year": "2020"
+    },
+    {
+        "Country": "MEX",
+        "Value": 877476.892,
+        "Year": "2005"
+    },
+    {
+        "Country": "MEX",
+        "Value": 975383.403,
+        "Year": "2006"
+    },
+    {
+        "Country": "MEX",
+        "Value": 1052697.085,
+        "Year": "2007"
+    },
+    {
+        "Country": "MEX",
+        "Value": 1109987.401,
+        "Year": "2008"
+    },
+    {
+        "Country": "MEX",
+        "Value": 900047.016,
+        "Year": "2009"
+    },
+    {
+        "Country": "MEX",
+        "Value": 1057800.598,
+        "Year": "2010"
+    },
+    {
+        "Country": "MEX",
+        "Value": 1180487.226,
+        "Year": "2011"
+    },
+    {
+        "Country": "MEX",
+        "Value": 1201093.787,
+        "Year": "2012"
+    },
+    {
+        "Country": "MEX",
+        "Value": 1274443.916,
+        "Year": "2013"
+    },
+    {
+        "Country": "MEX",
+        "Value": 1315356.131,
+        "Year": "2014"
+    },
+    {
+        "Country": "MEX",
+        "Value": 1171870.073,
+        "Year": "2015"
+    },
+    {
+        "Country": "MEX",
+        "Value": 1078493.059,
+        "Year": "2016"
+    },
+    {
+        "Country": "MEX",
+        "Value": 1158912.015,
+        "Year": "2017"
+    },
+    {
+        "Country": "MEX",
+        "Value": 1222346.161,
+        "Year": "2018"
+    },
+    {
+        "Country": "MEX",
+        "Value": 1268868.332,
+        "Year": "2019"
+    },
+    {
+        "Country": "NLD",
+        "Value": 685348.182,
+        "Year": "2005"
+    },
+    {
+        "Country": "NLD",
+        "Value": 733955.27,
+        "Year": "2006"
+    },
+    {
+        "Country": "NLD",
+        "Value": 848558.888,
+        "Year": "2007"
+    },
+    {
+        "Country": "NLD",
+        "Value": 951869.998,
+        "Year": "2008"
+    },
+    {
+        "Country": "NLD",
+        "Value": 871518.638,
+        "Year": "2009"
+    },
+    {
+        "Country": "NLD",
+        "Value": 847380.859,
+        "Year": "2010"
+    },
+    {
+        "Country": "NLD",
+        "Value": 905270.626,
+        "Year": "2011"
+    },
+    {
+        "Country": "NLD",
+        "Value": 838923.32,
+        "Year": "2012"
+    },
+    {
+        "Country": "NLD",
+        "Value": 877172.825,
+        "Year": "2013"
+    },
+    {
+        "Country": "NLD",
+        "Value": 892167.987,
+        "Year": "2014"
+    },
+    {
+        "Country": "NLD",
+        "Value": 765572.771,
+        "Year": "2015"
+    },
+    {
+        "Country": "NLD",
+        "Value": 784060.43,
+        "Year": "2016"
+    },
+    {
+        "Country": "NLD",
+        "Value": 833869.642,
+        "Year": "2017"
+    },
+    {
+        "Country": "NLD",
+        "Value": 914043.438,
+        "Year": "2018"
+    },
+    {
+        "Country": "NLD",
+        "Value": 910194.348,
+        "Year": "2019"
+    },
+    {
+        "Country": "NLD",
+        "Value": 913865.396,
+        "Year": "2020"
+    },
+    {
+        "Country": "NOR",
+        "Value": 308884.284,
+        "Year": "2005"
+    },
+    {
+        "Country": "NOR",
+        "Value": 345579.574,
+        "Year": "2006"
+    },
+    {
+        "Country": "NOR",
+        "Value": 400939.38,
+        "Year": "2007"
+    },
+    {
+        "Country": "NOR",
+        "Value": 462250.0,
+        "Year": "2008"
+    },
+    {
+        "Country": "NOR",
+        "Value": 386188.338,
+        "Year": "2009"
+    },
+    {
+        "Country": "NOR",
+        "Value": 428757.038,
+        "Year": "2010"
+    },
+    {
+        "Country": "NOR",
+        "Value": 498283.438,
+        "Year": "2011"
+    },
+    {
+        "Country": "NOR",
+        "Value": 509506.317,
+        "Year": "2012"
+    },
+    {
+        "Country": "NOR",
+        "Value": 522761.532,
+        "Year": "2013"
+    },
+    {
+        "Country": "NOR",
+        "Value": 498410.05,
+        "Year": "2014"
+    },
+    {
+        "Country": "NOR",
+        "Value": 385801.55,
+        "Year": "2015"
+    },
+    {
+        "Country": "NOR",
+        "Value": 368827.143,
+        "Year": "2016"
+    },
+    {
+        "Country": "NOR",
+        "Value": 398393.955,
+        "Year": "2017"
+    },
+    {
+        "Country": "NOR",
+        "Value": 436999.693,
+        "Year": "2018"
+    },
+    {
+        "Country": "NOR",
+        "Value": 405510.0,
+        "Year": "2019"
+    },
+    {
+        "Country": "NOR",
+        "Value": 362381.513,
+        "Year": "2020"
+    },
+    {
+        "Country": "NZL",
+        "Value": 114722.274,
+        "Year": "2005"
+    },
+    {
+        "Country": "NZL",
+        "Value": 111542.011,
+        "Year": "2006"
+    },
+    {
+        "Country": "NZL",
+        "Value": 137191.444,
+        "Year": "2007"
+    },
+    {
+        "Country": "NZL",
+        "Value": 133128.861,
+        "Year": "2008"
+    },
+    {
+        "Country": "NZL",
+        "Value": 121375.324,
+        "Year": "2009"
+    },
+    {
+        "Country": "NZL",
+        "Value": 146517.541,
+        "Year": "2010"
+    },
+    {
+        "Country": "NZL",
+        "Value": 168291.357,
+        "Year": "2011"
+    },
+    {
+        "Country": "NZL",
+        "Value": 176206.66,
+        "Year": "2012"
+    },
+    {
+        "Country": "NZL",
+        "Value": 190906.575,
+        "Year": "2013"
+    },
+    {
+        "Country": "NZL",
+        "Value": 201313.497,
+        "Year": "2014"
+    },
+    {
+        "Country": "NZL",
+        "Value": 178064.471,
+        "Year": "2015"
+    },
+    {
+        "Country": "NZL",
+        "Value": 188943.457,
+        "Year": "2016"
+    },
+    {
+        "Country": "NZL",
+        "Value": 206950.601,
+        "Year": "2017"
+    },
+    {
+        "Country": "NZL",
+        "Value": 212225.727,
+        "Year": "2018"
+    },
+    {
+        "Country": "NZL",
+        "Value": 212891.048,
+        "Year": "2019"
+    },
+    {
+        "Country": "POL",
+        "Value": 306145.913,
+        "Year": "2005"
+    },
+    {
+        "Country": "POL",
+        "Value": 344626.63,
+        "Year": "2006"
+    },
+    {
+        "Country": "POL",
+        "Value": 429020.755,
+        "Year": "2007"
+    },
+    {
+        "Country": "POL",
+        "Value": 533599.853,
+        "Year": "2008"
+    },
+    {
+        "Country": "POL",
+        "Value": 439731.636,
+        "Year": "2009"
+    },
+    {
+        "Country": "POL",
+        "Value": 479834.179,
+        "Year": "2010"
+    },
+    {
+        "Country": "POL",
+        "Value": 528292.75,
+        "Year": "2011"
+    },
+    {
+        "Country": "POL",
+        "Value": 498517.19,
+        "Year": "2012"
+    },
+    {
+        "Country": "POL",
+        "Value": 521013.515,
+        "Year": "2013"
+    },
+    {
+        "Country": "POL",
+        "Value": 542469.931,
+        "Year": "2014"
+    },
+    {
+        "Country": "POL",
+        "Value": 477811.911,
+        "Year": "2015"
+    },
+    {
+        "Country": "POL",
+        "Value": 472632.362,
+        "Year": "2016"
+    },
+    {
+        "Country": "POL",
+        "Value": 526504.234,
+        "Year": "2017"
+    },
+    {
+        "Country": "POL",
+        "Value": 587409.034,
+        "Year": "2018"
+    },
+    {
+        "Country": "POL",
+        "Value": 597284.454,
+        "Year": "2019"
+    },
+    {
+        "Country": "POL",
+        "Value": 596617.981,
+        "Year": "2020"
+    },
+    {
+        "Country": "PRT",
+        "Value": 197253.877,
+        "Year": "2005"
+    },
+    {
+        "Country": "PRT",
+        "Value": 208756.449,
+        "Year": "2006"
+    },
+    {
+        "Country": "PRT",
+        "Value": 240496.147,
+        "Year": "2007"
+    },
+    {
+        "Country": "PRT",
+        "Value": 263416.395,
+        "Year": "2008"
+    },
+    {
+        "Country": "PRT",
+        "Value": 244667.763,
+        "Year": "2009"
+    },
+    {
+        "Country": "PRT",
+        "Value": 238113.003,
+        "Year": "2010"
+    },
+    {
+        "Country": "PRT",
+        "Value": 245117.99,
+        "Year": "2011"
+    },
+    {
+        "Country": "PRT",
+        "Value": 216224.241,
+        "Year": "2012"
+    },
+    {
+        "Country": "PRT",
+        "Value": 226433.858,
+        "Year": "2013"
+    },
+    {
+        "Country": "PRT",
+        "Value": 229901.964,
+        "Year": "2014"
+    },
+    {
+        "Country": "PRT",
+        "Value": 199394.067,
+        "Year": "2015"
+    },
+    {
+        "Country": "PRT",
+        "Value": 206426.152,
+        "Year": "2016"
+    },
+    {
+        "Country": "PRT",
+        "Value": 221357.875,
+        "Year": "2017"
+    },
+    {
+        "Country": "PRT",
+        "Value": 242313.117,
+        "Year": "2018"
+    },
+    {
+        "Country": "PRT",
+        "Value": 239986.923,
+        "Year": "2019"
+    },
+    {
+        "Country": "PRT",
+        "Value": 228539.245,
+        "Year": "2020"
+    },
+    {
+        "Country": "SVK",
+        "Value": 49033.428,
+        "Year": "2005"
+    },
+    {
+        "Country": "SVK",
+        "Value": 57175.135,
+        "Year": "2006"
+    },
+    {
+        "Country": "SVK",
+        "Value": 77056.51,
+        "Year": "2007"
+    },
+    {
+        "Country": "SVK",
+        "Value": 96733.211,
+        "Year": "2008"
+    },
+    {
+        "Country": "SVK",
+        "Value": 89399.303,
+        "Year": "2009"
+    },
+    {
+        "Country": "SVK",
+        "Value": 90801.178,
+        "Year": "2010"
+    },
+    {
+        "Country": "SVK",
+        "Value": 99492.918,
+        "Year": "2011"
+    },
+    {
+        "Country": "SVK",
+        "Value": 94253.181,
+        "Year": "2012"
+    },
+    {
+        "Country": "SVK",
+        "Value": 98569.32,
+        "Year": "2013"
+    },
+    {
+        "Country": "SVK",
+        "Value": 101089.178,
+        "Year": "2014"
+    },
+    {
+        "Country": "SVK",
+        "Value": 88636.929,
+        "Year": "2015"
+    },
+    {
+        "Country": "SVK",
+        "Value": 89674.928,
+        "Year": "2016"
+    },
+    {
+        "Country": "SVK",
+        "Value": 95393.515,
+        "Year": "2017"
+    },
+    {
+        "Country": "SVK",
+        "Value": 105612.793,
+        "Year": "2018"
+    },
+    {
+        "Country": "SVK",
+        "Value": 105284.376,
+        "Year": "2019"
+    },
+    {
+        "Country": "SVK",
+        "Value": 105172.564,
+        "Year": "2020"
+    },
+    {
+        "Country": "SVN",
+        "Value": 36204.34,
+        "Year": "2005"
+    },
+    {
+        "Country": "SVN",
+        "Value": 39478.727,
+        "Year": "2006"
+    },
+    {
+        "Country": "SVN",
+        "Value": 48067.401,
+        "Year": "2007"
+    },
+    {
+        "Country": "SVN",
+        "Value": 55779.427,
+        "Year": "2008"
+    },
+    {
+        "Country": "SVN",
+        "Value": 50567.735,
+        "Year": "2009"
+    },
+    {
+        "Country": "SVN",
+        "Value": 48208.241,
+        "Year": "2010"
+    },
+    {
+        "Country": "SVN",
+        "Value": 51583.87,
+        "Year": "2011"
+    },
+    {
+        "Country": "SVN",
+        "Value": 46577.793,
+        "Year": "2012"
+    },
+    {
+        "Country": "SVN",
+        "Value": 48415.657,
+        "Year": "2013"
+    },
+    {
+        "Country": "SVN",
+        "Value": 49997.186,
+        "Year": "2014"
+    },
+    {
+        "Country": "SVN",
+        "Value": 43107.506,
+        "Year": "2015"
+    },
+    {
+        "Country": "SVN",
+        "Value": 44766.723,
+        "Year": "2016"
+    },
+    {
+        "Country": "SVN",
+        "Value": 48589.1,
+        "Year": "2017"
+    },
+    {
+        "Country": "SVN",
+        "Value": 54163.591,
+        "Year": "2018"
+    },
+    {
+        "Country": "SVN",
+        "Value": 54178.877,
+        "Year": "2019"
+    },
+    {
+        "Country": "SVN",
+        "Value": 53589.609,
+        "Year": "2020"
+    },
+    {
+        "Country": "SWE",
+        "Value": 392218.701,
+        "Year": "2005"
+    },
+    {
+        "Country": "SWE",
+        "Value": 423090.618,
+        "Year": "2006"
+    },
+    {
+        "Country": "SWE",
+        "Value": 491254.77,
+        "Year": "2007"
+    },
+    {
+        "Country": "SWE",
+        "Value": 517706.215,
+        "Year": "2008"
+    },
+    {
+        "Country": "SWE",
+        "Value": 436535.921,
+        "Year": "2009"
+    },
+    {
+        "Country": "SWE",
+        "Value": 495812.559,
+        "Year": "2010"
+    },
+    {
+        "Country": "SWE",
+        "Value": 574094.113,
+        "Year": "2011"
+    },
+    {
+        "Country": "SWE",
+        "Value": 552483.727,
+        "Year": "2012"
+    },
+    {
+        "Country": "SWE",
+        "Value": 586841.822,
+        "Year": "2013"
+    },
+    {
+        "Country": "SWE",
+        "Value": 581964.017,
+        "Year": "2014"
+    },
+    {
+        "Country": "SWE",
+        "Value": 505103.781,
+        "Year": "2015"
+    },
+    {
+        "Country": "SWE",
+        "Value": 515654.671,
+        "Year": "2016"
+    },
+    {
+        "Country": "SWE",
+        "Value": 541018.75,
+        "Year": "2017"
+    },
+    {
+        "Country": "SWE",
+        "Value": 555455.371,
+        "Year": "2018"
+    },
+    {
+        "Country": "SWE",
+        "Value": 533879.529,
+        "Year": "2019"
+    },
+    {
+        "Country": "SWE",
+        "Value": 541063.604,
+        "Year": "2020"
+    },
+    {
+        "Country": "TUR",
+        "Value": 506314.677,
+        "Year": "2005"
+    },
+    {
+        "Country": "TUR",
+        "Value": 557075.997,
+        "Year": "2006"
+    },
+    {
+        "Country": "TUR",
+        "Value": 681321.174,
+        "Year": "2007"
+    },
+    {
+        "Country": "TUR",
+        "Value": 770449.309,
+        "Year": "2008"
+    },
+    {
+        "Country": "TUR",
+        "Value": 649289.419,
+        "Year": "2009"
+    },
+    {
+        "Country": "TUR",
+        "Value": 776967.458,
+        "Year": "2010"
+    },
+    {
+        "Country": "TUR",
+        "Value": 838785.514,
+        "Year": "2011"
+    },
+    {
+        "Country": "TUR",
+        "Value": 880555.913,
+        "Year": "2012"
+    },
+    {
+        "Country": "TUR",
+        "Value": 957798.998,
+        "Year": "2013"
+    },
+    {
+        "Country": "TUR",
+        "Value": 938934.43,
+        "Year": "2014"
+    },
+    {
+        "Country": "TUR",
+        "Value": 864313.96,
+        "Year": "2015"
+    },
+    {
+        "Country": "TUR",
+        "Value": 869682.954,
+        "Year": "2016"
+    },
+    {
+        "Country": "TUR",
+        "Value": 858988.579,
+        "Year": "2017"
+    },
+    {
+        "Country": "TUR",
+        "Value": 778476.714,
+        "Year": "2018"
+    },
+    {
+        "Country": "TUR",
+        "Value": 761001.836,
+        "Year": "2019"
+    },
+    {
+        "Country": "TUR",
+        "Value": 720098.081,
+        "Year": "2020"
+    },
+    {
+        "Country": "USA",
+        "Value": 13036640.23,
+        "Year": "2005"
+    },
+    {
+        "Country": "USA",
+        "Value": 13814611.414,
+        "Year": "2006"
+    },
+    {
+        "Country": "USA",
+        "Value": 14451858.656,
+        "Year": "2007"
+    },
+    {
+        "Country": "USA",
+        "Value": 14712844.084,
+        "Year": "2008"
+    },
+    {
+        "Country": "USA",
+        "Value": 14448933.025,
+        "Year": "2009"
+    },
+    {
+        "Country": "USA",
+        "Value": 14992052.727,
+        "Year": "2010"
+    },
+    {
+        "Country": "USA",
+        "Value": 15542581.104,
+        "Year": "2011"
+    },
+    {
+        "Country": "USA",
+        "Value": 16197007.349,
+        "Year": "2012"
+    },
+    {
+        "Country": "USA",
+        "Value": 16784849.196,
+        "Year": "2013"
+    },
+    {
+        "Country": "USA",
+        "Value": 17527163.695,
+        "Year": "2014"
+    },
+    {
+        "Country": "USA",
+        "Value": 18238300.569,
+        "Year": "2015"
+    },
+    {
+        "Country": "USA",
+        "Value": 18745075.687,
+        "Year": "2016"
+    },
+    {
+        "Country": "USA",
+        "Value": 19542979.183,
+        "Year": "2017"
+    },
+    {
+        "Country": "USA",
+        "Value": 20611860.934,
+        "Year": "2018"
+    },
+    {
+        "Country": "USA",
+        "Value": 21433224.697,
+        "Year": "2019"
+    }
+]

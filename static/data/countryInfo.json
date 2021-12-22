@@ -1,0 +1,1939 @@
+[
+  {
+    "country": "Afghanistan",
+    "elevation": 0,
+    "ISO3": "AFG",
+    "expectancy": 45,
+    "population": 35530081,
+    "temperature": 12
+  },
+  {
+    "country": "Albania",
+    "elevation": 0,
+    "ISO3": "ALB",
+    "expectancy": 71,
+    "population": 2930187,
+    "temperature": 11
+  },
+  {
+    "country": "Algeria",
+    "elevation": 800,
+    "ISO3": "DZA",
+    "expectancy": 69,
+    "population": 41318142,
+    "temperature": 22
+  },
+  {
+    "country": "American Samoa",
+    "elevation": 0,
+    "ISO3": "ASM",
+    "expectancy": 75,
+    "population": 55641,
+    "temperature": 0
+  },
+  {
+    "country": "Andorra",
+    "elevation": 1,
+    "ISO3": "AND",
+    "expectancy": 83,
+    "population": 76965,
+    "temperature": 7
+  },
+  {
+    "country": "Angola",
+    "elevation": 1,
+    "ISO3": "AGO",
+    "expectancy": 38,
+    "population": 29784193,
+    "temperature": 21
+  },
+  {
+    "country": "Anguilla",
+    "elevation": 0,
+    "ISO3": "AIA",
+    "expectancy": 76,
+    "population": 14909,
+    "temperature": 0
+  },
+  {
+    "country": "Antarctica",
+    "elevation": 2,
+    "ISO3": "ATA",
+    "expectancy": 0,
+    "population": 0,
+    "temperature": 0
+  },
+  {
+    "country": "Antigua and Barbuda",
+    "elevation": 0,
+    "ISO3": "ATG",
+    "expectancy": 70,
+    "population": 102012,
+    "temperature": 26
+  },
+  {
+    "country": "Argentina",
+    "elevation": 595,
+    "ISO3": "ARG",
+    "expectancy": 75,
+    "population": 44271041,
+    "temperature": 14
+  },
+  {
+    "country": "Armenia",
+    "elevation": 1,
+    "ISO3": "ARM",
+    "expectancy": 66,
+    "population": 2930450,
+    "temperature": 7
+  },
+  {
+    "country": "Aruba",
+    "elevation": 0,
+    "ISO3": "ABW",
+    "expectancy": 78,
+    "population": 105264,
+    "temperature": 0
+  },
+  {
+    "country": "Australia",
+    "elevation": 330,
+    "ISO3": "AUS",
+    "expectancy": 79,
+    "population": 24450561,
+    "temperature": 21
+  },
+  {
+    "country": "Austria",
+    "elevation": 910,
+    "ISO3": "AUT",
+    "expectancy": 77,
+    "population": 8735453,
+    "temperature": 6
+  },
+  {
+    "country": "Azerbaijan",
+    "elevation": 384,
+    "ISO3": "AZE",
+    "expectancy": 62,
+    "population": 9827589,
+    "temperature": 11
+  },
+  {
+    "country": "Bahamas",
+    "elevation": 0,
+    "ISO3": "BHS",
+    "expectancy": 71,
+    "population": 395361,
+    "temperature": 24
+  },
+  {
+    "country": "Bahrain",
+    "elevation": 0,
+    "ISO3": "BHR",
+    "expectancy": 73,
+    "population": 1492584,
+    "temperature": 27
+  },
+  {
+    "country": "Bangladesh",
+    "elevation": 85,
+    "ISO3": "BGD",
+    "expectancy": 60,
+    "population": 164669751,
+    "temperature": 25
+  },
+  {
+    "country": "Barbados",
+    "elevation": 0,
+    "ISO3": "BRB",
+    "expectancy": 73,
+    "population": 285719,
+    "temperature": 26
+  },
+  {
+    "country": "Belarus",
+    "elevation": 160,
+    "ISO3": "BLR",
+    "expectancy": 68,
+    "population": 9468338,
+    "temperature": 6
+  },
+  {
+    "country": "Belgium",
+    "elevation": 181,
+    "ISO3": "BEL",
+    "expectancy": 77,
+    "population": 11429336,
+    "temperature": 9
+  },
+  {
+    "country": "Belize",
+    "elevation": 173,
+    "ISO3": "BLZ",
+    "expectancy": 70,
+    "population": 374681,
+    "temperature": 25
+  },
+  {
+    "country": "Benin",
+    "elevation": 273,
+    "ISO3": "BEN",
+    "expectancy": 50,
+    "population": 11175692,
+    "temperature": 27
+  },
+  {
+    "country": "Bermuda",
+    "elevation": 0,
+    "ISO3": "BMU",
+    "expectancy": 76,
+    "population": 61349,
+    "temperature": 0
+  },
+  {
+    "country": "Bhutan",
+    "elevation": 3,
+    "ISO3": "BTN",
+    "expectancy": 52,
+    "population": 807610,
+    "temperature": 7
+  },
+  {
+    "country": "Bolivia",
+    "elevation": 1,
+    "ISO3": "BOL",
+    "expectancy": 63,
+    "population": 11051600,
+    "temperature": 21
+  },
+  {
+    "country": "Bosnia and Herzegovina",
+    "elevation": 500,
+    "ISO3": "BIH",
+    "expectancy": 71,
+    "population": 3507017,
+    "temperature": 9
+  },
+  {
+    "country": "Botswana",
+    "elevation": 1,
+    "ISO3": "BWA",
+    "expectancy": 39,
+    "population": 2291661,
+    "temperature": 21
+  },
+  {
+    "country": "Bouvet Island",
+    "elevation": 0,
+    "ISO3": "BVT",
+    "expectancy": 0,
+    "population": 0,
+    "temperature": 0
+  },
+  {
+    "country": "Brazil",
+    "elevation": 320,
+    "ISO3": "BRA",
+    "expectancy": 62,
+    "population": 209288278,
+    "temperature": 24
+  },
+  {
+    "country": "British Indian Ocean Territory",
+    "elevation": 0,
+    "ISO3": "IOT",
+    "expectancy": 0,
+    "population": 0,
+    "temperature": 0
+  },
+  {
+    "country": "Brunei",
+    "elevation": 478,
+    "ISO3": "BRN",
+    "expectancy": 73,
+    "population": 428697,
+    "temperature": 26
+  },
+  {
+    "country": "Bulgaria",
+    "elevation": 472,
+    "ISO3": "BGR",
+    "expectancy": 70,
+    "population": 7084571,
+    "temperature": 10
+  },
+  {
+    "country": "Burkina Faso",
+    "elevation": 297,
+    "ISO3": "BFA",
+    "expectancy": 46,
+    "population": 19193382,
+    "temperature": 28
+  },
+  {
+    "country": "Burundi",
+    "elevation": 1,
+    "ISO3": "BDI",
+    "expectancy": 46,
+    "population": 10864245,
+    "temperature": 19
+  },
+  {
+    "country": "Cambodia",
+    "elevation": 126,
+    "ISO3": "KHM",
+    "expectancy": 56,
+    "population": 16005373,
+    "temperature": 26
+  },
+  {
+    "country": "Cameroon",
+    "elevation": 667,
+    "ISO3": "CMR",
+    "expectancy": 54,
+    "population": 24053727,
+    "temperature": 24
+  },
+  {
+    "country": "Canada",
+    "elevation": 487,
+    "ISO3": "CAN",
+    "expectancy": 79,
+    "population": 36624199,
+    "temperature": -5
+  },
+  {
+    "country": "Cape Verde",
+    "elevation": 0,
+    "ISO3": "CPV",
+    "expectancy": 68,
+    "population": 546388,
+    "temperature": 23
+  },
+  {
+    "country": "Cayman Islands",
+    "elevation": 0,
+    "ISO3": "CYM",
+    "expectancy": 78,
+    "population": 61559,
+    "temperature": 0
+  },
+  {
+    "country": "Central African Republic",
+    "elevation": 635,
+    "ISO3": "CAF",
+    "expectancy": 44,
+    "population": 4659080,
+    "temperature": 24
+  },
+  {
+    "country": "Chad",
+    "elevation": 543,
+    "ISO3": "TCD",
+    "expectancy": 50,
+    "population": 14899994,
+    "temperature": 26
+  },
+  {
+    "country": "Chile",
+    "elevation": 1,
+    "ISO3": "CHL",
+    "expectancy": 75,
+    "population": 18054726,
+    "temperature": 8
+  },
+  {
+    "country": "China",
+    "elevation": 1,
+    "ISO3": "CHN",
+    "expectancy": 71,
+    "population": 1409517397,
+    "temperature": 6
+  },
+  {
+    "country": "Christmas Island",
+    "elevation": 0,
+    "ISO3": "CXR",
+    "expectancy": 0,
+    "population": 2500,
+    "temperature": 0
+  },
+  {
+    "country": "Cocos (Keeling) Islands",
+    "elevation": 0,
+    "ISO3": "CCK",
+    "expectancy": 0,
+    "population": 600,
+    "temperature": 0
+  },
+  {
+    "country": "Colombia",
+    "elevation": 593,
+    "ISO3": "COL",
+    "expectancy": 70,
+    "population": 49065615,
+    "temperature": 24
+  },
+  {
+    "country": "Comoros",
+    "elevation": 0,
+    "ISO3": "COM",
+    "expectancy": 60,
+    "population": 813912,
+    "temperature": 25
+  },
+  {
+    "country": "Congo",
+    "elevation": 430,
+    "ISO3": "COG",
+    "expectancy": 47,
+    "population": 5260750,
+    "temperature": 0
+  },
+  {
+    "country": "Cook Islands",
+    "elevation": 0,
+    "ISO3": "COK",
+    "expectancy": 71,
+    "population": 17380,
+    "temperature": 0
+  },
+  {
+    "country": "Costa Rica",
+    "elevation": 746,
+    "ISO3": "CRI",
+    "expectancy": 75,
+    "population": 4905769,
+    "temperature": 24
+  },
+  {
+    "country": "Croatia",
+    "elevation": 331,
+    "ISO3": "HRV",
+    "expectancy": 73,
+    "population": 4189353,
+    "temperature": 10
+  },
+  {
+    "country": "Cuba",
+    "elevation": 108,
+    "ISO3": "CUB",
+    "expectancy": 76,
+    "population": 11484636,
+    "temperature": 25
+  },
+  {
+    "country": "Cyprus",
+    "elevation": 91,
+    "ISO3": "CYP",
+    "expectancy": 76,
+    "population": 1179551,
+    "temperature": 18
+  },
+  {
+    "country": "Czech Republic",
+    "elevation": 433,
+    "ISO3": "CZE",
+    "expectancy": 74,
+    "population": 10618303,
+    "temperature": 7
+  },
+  {
+    "country": "Denmark",
+    "elevation": 34,
+    "ISO3": "DNK",
+    "expectancy": 76,
+    "population": 5733551,
+    "temperature": 7
+  },
+  {
+    "country": "Djibouti",
+    "elevation": 430,
+    "ISO3": "DJI",
+    "expectancy": 50,
+    "population": 956985,
+    "temperature": 28
+  },
+  {
+    "country": "Dominica",
+    "elevation": 0,
+    "ISO3": "DMA",
+    "expectancy": 73,
+    "population": 73925,
+    "temperature": 22
+  },
+  {
+    "country": "Dominican Republic",
+    "elevation": 424,
+    "ISO3": "DOM",
+    "expectancy": 73,
+    "population": 10766998,
+    "temperature": 24
+  },
+  {
+    "country": "East Timor",
+    "elevation": 0,
+    "expectancy": 46,
+    "population": 1296311,
+    "temperature": 25
+  },
+  {
+    "country": "Ecuador",
+    "elevation": 1,
+    "ISO3": "ECU",
+    "expectancy": 71,
+    "population": 16624858,
+    "temperature": 21
+  },
+  {
+    "country": "Egypt",
+    "elevation": 321,
+    "ISO3": "EGY",
+    "expectancy": 63,
+    "population": 97553151,
+    "temperature": 22
+  },
+  {
+    "country": "El Salvador",
+    "elevation": 442,
+    "ISO3": "SLV",
+    "expectancy": 69,
+    "population": 6377853,
+    "temperature": 24
+  },
+  {
+    "country": "Equatorial Guinea",
+    "elevation": 577,
+    "ISO3": "GNQ",
+    "expectancy": 53,
+    "population": 1267689,
+    "temperature": 24
+  },
+  {
+    "country": "Eritrea",
+    "elevation": 853,
+    "ISO3": "ERI",
+    "expectancy": 55,
+    "population": 5068831,
+    "temperature": 25
+  },
+  {
+    "country": "Estonia",
+    "elevation": 61,
+    "ISO3": "EST",
+    "expectancy": 69,
+    "population": 1309632,
+    "temperature": 5
+  },
+  {
+    "country": "Ethiopia",
+    "elevation": 1,
+    "ISO3": "ETH",
+    "expectancy": 45,
+    "population": 104957438,
+    "temperature": 22
+  },
+  {
+    "country": "Falkland Islands",
+    "elevation": 0,
+    "ISO3": "FLK",
+    "expectancy": 0,
+    "population": 2910,
+    "temperature": 0
+  },
+  {
+    "country": "Faroe Islands",
+    "elevation": 0,
+    "ISO3": "FRO",
+    "expectancy": 78,
+    "population": 49290,
+    "temperature": 0
+  },
+  {
+    "country": "Fiji Islands",
+    "elevation": 0,
+    "ISO3": "FJI",
+    "expectancy": 67,
+    "population": 905502,
+    "temperature": 0
+  },
+  {
+    "country": "Finland",
+    "elevation": 164,
+    "ISO3": "FIN",
+    "expectancy": 77,
+    "population": 5523231,
+    "temperature": 1
+  },
+  {
+    "country": "France",
+    "elevation": 375,
+    "ISO3": "FRA",
+    "expectancy": 78,
+    "population": 64979548,
+    "temperature": 10
+  },
+  {
+    "country": "French Guiana",
+    "elevation": 168,
+    "ISO3": "GUF",
+    "expectancy": 76,
+    "population": 282731,
+    "temperature": 0
+  },
+  {
+    "country": "French Polynesia",
+    "elevation": 0,
+    "ISO3": "PYF",
+    "expectancy": 74,
+    "population": 283007,
+    "temperature": 0
+  },
+  {
+    "country": "French Southern territories",
+    "elevation": 0,
+    "ISO3": "ATF",
+    "expectancy": 0,
+    "population": 0,
+    "temperature": 0
+  },
+  {
+    "country": "Gabon",
+    "elevation": 377,
+    "ISO3": "GAB",
+    "expectancy": 50,
+    "population": 2025137,
+    "temperature": 25
+  },
+  {
+    "country": "Gambia",
+    "elevation": 34,
+    "ISO3": "GMB",
+    "expectancy": 53,
+    "population": 2100568,
+    "temperature": 0
+  },
+  {
+    "country": "Georgia",
+    "elevation": 1,
+    "ISO3": "GEO",
+    "expectancy": 64,
+    "population": 3912061,
+    "temperature": 5
+  },
+  {
+    "country": "Germany",
+    "elevation": 263,
+    "ISO3": "DEU",
+    "expectancy": 77,
+    "population": 82114224,
+    "temperature": 8
+  },
+  {
+    "country": "Ghana",
+    "elevation": 190,
+    "ISO3": "GHA",
+    "expectancy": 57,
+    "population": 28833629,
+    "temperature": 27
+  },
+  {
+    "country": "Gibraltar",
+    "elevation": 0,
+    "ISO3": "GIB",
+    "expectancy": 79,
+    "population": 34571,
+    "temperature": 0
+  },
+  {
+    "country": "Greece",
+    "elevation": 498,
+    "ISO3": "GRC",
+    "expectancy": 78,
+    "population": 11159773,
+    "temperature": 15
+  },
+  {
+    "country": "Greenland",
+    "elevation": 1,
+    "ISO3": "GRL",
+    "expectancy": 68,
+    "population": 56480,
+    "temperature": 0
+  },
+  {
+    "country": "Grenada",
+    "elevation": 0,
+    "ISO3": "GRD",
+    "expectancy": 64,
+    "population": 107825,
+    "temperature": 26
+  },
+  {
+    "country": "Guadeloupe",
+    "elevation": 0,
+    "ISO3": "GLP",
+    "expectancy": 77,
+    "population": 449568,
+    "temperature": 0
+  },
+  {
+    "country": "Guam",
+    "elevation": 0,
+    "ISO3": "GUM",
+    "expectancy": 77,
+    "population": 164229,
+    "temperature": 0
+  },
+  {
+    "country": "Guatemala",
+    "elevation": 759,
+    "ISO3": "GTM",
+    "expectancy": 66,
+    "population": 16913503,
+    "temperature": 23
+  },
+  {
+    "country": "Guernsey",
+    "ISO3": "GGY"
+  },
+  {
+    "country": "Guinea",
+    "elevation": 472,
+    "ISO3": "GIN",
+    "expectancy": 45,
+    "population": 12717176,
+    "temperature": 25
+  },
+  {
+    "country": "Guinea-Bissau",
+    "elevation": 70,
+    "ISO3": "GNB",
+    "expectancy": 49,
+    "population": 1861283,
+    "temperature": 26
+  },
+  {
+    "country": "Guyana",
+    "elevation": 207,
+    "ISO3": "GUY",
+    "expectancy": 64,
+    "population": 777859,
+    "temperature": 26
+  },
+  {
+    "country": "Haiti",
+    "elevation": 470,
+    "ISO3": "HTI",
+    "expectancy": 49,
+    "population": 10981229,
+    "temperature": 24
+  },
+  {
+    "country": "Heard Island and McDonald Islands",
+    "elevation": 0,
+    "ISO3": "HMD",
+    "expectancy": 0,
+    "population": 0,
+    "temperature": 0
+  },
+  {
+    "country": "Holy See (Vatican City State)",
+    "elevation": 0,
+    "ISO3": "VAT",
+    "expectancy": 0,
+    "population": 1000,
+    "temperature": 0
+  },
+  {
+    "country": "Honduras",
+    "elevation": 684,
+    "ISO3": "HND",
+    "expectancy": 69,
+    "population": 9265067,
+    "temperature": 23
+  },
+  {
+    "country": "Hong Kong",
+    "elevation": 0,
+    "ISO3": "HKG",
+    "expectancy": 79,
+    "population": 7364883,
+    "temperature": 0
+  },
+  {
+    "country": "Hungary",
+    "elevation": 143,
+    "ISO3": "HUN",
+    "expectancy": 71,
+    "population": 9721559,
+    "temperature": 9
+  },
+  {
+    "country": "Iceland",
+    "elevation": 557,
+    "ISO3": "ISL",
+    "expectancy": 79,
+    "population": 335025,
+    "temperature": 1
+  },
+  {
+    "country": "India",
+    "elevation": 160,
+    "ISO3": "IND",
+    "expectancy": 62,
+    "population": 1339180127,
+    "temperature": 23
+  },
+  {
+    "country": "Indonesia",
+    "elevation": 367,
+    "ISO3": "IDN",
+    "expectancy": 70,
+    "population": 263991379,
+    "temperature": 25
+  },
+  {
+    "country": "Iran",
+    "elevation": 1,
+    "ISO3": "IRN",
+    "expectancy": 69,
+    "population": 81162788,
+    "temperature": 17
+  },
+  {
+    "country": "Iraq",
+    "elevation": 312,
+    "ISO3": "IRQ",
+    "expectancy": 66,
+    "population": 38274618,
+    "temperature": 21
+  },
+  {
+    "country": "Ireland",
+    "elevation": 118,
+    "ISO3": "IRL",
+    "expectancy": 76,
+    "population": 4761657,
+    "temperature": 0
+  },
+  {
+    "country": "Isle of Man",
+    "ISO3": "IMN"
+  },
+  {
+    "country": "Israel",
+    "elevation": 508,
+    "ISO3": "ISR",
+    "expectancy": 78,
+    "population": 8321570,
+    "temperature": 19
+  },
+  {
+    "country": "Italy",
+    "elevation": 538,
+    "ISO3": "ITA",
+    "expectancy": 79,
+    "population": 59359900,
+    "temperature": 13
+  },
+  {
+    "country": "Ivory Coast",
+    "elevation": 250,
+    "ISO3": "CIV",
+    "expectancy": 45,
+    "population": 24294750,
+    "temperature": 26
+  },
+  {
+    "country": "Jamaica",
+    "elevation": 18,
+    "ISO3": "JAM",
+    "expectancy": 75,
+    "population": 2890299,
+    "temperature": 24
+  },
+  {
+    "country": "Japan",
+    "elevation": 438,
+    "ISO3": "JPN",
+    "expectancy": 80,
+    "population": 127484450,
+    "temperature": 11
+  },
+  {
+    "country": "Jersey",
+    "ISO3": "JEY"
+  },
+  {
+    "country": "Jordan",
+    "elevation": 812,
+    "ISO3": "JOR",
+    "expectancy": 77,
+    "population": 9702353,
+    "temperature": 18
+  },
+  {
+    "country": "Kazakhstan",
+    "elevation": 0,
+    "ISO3": "KAZ",
+    "expectancy": 63,
+    "population": 18204499,
+    "temperature": 0
+  },
+  {
+    "country": "Kenya",
+    "elevation": 762,
+    "ISO3": "KEN",
+    "expectancy": 48,
+    "population": 49699862,
+    "temperature": 24
+  },
+  {
+    "country": "Kiribati",
+    "elevation": 0,
+    "ISO3": "KIR",
+    "expectancy": 59,
+    "population": 116398,
+    "temperature": 28
+  },
+  {
+    "country": "Kuwait",
+    "elevation": 108,
+    "ISO3": "KWT",
+    "expectancy": 76,
+    "population": 4136528,
+    "temperature": 25
+  },
+  {
+    "country": "Kyrgyzstan",
+    "elevation": 2,
+    "ISO3": "KGZ",
+    "expectancy": 63,
+    "population": 6045117,
+    "temperature": 1
+  },
+  {
+    "country": "Laos",
+    "elevation": 710,
+    "ISO3": "LAO",
+    "expectancy": 53,
+    "population": 6858160,
+    "temperature": 22
+  },
+  {
+    "country": "Latvia",
+    "elevation": 87,
+    "ISO3": "LVA",
+    "expectancy": 68,
+    "population": 1949670,
+    "temperature": 5
+  },
+  {
+    "country": "Lebanon",
+    "elevation": 1,
+    "ISO3": "LBN",
+    "expectancy": 71,
+    "population": 6082357,
+    "temperature": 16
+  },
+  {
+    "country": "Lesotho",
+    "elevation": 2,
+    "ISO3": "LSO",
+    "expectancy": 50,
+    "population": 2233339,
+    "temperature": 11
+  },
+  {
+    "country": "Liberia",
+    "elevation": 243,
+    "ISO3": "LBR",
+    "expectancy": 51,
+    "population": 4731906,
+    "temperature": 25
+  },
+  {
+    "country": "Libyan Arab Jamahiriya",
+    "elevation": 0,
+    "ISO3": "LBY",
+    "expectancy": 75,
+    "population": 5605000,
+    "temperature": 0
+  },
+  {
+    "country": "Liechtenstein",
+    "elevation": 0,
+    "ISO3": "LIE",
+    "expectancy": 78,
+    "population": 37922,
+    "temperature": 5
+  },
+  {
+    "country": "Lithuania",
+    "elevation": 110,
+    "ISO3": "LTU",
+    "expectancy": 69,
+    "population": 2890297,
+    "temperature": 6
+  },
+  {
+    "country": "Luxembourg",
+    "elevation": 325,
+    "ISO3": "LUX",
+    "expectancy": 77,
+    "population": 583455,
+    "temperature": 8
+  },
+  {
+    "country": "Macao",
+    "elevation": 0,
+    "ISO3": "MAC",
+    "expectancy": 81,
+    "population": 473000,
+    "temperature": 0
+  },
+  {
+    "country": "North Macedonia",
+    "elevation": 741,
+    "ISO3": "MKD",
+    "expectancy": 73,
+    "population": 2024000,
+    "temperature": 0
+  },
+  {
+    "country": "Madagascar",
+    "elevation": 615,
+    "ISO3": "MDG",
+    "expectancy": 55,
+    "population": 25570895,
+    "temperature": 22
+  },
+  {
+    "country": "Malawi",
+    "elevation": 779,
+    "ISO3": "MWI",
+    "expectancy": 37,
+    "population": 18622104,
+    "temperature": 21
+  },
+  {
+    "country": "Malaysia",
+    "elevation": 538,
+    "ISO3": "MYS",
+    "expectancy": 70,
+    "population": 31624264,
+    "temperature": 25
+  },
+  {
+    "country": "Maldives",
+    "elevation": 1,
+    "ISO3": "MDV",
+    "expectancy": 62,
+    "population": 436330,
+    "temperature": 27
+  },
+  {
+    "country": "Mali",
+    "elevation": 343,
+    "ISO3": "MLI",
+    "expectancy": 46,
+    "population": 18541980,
+    "temperature": 28
+  },
+  {
+    "country": "Malta",
+    "elevation": 0,
+    "ISO3": "MLT",
+    "expectancy": 77,
+    "population": 430835,
+    "temperature": 19
+  },
+  {
+    "country": "Marshall Islands",
+    "elevation": 0,
+    "ISO3": "MHL",
+    "expectancy": 65,
+    "population": 53127,
+    "temperature": 27
+  },
+  {
+    "country": "Martinique",
+    "elevation": 0,
+    "ISO3": "MTQ",
+    "expectancy": 78,
+    "population": 384896,
+    "temperature": 0
+  },
+  {
+    "country": "Mauritania",
+    "elevation": 276,
+    "ISO3": "MRT",
+    "expectancy": 50,
+    "population": 4420184,
+    "temperature": 27
+  },
+  {
+    "country": "Mauritius",
+    "elevation": 0,
+    "ISO3": "MUS",
+    "expectancy": 71,
+    "population": 1265138,
+    "temperature": 22
+  },
+  {
+    "country": "Mayotte",
+    "elevation": 0,
+    "ISO3": "MYT",
+    "expectancy": 59,
+    "population": 253045,
+    "temperature": 0
+  },
+  {
+    "country": "Mexico",
+    "elevation": 1,
+    "ISO3": "MEX",
+    "expectancy": 71,
+    "population": 129163276,
+    "temperature": 21
+  },
+  {
+    "country": "Micronesia, Federated States of",
+    "elevation": 0,
+    "ISO3": "FSM",
+    "expectancy": 0,
+    "population": 0,
+    "temperature": 0
+  },
+  {
+    "country": "Moldova",
+    "elevation": 139,
+    "ISO3": "MDA",
+    "expectancy": 64,
+    "population": 4051212,
+    "temperature": 9
+  },
+  {
+    "country": "Monaco",
+    "elevation": 0,
+    "ISO3": "MCO",
+    "expectancy": 78,
+    "population": 38695,
+    "temperature": 13
+  },
+  {
+    "country": "Mongolia",
+    "elevation": 1,
+    "ISO3": "MNG",
+    "expectancy": 67,
+    "population": 3075647,
+    "temperature": 0
+  },
+  {
+    "country": "Montenegro",
+    "ISO3": "MNE"
+  },
+  {
+    "country": "Montserrat",
+    "elevation": 0,
+    "ISO3": "MSR",
+    "expectancy": 78,
+    "population": 5177,
+    "temperature": 0
+  },
+  {
+    "country": "Morocco",
+    "elevation": 909,
+    "ISO3": "MAR",
+    "expectancy": 69,
+    "population": 35739580,
+    "temperature": 17
+  },
+  {
+    "country": "Mozambique",
+    "elevation": 345,
+    "ISO3": "MOZ",
+    "expectancy": 37,
+    "population": 29668834,
+    "temperature": 23
+  },
+  {
+    "country": "Myanmar",
+    "elevation": 0,
+    "ISO3": "MMR",
+    "expectancy": 54,
+    "population": 53370609,
+    "temperature": 13
+  },
+  {
+    "country": "Namibia",
+    "elevation": 1,
+    "ISO3": "NAM",
+    "expectancy": 42,
+    "population": 2533794,
+    "temperature": 19
+  },
+  {
+    "country": "Nauru",
+    "elevation": 0,
+    "ISO3": "NRU",
+    "expectancy": 60,
+    "population": 11359,
+    "temperature": 0
+  },
+  {
+    "country": "Nepal",
+    "elevation": 3,
+    "ISO3": "NPL",
+    "expectancy": 57,
+    "population": 29304998,
+    "temperature": 8
+  },
+  {
+    "country": "Netherlands",
+    "elevation": 30,
+    "ISO3": "NLD",
+    "expectancy": 78,
+    "population": 17035938,
+    "temperature": 0
+  },
+  {
+    "country": "Netherlands Antilles",
+    "elevation": 0,
+    "expectancy": 74,
+    "population": 217000,
+    "temperature": 0
+  },
+  {
+    "country": "New Caledonia",
+    "elevation": 0,
+    "ISO3": "NCL",
+    "expectancy": 72,
+    "population": 276255,
+    "temperature": 0
+  },
+  {
+    "country": "New Zealand",
+    "elevation": 388,
+    "ISO3": "NZL",
+    "expectancy": 77,
+    "population": 4705818,
+    "temperature": 10
+  },
+  {
+    "country": "Nicaragua",
+    "elevation": 298,
+    "ISO3": "NIC",
+    "expectancy": 68,
+    "population": 6217581,
+    "temperature": 24
+  },
+  {
+    "country": "Niger",
+    "elevation": 474,
+    "ISO3": "NER",
+    "expectancy": 41,
+    "population": 21477348,
+    "temperature": 27
+  },
+  {
+    "country": "Nigeria",
+    "elevation": 380,
+    "ISO3": "NGA",
+    "expectancy": 51,
+    "population": 190886311,
+    "temperature": 26
+  },
+  {
+    "country": "Niue",
+    "elevation": 0,
+    "ISO3": "NIU",
+    "expectancy": 0,
+    "population": 1618,
+    "temperature": 0
+  },
+  {
+    "country": "Norfolk Island",
+    "elevation": 0,
+    "ISO3": "NFK",
+    "expectancy": 0,
+    "population": 2000,
+    "temperature": 0
+  },
+  {
+    "country": "North Korea",
+    "elevation": 400,
+    "ISO3": "PRK",
+    "expectancy": 70,
+    "population": 25490965,
+    "temperature": 5
+  },
+  {
+    "country": "Northern Ireland",
+    "elevation": 0,
+    "ISO3": "GBR",
+    "expectancy": 0,
+    "population": 0,
+    "temperature": 0
+  },
+  {
+    "country": "Northern Mariana Islands",
+    "elevation": 0,
+    "ISO3": "MNP",
+    "expectancy": 75,
+    "population": 55144,
+    "temperature": 0
+  },
+  {
+    "country": "Norway",
+    "elevation": 460,
+    "ISO3": "NOR",
+    "expectancy": 78,
+    "population": 5305383,
+    "temperature": 1
+  },
+  {
+    "country": "Oman",
+    "elevation": 310,
+    "ISO3": "OMN",
+    "expectancy": 71,
+    "population": 4636262,
+    "temperature": 25
+  },
+  {
+    "country": "Pakistan",
+    "elevation": 900,
+    "ISO3": "PAK",
+    "expectancy": 61,
+    "population": 197015955,
+    "temperature": 20
+  },
+  {
+    "country": "Palau",
+    "elevation": 0,
+    "ISO3": "PLW",
+    "expectancy": 68,
+    "population": 21729,
+    "temperature": 27
+  },
+  {
+    "country": "Palestine",
+    "elevation": 0,
+    "ISO3": "PSE",
+    "expectancy": 71,
+    "population": 4920724,
+    "temperature": 0
+  },
+  {
+    "country": "Panama",
+    "elevation": 360,
+    "ISO3": "PAN",
+    "expectancy": 75,
+    "population": 4098587,
+    "temperature": 25
+  },
+  {
+    "country": "Papua New Guinea",
+    "elevation": 667,
+    "ISO3": "PNG",
+    "expectancy": 63,
+    "population": 8251162,
+    "temperature": 25
+  },
+  {
+    "country": "Paraguay",
+    "elevation": 178,
+    "ISO3": "PRY",
+    "expectancy": 73,
+    "population": 6811297,
+    "temperature": 23
+  },
+  {
+    "country": "Peru",
+    "elevation": 1,
+    "ISO3": "PER",
+    "expectancy": 70,
+    "population": 32165485,
+    "temperature": 19
+  },
+  {
+    "country": "Philippines",
+    "elevation": 442,
+    "ISO3": "PHL",
+    "expectancy": 67,
+    "population": 104918090,
+    "temperature": 25
+  },
+  {
+    "country": "Pitcairn",
+    "elevation": 0,
+    "ISO3": "PCN",
+    "expectancy": 0,
+    "population": 50,
+    "temperature": 0
+  },
+  {
+    "country": "Poland",
+    "elevation": 173,
+    "ISO3": "POL",
+    "expectancy": 73,
+    "population": 38170712,
+    "temperature": 7
+  },
+  {
+    "country": "Portugal",
+    "elevation": 372,
+    "ISO3": "PRT",
+    "expectancy": 75,
+    "population": 10329506,
+    "temperature": 15
+  },
+  {
+    "country": "Puerto Rico",
+    "elevation": 261,
+    "ISO3": "PRI",
+    "expectancy": 75,
+    "population": 3663131,
+    "temperature": 0
+  },
+  {
+    "country": "Qatar",
+    "elevation": 28,
+    "ISO3": "QAT",
+    "expectancy": 72,
+    "population": 2639211,
+    "temperature": 27
+  },
+  {
+    "country": "Reunion",
+    "elevation": 0,
+    "ISO3": "REU",
+    "expectancy": 72,
+    "population": 699000,
+    "temperature": 0
+  },
+  {
+    "country": "Romania",
+    "elevation": 414,
+    "ISO3": "ROU",
+    "expectancy": 69,
+    "population": 19679306,
+    "temperature": 8
+  },
+  {
+    "country": "Russian Federation",
+    "elevation": 0,
+    "ISO3": "RUS",
+    "expectancy": 67,
+    "population": 143989754,
+    "temperature": 0
+  },
+  {
+    "country": "Rwanda",
+    "elevation": 1,
+    "ISO3": "RWA",
+    "expectancy": 39,
+    "population": 12208407,
+    "temperature": 17
+  },
+  {
+    "country": "Saint Helena",
+    "elevation": 0,
+    "ISO3": "SHN",
+    "expectancy": 76,
+    "population": 4049,
+    "temperature": 0
+  },
+  {
+    "country": "Saint Kitts and Nevis",
+    "elevation": 0,
+    "ISO3": "KNA",
+    "expectancy": 70,
+    "population": 55345,
+    "temperature": 24
+  },
+  {
+    "country": "Saint Lucia",
+    "elevation": 0,
+    "ISO3": "LCA",
+    "expectancy": 72,
+    "population": 178844,
+    "temperature": 25
+  },
+  {
+    "country": "Saint Pierre and Miquelon",
+    "elevation": 0,
+    "ISO3": "SPM",
+    "expectancy": 77,
+    "population": 6320,
+    "temperature": 0
+  },
+  {
+    "country": "Saint Vincent and the Grenadines",
+    "elevation": 0,
+    "ISO3": "VCT",
+    "expectancy": 72,
+    "population": 109897,
+    "temperature": 26
+  },
+  {
+    "country": "Samoa",
+    "elevation": 0,
+    "ISO3": "WSM",
+    "expectancy": 69,
+    "population": 196440,
+    "temperature": 26
+  },
+  {
+    "country": "San Marino",
+    "elevation": 0,
+    "ISO3": "SMR",
+    "expectancy": 81,
+    "population": 33400,
+    "temperature": 11
+  },
+  {
+    "country": "Sao Tome and Principe",
+    "elevation": 0,
+    "ISO3": "STP",
+    "expectancy": 65,
+    "population": 204327,
+    "temperature": 23
+  },
+  {
+    "country": "Saudi Arabia",
+    "elevation": 665,
+    "ISO3": "SAU",
+    "expectancy": 67,
+    "population": 32938213,
+    "temperature": 24
+  },
+  {
+    "country": "Senegal",
+    "elevation": 69,
+    "ISO3": "SEN",
+    "expectancy": 62,
+    "population": 15850567,
+    "temperature": 27
+  },
+  {
+    "country": "Serbia",
+    "ISO3": "SRB"
+  },
+  {
+    "country": "Seychelles",
+    "elevation": 0,
+    "ISO3": "SYC",
+    "expectancy": 70,
+    "population": 94737,
+    "temperature": 27
+  },
+  {
+    "country": "Sierra Leone",
+    "elevation": 279,
+    "ISO3": "SLE",
+    "expectancy": 45,
+    "population": 7557212,
+    "temperature": 26
+  },
+  {
+    "country": "Singapore",
+    "elevation": 0,
+    "ISO3": "SGP",
+    "expectancy": 80,
+    "population": 5708844,
+    "temperature": 26
+  },
+  {
+    "country": "Slovakia",
+    "elevation": 458,
+    "ISO3": "SVK",
+    "expectancy": 73,
+    "population": 5447662,
+    "temperature": 6
+  },
+  {
+    "country": "Slovenia",
+    "elevation": 492,
+    "ISO3": "SVN",
+    "expectancy": 74,
+    "population": 2079976,
+    "temperature": 8
+  },
+  {
+    "country": "Solomon Islands",
+    "elevation": 0,
+    "ISO3": "SLB",
+    "expectancy": 71,
+    "population": 611343,
+    "temperature": 25
+  },
+  {
+    "country": "Somalia",
+    "elevation": 410,
+    "ISO3": "SOM",
+    "expectancy": 46,
+    "population": 14742523,
+    "temperature": 27
+  },
+  {
+    "country": "South Africa",
+    "elevation": 1,
+    "ISO3": "ZAF",
+    "expectancy": 51,
+    "population": 56717156,
+    "temperature": 17
+  },
+  {
+    "country": "South Georgia and the South Sandwich Islands",
+    "elevation": 0,
+    "ISO3": "SGS",
+    "expectancy": 0,
+    "population": 0,
+    "temperature": 0
+  },
+  {
+    "country": "South Korea",
+    "elevation": 282,
+    "ISO3": "KOR",
+    "expectancy": 74,
+    "population": 50982212,
+    "temperature": 11
+  },
+  {
+    "country": "South Sudan",
+    "elevation": 0,
+    "ISO3": "SSD",
+    "expectancy": 0,
+    "population": 12575714,
+    "temperature": 0
+  },
+  {
+    "country": "Spain",
+    "elevation": 660,
+    "ISO3": "ESP",
+    "expectancy": 78,
+    "population": 46354321,
+    "temperature": 13
+  },
+  {
+    "country": "Sri Lanka",
+    "ISO3": "LKA"
+  },
+  {
+    "country": "Sudan",
+    "elevation": 568,
+    "ISO3": "SDN",
+    "expectancy": 56,
+    "population": 40533330,
+    "temperature": 26
+  },
+  {
+    "country": "Suriname",
+    "elevation": 246,
+    "ISO3": "SUR",
+    "expectancy": 71,
+    "population": 563402,
+    "temperature": 25
+  },
+  {
+    "country": "Svalbard and Jan Mayen",
+    "elevation": 0,
+    "ISO3": "SJM",
+    "expectancy": 0,
+    "population": 3200,
+    "temperature": 0
+  },
+  {
+    "country": "Swaziland",
+    "elevation": 305,
+    "ISO3": "SWZ",
+    "expectancy": 40,
+    "population": 1008000,
+    "temperature": 21
+  },
+  {
+    "country": "Sweden",
+    "elevation": 320,
+    "ISO3": "SWE",
+    "expectancy": 79,
+    "population": 9910701,
+    "temperature": 2
+  },
+  {
+    "country": "Switzerland",
+    "elevation": 1,
+    "ISO3": "CHE",
+    "expectancy": 79,
+    "population": 8476005,
+    "temperature": 5
+  },
+  {
+    "country": "Syria",
+    "elevation": 514,
+    "ISO3": "SYR",
+    "expectancy": 68,
+    "population": 18269868,
+    "temperature": 17
+  },
+  {
+    "country": "Tajikistan",
+    "elevation": 3,
+    "ISO3": "TJK",
+    "expectancy": 64,
+    "population": 8921343,
+    "temperature": 2
+  },
+  {
+    "country": "Tanzania",
+    "elevation": 1,
+    "ISO3": "TZA",
+    "expectancy": 52,
+    "population": 57310019,
+    "temperature": 22
+  },
+  {
+    "country": "Thailand",
+    "elevation": 287,
+    "ISO3": "THA",
+    "expectancy": 68,
+    "population": 69037513,
+    "temperature": 26
+  },
+  {
+    "country": "The Democratic Republic of Congo",
+    "elevation": 0,
+    "ISO3": "COD",
+    "expectancy": 0,
+    "population": 0,
+    "temperature": 0
+  },
+  {
+    "country": "Timor-Leste",
+    "ISO3": "TLS"
+  },
+  {
+    "country": "Togo",
+    "elevation": 236,
+    "ISO3": "TGO",
+    "expectancy": 54,
+    "population": 7797694,
+    "temperature": 27
+  },
+  {
+    "country": "Tokelau",
+    "elevation": 0,
+    "ISO3": "TKL",
+    "expectancy": 0,
+    "population": 1300,
+    "temperature": 0
+  },
+  {
+    "country": "Tonga",
+    "elevation": 0,
+    "ISO3": "TON",
+    "expectancy": 67,
+    "population": 108020,
+    "temperature": 25
+  },
+  {
+    "country": "Trinidad and Tobago",
+    "elevation": 83,
+    "ISO3": "TTO",
+    "expectancy": 68,
+    "population": 1369125,
+    "temperature": 25
+  },
+  {
+    "country": "Tunisia",
+    "elevation": 246,
+    "ISO3": "TUN",
+    "expectancy": 73,
+    "population": 11532127,
+    "temperature": 19
+  },
+  {
+    "country": "Turkey",
+    "elevation": 1,
+    "ISO3": "TUR",
+    "expectancy": 71,
+    "population": 80745020,
+    "temperature": 11
+  },
+  {
+    "country": "Turkmenistan",
+    "elevation": 230,
+    "ISO3": "TKM",
+    "expectancy": 60,
+    "population": 5758075,
+    "temperature": 15
+  },
+  {
+    "country": "Turks and Caicos Islands",
+    "elevation": 0,
+    "ISO3": "TCA",
+    "expectancy": 73,
+    "population": 35446,
+    "temperature": 0
+  },
+  {
+    "country": "Tuvalu",
+    "elevation": 0,
+    "ISO3": "TUV",
+    "expectancy": 66,
+    "population": 11192,
+    "temperature": 28
+  },
+  {
+    "country": "Uganda",
+    "elevation": 0,
+    "ISO3": "UGA",
+    "expectancy": 42,
+    "population": 42862958,
+    "temperature": 22
+  },
+  {
+    "country": "Ukraine",
+    "elevation": 175,
+    "ISO3": "UKR",
+    "expectancy": 66,
+    "population": 44222947,
+    "temperature": 8
+  },
+  {
+    "country": "United Arab Emirates",
+    "elevation": 149,
+    "ISO3": "ARE",
+    "expectancy": 74,
+    "population": 9400145,
+    "temperature": 27
+  },
+  {
+    "country": "United Kingdom",
+    "elevation": 162,
+    "ISO3": "GBR",
+    "expectancy": 77,
+    "population": 66181585,
+    "temperature": 8
+  },
+  {
+    "country": "United States",
+    "elevation": 760,
+    "ISO3": "USA",
+    "expectancy": 77,
+    "population": 324459463,
+    "temperature": 8
+  },
+  {
+    "country": "United States Minor Outlying Islands",
+    "elevation": 0,
+    "ISO3": "UMI",
+    "expectancy": 0,
+    "population": 0,
+    "temperature": 0
+  },
+  {
+    "country": "Uruguay",
+    "elevation": 109,
+    "ISO3": "URY",
+    "expectancy": 75,
+    "population": 3456750,
+    "temperature": 17
+  },
+  {
+    "country": "Uzbekistan",
+    "elevation": 0,
+    "ISO3": "UZB",
+    "expectancy": 63,
+    "population": 31910641,
+    "temperature": 12
+  },
+  {
+    "country": "Vanuatu",
+    "elevation": 0,
+    "ISO3": "VUT",
+    "expectancy": 60,
+    "population": 276244,
+    "temperature": 23
+  },
+  {
+    "country": "Venezuela",
+    "elevation": 450,
+    "ISO3": "VEN",
+    "expectancy": 73,
+    "population": 31977065,
+    "temperature": 25
+  },
+  {
+    "country": "Vietnam",
+    "elevation": 398,
+    "ISO3": "VNM",
+    "expectancy": 69,
+    "population": 95540800,
+    "temperature": 24
+  },
+  {
+    "country": "Virgin Islands, British",
+    "elevation": 0,
+    "ISO3": "VGB",
+    "expectancy": 0,
+    "population": 0,
+    "temperature": 0
+  },
+  {
+    "country": "Virgin Islands, U.S.",
+    "elevation": 0,
+    "ISO3": "VIR",
+    "expectancy": 0,
+    "population": 0,
+    "temperature": 0
+  },
+  {
+    "country": "Wallis and Futuna",
+    "elevation": 0,
+    "ISO3": "WLF",
+    "expectancy": 0,
+    "population": 11773,
+    "temperature": 0
+  },
+  {
+    "country": "Western Sahara",
+    "elevation": 256,
+    "ISO3": "ESH",
+    "expectancy": 49,
+    "population": 552628,
+    "temperature": 0
+  },
+  {
+    "country": "Yemen",
+    "elevation": 999,
+    "ISO3": "YEM",
+    "expectancy": 59,
+    "population": 28250420,
+    "temperature": 23
+  },
+  {
+    "country": "Yugoslavia",
+    "elevation": 0,
+    "expectancy": 72,
+    "population": 10640000,
+    "temperature": 0
+  },
+  {
+    "country": "Zambia",
+    "elevation": 1,
+    "ISO3": "ZMB",
+    "expectancy": 37,
+    "population": 17094130,
+    "temperature": 21
+  },
+  {
+    "country": "Zimbabwe",
+    "elevation": 961,
+    "ISO3": "ZWE",
+    "expectancy": 37,
+    "population": 16529904,
+    "temperature": 21
+  }
+]
