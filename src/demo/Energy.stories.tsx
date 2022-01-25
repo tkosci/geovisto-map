@@ -57,7 +57,7 @@ class Energy extends Component<Record<string, never>, { data: unknown, config: R
             // implicit data
             data: require('/static/data/energy_un.json'),
             // implicit config
-            config: require('/static/config/config.json')
+            config: require('/static/config/energy_config.json')
         };
 
         // reference to the rendered map

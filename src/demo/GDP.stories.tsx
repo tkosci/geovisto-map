@@ -56,7 +56,7 @@ class PerYear extends Component<Record<string, never>, { data: unknown, config: 
             // implicit data
             data: require('/static/data/gdp_oecd.json'),
             // implicit config
-            config: require('/static/config/config.json')
+            config: require('/static/config/gdp_config.json')
         };
 
         // reference to the rendered map
@@ -157,7 +157,7 @@ class OverYears extends Component<Record<string, never>, { data: unknown, config
             // implicit data
             data: require('/static/data/gdp_oecd_years.json'),
             // implicit config
-            config: require('/static/config/config.json')
+            config: require('/static/config/gdp_config.json')
         };
 
         // reference to the rendered map

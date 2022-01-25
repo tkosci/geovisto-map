@@ -47,7 +47,7 @@ class Trade1 extends Component<Record<string, never>, { data: unknown, config: R
             // implicit data
             data: require('/static/data/trade_oecd.json'),
             // implicit config
-            config: require('/static/config/config.json')
+            config: require('/static/config/trade_config.json')
         };
 
         // reference to the rendered map
@@ -146,7 +146,7 @@ class TradeUSOil extends Component<Record<string, never>, { data: unknown, confi
             // implicit data
             data: require('/static/data/usa_oil_oecd.json'),
             // implicit config
-            config: require('/static/config/config.json')
+            config: require('/static/config/trade_config.json')
         };
 
         // reference to the rendered map
