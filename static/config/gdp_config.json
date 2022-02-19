@@ -111,7 +111,8 @@
       "enabled": true,
       "layerName": "Choropleth layer",
       "data": {
-        "country": "Country",
+        "geoData": "world polygons",
+        "geoId": "Country",
         "value": "Value",
         "aggregation": "sum",
         "scaling": "median",
@@ -126,7 +127,7 @@
       "enabled": true,
       "layerName": "Marker layer",
       "data": {
-        "country": "Country",
+        "geoData": "Country",
         "value": "Value",
         "aggregation": "sum",
         "category": "Resource"

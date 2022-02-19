@@ -147,7 +147,7 @@ class Violence extends Component<Record<string, never>, { data: unknown, config:
             // implicit data
             data: require('/static/data/womenViolence.json'),
             // implicit config
-            config: require('/static/config/general_info_config.json')
+            config: require('/static/config/violence_config.json')
         };
 
         // reference to the rendered map

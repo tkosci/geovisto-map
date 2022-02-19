@@ -111,8 +111,9 @@
       "enabled": true,
       "layerName": "Choropleth layer",
       "data": {
-        "country": "Country",
-        "value": "Value",
+        "geoData": "world polygons",
+        "geoId": "ISO3",
+        "value": "",
         "aggregation": "sum",
         "scaling": "median",
         "range": 7,

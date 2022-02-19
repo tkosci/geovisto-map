@@ -126,7 +126,8 @@
       "enabled": true,
       "layerName": "Marker layer",
       "data": {
-        "country": "Country",
+        "geoData": "world centroids",
+        "geoId": "Country",
         "value": "Value",
         "aggregation": "sum",
         "category": "Resource"
