@@ -2,7 +2,7 @@ name: Storybook - Build and Deploy to GH pages
 on:
   push:
     branches:
-      - master
+      - feature-28-user-testing
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
