@@ -25,6 +25,7 @@ import {
     GeovistoDrawingLayerTool
 } from '../tools';
 import { Geovisto } from '..';
+import {EnergyMix} from "./Energy.stories";
 
 
 class GeneralInfo extends Component<Record<string, never>, { data: unknown, config: Record<string, unknown> }> {
@@ -234,5 +235,13 @@ export default {
 
 export const GeneralInfo_export: Story = () => <GeneralInfo />;
 GeneralInfo_export.storyName = "General info - World";
+GeneralInfo_export.parameters = { // Disable tools panel
+    options:
+        {showPanel: false}
+};
 export const Violence_export: Story = () => <Violence />;
 Violence_export.storyName = "Violence on women - World";
+Violence_export.parameters = { // Disable tools panel
+    options:
+        {showPanel: false}
+};

@@ -25,6 +25,7 @@ import {
     GeovistoDrawingLayerTool
 } from '../tools';
 import { Geovisto } from '..';
+import {GeneralInfo_export} from "./General.stories";
 
 
 class Trade1 extends Component<Record<string, never>, { data: unknown, config: Record<string, unknown> }> {
@@ -232,6 +233,14 @@ export default {
 
 export const TradeUsaGbrCanAus: Story = () => <Trade1 />;
 TradeUsaGbrCanAus.storyName = "USA-GBR-CAN-AUS - OECD";
+TradeUsaGbrCanAus.parameters = { // Disable tools panel
+    options:
+        {showPanel: false}
+};
 
 export const TradeUSOil_export: Story = () => <TradeUSOil />;
 TradeUSOil_export.storyName = "Import of oil - USA";
+TradeUSOil_export.parameters = { // Disable tools panel
+    options:
+        {showPanel: false}
+};

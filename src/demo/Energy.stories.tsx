@@ -143,3 +143,7 @@ export default {
 
 export const EnergyMix: Story = () => <Energy />;
 EnergyMix.storyName = "Energy mix - World";
+EnergyMix.parameters = { // Disable tools panel
+    options:
+    {showPanel: false}
+};

@@ -25,6 +25,7 @@ import {
     GeovistoDrawingLayerTool
 } from '../tools';
 import { Geovisto } from '..';
+import {EnergyMix} from "./Energy.stories";
 
 /* example of screen component with grid layout and card wrapper usage */
 
@@ -244,5 +245,13 @@ export default {
 
 export const GDPYearly: Story = () => <OverYears />;
 GDPYearly.storyName = "GDP 2005-2019 - OECD";
+GDPYearly.parameters = { // Disable tools panel
+    options:
+        {showPanel: false}
+};
 export const GDPPerOneYear: Story = () => <PerYear />;
 GDPPerOneYear.storyName = "GDP 2020 - OECD";
+GDPPerOneYear.parameters = { // Disable tools panel
+    options:
+        {showPanel: false}
+};
